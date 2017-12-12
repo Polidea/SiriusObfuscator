@@ -1,0 +1,15 @@
+// Check if test modules can import Swift modules which depend on C module.
+//
+// Make a sandbox dir.
+// RUN: rm -rf %t.dir
+// RUN: mkdir -p %t.dir
+// RUN: cp -r %S/SwiftCMixed %t.dir/
+// RUN: %{swift} test --package-path %t.dir/SwiftCMixed -v 2>&1 | tee %t.build-log
+//
+// Check the build log.
+//
+// RUN: %{FileCheck} --check-prefix CHECK-BUILD-LOG --input-file %t.build-log %s
+//
+// CHECK-BUILD-LOG: swiftc{{.*}} -module-name SwiftCMixedPackageTests
+// CHECK-BUILD-LOG: testSwiftyFoo{{.*}} passed
+// CHECK-BUILD-LOG: 'SwiftyTests' passed

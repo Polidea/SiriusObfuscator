@@ -1,0 +1,7 @@
+// RUN: not --crash %target-sil-opt -assume-parsing-unqualified-ownership-sil %s
+// REQUIRES: asserts
+
+sil @no_terminator : $@convention(thin) () -> () {
+bb0:
+  %1 = tuple()
+}

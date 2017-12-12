@@ -1,0 +1,115 @@
+# Check error handling.
+#
+# RUN: %{llbuild} buildsystem parse %s > %t.out 2> %t.err
+# RUN: %{FileCheck} --check-prefix CHECK-ERR --input-file %t.err %s
+
+client:
+  name: basic
+        # CHECK-ERR: errors.llbuild:[[@LINE+3]]:11: error: invalid version number
+        # CHECK-ERR-NEXT:  version: notaversion
+        # CHECK-ERR-NEXT:           ~~~~~~~~~~~
+  version: notaversion
+
+tools:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type in 'tools' map
+  ["bad", "key"]: that
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid value type in 'tools' map
+  that: ["bad", "value"]
+  name:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type for tool in 'tools' map
+        ["bad", "key"]: "bad"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type for 'attribute' in 'tools' map
+        # CHECK-ERR: error: invalid value type for 'attribute' in 'tools' map
+        attribute:
+          ["bad", "key"]: value
+          "ok": ["bad", "value"]
+  good:
+        parameter: value
+        
+targets:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type in 'targets' map
+  ["bad", "key"]: that
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid value type in 'targets' map
+  that:
+        bad: value
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid node type in 'targets' map
+  that: [["bad", "value"]]
+  good: ["node1", "node2"]
+
+nodes:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type in 'nodes' map
+  ["bad", "key"]: that
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid value type in 'nodes' map
+  that: ["bad", "value"]
+  name:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type for node in 'nodes' map
+        ["bad", "key"]: "bad"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type for 'attribute' in 'nodes' map
+        # CHECK-ERR: error: invalid value type for 'attribute' in 'nodes' map
+        attribute:
+          ["bad", "key"]: value
+          "ok": ["bad", "value"]
+
+commands:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type in 'commands' map
+  ["bad", "key"]: that
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid value type in 'commands' map
+  that: ["bad", "value"]
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: missing 'tool' key
+  command0: {}
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: expected 'tool' initial key
+  command1:
+        bad: start-key
+  command2:
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid 'tool' value type
+        tool: ["bad", "key"]
+  command3:
+        tool: "good"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid value type for 'inputs' command key
+        inputs: {}
+  command4:
+        tool: "good"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid node type in 'inputs' command key
+        inputs: [["bad"]]
+  command5:
+        tool: "good"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid value type for 'outputs' command key
+        outputs: {}
+  command6:
+        tool: "good"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid node type in 'outputs' command key
+        outputs: [["bad"]]
+  command7:
+        tool: "good"
+        # CHECK-ERR-NOT: error:
+        # CHECK-ERR: error: invalid key type in 'commands' map
+        ["bad", "key"]: value
+        # CHECK-ERR: error: invalid key type for 'attribute7' in 'commands' map
+        # CHECK-ERR: error: invalid value type for 'attribute7' in 'commands' map
+        attribute7:
+          ["bad", "key"]: value
+          "ok": ["bad", "value"]
+
+        # CHECK-ERR: errors.llbuild:[[@LINE+1]]:2: error: duplicate command in 'commands' map
+  command7:
+        tool: "duplicate"

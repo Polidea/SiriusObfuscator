@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Configuration{% endblock %}
+{% block body %}
+
+        
+Select the trace path:
+<form action="" method="post">
+  <p><input type=text name=trace_path value="{{trace_path}}">
+  <p><input type=submit value="Set Path">
+</form>
+
+{% endblock %}

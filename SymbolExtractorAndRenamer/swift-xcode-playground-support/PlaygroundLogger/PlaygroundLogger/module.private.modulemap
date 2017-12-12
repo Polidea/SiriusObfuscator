@@ -1,0 +1,4 @@
+framework module PlaygroundLogger.Private {
+    umbrella header "PlaygroundLogger.h"
+    export *
+}

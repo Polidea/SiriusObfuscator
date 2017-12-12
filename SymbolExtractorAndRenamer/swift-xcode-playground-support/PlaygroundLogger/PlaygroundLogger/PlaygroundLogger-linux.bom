@@ -1,0 +1,5 @@
+# this file contains the exclusion list, i.e. files in this list will not be compiled
+
+ExtensionCGColorRef.swift
+ImageHandler.swift
+ViewRenderer.swift

@@ -1,0 +1,45 @@
+# Check build engine tracing on a trivial example.
+
+# We run the build in a sandbox in the temp directory to ensure we don't
+# interact with the source dirs.
+#
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.ninja
+# RUN: %{llbuild} ninja build --jobs 1 --chdir %t.build --no-db --trace %t.trace-out
+# RUN: %{FileCheck} --input-file %t.trace-out %s
+
+# The first task we see is for the "dummy" rule...
+#
+# CHECK: { "new-rule", "[[RULE1:.*]]", "dummy" },
+# CHECK: { "checking-rule-needs-to-run", "[[RULE1]]" },
+# CHECK: { "rule-needs-to-run", "[[RULE1]]", "never-built" },
+# CHECK: { "new-task", "[[TASK1:.*]]" },
+# CHECK: { "created-task-for-rule", "[[TASK1]]", "[[RULE1]]" },
+
+# ... which then asks for the input from the "dummy-A" rule, which triggers the
+# creation of its task (and registers the pending task [[TASK1]] with that rule).
+#
+# CHECK: { "new-rule", "[[RULE2:.*]]", "dummy-A" },
+# CHECK: { "handling-task-input-request", "[[TASK1]]", "[[RULE2]]" },
+# CHECK: { "new-task", "[[TASK2:.*]]" },
+# CHECK: { "created-task-for-rule", "[[TASK2]]", "[[RULE2]]" },
+# CHECK: { "added-rule-pending-task", "[[RULE2]]", "[[TASK1]]" },
+
+# The task for "dummy-A" has no inputs, so it then completes and pushes its
+# finished input request...
+#
+# CHECK: { "finished-task", "[[TASK2]]", "[[RULE2]]", "changed" },
+# CHECK: { "readying-task-input-request", "[[TASK1]]", "[[RULE2]]" },
+# CHECK: { "completed-task-input-request", "[[TASK1]]", "[[RULE2]]" },
+# CHECK: { "updated-task-wait-count", "[[TASK1]]", 0 },
+
+# That unblocks [[TASK1]], which then finishes...
+#
+# CHECK: { "unblocked-task", "[[TASK1]]" },
+# CHECK: { "finished-task", "[[TASK1]]", "[[RULE1]]", "changed" },
+
+build dummy-A: phony
+build dummy: phony dummy-A
+
+default dummy

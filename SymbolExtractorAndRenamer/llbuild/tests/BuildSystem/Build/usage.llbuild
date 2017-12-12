@@ -1,0 +1,9 @@
+# Check basic usage.
+#
+# RUN: %{llbuild} buildsystem build --help 2> %t.err
+# RUN: %{FileCheck} < %t.err %s
+
+# CHECK: Usage: llbuild buildsystem build
+# CHECK: --help
+# CHECK: --chdir <PATH>
+# CHECK: --trace <PATH>

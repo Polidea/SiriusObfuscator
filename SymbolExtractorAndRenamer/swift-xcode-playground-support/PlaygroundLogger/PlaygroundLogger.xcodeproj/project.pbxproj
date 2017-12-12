@@ -1,0 +1,2648 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		1D0D20A518C69600001A2102 /* PlaygroundLogger_Mac_Products */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 1D0D20A818C69600001A2102 /* Build configuration list for PBXAggregateTarget "PlaygroundLogger_Mac_Products" */;
+			buildPhases = (
+			);
+			dependencies = (
+				9416EBC91990444F00D5BC21 /* PBXTargetDependency */,
+				94612E5D18CFE3E00059C812 /* PBXTargetDependency */,
+			);
+			name = PlaygroundLogger_Mac_Products;
+			productName = "All DVTPlaygroundSupport OSX Targets";
+		};
+		62EF80111925C8BF0062D058 /* All PlaygroundLogger Products */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 62EF80141925C8BF0062D058 /* Build configuration list for PBXAggregateTarget "All PlaygroundLogger Products" */;
+			buildPhases = (
+			);
+			dependencies = (
+				72AD04851CF4F73F00302266 /* PBXTargetDependency */,
+				72AD04831CF4F72E00302266 /* PBXTargetDependency */,
+			);
+			name = "All PlaygroundLogger Products";
+			productName = "All Products";
+		};
+		62EF80151925C8E00062D058 /* PlaygroundLogger_Simulator_Products */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 62EF80161925C8E00062D058 /* Build configuration list for PBXAggregateTarget "PlaygroundLogger_Simulator_Products" */;
+			buildPhases = (
+			);
+			dependencies = (
+				62EF801E1925C9000062D058 /* PBXTargetDependency */,
+			);
+			name = PlaygroundLogger_Simulator_Products;
+			productName = "All DVTPlaygroundSupport iOS Products";
+		};
+		72AD04761CF4F6EE00302266 /* All Platforms Logger */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 72AD047B1CF4F6EE00302266 /* Build configuration list for PBXAggregateTarget "All Platforms Logger" */;
+			buildPhases = (
+			);
+			dependencies = (
+				94F9825F1CFF9EAF00D7DBEA /* PBXTargetDependency */,
+				94F982611CFF9EAF00D7DBEA /* PBXTargetDependency */,
+				94F982631CFF9EAF00D7DBEA /* PBXTargetDependency */,
+			);
+			name = "All Platforms Logger";
+			productName = "All Platforms Logger";
+		};
+		A80FEB4C1C5946BC004E722A /* PlaygroundLogger_tvOS_Simulator_Products */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A80FEB4F1C5946BC004E722A /* Build configuration list for PBXAggregateTarget "PlaygroundLogger_tvOS_Simulator_Products" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A80FEB551C5946DE004E722A /* PBXTargetDependency */,
+			);
+			name = PlaygroundLogger_tvOS_Simulator_Products;
+			productName = "All DVTPlaygroundSupport iOS Products";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		5E06BF1819BA888E00C5C2DE /* module.modulemap in Copy Module Map */ = {isa = PBXBuildFile; fileRef = 5E06BF1319BA882000C5C2DE /* module.modulemap */; };
+		5E06BF1919BA888E00C5C2DE /* module.private.modulemap in Copy Module Map */ = {isa = PBXBuildFile; fileRef = 5E06BF1519BA883700C5C2DE /* module.private.modulemap */; };
+		5E9ED7BB19BA890900B99ACE /* module.modulemap in Copy Module Map */ = {isa = PBXBuildFile; fileRef = 5E06BF1319BA882000C5C2DE /* module.modulemap */; };
+		5E9ED7BC19BA890900B99ACE /* module.private.modulemap in Copy Module Map */ = {isa = PBXBuildFile; fileRef = 5E06BF1519BA883700C5C2DE /* module.private.modulemap */; };
+		622D8E0618F615D200D064D0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941C141B18CE6410004661BB /* Foundation.framework */; };
+		622D8E0C18F615D200D064D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 622D8E0A18F615D200D064D0 /* InfoPlist.strings */; };
+		622D8E1418F6168300D064D0 /* BytesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DC18CE6362004661BB /* BytesStorage.swift */; };
+		622D8E1518F6168300D064D0 /* BytesStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DD18CE6362004661BB /* BytesStream.swift */; };
+		622D8E1618F6168300D064D0 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DE18CE6362004661BB /* Common.swift */; };
+		622D8E1818F6168300D064D0 /* ExtensionCGColorRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F75C6118DB781E00DC54EA /* ExtensionCGColorRef.swift */; };
+		622D8E1A18F6168300D064D0 /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DF18CE6362004661BB /* ExtensionString.swift */; };
+		622D8E1B18F6168300D064D0 /* ExtensionUInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E018CE6362004661BB /* ExtensionUInt64.swift */; };
+		622D8E2118F6168300D064D0 /* LoggerDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E318CE6362004661BB /* LoggerDefaults.swift */; };
+		622D8E2218F6168300D064D0 /* PlaygroundObjectWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20D18EC8A7F00A54786 /* PlaygroundObjectWriter.swift */; };
+		622D8E2318F6168300D064D0 /* PlaygroundRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E518CE6362004661BB /* PlaygroundRepresentation.swift */; };
+		622D8E2418F6168300D064D0 /* PlaygroundScopeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20F18EC8A8800A54786 /* PlaygroundScopeWriter.swift */; };
+		622D8E2518F6168300D064D0 /* PlaygroundWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20B18EC8A7900A54786 /* PlaygroundWriter.swift */; };
+		622D8E2618F6168300D064D0 /* QuickLookEncodedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F75C6318DB782800DC54EA /* QuickLookEncodedObject.swift */; };
+		622D8E2818F6168300D064D0 /* ScopeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94176CDF18EB82D700A236F2 /* ScopeEvent.swift */; };
+		622D8E2D18F61EA300D064D0 /* KeyedArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94364B8518D7B14400D2EB6C /* KeyedArchiver.swift */; };
+		624887681919E0190006BA7E /* KeyedUnarchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E355BB191955360012A2DB /* KeyedUnarchiver.swift */; };
+		628A78B21911A68D00BF486F /* QuickLookEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E618CE6362004661BB /* QuickLookEncoder.swift */; };
+		940E22521B5737B4008ADCAA /* ViewRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940E22511B5737B4008ADCAA /* ViewRenderer.swift */; };
+		940E22531B5737B4008ADCAA /* ViewRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940E22511B5737B4008ADCAA /* ViewRenderer.swift */; };
+		94107BB51AEAEA05007DBB8E /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94107BB41AEAEA05007DBB8E /* CoreFoundation.framework */; };
+		941573EA197DC124000C4894 /* ExtensionBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941573E9197DC124000C4894 /* ExtensionBool.swift */; };
+		941573EB197DC124000C4894 /* ExtensionBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941573E9197DC124000C4894 /* ExtensionBool.swift */; };
+		9415EA381AD471390010D88E /* LoggerMirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9415EA371AD471390010D88E /* LoggerMirror.swift */; };
+		9415EA391AD471390010D88E /* LoggerMirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9415EA371AD471390010D88E /* LoggerMirror.swift */; };
+		9416EBC11990436400D5BC21 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBC01990436400D5BC21 /* main.swift */; };
+		9416EBC7199043DC00D5BC21 /* PlaygroundLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941C13F018CE63E3004661BB /* PlaygroundLogger.framework */; };
+		9416EBCD1990595300D5BC21 /* LoggerDecoderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBCB1990595300D5BC21 /* LoggerDecoderAPI.swift */; };
+		9416EBCE1990595300D5BC21 /* LoggerDecoderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBCC1990595300D5BC21 /* LoggerDecoderImpl.swift */; };
+		9416EBCF1990597E00D5BC21 /* LoggerDecoderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBCB1990595300D5BC21 /* LoggerDecoderAPI.swift */; };
+		9416EBD0199059F700D5BC21 /* LoggerDecoderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBCC1990595300D5BC21 /* LoggerDecoderImpl.swift */; };
+		9416EBD619905E3800D5BC21 /* TestCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBD419905E3800D5BC21 /* TestCases.swift */; };
+		9416EBD719905E3800D5BC21 /* TestCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBD419905E3800D5BC21 /* TestCases.swift */; };
+		9416EBD819905E3800D5BC21 /* TestInfrastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBD519905E3800D5BC21 /* TestInfrastructure.swift */; };
+		9416EBD919905E3800D5BC21 /* TestInfrastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBD519905E3800D5BC21 /* TestInfrastructure.swift */; };
+		94176CE018EB82D700A236F2 /* ScopeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94176CDF18EB82D700A236F2 /* ScopeEvent.swift */; };
+		941C141F18CE6460004661BB /* BytesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DC18CE6362004661BB /* BytesStorage.swift */; };
+		941C142018CE6460004661BB /* BytesStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DD18CE6362004661BB /* BytesStream.swift */; };
+		941C142118CE6460004661BB /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DE18CE6362004661BB /* Common.swift */; };
+		941C142218CE6460004661BB /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DF18CE6362004661BB /* ExtensionString.swift */; };
+		941C142318CE6460004661BB /* ExtensionUInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E018CE6362004661BB /* ExtensionUInt64.swift */; };
+		941C142618CE6460004661BB /* LoggerDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E318CE6362004661BB /* LoggerDefaults.swift */; };
+		941C142818CE6460004661BB /* PlaygroundRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E518CE6362004661BB /* PlaygroundRepresentation.swift */; };
+		941C142918CE6460004661BB /* QuickLookEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E618CE6362004661BB /* QuickLookEncoder.swift */; };
+		941C142A18CE6466004661BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941C141B18CE6410004661BB /* Foundation.framework */; };
+		941F55E91A3BB44C00AEA88E /* ExtensionFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941F55E81A3BB44C00AEA88E /* ExtensionFloat.swift */; };
+		941F55EA1A3BB44C00AEA88E /* ExtensionFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941F55E81A3BB44C00AEA88E /* ExtensionFloat.swift */; };
+		9422FC1919FAF8BB00C3DD20 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422FC1819FAF8BB00C3DD20 /* Stack.swift */; };
+		9422FC1A19FAF8BB00C3DD20 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422FC1819FAF8BB00C3DD20 /* Stack.swift */; };
+		942C2D0F192C17E900B9464F /* ImageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942C2D0E192C17E900B9464F /* ImageHandler.swift */; };
+		942C2D10192C17E900B9464F /* ImageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942C2D0E192C17E900B9464F /* ImageHandler.swift */; };
+		94364B8618D7B14400D2EB6C /* KeyedArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94364B8518D7B14400D2EB6C /* KeyedArchiver.swift */; };
+		946759DC1B5D6F08001384AC /* PlaygroundLogPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946759DA1B5D6F08001384AC /* PlaygroundLogPrint.swift */; };
+		946759DD1B5D6F08001384AC /* PlaygroundLogPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946759DA1B5D6F08001384AC /* PlaygroundLogPrint.swift */; };
+		9481836B19FF15DA00D3227B /* ThreadLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9481836A19FF15DA00D3227B /* ThreadLocalStorage.swift */; };
+		9481836C19FF15DA00D3227B /* ThreadLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9481836A19FF15DA00D3227B /* ThreadLocalStorage.swift */; };
+		9487BC6D1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487BC6C1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift */; };
+		9487BC6E1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487BC6C1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift */; };
+		9487BC701AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487BC6F1AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift */; };
+		9487BC711AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487BC6F1AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift */; };
+		94A1498A1AF94123006EA08F /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A149891AF94123006EA08F /* Regex.swift */; };
+		94A1498B1AF94123006EA08F /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A149891AF94123006EA08F /* Regex.swift */; };
+		94B249CA1A38FFBF0033E3F1 /* ExtensionDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249C91A38FFBF0033E3F1 /* ExtensionDouble.swift */; };
+		94B249CB1A38FFBF0033E3F1 /* ExtensionDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249C91A38FFBF0033E3F1 /* ExtensionDouble.swift */; };
+		94B249D11A39051F0033E3F1 /* PlaygroundLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CD1A39051F0033E3F1 /* PlaygroundLog.swift */; };
+		94B249D21A39051F0033E3F1 /* PlaygroundLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CD1A39051F0033E3F1 /* PlaygroundLog.swift */; };
+		94B249D31A39051F0033E3F1 /* PlaygroundLogGap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CE1A39051F0033E3F1 /* PlaygroundLogGap.swift */; };
+		94B249D41A39051F0033E3F1 /* PlaygroundLogGap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CE1A39051F0033E3F1 /* PlaygroundLogGap.swift */; };
+		94B249D51A39051F0033E3F1 /* PlaygroundLogPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CF1A39051F0033E3F1 /* PlaygroundLogPolicy.swift */; };
+		94B249D61A39051F0033E3F1 /* PlaygroundLogPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CF1A39051F0033E3F1 /* PlaygroundLogPolicy.swift */; };
+		94B249D71A39051F0033E3F1 /* PlaygroundLogScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249D01A39051F0033E3F1 /* PlaygroundLogScope.swift */; };
+		94B249D81A39051F0033E3F1 /* PlaygroundLogScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249D01A39051F0033E3F1 /* PlaygroundLogScope.swift */; };
+		94C248021AAE666700C9C68D /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C248011AAE666700C9C68D /* Environment.swift */; };
+		94C248031AAE666700C9C68D /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C248011AAE666700C9C68D /* Environment.swift */; };
+		94C248111AAFAC7100C9C68D /* Woodchuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C248101AAFAC7100C9C68D /* Woodchuck.swift */; };
+		94C248121AAFAC7100C9C68D /* Woodchuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C248101AAFAC7100C9C68D /* Woodchuck.swift */; };
+		94CD131019B948A900DB7BED /* ExceptionSafety.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CD130F19B948A900DB7BED /* ExceptionSafety.m */; };
+		94CD131119B948A900DB7BED /* ExceptionSafety.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CD130F19B948A900DB7BED /* ExceptionSafety.m */; };
+		94CD131219B94BE400DB7BED /* PlaygroundLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 94CD130E19B948A200DB7BED /* PlaygroundLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		94CD131319B94BE500DB7BED /* PlaygroundLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 94CD130E19B948A200DB7BED /* PlaygroundLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		94CDDA661A0172D20095B9DE /* PlaygroundGapWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CDDA651A0172D20095B9DE /* PlaygroundGapWriter.swift */; };
+		94CDDA671A0172D20095B9DE /* PlaygroundGapWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CDDA651A0172D20095B9DE /* PlaygroundGapWriter.swift */; };
+		94CDDA691A018CA40095B9DE /* LoggingPolicyStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CDDA681A018CA40095B9DE /* LoggingPolicyStack.swift */; };
+		94CDDA6A1A018CA40095B9DE /* LoggingPolicyStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CDDA681A018CA40095B9DE /* LoggingPolicyStack.swift */; };
+		94DB799D1B6AC1BE00991E72 /* LoggerInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB799C1B6AC1BE00991E72 /* LoggerInit.swift */; };
+		94DB799E1B6AC1BE00991E72 /* LoggerInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB799C1B6AC1BE00991E72 /* LoggerInit.swift */; };
+		94E355BC191955360012A2DB /* KeyedUnarchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E355BB191955360012A2DB /* KeyedUnarchiver.swift */; };
+		94F75C6218DB781E00DC54EA /* ExtensionCGColorRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F75C6118DB781E00DC54EA /* ExtensionCGColorRef.swift */; };
+		94F75C6418DB782800DC54EA /* QuickLookEncodedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F75C6318DB782800DC54EA /* QuickLookEncodedObject.swift */; };
+		94F9D20C18EC8A7900A54786 /* PlaygroundWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20B18EC8A7900A54786 /* PlaygroundWriter.swift */; };
+		94F9D20E18EC8A7F00A54786 /* PlaygroundObjectWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20D18EC8A7F00A54786 /* PlaygroundObjectWriter.swift */; };
+		94F9D21018EC8A8800A54786 /* PlaygroundScopeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20F18EC8A8800A54786 /* PlaygroundScopeWriter.swift */; };
+		A80FEB0A1C59453A004E722A /* module.modulemap in Copy Module Map */ = {isa = PBXBuildFile; fileRef = 5E06BF1319BA882000C5C2DE /* module.modulemap */; };
+		A80FEB0B1C59453A004E722A /* module.private.modulemap in Copy Module Map */ = {isa = PBXBuildFile; fileRef = 5E06BF1519BA883700C5C2DE /* module.private.modulemap */; };
+		A80FEB101C59453A004E722A /* BytesStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DC18CE6362004661BB /* BytesStorage.swift */; };
+		A80FEB111C59453A004E722A /* BytesStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DD18CE6362004661BB /* BytesStream.swift */; };
+		A80FEB121C59453A004E722A /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DE18CE6362004661BB /* Common.swift */; };
+		A80FEB131C59453A004E722A /* PlaygroundLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CD1A39051F0033E3F1 /* PlaygroundLog.swift */; };
+		A80FEB141C59453A004E722A /* TestCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBD419905E3800D5BC21 /* TestCases.swift */; };
+		A80FEB151C59453A004E722A /* ExtensionCGColorRef.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F75C6118DB781E00DC54EA /* ExtensionCGColorRef.swift */; };
+		A80FEB161C59453A004E722A /* ImageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942C2D0E192C17E900B9464F /* ImageHandler.swift */; };
+		A80FEB171C59453A004E722A /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13DF18CE6362004661BB /* ExtensionString.swift */; };
+		A80FEB181C59453A004E722A /* ExceptionSafety.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CD130F19B948A900DB7BED /* ExceptionSafety.m */; };
+		A80FEB191C59453A004E722A /* PlaygroundLogScope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249D01A39051F0033E3F1 /* PlaygroundLogScope.swift */; };
+		A80FEB1A1C59453A004E722A /* LoggerDecoderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBCB1990595300D5BC21 /* LoggerDecoderAPI.swift */; };
+		A80FEB1B1C59453A004E722A /* PlaygroundLogGap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CE1A39051F0033E3F1 /* PlaygroundLogGap.swift */; };
+		A80FEB1C1C59453A004E722A /* LoggerDecoderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBCC1990595300D5BC21 /* LoggerDecoderImpl.swift */; };
+		A80FEB1D1C59453A004E722A /* ExtensionFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941F55E81A3BB44C00AEA88E /* ExtensionFloat.swift */; };
+		A80FEB1E1C59453A004E722A /* ExtensionUInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E018CE6362004661BB /* ExtensionUInt64.swift */; };
+		A80FEB201C59453A004E722A /* KeyedArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94364B8518D7B14400D2EB6C /* KeyedArchiver.swift */; };
+		A80FEB211C59453A004E722A /* TestInfrastructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9416EBD519905E3800D5BC21 /* TestInfrastructure.swift */; };
+		A80FEB221C59453A004E722A /* QuickLookEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E618CE6362004661BB /* QuickLookEncoder.swift */; };
+		A80FEB231C59453A004E722A /* LoggerDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E318CE6362004661BB /* LoggerDefaults.swift */; };
+		A80FEB241C59453A004E722A /* Woodchuck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C248101AAFAC7100C9C68D /* Woodchuck.swift */; };
+		A80FEB251C59453A004E722A /* PlaygroundObjectWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20D18EC8A7F00A54786 /* PlaygroundObjectWriter.swift */; };
+		A80FEB261C59453A004E722A /* PlaygroundGapWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CDDA651A0172D20095B9DE /* PlaygroundGapWriter.swift */; };
+		A80FEB271C59453A004E722A /* PlaygroundRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941C13E518CE6362004661BB /* PlaygroundRepresentation.swift */; };
+		A80FEB281C59453A004E722A /* ExtensionDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249C91A38FFBF0033E3F1 /* ExtensionDouble.swift */; };
+		A80FEB291C59453A004E722A /* ExtensionMirrorDisplayStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487BC6F1AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift */; };
+		A80FEB2A1C59453A004E722A /* ExtensionBool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941573E9197DC124000C4894 /* ExtensionBool.swift */; };
+		A80FEB2B1C59453A004E722A /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422FC1819FAF8BB00C3DD20 /* Stack.swift */; };
+		A80FEB2C1C59453A004E722A /* PlaygroundScopeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20F18EC8A8800A54786 /* PlaygroundScopeWriter.swift */; };
+		A80FEB2D1C59453A004E722A /* LoggingPolicyStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CDDA681A018CA40095B9DE /* LoggingPolicyStack.swift */; };
+		A80FEB2E1C59453A004E722A /* LoggerMirror.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9415EA371AD471390010D88E /* LoggerMirror.swift */; };
+		A80FEB2F1C59453A004E722A /* PlaygroundWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F9D20B18EC8A7900A54786 /* PlaygroundWriter.swift */; };
+		A80FEB301C59453A004E722A /* KeyedUnarchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E355BB191955360012A2DB /* KeyedUnarchiver.swift */; };
+		A80FEB311C59453A004E722A /* PlaygroundLogPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946759DA1B5D6F08001384AC /* PlaygroundLogPrint.swift */; };
+		A80FEB321C59453A004E722A /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C248011AAE666700C9C68D /* Environment.swift */; };
+		A80FEB331C59453A004E722A /* QuickLookEncodedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F75C6318DB782800DC54EA /* QuickLookEncodedObject.swift */; };
+		A80FEB341C59453A004E722A /* ScopeEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94176CDF18EB82D700A236F2 /* ScopeEvent.swift */; };
+		A80FEB351C59453A004E722A /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A149891AF94123006EA08F /* Regex.swift */; };
+		A80FEB361C59453A004E722A /* LoggerInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DB799C1B6AC1BE00991E72 /* LoggerInit.swift */; };
+		A80FEB371C59453A004E722A /* ExtensionQuickLookObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9487BC6C1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift */; };
+		A80FEB381C59453A004E722A /* ViewRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940E22511B5737B4008ADCAA /* ViewRenderer.swift */; };
+		A80FEB391C59453A004E722A /* ThreadLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9481836A19FF15DA00D3227B /* ThreadLocalStorage.swift */; };
+		A80FEB3A1C59453A004E722A /* PlaygroundLogPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B249CF1A39051F0033E3F1 /* PlaygroundLogPolicy.swift */; };
+		A80FEB491C5945BE004E722A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A80FEB471C5945BE004E722A /* InfoPlist.strings */; };
+		A8CB2B041C5949E30083B302 /* PlaygroundLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 94CD130E19B948A200DB7BED /* PlaygroundLogger.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		A8CB2B051C594A870083B302 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80FEB581C5947EA004E722A /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		62EF801D1925C9000062D058 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 622D8E0418F615D200D064D0;
+			remoteInfo = PlaygroundLogger_iOS;
+		};
+		72AD04821CF4F72E00302266 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 72AD04761CF4F6EE00302266;
+			remoteInfo = "All Platforms Logger";
+		};
+		72AD04841CF4F73F00302266 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9416EBBD1990436400D5BC21;
+			remoteInfo = PlaygroundLogger_TestDriver;
+		};
+		9416EBC51990439000D5BC21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 941C13EF18CE63E3004661BB;
+			remoteInfo = PlaygroundLogger;
+		};
+		9416EBC81990444F00D5BC21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9416EBBD1990436400D5BC21;
+			remoteInfo = PlaygroundLogger_TestDriver;
+		};
+		94612E5C18CFE3E00059C812 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 941C13EF18CE63E3004661BB;
+			remoteInfo = PlaygroundLogger;
+		};
+		94F9825E1CFF9EAF00D7DBEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 941C13EF18CE63E3004661BB;
+			remoteInfo = PlaygroundLogger;
+		};
+		94F982601CFF9EAF00D7DBEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 622D8E0418F615D200D064D0;
+			remoteInfo = PlaygroundLogger_iOS;
+		};
+		94F982621CFF9EAF00D7DBEA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A80FEB081C59453A004E722A;
+			remoteInfo = PlaygroundLogger_tvOS;
+		};
+		A80FEB541C5946DE004E722A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A80FEB081C59453A004E722A;
+			remoteInfo = PlaygroundLogger_tvOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5E06BF1719BA886F00C5C2DE /* Copy Module Map */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Modules;
+			dstSubfolderSpec = 1;
+			files = (
+				5E06BF1819BA888E00C5C2DE /* module.modulemap in Copy Module Map */,
+				5E06BF1919BA888E00C5C2DE /* module.private.modulemap in Copy Module Map */,
+			);
+			name = "Copy Module Map";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5E9ED7BA19BA890100B99ACE /* Copy Module Map */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Modules;
+			dstSubfolderSpec = 1;
+			files = (
+				5E9ED7BB19BA890900B99ACE /* module.modulemap in Copy Module Map */,
+				5E9ED7BC19BA890900B99ACE /* module.private.modulemap in Copy Module Map */,
+			);
+			name = "Copy Module Map";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9416EBBC1990436400D5BC21 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		A80FEB091C59453A004E722A /* Copy Module Map */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Modules;
+			dstSubfolderSpec = 1;
+			files = (
+				A80FEB0A1C59453A004E722A /* module.modulemap in Copy Module Map */,
+				A80FEB0B1C59453A004E722A /* module.private.modulemap in Copy Module Map */,
+			);
+			name = "Copy Module Map";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		5E06BF1319BA882000C5C2DE /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		5E06BF1519BA883700C5C2DE /* module.private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.private.modulemap; sourceTree = "<group>"; };
+		5EA8B30F18D12FF8007A88F4 /* PlaygroundLogger-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlaygroundLogger-Info.plist"; sourceTree = "<group>"; };
+		622D8E0518F615D200D064D0 /* PlaygroundLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaygroundLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		622D8E0918F615D200D064D0 /* PlaygroundLogger_iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PlaygroundLogger_iOS-Info.plist"; sourceTree = "<group>"; };
+		622D8E0B18F615D200D064D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		940E22511B5737B4008ADCAA /* ViewRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRenderer.swift; sourceTree = "<group>"; };
+		94107BB41AEAEA05007DBB8E /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		9414E2FD1C62DDFF00C7D0B8 /* SwiftExceptionSafety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftExceptionSafety.swift; sourceTree = "<group>"; };
+		941573E9197DC124000C4894 /* ExtensionBool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionBool.swift; sourceTree = "<group>"; };
+		9415EA371AD471390010D88E /* LoggerMirror.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerMirror.swift; sourceTree = "<group>"; };
+		9416EBBE1990436400D5BC21 /* PlaygroundLogger_TestDriver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlaygroundLogger_TestDriver; sourceTree = BUILT_PRODUCTS_DIR; };
+		9416EBC01990436400D5BC21 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		9416EBCB1990595300D5BC21 /* LoggerDecoderAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerDecoderAPI.swift; sourceTree = "<group>"; };
+		9416EBCC1990595300D5BC21 /* LoggerDecoderImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerDecoderImpl.swift; sourceTree = "<group>"; };
+		9416EBD419905E3800D5BC21 /* TestCases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCases.swift; sourceTree = "<group>"; };
+		9416EBD519905E3800D5BC21 /* TestInfrastructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestInfrastructure.swift; sourceTree = "<group>"; };
+		94176CDF18EB82D700A236F2 /* ScopeEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScopeEvent.swift; sourceTree = "<group>"; };
+		941C13DC18CE6362004661BB /* BytesStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BytesStorage.swift; sourceTree = "<group>"; };
+		941C13DD18CE6362004661BB /* BytesStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BytesStream.swift; sourceTree = "<group>"; };
+		941C13DE18CE6362004661BB /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		941C13DF18CE6362004661BB /* ExtensionString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionString.swift; sourceTree = "<group>"; };
+		941C13E018CE6362004661BB /* ExtensionUInt64.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUInt64.swift; sourceTree = "<group>"; };
+		941C13E318CE6362004661BB /* LoggerDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerDefaults.swift; sourceTree = "<group>"; };
+		941C13E518CE6362004661BB /* PlaygroundRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundRepresentation.swift; sourceTree = "<group>"; };
+		941C13E618CE6362004661BB /* QuickLookEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = QuickLookEncoder.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		941C13F018CE63E3004661BB /* PlaygroundLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaygroundLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		941C141B18CE6410004661BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		941F55E81A3BB44C00AEA88E /* ExtensionFloat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionFloat.swift; sourceTree = "<group>"; };
+		9422FC1819FAF8BB00C3DD20 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
+		942C2D0E192C17E900B9464F /* ImageHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ImageHandler.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		94364B8518D7B14400D2EB6C /* KeyedArchiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedArchiver.swift; sourceTree = "<group>"; };
+		946759DA1B5D6F08001384AC /* PlaygroundLogPrint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundLogPrint.swift; sourceTree = "<group>"; };
+		9481836A19FF15DA00D3227B /* ThreadLocalStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadLocalStorage.swift; sourceTree = "<group>"; };
+		9487BC6C1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionQuickLookObject.swift; sourceTree = "<group>"; };
+		9487BC6F1AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionMirrorDisplayStyle.swift; sourceTree = "<group>"; };
+		94A149891AF94123006EA08F /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		94B249C91A38FFBF0033E3F1 /* ExtensionDouble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDouble.swift; sourceTree = "<group>"; };
+		94B249CD1A39051F0033E3F1 /* PlaygroundLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundLog.swift; sourceTree = "<group>"; };
+		94B249CE1A39051F0033E3F1 /* PlaygroundLogGap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundLogGap.swift; sourceTree = "<group>"; };
+		94B249CF1A39051F0033E3F1 /* PlaygroundLogPolicy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundLogPolicy.swift; sourceTree = "<group>"; };
+		94B249D01A39051F0033E3F1 /* PlaygroundLogScope.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundLogScope.swift; sourceTree = "<group>"; };
+		94C248011AAE666700C9C68D /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		94C248101AAFAC7100C9C68D /* Woodchuck.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Woodchuck.swift; sourceTree = "<group>"; };
+		94CD130E19B948A200DB7BED /* PlaygroundLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaygroundLogger.h; sourceTree = "<group>"; };
+		94CD130F19B948A900DB7BED /* ExceptionSafety.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExceptionSafety.m; sourceTree = "<group>"; };
+		94CDDA651A0172D20095B9DE /* PlaygroundGapWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundGapWriter.swift; sourceTree = "<group>"; };
+		94CDDA681A018CA40095B9DE /* LoggingPolicyStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggingPolicyStack.swift; sourceTree = "<group>"; };
+		94DB799C1B6AC1BE00991E72 /* LoggerInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerInit.swift; sourceTree = "<group>"; };
+		94E355BB191955360012A2DB /* KeyedUnarchiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedUnarchiver.swift; sourceTree = "<group>"; };
+		94F75C6118DB781E00DC54EA /* ExtensionCGColorRef.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionCGColorRef.swift; sourceTree = "<group>"; };
+		94F75C6318DB782800DC54EA /* QuickLookEncodedObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickLookEncodedObject.swift; sourceTree = "<group>"; };
+		94F9D20B18EC8A7900A54786 /* PlaygroundWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundWriter.swift; sourceTree = "<group>"; };
+		94F9D20D18EC8A7F00A54786 /* PlaygroundObjectWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundObjectWriter.swift; sourceTree = "<group>"; };
+		94F9D20F18EC8A8800A54786 /* PlaygroundScopeWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundScopeWriter.swift; sourceTree = "<group>"; };
+		A80FEB441C59453A004E722A /* PlaygroundLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaygroundLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A80FEB481C5945BE004E722A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A80FEB4A1C5945C6004E722A /* PlaygroundLogger_tvOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "PlaygroundLogger_tvOS-Info.plist"; sourceTree = "<group>"; };
+		A80FEB581C5947EA004E722A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator9.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		A8E46C4F1ACC617B003F5755 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		622D8E0118F615D200D064D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				622D8E0618F615D200D064D0 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9416EBBB1990436400D5BC21 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94107BB51AEAEA05007DBB8E /* CoreFoundation.framework in Frameworks */,
+				9416EBC7199043DC00D5BC21 /* PlaygroundLogger.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		941C13EC18CE63E3004661BB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				941C142A18CE6466004661BB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80FEB3B1C59453A004E722A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8CB2B051C594A870083B302 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D7FD51118BFE00400C718C6 = {
+			isa = PBXGroup;
+			children = (
+				941C13DB18CE6307004661BB /* PlaygroundLogger */,
+				622D8E0718F615D200D064D0 /* PlaygroundLogger_iOS */,
+				A80FEB461C59457B004E722A /* PlaygroundLogger_tvOS */,
+				1D80230A18C6A09600D522B2 /* SupportingFiles */,
+				5E7F988818CEA2CA003F50B8 /* Frameworks */,
+				1D7FD51B18BFE00400C718C6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1D7FD51B18BFE00400C718C6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				941C13F018CE63E3004661BB /* PlaygroundLogger.framework */,
+				622D8E0518F615D200D064D0 /* PlaygroundLogger.framework */,
+				9416EBBE1990436400D5BC21 /* PlaygroundLogger_TestDriver */,
+				A80FEB441C59453A004E722A /* PlaygroundLogger.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D80230A18C6A09600D522B2 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		5E7F988818CEA2CA003F50B8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A80FEB581C5947EA004E722A /* Foundation.framework */,
+				94107BB41AEAEA05007DBB8E /* CoreFoundation.framework */,
+				A8E46C4F1ACC617B003F5755 /* Foundation.framework */,
+				941C141B18CE6410004661BB /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5EA8B30E18D12FD8007A88F4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5E06BF1319BA882000C5C2DE /* module.modulemap */,
+				5E06BF1519BA883700C5C2DE /* module.private.modulemap */,
+				5EA8B30F18D12FF8007A88F4 /* PlaygroundLogger-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		622D8E0718F615D200D064D0 /* PlaygroundLogger_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				622D8E0918F615D200D064D0 /* PlaygroundLogger_iOS-Info.plist */,
+				622D8E0A18F615D200D064D0 /* InfoPlist.strings */,
+			);
+			path = PlaygroundLogger_iOS;
+			sourceTree = SOURCE_ROOT;
+		};
+		9416EBBF1990436400D5BC21 /* PlaygroundLogger_TestDriver */ = {
+			isa = PBXGroup;
+			children = (
+				9416EBC01990436400D5BC21 /* main.swift */,
+			);
+			path = PlaygroundLogger_TestDriver;
+			sourceTree = SOURCE_ROOT;
+		};
+		9416EBCA1990590A00D5BC21 /* Testing */ = {
+			isa = PBXGroup;
+			children = (
+				9416EBCB1990595300D5BC21 /* LoggerDecoderAPI.swift */,
+				9416EBCC1990595300D5BC21 /* LoggerDecoderImpl.swift */,
+				9416EBD419905E3800D5BC21 /* TestCases.swift */,
+				9416EBD519905E3800D5BC21 /* TestInfrastructure.swift */,
+				9416EBBF1990436400D5BC21 /* PlaygroundLogger_TestDriver */,
+			);
+			name = Testing;
+			sourceTree = "<group>";
+		};
+		941C13DB18CE6307004661BB /* PlaygroundLogger */ = {
+			isa = PBXGroup;
+			children = (
+				94B249CC1A3904D80033E3F1 /* API */,
+				94CD130D19B9489600DB7BED /* ObjC */,
+				9416EBCA1990590A00D5BC21 /* Testing */,
+				941C13DC18CE6362004661BB /* BytesStorage.swift */,
+				941C13DD18CE6362004661BB /* BytesStream.swift */,
+				941C13DE18CE6362004661BB /* Common.swift */,
+				94C248011AAE666700C9C68D /* Environment.swift */,
+				94F75C6118DB781E00DC54EA /* ExtensionCGColorRef.swift */,
+				9487BC6F1AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift */,
+				9487BC6C1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift */,
+				941573E9197DC124000C4894 /* ExtensionBool.swift */,
+				941F55E81A3BB44C00AEA88E /* ExtensionFloat.swift */,
+				94B249C91A38FFBF0033E3F1 /* ExtensionDouble.swift */,
+				941C13DF18CE6362004661BB /* ExtensionString.swift */,
+				941C13E018CE6362004661BB /* ExtensionUInt64.swift */,
+				942C2D0E192C17E900B9464F /* ImageHandler.swift */,
+				94364B8518D7B14400D2EB6C /* KeyedArchiver.swift */,
+				94E355BB191955360012A2DB /* KeyedUnarchiver.swift */,
+				941C13E318CE6362004661BB /* LoggerDefaults.swift */,
+				9415EA371AD471390010D88E /* LoggerMirror.swift */,
+				94CDDA681A018CA40095B9DE /* LoggingPolicyStack.swift */,
+				94F9D20D18EC8A7F00A54786 /* PlaygroundObjectWriter.swift */,
+				941C13E518CE6362004661BB /* PlaygroundRepresentation.swift */,
+				94CDDA651A0172D20095B9DE /* PlaygroundGapWriter.swift */,
+				94F9D20F18EC8A8800A54786 /* PlaygroundScopeWriter.swift */,
+				94F9D20B18EC8A7900A54786 /* PlaygroundWriter.swift */,
+				94F75C6318DB782800DC54EA /* QuickLookEncodedObject.swift */,
+				941C13E618CE6362004661BB /* QuickLookEncoder.swift */,
+				94A149891AF94123006EA08F /* Regex.swift */,
+				94176CDF18EB82D700A236F2 /* ScopeEvent.swift */,
+				9422FC1819FAF8BB00C3DD20 /* Stack.swift */,
+				9481836A19FF15DA00D3227B /* ThreadLocalStorage.swift */,
+				940E22511B5737B4008ADCAA /* ViewRenderer.swift */,
+				94C248101AAFAC7100C9C68D /* Woodchuck.swift */,
+				5EA8B30E18D12FD8007A88F4 /* Resources */,
+			);
+			path = PlaygroundLogger;
+			sourceTree = "<group>";
+		};
+		94B249CC1A3904D80033E3F1 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				94DB799C1B6AC1BE00991E72 /* LoggerInit.swift */,
+				94B249CD1A39051F0033E3F1 /* PlaygroundLog.swift */,
+				94B249CE1A39051F0033E3F1 /* PlaygroundLogGap.swift */,
+				94B249CF1A39051F0033E3F1 /* PlaygroundLogPolicy.swift */,
+				94B249D01A39051F0033E3F1 /* PlaygroundLogScope.swift */,
+				946759DA1B5D6F08001384AC /* PlaygroundLogPrint.swift */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		94CD130D19B9489600DB7BED /* ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				94CD130E19B948A200DB7BED /* PlaygroundLogger.h */,
+				94CD130F19B948A900DB7BED /* ExceptionSafety.m */,
+				9414E2FD1C62DDFF00C7D0B8 /* SwiftExceptionSafety.swift */,
+			);
+			name = ObjC;
+			sourceTree = "<group>";
+		};
+		A80FEB461C59457B004E722A /* PlaygroundLogger_tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				A80FEB4A1C5945C6004E722A /* PlaygroundLogger_tvOS-Info.plist */,
+				A80FEB471C5945BE004E722A /* InfoPlist.strings */,
+			);
+			path = PlaygroundLogger_tvOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		622D8E0218F615D200D064D0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94CD131319B94BE500DB7BED /* PlaygroundLogger.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		941C13ED18CE63E3004661BB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94CD131219B94BE400DB7BED /* PlaygroundLogger.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80FEB0C1C59453A004E722A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8CB2B041C5949E30083B302 /* PlaygroundLogger.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		94612E5718CF8D7E0059C812 /* PlaygroundLogger_Docs */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = all;
+			buildConfigurationList = 94612E5818CF8D7E0059C812 /* Build configuration list for PBXLegacyTarget "PlaygroundLogger_Docs" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "$(PROJECT_DIR)/PlaygroundLogger_Docs";
+			dependencies = (
+			);
+			name = PlaygroundLogger_Docs;
+			passBuildSettingsInEnvironment = 1;
+			productName = PlaygroundLogger_Docs;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		622D8E0418F615D200D064D0 /* PlaygroundLogger_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 622D8E1218F615D200D064D0 /* Build configuration list for PBXNativeTarget "PlaygroundLogger_iOS" */;
+			buildPhases = (
+				5E9ED7BA19BA890100B99ACE /* Copy Module Map */,
+				622D8E0218F615D200D064D0 /* Headers */,
+				5EE8A6ED19BA8FA60064CACE /* Barrier Phase */,
+				622D8E0018F615D200D064D0 /* Sources */,
+				622D8E0118F615D200D064D0 /* Frameworks */,
+				622D8E0318F615D200D064D0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlaygroundLogger_iOS;
+			productName = PlaygroundLogger_iOS;
+			productReference = 622D8E0518F615D200D064D0 /* PlaygroundLogger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9416EBBD1990436400D5BC21 /* PlaygroundLogger_TestDriver */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9416EBC21990436400D5BC21 /* Build configuration list for PBXNativeTarget "PlaygroundLogger_TestDriver" */;
+			buildPhases = (
+				9416EBBA1990436400D5BC21 /* Sources */,
+				9416EBBB1990436400D5BC21 /* Frameworks */,
+				9416EBBC1990436400D5BC21 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9416EBC61990439000D5BC21 /* PBXTargetDependency */,
+			);
+			name = PlaygroundLogger_TestDriver;
+			productName = PlaygroundLogger_TestDriver;
+			productReference = 9416EBBE1990436400D5BC21 /* PlaygroundLogger_TestDriver */;
+			productType = "com.apple.product-type.tool";
+		};
+		941C13EF18CE63E3004661BB /* PlaygroundLogger */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 941C140A18CE63E4004661BB /* Build configuration list for PBXNativeTarget "PlaygroundLogger" */;
+			buildPhases = (
+				5E06BF1719BA886F00C5C2DE /* Copy Module Map */,
+				941C13ED18CE63E3004661BB /* Headers */,
+				5EE8A6EE19BA8FB00064CACE /* Barrier Phase */,
+				941C13EB18CE63E3004661BB /* Sources */,
+				941C13EC18CE63E3004661BB /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlaygroundLogger;
+			productName = PlaygroundLogger;
+			productReference = 941C13F018CE63E3004661BB /* PlaygroundLogger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A80FEB081C59453A004E722A /* PlaygroundLogger_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A80FEB3F1C59453A004E722A /* Build configuration list for PBXNativeTarget "PlaygroundLogger_tvOS" */;
+			buildPhases = (
+				A80FEB091C59453A004E722A /* Copy Module Map */,
+				A80FEB0C1C59453A004E722A /* Headers */,
+				A80FEB0E1C59453A004E722A /* Barrier Phase */,
+				A80FEB0F1C59453A004E722A /* Sources */,
+				A80FEB3B1C59453A004E722A /* Frameworks */,
+				A80FEB3D1C59453A004E722A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlaygroundLogger_tvOS;
+			productName = PlaygroundLogger_iOS;
+			productReference = A80FEB441C59453A004E722A /* PlaygroundLogger.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D7FD51218BFE00400C718C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0650;
+				ORGANIZATIONNAME = "Apple Inc.";
+				TargetAttributes = {
+					1D0D20A518C69600001A2102 = {
+						ProvisioningStyle = Manual;
+					};
+					622D8E0418F615D200D064D0 = {
+						ProvisioningStyle = Manual;
+					};
+					62EF80111925C8BF0062D058 = {
+						CreatedOnToolsVersion = 6.0;
+						ProvisioningStyle = Manual;
+					};
+					62EF80151925C8E00062D058 = {
+						CreatedOnToolsVersion = 6.0;
+						ProvisioningStyle = Manual;
+					};
+					72AD04761CF4F6EE00302266 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					9416EBBD1990436400D5BC21 = {
+						CreatedOnToolsVersion = 6.0;
+						ProvisioningStyle = Manual;
+					};
+					941C13EF18CE63E3004661BB = {
+						ProvisioningStyle = Manual;
+					};
+					94612E5718CF8D7E0059C812 = {
+						ProvisioningStyle = Manual;
+					};
+					A80FEB081C59453A004E722A = {
+						ProvisioningStyle = Manual;
+					};
+					A80FEB4C1C5946BC004E722A = {
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 1D7FD51518BFE00400C718C6 /* Build configuration list for PBXProject "PlaygroundLogger" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1D7FD51118BFE00400C718C6;
+			productRefGroup = 1D7FD51B18BFE00400C718C6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D0D20A518C69600001A2102 /* PlaygroundLogger_Mac_Products */,
+				62EF80151925C8E00062D058 /* PlaygroundLogger_Simulator_Products */,
+				A80FEB4C1C5946BC004E722A /* PlaygroundLogger_tvOS_Simulator_Products */,
+				62EF80111925C8BF0062D058 /* All PlaygroundLogger Products */,
+				941C13EF18CE63E3004661BB /* PlaygroundLogger */,
+				622D8E0418F615D200D064D0 /* PlaygroundLogger_iOS */,
+				A80FEB081C59453A004E722A /* PlaygroundLogger_tvOS */,
+				94612E5718CF8D7E0059C812 /* PlaygroundLogger_Docs */,
+				9416EBBD1990436400D5BC21 /* PlaygroundLogger_TestDriver */,
+				72AD04761CF4F6EE00302266 /* All Platforms Logger */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		622D8E0318F615D200D064D0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				622D8E0C18F615D200D064D0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80FEB3D1C59453A004E722A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80FEB491C5945BE004E722A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5EE8A6ED19BA8FA60064CACE /* Barrier Phase */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Barrier Phase";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is needed to make sure the headers are copied before the Swift sources are compiled -- ask Enrico, Connor, or Jordan before touching this phase";
+		};
+		5EE8A6EE19BA8FB00064CACE /* Barrier Phase */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Barrier Phase";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is needed to make sure the headers are copied before the Swift sources are compiled -- ask Enrico, Connor, or Jordan before touching this phase";
+		};
+		A80FEB0E1C59453A004E722A /* Barrier Phase */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Barrier Phase";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is needed to make sure the headers are copied before the Swift sources are compiled -- ask Enrico, Connor, or Jordan before touching this phase";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		622D8E0018F615D200D064D0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				622D8E1418F6168300D064D0 /* BytesStorage.swift in Sources */,
+				622D8E1518F6168300D064D0 /* BytesStream.swift in Sources */,
+				622D8E1618F6168300D064D0 /* Common.swift in Sources */,
+				94B249D21A39051F0033E3F1 /* PlaygroundLog.swift in Sources */,
+				9416EBD719905E3800D5BC21 /* TestCases.swift in Sources */,
+				622D8E1818F6168300D064D0 /* ExtensionCGColorRef.swift in Sources */,
+				942C2D10192C17E900B9464F /* ImageHandler.swift in Sources */,
+				622D8E1A18F6168300D064D0 /* ExtensionString.swift in Sources */,
+				94CD131119B948A900DB7BED /* ExceptionSafety.m in Sources */,
+				94B249D81A39051F0033E3F1 /* PlaygroundLogScope.swift in Sources */,
+				9416EBCF1990597E00D5BC21 /* LoggerDecoderAPI.swift in Sources */,
+				94B249D41A39051F0033E3F1 /* PlaygroundLogGap.swift in Sources */,
+				9416EBD0199059F700D5BC21 /* LoggerDecoderImpl.swift in Sources */,
+				941F55EA1A3BB44C00AEA88E /* ExtensionFloat.swift in Sources */,
+				622D8E1B18F6168300D064D0 /* ExtensionUInt64.swift in Sources */,
+				622D8E2D18F61EA300D064D0 /* KeyedArchiver.swift in Sources */,
+				9416EBD919905E3800D5BC21 /* TestInfrastructure.swift in Sources */,
+				628A78B21911A68D00BF486F /* QuickLookEncoder.swift in Sources */,
+				622D8E2118F6168300D064D0 /* LoggerDefaults.swift in Sources */,
+				94C248121AAFAC7100C9C68D /* Woodchuck.swift in Sources */,
+				622D8E2218F6168300D064D0 /* PlaygroundObjectWriter.swift in Sources */,
+				94CDDA671A0172D20095B9DE /* PlaygroundGapWriter.swift in Sources */,
+				622D8E2318F6168300D064D0 /* PlaygroundRepresentation.swift in Sources */,
+				94B249CB1A38FFBF0033E3F1 /* ExtensionDouble.swift in Sources */,
+				9487BC711AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift in Sources */,
+				941573EB197DC124000C4894 /* ExtensionBool.swift in Sources */,
+				9422FC1A19FAF8BB00C3DD20 /* Stack.swift in Sources */,
+				622D8E2418F6168300D064D0 /* PlaygroundScopeWriter.swift in Sources */,
+				94CDDA6A1A018CA40095B9DE /* LoggingPolicyStack.swift in Sources */,
+				9415EA391AD471390010D88E /* LoggerMirror.swift in Sources */,
+				622D8E2518F6168300D064D0 /* PlaygroundWriter.swift in Sources */,
+				624887681919E0190006BA7E /* KeyedUnarchiver.swift in Sources */,
+				946759DD1B5D6F08001384AC /* PlaygroundLogPrint.swift in Sources */,
+				94C248031AAE666700C9C68D /* Environment.swift in Sources */,
+				622D8E2618F6168300D064D0 /* QuickLookEncodedObject.swift in Sources */,
+				622D8E2818F6168300D064D0 /* ScopeEvent.swift in Sources */,
+				94A1498B1AF94123006EA08F /* Regex.swift in Sources */,
+				94DB799E1B6AC1BE00991E72 /* LoggerInit.swift in Sources */,
+				9487BC6E1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift in Sources */,
+				940E22531B5737B4008ADCAA /* ViewRenderer.swift in Sources */,
+				9481836C19FF15DA00D3227B /* ThreadLocalStorage.swift in Sources */,
+				94B249D61A39051F0033E3F1 /* PlaygroundLogPolicy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9416EBBA1990436400D5BC21 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9416EBC11990436400D5BC21 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		941C13EB18CE63E3004661BB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94F75C6418DB782800DC54EA /* QuickLookEncodedObject.swift in Sources */,
+				941C141F18CE6460004661BB /* BytesStorage.swift in Sources */,
+				94B249D51A39051F0033E3F1 /* PlaygroundLogPolicy.swift in Sources */,
+				941C142018CE6460004661BB /* BytesStream.swift in Sources */,
+				94F9D20E18EC8A7F00A54786 /* PlaygroundObjectWriter.swift in Sources */,
+				9481836B19FF15DA00D3227B /* ThreadLocalStorage.swift in Sources */,
+				941573EA197DC124000C4894 /* ExtensionBool.swift in Sources */,
+				94B249CA1A38FFBF0033E3F1 /* ExtensionDouble.swift in Sources */,
+				94364B8618D7B14400D2EB6C /* KeyedArchiver.swift in Sources */,
+				941C142118CE6460004661BB /* Common.swift in Sources */,
+				9487BC6D1AD4966D005FA1E3 /* ExtensionQuickLookObject.swift in Sources */,
+				9416EBD619905E3800D5BC21 /* TestCases.swift in Sources */,
+				941C142218CE6460004661BB /* ExtensionString.swift in Sources */,
+				942C2D0F192C17E900B9464F /* ImageHandler.swift in Sources */,
+				941C142318CE6460004661BB /* ExtensionUInt64.swift in Sources */,
+				9415EA381AD471390010D88E /* LoggerMirror.swift in Sources */,
+				9416EBD819905E3800D5BC21 /* TestInfrastructure.swift in Sources */,
+				94F9D21018EC8A8800A54786 /* PlaygroundScopeWriter.swift in Sources */,
+				9487BC701AD49704005FA1E3 /* ExtensionMirrorDisplayStyle.swift in Sources */,
+				94B249D11A39051F0033E3F1 /* PlaygroundLog.swift in Sources */,
+				946759DC1B5D6F08001384AC /* PlaygroundLogPrint.swift in Sources */,
+				94E355BC191955360012A2DB /* KeyedUnarchiver.swift in Sources */,
+				94B249D71A39051F0033E3F1 /* PlaygroundLogScope.swift in Sources */,
+				940E22521B5737B4008ADCAA /* ViewRenderer.swift in Sources */,
+				94F75C6218DB781E00DC54EA /* ExtensionCGColorRef.swift in Sources */,
+				94176CE018EB82D700A236F2 /* ScopeEvent.swift in Sources */,
+				941F55E91A3BB44C00AEA88E /* ExtensionFloat.swift in Sources */,
+				94F9D20C18EC8A7900A54786 /* PlaygroundWriter.swift in Sources */,
+				94C248111AAFAC7100C9C68D /* Woodchuck.swift in Sources */,
+				941C142618CE6460004661BB /* LoggerDefaults.swift in Sources */,
+				94A1498A1AF94123006EA08F /* Regex.swift in Sources */,
+				94C248021AAE666700C9C68D /* Environment.swift in Sources */,
+				94B249D31A39051F0033E3F1 /* PlaygroundLogGap.swift in Sources */,
+				941C142818CE6460004661BB /* PlaygroundRepresentation.swift in Sources */,
+				94CDDA691A018CA40095B9DE /* LoggingPolicyStack.swift in Sources */,
+				94CD131019B948A900DB7BED /* ExceptionSafety.m in Sources */,
+				9416EBCE1990595300D5BC21 /* LoggerDecoderImpl.swift in Sources */,
+				94CDDA661A0172D20095B9DE /* PlaygroundGapWriter.swift in Sources */,
+				9422FC1919FAF8BB00C3DD20 /* Stack.swift in Sources */,
+				941C142918CE6460004661BB /* QuickLookEncoder.swift in Sources */,
+				9416EBCD1990595300D5BC21 /* LoggerDecoderAPI.swift in Sources */,
+				94DB799D1B6AC1BE00991E72 /* LoggerInit.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A80FEB0F1C59453A004E722A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80FEB101C59453A004E722A /* BytesStorage.swift in Sources */,
+				A80FEB111C59453A004E722A /* BytesStream.swift in Sources */,
+				A80FEB121C59453A004E722A /* Common.swift in Sources */,
+				A80FEB131C59453A004E722A /* PlaygroundLog.swift in Sources */,
+				A80FEB141C59453A004E722A /* TestCases.swift in Sources */,
+				A80FEB151C59453A004E722A /* ExtensionCGColorRef.swift in Sources */,
+				A80FEB161C59453A004E722A /* ImageHandler.swift in Sources */,
+				A80FEB171C59453A004E722A /* ExtensionString.swift in Sources */,
+				A80FEB181C59453A004E722A /* ExceptionSafety.m in Sources */,
+				A80FEB191C59453A004E722A /* PlaygroundLogScope.swift in Sources */,
+				A80FEB1A1C59453A004E722A /* LoggerDecoderAPI.swift in Sources */,
+				A80FEB1B1C59453A004E722A /* PlaygroundLogGap.swift in Sources */,
+				A80FEB1C1C59453A004E722A /* LoggerDecoderImpl.swift in Sources */,
+				A80FEB1D1C59453A004E722A /* ExtensionFloat.swift in Sources */,
+				A80FEB1E1C59453A004E722A /* ExtensionUInt64.swift in Sources */,
+				A80FEB201C59453A004E722A /* KeyedArchiver.swift in Sources */,
+				A80FEB211C59453A004E722A /* TestInfrastructure.swift in Sources */,
+				A80FEB221C59453A004E722A /* QuickLookEncoder.swift in Sources */,
+				A80FEB231C59453A004E722A /* LoggerDefaults.swift in Sources */,
+				A80FEB241C59453A004E722A /* Woodchuck.swift in Sources */,
+				A80FEB251C59453A004E722A /* PlaygroundObjectWriter.swift in Sources */,
+				A80FEB261C59453A004E722A /* PlaygroundGapWriter.swift in Sources */,
+				A80FEB271C59453A004E722A /* PlaygroundRepresentation.swift in Sources */,
+				A80FEB281C59453A004E722A /* ExtensionDouble.swift in Sources */,
+				A80FEB291C59453A004E722A /* ExtensionMirrorDisplayStyle.swift in Sources */,
+				A80FEB2A1C59453A004E722A /* ExtensionBool.swift in Sources */,
+				A80FEB2B1C59453A004E722A /* Stack.swift in Sources */,
+				A80FEB2C1C59453A004E722A /* PlaygroundScopeWriter.swift in Sources */,
+				A80FEB2D1C59453A004E722A /* LoggingPolicyStack.swift in Sources */,
+				A80FEB2E1C59453A004E722A /* LoggerMirror.swift in Sources */,
+				A80FEB2F1C59453A004E722A /* PlaygroundWriter.swift in Sources */,
+				A80FEB301C59453A004E722A /* KeyedUnarchiver.swift in Sources */,
+				A80FEB311C59453A004E722A /* PlaygroundLogPrint.swift in Sources */,
+				A80FEB321C59453A004E722A /* Environment.swift in Sources */,
+				A80FEB331C59453A004E722A /* QuickLookEncodedObject.swift in Sources */,
+				A80FEB341C59453A004E722A /* ScopeEvent.swift in Sources */,
+				A80FEB351C59453A004E722A /* Regex.swift in Sources */,
+				A80FEB361C59453A004E722A /* LoggerInit.swift in Sources */,
+				A80FEB371C59453A004E722A /* ExtensionQuickLookObject.swift in Sources */,
+				A80FEB381C59453A004E722A /* ViewRenderer.swift in Sources */,
+				A80FEB391C59453A004E722A /* ThreadLocalStorage.swift in Sources */,
+				A80FEB3A1C59453A004E722A /* PlaygroundLogPolicy.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		62EF801E1925C9000062D058 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 622D8E0418F615D200D064D0 /* PlaygroundLogger_iOS */;
+			targetProxy = 62EF801D1925C9000062D058 /* PBXContainerItemProxy */;
+		};
+		72AD04831CF4F72E00302266 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 72AD04761CF4F6EE00302266 /* All Platforms Logger */;
+			targetProxy = 72AD04821CF4F72E00302266 /* PBXContainerItemProxy */;
+		};
+		72AD04851CF4F73F00302266 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9416EBBD1990436400D5BC21 /* PlaygroundLogger_TestDriver */;
+			targetProxy = 72AD04841CF4F73F00302266 /* PBXContainerItemProxy */;
+		};
+		9416EBC61990439000D5BC21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 941C13EF18CE63E3004661BB /* PlaygroundLogger */;
+			targetProxy = 9416EBC51990439000D5BC21 /* PBXContainerItemProxy */;
+		};
+		9416EBC91990444F00D5BC21 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9416EBBD1990436400D5BC21 /* PlaygroundLogger_TestDriver */;
+			targetProxy = 9416EBC81990444F00D5BC21 /* PBXContainerItemProxy */;
+		};
+		94612E5D18CFE3E00059C812 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 941C13EF18CE63E3004661BB /* PlaygroundLogger */;
+			targetProxy = 94612E5C18CFE3E00059C812 /* PBXContainerItemProxy */;
+		};
+		94F9825F1CFF9EAF00D7DBEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 941C13EF18CE63E3004661BB /* PlaygroundLogger */;
+			targetProxy = 94F9825E1CFF9EAF00D7DBEA /* PBXContainerItemProxy */;
+		};
+		94F982611CFF9EAF00D7DBEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 622D8E0418F615D200D064D0 /* PlaygroundLogger_iOS */;
+			targetProxy = 94F982601CFF9EAF00D7DBEA /* PBXContainerItemProxy */;
+		};
+		94F982631CFF9EAF00D7DBEA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A80FEB081C59453A004E722A /* PlaygroundLogger_tvOS */;
+			targetProxy = 94F982621CFF9EAF00D7DBEA /* PBXContainerItemProxy */;
+		};
+		A80FEB551C5946DE004E722A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A80FEB081C59453A004E722A /* PlaygroundLogger_tvOS */;
+			targetProxy = A80FEB541C5946DE004E722A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		622D8E0A18F615D200D064D0 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				622D8E0B18F615D200D064D0 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A80FEB471C5945BE004E722A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A80FEB481C5945BE004E722A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D0D20A618C69600001A2102 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1D0D20A718C69600001A2102 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1D7FD52118BFE00400C718C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CURRENT_PROJECT_VERSION = 8500;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		1D7FD52218BFE00400C718C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CURRENT_PROJECT_VERSION = 8500;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				SWIFT_SKIP_IMPLICIT_STDLIB_RUNPATH_SEARCH_PATH = YES;
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		622D8E1018F615D200D064D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_iOS/PlaygroundLogger_iOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/iphonesimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = iphonesimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		622D8E1118F615D200D064D0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_iOS/PlaygroundLogger_iOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/iphonesimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = iphonesimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		62EF80121925C8BF0062D058 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		62EF80131925C8BF0062D058 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		62EF80171925C8E00062D058 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		62EF80181925C8E00062D058 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		72AD04771CF4F6EE00302266 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		72AD04781CF4F6EE00302266 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		72AD04791CF4F6EE00302266 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndIntegration;
+		};
+		72AD047A1CF4F6EE00302266 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndAutomation;
+		};
+		9416EBC31990436400D5BC21 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(PLAYGROUNDLOGGER_INSTALLATION_ROOT)/Platforms/MacOSX.platform/Developer/usr/local/bin";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Library/PrivateFrameworks @executable_path/../../../../../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx $(DT_TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+			};
+			name = Debug;
+		};
+		9416EBC41990436400D5BC21 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(PLAYGROUNDLOGGER_INSTALLATION_ROOT)/Platforms/MacOSX.platform/Developer/usr/local/bin";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Library/PrivateFrameworks @executable_path/../../../../../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+			};
+			name = Release;
+		};
+		941C140B18CE63E4004661BB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_ENABLE_MODULES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundLogger/PlaygroundLogger-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../../../usr/lib/swift/macosx";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Debug;
+		};
+		941C140C18CE63E4004661BB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundLogger/PlaygroundLogger-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../../../usr/lib/swift/macosx";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Release;
+		};
+		942829481A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CURRENT_PROJECT_VERSION = 8500;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				SWIFT_SKIP_IMPLICIT_STDLIB_RUNPATH_SEARCH_PATH = YES;
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
+			};
+			name = BuildAndIntegration;
+		};
+		942829491A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndIntegration;
+		};
+		9428294A1A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndIntegration;
+		};
+		9428294B1A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndIntegration;
+		};
+		9428294C1A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundLogger/PlaygroundLogger-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../../../usr/lib/swift/macosx";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = BuildAndIntegration;
+		};
+		9428294D1A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_iOS/PlaygroundLogger_iOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/iphonesimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = iphonesimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = BuildAndIntegration;
+		};
+		9428294E1A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndIntegration;
+		};
+		9428294F1A89373E00521B30 /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(PLAYGROUNDLOGGER_INSTALLATION_ROOT)/Platforms/MacOSX.platform/Developer/usr/local/bin";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Library/PrivateFrameworks @executable_path/../../../../../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-DNOTEST -DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+			};
+			name = BuildAndIntegration;
+		};
+		94584CB81B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CURRENT_PROJECT_VERSION = 8500;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				SWIFT_SKIP_IMPLICIT_STDLIB_RUNPATH_SEARCH_PATH = YES;
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
+			};
+			name = BuildAndAutomation;
+		};
+		94584CB91B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndAutomation;
+		};
+		94584CBA1B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndAutomation;
+		};
+		94584CBB1B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndAutomation;
+		};
+		94584CBC1B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundLogger/PlaygroundLogger-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../../../usr/lib/swift/macosx";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = BuildAndAutomation;
+		};
+		94584CBD1B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_iOS/PlaygroundLogger_iOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/iphonesimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = iphonesimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = BuildAndAutomation;
+		};
+		94584CBE1B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndAutomation;
+		};
+		94584CBF1B20FB47003E0D74 /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(PLAYGROUNDLOGGER_INSTALLATION_ROOT)/Platforms/MacOSX.platform/Developer/usr/local/bin";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Library/PrivateFrameworks @executable_path/../../../../../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+			};
+			name = BuildAndAutomation;
+		};
+		94612E5918CF8D7E0059C812 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		94612E5A18CF8D7E0059C812 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		94A50C051CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CURRENT_PROJECT_VERSION = 8500;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C061CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C071CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C081CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C091CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C0A1CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_ENABLE_MODULES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundLogger/PlaygroundLogger-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../../../usr/lib/swift/macosx";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C0B1CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_iOS/PlaygroundLogger_iOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/iphonesimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = iphonesimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C0C1CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_tvOS/PlaygroundLogger_tvOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/appletvsimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = appletvsimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C0D1CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C0E1CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(PLAYGROUNDLOGGER_INSTALLATION_ROOT)/Platforms/MacOSX.platform/Developer/usr/local/bin";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Library/PrivateFrameworks @executable_path/../../../../../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx $(DT_TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C0F1CFFAD0B005293C5 /* Toolchain_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Debug;
+		};
+		94A50C101CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CURRENT_PROJECT_VERSION = 8500;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				SWIFT_SKIP_IMPLICIT_STDLIB_RUNPATH_SEARCH_PATH = YES;
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Toolchain_Release;
+		};
+		94A50C111CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Release;
+		};
+		94A50C121CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Release;
+		};
+		94A50C131CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Release;
+		};
+		94A50C141CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Release;
+		};
+		94A50C151CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_ENABLE_MODULES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundLogger/PlaygroundLogger-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../../../usr/lib/swift/macosx";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Toolchain_Release;
+		};
+		94A50C161CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_iOS/PlaygroundLogger_iOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/PrivateFrameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/iphonesimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = iphonesimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Toolchain_Release;
+		};
+		94A50C171CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_tvOS/PlaygroundLogger_tvOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/appletvsimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = appletvsimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Toolchain_Release;
+		};
+		94A50C181CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Release;
+		};
+		94A50C191CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(PLAYGROUNDLOGGER_INSTALLATION_ROOT)/Platforms/MacOSX.platform/Developer/usr/local/bin";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../../Library/PrivateFrameworks @executable_path/../../../../../../Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/macosx";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+			};
+			name = Toolchain_Release;
+		};
+		94A50C1A1CFFAD12005293C5 /* Toolchain_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Toolchain_Release;
+		};
+		A80FEB401C59453A004E722A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_tvOS/PlaygroundLogger_tvOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/appletvsimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = appletvsimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		A80FEB411C59453A004E722A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_tvOS/PlaygroundLogger_tvOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/appletvsimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = appletvsimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		A80FEB421C59453A004E722A /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_tvOS/PlaygroundLogger_tvOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/appletvsimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE -DNOSTDLIBUNITTEST";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = appletvsimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = BuildAndIntegration;
+		};
+		A80FEB431C59453A004E722A /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 8500;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EXCLUDED_SOURCE_FILE_NAMES = (
+					TestCases.swift,
+					TestInfrastructure.swift,
+					LoggerDecoderAPI.swift,
+					LoggerDecoderImpl.swift,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundLogger_tvOS/PlaygroundLogger_tvOS-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/PrivateFrameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/ @loader_path/../../../../../../../usr/lib/swift/appletvsimulator";
+				OTHER_SWIFT_FLAGS = "-DAPPLE_FRAMEWORKS_AVAILABLE";
+				PRODUCT_NAME = PlaygroundLogger;
+				SDKROOT = appletvsimulator;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = BuildAndAutomation;
+		};
+		A80FEB501C5946BC004E722A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A80FEB511C5946BC004E722A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A80FEB521C5946BC004E722A /* BuildAndIntegration */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndIntegration;
+		};
+		A80FEB531C5946BC004E722A /* BuildAndAutomation */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = BuildAndAutomation;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D0D20A818C69600001A2102 /* Build configuration list for PBXAggregateTarget "PlaygroundLogger_Mac_Products" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D0D20A618C69600001A2102 /* Debug */,
+				94A50C061CFFAD0B005293C5 /* Toolchain_Debug */,
+				1D0D20A718C69600001A2102 /* Release */,
+				94A50C111CFFAD12005293C5 /* Toolchain_Release */,
+				942829491A89373E00521B30 /* BuildAndIntegration */,
+				94584CB91B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		1D7FD51518BFE00400C718C6 /* Build configuration list for PBXProject "PlaygroundLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D7FD52118BFE00400C718C6 /* Debug */,
+				94A50C051CFFAD0B005293C5 /* Toolchain_Debug */,
+				1D7FD52218BFE00400C718C6 /* Release */,
+				94A50C101CFFAD12005293C5 /* Toolchain_Release */,
+				942829481A89373E00521B30 /* BuildAndIntegration */,
+				94584CB81B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		622D8E1218F615D200D064D0 /* Build configuration list for PBXNativeTarget "PlaygroundLogger_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				622D8E1018F615D200D064D0 /* Debug */,
+				94A50C0B1CFFAD0B005293C5 /* Toolchain_Debug */,
+				622D8E1118F615D200D064D0 /* Release */,
+				94A50C161CFFAD12005293C5 /* Toolchain_Release */,
+				9428294D1A89373E00521B30 /* BuildAndIntegration */,
+				94584CBD1B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		62EF80141925C8BF0062D058 /* Build configuration list for PBXAggregateTarget "All PlaygroundLogger Products" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62EF80121925C8BF0062D058 /* Debug */,
+				94A50C091CFFAD0B005293C5 /* Toolchain_Debug */,
+				62EF80131925C8BF0062D058 /* Release */,
+				94A50C141CFFAD12005293C5 /* Toolchain_Release */,
+				9428294B1A89373E00521B30 /* BuildAndIntegration */,
+				94584CBB1B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		62EF80161925C8E00062D058 /* Build configuration list for PBXAggregateTarget "PlaygroundLogger_Simulator_Products" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				62EF80171925C8E00062D058 /* Debug */,
+				94A50C071CFFAD0B005293C5 /* Toolchain_Debug */,
+				62EF80181925C8E00062D058 /* Release */,
+				94A50C121CFFAD12005293C5 /* Toolchain_Release */,
+				9428294A1A89373E00521B30 /* BuildAndIntegration */,
+				94584CBA1B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		72AD047B1CF4F6EE00302266 /* Build configuration list for PBXAggregateTarget "All Platforms Logger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72AD04771CF4F6EE00302266 /* Debug */,
+				94A50C0F1CFFAD0B005293C5 /* Toolchain_Debug */,
+				72AD04781CF4F6EE00302266 /* Release */,
+				94A50C1A1CFFAD12005293C5 /* Toolchain_Release */,
+				72AD04791CF4F6EE00302266 /* BuildAndIntegration */,
+				72AD047A1CF4F6EE00302266 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		9416EBC21990436400D5BC21 /* Build configuration list for PBXNativeTarget "PlaygroundLogger_TestDriver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9416EBC31990436400D5BC21 /* Debug */,
+				94A50C0E1CFFAD0B005293C5 /* Toolchain_Debug */,
+				9416EBC41990436400D5BC21 /* Release */,
+				94A50C191CFFAD12005293C5 /* Toolchain_Release */,
+				9428294F1A89373E00521B30 /* BuildAndIntegration */,
+				94584CBF1B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		941C140A18CE63E4004661BB /* Build configuration list for PBXNativeTarget "PlaygroundLogger" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				941C140B18CE63E4004661BB /* Debug */,
+				94A50C0A1CFFAD0B005293C5 /* Toolchain_Debug */,
+				941C140C18CE63E4004661BB /* Release */,
+				94A50C151CFFAD12005293C5 /* Toolchain_Release */,
+				9428294C1A89373E00521B30 /* BuildAndIntegration */,
+				94584CBC1B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		94612E5818CF8D7E0059C812 /* Build configuration list for PBXLegacyTarget "PlaygroundLogger_Docs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94612E5918CF8D7E0059C812 /* Debug */,
+				94A50C0D1CFFAD0B005293C5 /* Toolchain_Debug */,
+				94612E5A18CF8D7E0059C812 /* Release */,
+				94A50C181CFFAD12005293C5 /* Toolchain_Release */,
+				9428294E1A89373E00521B30 /* BuildAndIntegration */,
+				94584CBE1B20FB47003E0D74 /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		A80FEB3F1C59453A004E722A /* Build configuration list for PBXNativeTarget "PlaygroundLogger_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80FEB401C59453A004E722A /* Debug */,
+				94A50C0C1CFFAD0B005293C5 /* Toolchain_Debug */,
+				A80FEB411C59453A004E722A /* Release */,
+				94A50C171CFFAD12005293C5 /* Toolchain_Release */,
+				A80FEB421C59453A004E722A /* BuildAndIntegration */,
+				A80FEB431C59453A004E722A /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+		A80FEB4F1C5946BC004E722A /* Build configuration list for PBXAggregateTarget "PlaygroundLogger_tvOS_Simulator_Products" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80FEB501C5946BC004E722A /* Debug */,
+				94A50C081CFFAD0B005293C5 /* Toolchain_Debug */,
+				A80FEB511C5946BC004E722A /* Release */,
+				94A50C131CFFAD12005293C5 /* Toolchain_Release */,
+				A80FEB521C5946BC004E722A /* BuildAndIntegration */,
+				A80FEB531C5946BC004E722A /* BuildAndAutomation */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = BuildAndIntegration;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D7FD51218BFE00400C718C6 /* Project object */;
+}

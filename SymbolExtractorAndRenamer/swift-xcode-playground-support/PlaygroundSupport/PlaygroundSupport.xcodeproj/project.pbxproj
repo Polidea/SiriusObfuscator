@@ -1,0 +1,2567 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		5E36505A1B56D83300205D2D /* Print Swift compiler version */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 5E36505D1B56D83400205D2D /* Build configuration list for PBXAggregateTarget "Print Swift compiler version" */;
+			buildPhases = (
+				5E36505E1B56D83800205D2D /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Print Swift compiler version";
+			productName = "Print Swift compiler version";
+		};
+		94182A0A1D25D5F5002CCB9E /* AllProducts */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 94182A0B1D25D5F5002CCB9E /* Build configuration list for PBXAggregateTarget "AllProducts" */;
+			buildPhases = (
+			);
+			dependencies = (
+				94182A0F1D25D605002CCB9E /* PBXTargetDependency */,
+				94182A111D25D605002CCB9E /* PBXTargetDependency */,
+				94182A131D25D605002CCB9E /* PBXTargetDependency */,
+			);
+			name = AllProducts;
+			productName = AllProducts;
+		};
+		A80607171CCEAD2500E951C8 /* XCPlayground */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A80607181CCEAD2500E951C8 /* Build configuration list for PBXAggregateTarget "XCPlayground" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A806071C1CCEAD3000E951C8 /* PBXTargetDependency */,
+				A806071E1CCEAD3000E951C8 /* PBXTargetDependency */,
+				A80607201CCEAD3000E951C8 /* PBXTargetDependency */,
+			);
+			name = XCPlayground;
+			productName = XCPlayground;
+		};
+		A8318FC61CF604540015809A /* PlaygroundSupport */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A8318FCD1CF604540015809A /* Build configuration list for PBXAggregateTarget "PlaygroundSupport" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A8318FD11CF604610015809A /* PBXTargetDependency */,
+				A8318FD31CF604610015809A /* PBXTargetDependency */,
+				A8318FD51CF604610015809A /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupport;
+			productName = XCPlayground;
+		};
+		A8FC12D51CF62B6B005BE06F /* AllProducts_macOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A8FC12DC1CF62B6B005BE06F /* Build configuration list for PBXAggregateTarget "AllProducts_macOS" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A8FC12D61CF62B6B005BE06F /* PBXTargetDependency */,
+				A8FC12F41CF62BBD005BE06F /* PBXTargetDependency */,
+			);
+			name = AllProducts_macOS;
+			productName = XCPlayground;
+		};
+		A8FC12DF1CF62B99005BE06F /* AllProducts_iOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A8FC12E61CF62B99005BE06F /* Build configuration list for PBXAggregateTarget "AllProducts_iOS" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A8FC12FC1CF62BD8005BE06F /* PBXTargetDependency */,
+				A8FC12FE1CF62BD8005BE06F /* PBXTargetDependency */,
+			);
+			name = AllProducts_iOS;
+			productName = XCPlayground;
+		};
+		A8FC12E91CF62BA0005BE06F /* AllProducts_tvOS */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A8FC12F01CF62BA0005BE06F /* Build configuration list for PBXAggregateTarget "AllProducts_tvOS" */;
+			buildPhases = (
+			);
+			dependencies = (
+				A8FC12F81CF62BD2005BE06F /* PBXTargetDependency */,
+				A8FC12FA1CF62BD2005BE06F /* PBXTargetDependency */,
+			);
+			name = AllProducts_tvOS;
+			productName = XCPlayground;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		1D31347D18DCE66E00891152 /* XCPValueHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D31347C18DCE66E00891152 /* XCPValueHistory.swift */; };
+		5E3FBDBA1970725D000BC36F /* XCPSharedDataDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FBDB81970721F000BC36F /* XCPSharedDataDirectory.swift */; };
+		5E3FBDBB1970725D000BC36F /* XCPSharedDataDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FBDB81970721F000BC36F /* XCPSharedDataDirectory.swift */; };
+		5EC01A1F1BA0DE86008FCDB1 /* XCPlaygroundPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC01A1E1BA0DE86008FCDB1 /* XCPlaygroundPage.swift */; };
+		5EC01A201BA0DE86008FCDB1 /* XCPlaygroundPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC01A1E1BA0DE86008FCDB1 /* XCPlaygroundPage.swift */; };
+		5EC01A211BA0DE86008FCDB1 /* XCPlaygroundPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EC01A1E1BA0DE86008FCDB1 /* XCPlaygroundPage.swift */; };
+		5EF4DDF718F35DEF00B8AE7C /* XCPShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4DDF618F35DEF00B8AE7C /* XCPShowView.swift */; };
+		620174F4194647B20012C53A /* XCPValueHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D31347C18DCE66E00891152 /* XCPValueHistory.swift */; };
+		626A2759195CA01D00A2D70F /* XCPExecutionShouldContinue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626A2754195C9E4200A2D70F /* XCPExecutionShouldContinue.swift */; };
+		626A275A195CA01D00A2D70F /* XCPExecutionShouldContinue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626A2754195C9E4200A2D70F /* XCPExecutionShouldContinue.swift */; };
+		A80A0AC21CF610E70074DF3B /* PlaygroundSupportTests_OSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80A0AB71CF610E70074DF3B /* PlaygroundSupportTests_OSX.swift */; };
+		A80A0AC61CF610E70074DF3B /* PlaygroundSupportTests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80A0AB91CF610E70074DF3B /* PlaygroundSupportTests_iOS.swift */; };
+		A80A0ACA1CF610E70074DF3B /* PlaygroundSupportTests_tvOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80A0ABB1CF610E70074DF3B /* PlaygroundSupportTests_tvOS.swift */; };
+		A80A0ACD1CF612670074DF3B /* PlaygroundSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8318FA01CF603630015809A /* PlaygroundSupport.framework */; };
+		A80A0AD01CF612730074DF3B /* PlaygroundSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8318FB21CF6036E0015809A /* PlaygroundSupport.framework */; };
+		A80A0AD31CF6127C0074DF3B /* PlaygroundSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8318FC41CF603790015809A /* PlaygroundSupport.framework */; };
+		A8318FDC1CF604D50015809A /* PlaygroundPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8318FD81CF604D50015809A /* PlaygroundPage.swift */; };
+		A8318FDD1CF604D50015809A /* PlaygroundPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8318FD81CF604D50015809A /* PlaygroundPage.swift */; };
+		A8318FDE1CF604D50015809A /* PlaygroundPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8318FD81CF604D50015809A /* PlaygroundPage.swift */; };
+		A87782401C73AE38008A7C4C /* XCPShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4DDF618F35DEF00B8AE7C /* XCPShowView.swift */; };
+		A87782411C73AE3B008A7C4C /* XCPShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF4DDF618F35DEF00B8AE7C /* XCPShowView.swift */; };
+		A8E46BE31ACB6C9D003F5755 /* XCPExecutionShouldContinue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 626A2754195C9E4200A2D70F /* XCPExecutionShouldContinue.swift */; };
+		A8E46BE51ACB6C9D003F5755 /* XCPSharedDataDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E3FBDB81970721F000BC36F /* XCPSharedDataDirectory.swift */; };
+		A8E46BE61ACB6C9D003F5755 /* XCPValueHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D31347C18DCE66E00891152 /* XCPValueHistory.swift */; };
+		A8FBD6A61C74FEE6005B5982 /* XCPlaygroundTests_OSX.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBD6A51C74FEE6005B5982 /* XCPlaygroundTests_OSX.swift */; };
+		A8FBD6A81C74FEE6005B5982 /* XCPlayground.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF4117818DCB596001CDFC7 /* XCPlayground.framework */; };
+		A8FBD6B51C752475005B5982 /* XCPlaygroundTests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBD6B41C752475005B5982 /* XCPlaygroundTests_iOS.swift */; };
+		A8FBD6B71C752475005B5982 /* XCPlayground.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 620174EB194645E60012C53A /* XCPlayground.framework */; };
+		A8FBD6C51C75249E005B5982 /* XCPlaygroundTests_tvOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBD6C41C75249E005B5982 /* XCPlaygroundTests_tvOS.swift */; };
+		A8FBD6C71C75249E005B5982 /* XCPlayground.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8E46BF01ACB6C9D003F5755 /* XCPlayground.framework */; };
+		A8FBD6CE1C7524BD005B5982 /* XCPlaygroundCommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBD6CD1C7524BD005B5982 /* XCPlaygroundCommonTests.swift */; };
+		A8FBD6CF1C7524BD005B5982 /* XCPlaygroundCommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBD6CD1C7524BD005B5982 /* XCPlaygroundCommonTests.swift */; };
+		A8FBD6D01C7524BD005B5982 /* XCPlaygroundCommonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBD6CD1C7524BD005B5982 /* XCPlaygroundCommonTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5E36505F1B56D87100205D2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E36505A1B56D83300205D2D;
+			remoteInfo = "Print Swift compiler version";
+		};
+		5E3650611B56D87600205D2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E36505A1B56D83300205D2D;
+			remoteInfo = "Print Swift compiler version";
+		};
+		5E3650631B56D87C00205D2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E36505A1B56D83300205D2D;
+			remoteInfo = "Print Swift compiler version";
+		};
+		94182A0E1D25D605002CCB9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8FC12D51CF62B6B005BE06F;
+			remoteInfo = AllProducts_macOS;
+		};
+		94182A101D25D605002CCB9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8FC12DF1CF62B99005BE06F;
+			remoteInfo = AllProducts_iOS;
+		};
+		94182A121D25D605002CCB9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8FC12E91CF62BA0005BE06F;
+			remoteInfo = AllProducts_tvOS;
+		};
+		A806071B1CCEAD3000E951C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1DF4116118DCB596001CDFC7;
+			remoteInfo = XCPlayground_OSX;
+		};
+		A806071D1CCEAD3000E951C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 620174C9194645E60012C53A;
+			remoteInfo = XCPlayground_iOS;
+		};
+		A806071F1CCEAD3000E951C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8E46BDD1ACB6C9D003F5755;
+			remoteInfo = XCPlayground_tvOS;
+		};
+		A80A0ACB1CF612610074DF3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318F8F1CF603630015809A;
+			remoteInfo = Playground_OSX;
+		};
+		A8318F911CF603630015809A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E36505A1B56D83300205D2D;
+			remoteInfo = "Print Swift compiler version";
+		};
+		A8318FA41CF6036E0015809A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E36505A1B56D83300205D2D;
+			remoteInfo = "Print Swift compiler version";
+		};
+		A8318FB61CF603790015809A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5E36505A1B56D83300205D2D;
+			remoteInfo = "Print Swift compiler version";
+		};
+		A8318FD01CF604610015809A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318F8F1CF603630015809A;
+			remoteInfo = Playground_OSX;
+		};
+		A8318FD21CF604610015809A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318FA21CF6036E0015809A;
+			remoteInfo = Playground_iOS;
+		};
+		A8318FD41CF604610015809A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318FB41CF603790015809A;
+			remoteInfo = Playground_tvOS;
+		};
+		A8390F1A1CF6289800EC811D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318FA21CF6036E0015809A;
+			remoteInfo = PlaygroundSupport_iOS;
+		};
+		A8390F1C1CF6289D00EC811D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318FB41CF603790015809A;
+			remoteInfo = PlaygroundSupport_tvOS;
+		};
+		A8FBD6A91C74FEE6005B5982 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1DF4116118DCB596001CDFC7;
+			remoteInfo = XCPlayground_OSX;
+		};
+		A8FBD6B81C752475005B5982 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 620174C9194645E60012C53A;
+			remoteInfo = XCPlayground_iOS;
+		};
+		A8FBD6C81C75249E005B5982 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8E46BDD1ACB6C9D003F5755;
+			remoteInfo = XCPlayground_AppleTV;
+		};
+		A8FC12D71CF62B6B005BE06F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1DF4116118DCB596001CDFC7;
+			remoteInfo = XCPlayground_OSX;
+		};
+		A8FC12F31CF62BBD005BE06F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318F8F1CF603630015809A;
+			remoteInfo = PlaygroundSupport_OSX;
+		};
+		A8FC12F71CF62BD2005BE06F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8E46BDD1ACB6C9D003F5755;
+			remoteInfo = XCPlayground_tvOS;
+		};
+		A8FC12F91CF62BD2005BE06F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318FB41CF603790015809A;
+			remoteInfo = PlaygroundSupport_tvOS;
+		};
+		A8FC12FB1CF62BD8005BE06F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 620174C9194645E60012C53A;
+			remoteInfo = XCPlayground_iOS;
+		};
+		A8FC12FD1CF62BD8005BE06F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D7FD51218BFE00400C718C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8318FA21CF6036E0015809A;
+			remoteInfo = PlaygroundSupport_iOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D31347C18DCE66E00891152 /* XCPValueHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCPValueHistory.swift; sourceTree = "<group>"; };
+		1DF4117818DCB596001CDFC7 /* XCPlayground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XCPlayground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E3FBDB81970721F000BC36F /* XCPSharedDataDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCPSharedDataDirectory.swift; sourceTree = "<group>"; };
+		5EC01A1E1BA0DE86008FCDB1 /* XCPlaygroundPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCPlaygroundPage.swift; sourceTree = "<group>"; };
+		5EF4DDF618F35DEF00B8AE7C /* XCPShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCPShowView.swift; sourceTree = "<group>"; };
+		620174EB194645E60012C53A /* XCPlayground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XCPlayground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		626A2754195C9E4200A2D70F /* XCPExecutionShouldContinue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCPExecutionShouldContinue.swift; sourceTree = "<group>"; };
+		A80A0AB41CF610E70074DF3B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A80A0AB71CF610E70074DF3B /* PlaygroundSupportTests_OSX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundSupportTests_OSX.swift; sourceTree = "<group>"; };
+		A80A0AB91CF610E70074DF3B /* PlaygroundSupportTests_iOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundSupportTests_iOS.swift; sourceTree = "<group>"; };
+		A80A0ABB1CF610E70074DF3B /* PlaygroundSupportTests_tvOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundSupportTests_tvOS.swift; sourceTree = "<group>"; };
+		A816C85D1C769EA00029ED6E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A8318FA01CF603630015809A /* PlaygroundSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaygroundSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8318FB21CF6036E0015809A /* PlaygroundSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaygroundSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8318FC41CF603790015809A /* PlaygroundSupport.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PlaygroundSupport.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8318FD81CF604D50015809A /* PlaygroundPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaygroundPage.swift; sourceTree = "<group>"; };
+		A8318FF41CF605CF0015809A /* Playground-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Playground-Info.plist"; path = "Playground/Playground-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A83190011CF607C00015809A /* PlaygroundSupportTests_OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaygroundSupportTests_OSX.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A831900F1CF607C50015809A /* PlaygroundSupportTests_iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaygroundSupportTests_iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A831901D1CF607C70015809A /* PlaygroundSupportTests_tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlaygroundSupportTests_tvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A87782211C73AC70008A7C4C /* XCPlayground-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "XCPlayground-Info.plist"; path = "XCPlayground/XCPlayground-Info.plist"; sourceTree = SOURCE_ROOT; };
+		A8E46BF01ACB6C9D003F5755 /* XCPlayground.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = XCPlayground.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8FBD6A31C74FEE6005B5982 /* XCPlaygroundTests_OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCPlaygroundTests_OSX.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8FBD6A51C74FEE6005B5982 /* XCPlaygroundTests_OSX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCPlaygroundTests_OSX.swift; sourceTree = "<group>"; };
+		A8FBD6B21C752475005B5982 /* XCPlaygroundTests_iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCPlaygroundTests_iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8FBD6B41C752475005B5982 /* XCPlaygroundTests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCPlaygroundTests_iOS.swift; sourceTree = "<group>"; };
+		A8FBD6C21C75249E005B5982 /* XCPlaygroundTests_tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCPlaygroundTests_tvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8FBD6C41C75249E005B5982 /* XCPlaygroundTests_tvOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCPlaygroundTests_tvOS.swift; sourceTree = "<group>"; };
+		A8FBD6CD1C7524BD005B5982 /* XCPlaygroundCommonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XCPlaygroundCommonTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1DF4117018DCB596001CDFC7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		620174E3194645E60012C53A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318F981CF603630015809A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FAB1CF6036E0015809A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FBD1CF603790015809A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FFB1CF607C00015809A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80A0ACD1CF612670074DF3B /* PlaygroundSupport.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A83190091CF607C50015809A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80A0AD01CF612730074DF3B /* PlaygroundSupport.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A83190171CF607C70015809A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80A0AD31CF6127C0074DF3B /* PlaygroundSupport.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8E46BE71ACB6C9D003F5755 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6A01C74FEE6005B5982 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8FBD6A81C74FEE6005B5982 /* XCPlayground.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6AF1C752475005B5982 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8FBD6B71C752475005B5982 /* XCPlayground.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6BF1C75249E005B5982 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8FBD6C71C75249E005B5982 /* XCPlayground.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D7FD51118BFE00400C718C6 = {
+			isa = PBXGroup;
+			children = (
+				A8318FD61CF604D50015809A /* PlaygroundSupport */,
+				1DF4117A18DCBB27001CDFC7 /* XCPlayground */,
+				1D80230A18C6A09600D522B2 /* SupportingFiles */,
+				A80A0AB31CF610E70074DF3B /* PlaygroundSupportTests */,
+				A8FBD6BD1C752480005B5982 /* XCPlaygroundTests */,
+				1D7FD51B18BFE00400C718C6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1D7FD51B18BFE00400C718C6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1DF4117818DCB596001CDFC7 /* XCPlayground.framework */,
+				620174EB194645E60012C53A /* XCPlayground.framework */,
+				A8E46BF01ACB6C9D003F5755 /* XCPlayground.framework */,
+				A8FBD6A31C74FEE6005B5982 /* XCPlaygroundTests_OSX.xctest */,
+				A8FBD6B21C752475005B5982 /* XCPlaygroundTests_iOS.xctest */,
+				A8FBD6C21C75249E005B5982 /* XCPlaygroundTests_tvOS.xctest */,
+				A8318FA01CF603630015809A /* PlaygroundSupport.framework */,
+				A8318FB21CF6036E0015809A /* PlaygroundSupport.framework */,
+				A8318FC41CF603790015809A /* PlaygroundSupport.framework */,
+				A83190011CF607C00015809A /* PlaygroundSupportTests_OSX.xctest */,
+				A831900F1CF607C50015809A /* PlaygroundSupportTests_iOS.xctest */,
+				A831901D1CF607C70015809A /* PlaygroundSupportTests_tvOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D80230A18C6A09600D522B2 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				A8318FF41CF605CF0015809A /* Playground-Info.plist */,
+				A87782211C73AC70008A7C4C /* XCPlayground-Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		1DF4117A18DCBB27001CDFC7 /* XCPlayground */ = {
+			isa = PBXGroup;
+			children = (
+				5EC01A1E1BA0DE86008FCDB1 /* XCPlaygroundPage.swift */,
+				5EF4DDF618F35DEF00B8AE7C /* XCPShowView.swift */,
+				1D31347C18DCE66E00891152 /* XCPValueHistory.swift */,
+				626A2754195C9E4200A2D70F /* XCPExecutionShouldContinue.swift */,
+				5E3FBDB81970721F000BC36F /* XCPSharedDataDirectory.swift */,
+			);
+			path = XCPlayground;
+			sourceTree = "<group>";
+		};
+		A80A0AB31CF610E70074DF3B /* PlaygroundSupportTests */ = {
+			isa = PBXGroup;
+			children = (
+				A80A0AB61CF610E70074DF3B /* PlaygroundSupportTests_OSX */,
+				A80A0AB81CF610E70074DF3B /* PlaygroundSupportTests_iOS */,
+				A80A0ABA1CF610E70074DF3B /* PlaygroundSupportTests_tvOS */,
+				A80A0AB41CF610E70074DF3B /* Info.plist */,
+			);
+			path = PlaygroundSupportTests;
+			sourceTree = "<group>";
+		};
+		A80A0AB61CF610E70074DF3B /* PlaygroundSupportTests_OSX */ = {
+			isa = PBXGroup;
+			children = (
+				A80A0AB71CF610E70074DF3B /* PlaygroundSupportTests_OSX.swift */,
+			);
+			path = PlaygroundSupportTests_OSX;
+			sourceTree = "<group>";
+		};
+		A80A0AB81CF610E70074DF3B /* PlaygroundSupportTests_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				A80A0AB91CF610E70074DF3B /* PlaygroundSupportTests_iOS.swift */,
+			);
+			path = PlaygroundSupportTests_iOS;
+			sourceTree = "<group>";
+		};
+		A80A0ABA1CF610E70074DF3B /* PlaygroundSupportTests_tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				A80A0ABB1CF610E70074DF3B /* PlaygroundSupportTests_tvOS.swift */,
+			);
+			path = PlaygroundSupportTests_tvOS;
+			sourceTree = "<group>";
+		};
+		A8318FD61CF604D50015809A /* PlaygroundSupport */ = {
+			isa = PBXGroup;
+			children = (
+				A8318FD81CF604D50015809A /* PlaygroundPage.swift */,
+			);
+			path = PlaygroundSupport;
+			sourceTree = "<group>";
+		};
+		A8FBD6A41C74FEE6005B5982 /* XCPlaygroundTests_OSX */ = {
+			isa = PBXGroup;
+			children = (
+				A8FBD6A51C74FEE6005B5982 /* XCPlaygroundTests_OSX.swift */,
+			);
+			name = XCPlaygroundTests_OSX;
+			path = XCPlaygroundTests/XCPlaygroundTests_OSX;
+			sourceTree = SOURCE_ROOT;
+		};
+		A8FBD6B31C752475005B5982 /* XCPlaygroundTests_iOS */ = {
+			isa = PBXGroup;
+			children = (
+				A8FBD6B41C752475005B5982 /* XCPlaygroundTests_iOS.swift */,
+			);
+			name = XCPlaygroundTests_iOS;
+			path = XCPlaygroundTests/XCPlaygroundTests_iOS;
+			sourceTree = SOURCE_ROOT;
+		};
+		A8FBD6BD1C752480005B5982 /* XCPlaygroundTests */ = {
+			isa = PBXGroup;
+			children = (
+				A8FBD6A41C74FEE6005B5982 /* XCPlaygroundTests_OSX */,
+				A8FBD6B31C752475005B5982 /* XCPlaygroundTests_iOS */,
+				A8FBD6C31C75249E005B5982 /* XCPlaygroundTests_tvOS */,
+				A8FBD6CD1C7524BD005B5982 /* XCPlaygroundCommonTests.swift */,
+				A816C85D1C769EA00029ED6E /* Info.plist */,
+			);
+			path = XCPlaygroundTests;
+			sourceTree = "<group>";
+		};
+		A8FBD6C31C75249E005B5982 /* XCPlaygroundTests_tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				A8FBD6C41C75249E005B5982 /* XCPlaygroundTests_tvOS.swift */,
+			);
+			name = XCPlaygroundTests_tvOS;
+			path = XCPlaygroundTests/XCPlaygroundTests_tvOS;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		1DF4117218DCB596001CDFC7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		620174E5194645E60012C53A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318F991CF603630015809A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FAC1CF6036E0015809A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FBE1CF603790015809A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8E46BEB1ACB6C9D003F5755 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		1DF4116118DCB596001CDFC7 /* XCPlayground_OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DF4117518DCB596001CDFC7 /* Build configuration list for PBXNativeTarget "XCPlayground_OSX" */;
+			buildPhases = (
+				1DF4116218DCB596001CDFC7 /* Sources */,
+				1DF4117018DCB596001CDFC7 /* Frameworks */,
+				1DF4117218DCB596001CDFC7 /* Headers */,
+				1DF4117318DCB596001CDFC7 /* Resources */,
+				5EB831EE19247927007D5493 /* Copy swiftdoc */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5E3650601B56D87100205D2D /* PBXTargetDependency */,
+			);
+			name = XCPlayground_OSX;
+			productName = XCPlayground_OSX;
+			productReference = 1DF4117818DCB596001CDFC7 /* XCPlayground.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		620174C9194645E60012C53A /* XCPlayground_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 620174E8194645E60012C53A /* Build configuration list for PBXNativeTarget "XCPlayground_iOS" */;
+			buildPhases = (
+				620174CA194645E60012C53A /* Sources */,
+				620174E3194645E60012C53A /* Frameworks */,
+				620174E5194645E60012C53A /* Headers */,
+				620174E6194645E60012C53A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5E3650621B56D87600205D2D /* PBXTargetDependency */,
+			);
+			name = XCPlayground_iOS;
+			productName = XCPlayground_iOS;
+			productReference = 620174EB194645E60012C53A /* XCPlayground.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A8318F8F1CF603630015809A /* PlaygroundSupport_OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8318F9D1CF603630015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupport_OSX" */;
+			buildPhases = (
+				A8318F921CF603630015809A /* Sources */,
+				A8318F981CF603630015809A /* Frameworks */,
+				A8318F991CF603630015809A /* Headers */,
+				A8318F9A1CF603630015809A /* Resources */,
+				A8318F9C1CF603630015809A /* Copy swiftdoc */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8318F901CF603630015809A /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupport_OSX;
+			productName = XCPlayground_OSX;
+			productReference = A8318FA01CF603630015809A /* PlaygroundSupport.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A8318FA21CF6036E0015809A /* PlaygroundSupport_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8318FAF1CF6036E0015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupport_iOS" */;
+			buildPhases = (
+				A8318FA51CF6036E0015809A /* Sources */,
+				A8318FAB1CF6036E0015809A /* Frameworks */,
+				A8318FAC1CF6036E0015809A /* Headers */,
+				A8318FAD1CF6036E0015809A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8318FA31CF6036E0015809A /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupport_iOS;
+			productName = XCPlayground_iOS;
+			productReference = A8318FB21CF6036E0015809A /* PlaygroundSupport.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A8318FB41CF603790015809A /* PlaygroundSupport_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8318FC11CF603790015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupport_tvOS" */;
+			buildPhases = (
+				A8318FB71CF603790015809A /* Sources */,
+				A8318FBD1CF603790015809A /* Frameworks */,
+				A8318FBE1CF603790015809A /* Headers */,
+				A8318FBF1CF603790015809A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8318FB51CF603790015809A /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupport_tvOS;
+			productName = XCPlayground_iOS;
+			productReference = A8318FC41CF603790015809A /* PlaygroundSupport.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A8318FF51CF607C00015809A /* PlaygroundSupportTests_OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8318FFE1CF607C00015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupportTests_OSX" */;
+			buildPhases = (
+				A8318FF81CF607C00015809A /* Sources */,
+				A8318FFB1CF607C00015809A /* Frameworks */,
+				A8318FFD1CF607C00015809A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A80A0ACC1CF612610074DF3B /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupportTests_OSX;
+			productName = XCPlaygroundTests_OSX;
+			productReference = A83190011CF607C00015809A /* PlaygroundSupportTests_OSX.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A83190031CF607C50015809A /* PlaygroundSupportTests_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A831900C1CF607C50015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupportTests_iOS" */;
+			buildPhases = (
+				A83190061CF607C50015809A /* Sources */,
+				A83190091CF607C50015809A /* Frameworks */,
+				A831900B1CF607C50015809A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8390F1B1CF6289800EC811D /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupportTests_iOS;
+			productName = XCPlaygroundTests_iOS;
+			productReference = A831900F1CF607C50015809A /* PlaygroundSupportTests_iOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A83190111CF607C70015809A /* PlaygroundSupportTests_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A831901A1CF607C70015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupportTests_tvOS" */;
+			buildPhases = (
+				A83190141CF607C70015809A /* Sources */,
+				A83190171CF607C70015809A /* Frameworks */,
+				A83190191CF607C70015809A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8390F1D1CF6289D00EC811D /* PBXTargetDependency */,
+			);
+			name = PlaygroundSupportTests_tvOS;
+			productName = XCPlaygroundTests_tvOS;
+			productReference = A831901D1CF607C70015809A /* PlaygroundSupportTests_tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A8E46BDD1ACB6C9D003F5755 /* XCPlayground_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8E46BED1ACB6C9D003F5755 /* Build configuration list for PBXNativeTarget "XCPlayground_tvOS" */;
+			buildPhases = (
+				A8E46BE21ACB6C9D003F5755 /* Sources */,
+				A8E46BE71ACB6C9D003F5755 /* Frameworks */,
+				A8E46BEB1ACB6C9D003F5755 /* Headers */,
+				A8E46BEC1ACB6C9D003F5755 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5E3650641B56D87C00205D2D /* PBXTargetDependency */,
+			);
+			name = XCPlayground_tvOS;
+			productName = XCPlayground_iOS;
+			productReference = A8E46BF01ACB6C9D003F5755 /* XCPlayground.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		A8FBD6A21C74FEE6005B5982 /* XCPlaygroundTests_OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8FBD6AD1C74FEE6005B5982 /* Build configuration list for PBXNativeTarget "XCPlaygroundTests_OSX" */;
+			buildPhases = (
+				A8FBD69F1C74FEE6005B5982 /* Sources */,
+				A8FBD6A01C74FEE6005B5982 /* Frameworks */,
+				A8FBD6A11C74FEE6005B5982 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8FBD6AA1C74FEE6005B5982 /* PBXTargetDependency */,
+			);
+			name = XCPlaygroundTests_OSX;
+			productName = XCPlaygroundTests_OSX;
+			productReference = A8FBD6A31C74FEE6005B5982 /* XCPlaygroundTests_OSX.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A8FBD6B11C752475005B5982 /* XCPlaygroundTests_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8FBD6BA1C752475005B5982 /* Build configuration list for PBXNativeTarget "XCPlaygroundTests_iOS" */;
+			buildPhases = (
+				A8FBD6AE1C752475005B5982 /* Sources */,
+				A8FBD6AF1C752475005B5982 /* Frameworks */,
+				A8FBD6B01C752475005B5982 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8FBD6B91C752475005B5982 /* PBXTargetDependency */,
+			);
+			name = XCPlaygroundTests_iOS;
+			productName = XCPlaygroundTests_iOS;
+			productReference = A8FBD6B21C752475005B5982 /* XCPlaygroundTests_iOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A8FBD6C11C75249E005B5982 /* XCPlaygroundTests_tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8FBD6CA1C75249E005B5982 /* Build configuration list for PBXNativeTarget "XCPlaygroundTests_tvOS" */;
+			buildPhases = (
+				A8FBD6BE1C75249E005B5982 /* Sources */,
+				A8FBD6BF1C75249E005B5982 /* Frameworks */,
+				A8FBD6C01C75249E005B5982 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A8FBD6C91C75249E005B5982 /* PBXTargetDependency */,
+			);
+			name = XCPlaygroundTests_tvOS;
+			productName = XCPlaygroundTests_tvOS;
+			productReference = A8FBD6C21C75249E005B5982 /* XCPlaygroundTests_tvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D7FD51218BFE00400C718C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 0800;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Apple Inc.";
+				TargetAttributes = {
+					5E36505A1B56D83300205D2D = {
+						CreatedOnToolsVersion = 7.0;
+					};
+					94182A0A1D25D5F5002CCB9E = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 59GAB85EFG;
+						DevelopmentTeamName = "Apple Inc. - Development Technologies";
+						ProvisioningStyle = Automatic;
+					};
+					A80607171CCEAD2500E951C8 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					A8FBD6A21C74FEE6005B5982 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					A8FBD6B11C752475005B5982 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					A8FBD6C11C75249E005B5982 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 1D7FD51518BFE00400C718C6 /* Build configuration list for PBXProject "PlaygroundSupport" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1D7FD51118BFE00400C718C6;
+			productRefGroup = 1D7FD51B18BFE00400C718C6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1DF4116118DCB596001CDFC7 /* XCPlayground_OSX */,
+				620174C9194645E60012C53A /* XCPlayground_iOS */,
+				A8E46BDD1ACB6C9D003F5755 /* XCPlayground_tvOS */,
+				A80607171CCEAD2500E951C8 /* XCPlayground */,
+				A8318F8F1CF603630015809A /* PlaygroundSupport_OSX */,
+				A8318FA21CF6036E0015809A /* PlaygroundSupport_iOS */,
+				A8318FB41CF603790015809A /* PlaygroundSupport_tvOS */,
+				A8318FC61CF604540015809A /* PlaygroundSupport */,
+				A8FBD6A21C74FEE6005B5982 /* XCPlaygroundTests_OSX */,
+				A8FBD6B11C752475005B5982 /* XCPlaygroundTests_iOS */,
+				A8FBD6C11C75249E005B5982 /* XCPlaygroundTests_tvOS */,
+				A8318FF51CF607C00015809A /* PlaygroundSupportTests_OSX */,
+				A83190031CF607C50015809A /* PlaygroundSupportTests_iOS */,
+				A83190111CF607C70015809A /* PlaygroundSupportTests_tvOS */,
+				5E36505A1B56D83300205D2D /* Print Swift compiler version */,
+				A8FC12D51CF62B6B005BE06F /* AllProducts_macOS */,
+				A8FC12DF1CF62B99005BE06F /* AllProducts_iOS */,
+				A8FC12E91CF62BA0005BE06F /* AllProducts_tvOS */,
+				94182A0A1D25D5F5002CCB9E /* AllProducts */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1DF4117318DCB596001CDFC7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		620174E6194645E60012C53A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318F9A1CF603630015809A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FAD1CF6036E0015809A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FBF1CF603790015809A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FFD1CF607C00015809A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A831900B1CF607C50015809A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A83190191CF607C70015809A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8E46BEC1ACB6C9D003F5755 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6A11C74FEE6005B5982 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6B01C752475005B5982 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6C01C75249E005B5982 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E36505E1B56D83800205D2D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "swiftc -v";
+		};
+		5EB831EE19247927007D5493 /* Copy swiftdoc */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy swiftdoc";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# Copy x86_64's swiftdoc from the object file dir to the target build dir.\nsrc_swiftdoc=\"${OBJECT_FILE_DIR_normal}/x86_64/${PRODUCT_MODULE_NAME}.swiftdoc\"\ndst_swiftdoc=\"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Modules/${PRODUCT_MODULE_NAME}.swiftmodule/x86_64.swiftdoc\"\n\necho \"Copying swiftdoc for XCPlayground.framework\"\ncp -v \"${src_swiftdoc}\" \"${dst_swiftdoc}\"";
+		};
+		A8318F9C1CF603630015809A /* Copy swiftdoc */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy swiftdoc";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# Copy x86_64's swiftdoc from the object file dir to the target build dir.\nsrc_swiftdoc=\"${OBJECT_FILE_DIR_normal}/x86_64/${PRODUCT_MODULE_NAME}.swiftdoc\"\ndst_swiftdoc=\"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Modules/${PRODUCT_MODULE_NAME}.swiftmodule/x86_64.swiftdoc\"\n\necho \"Copying swiftdoc for XCPlayground.framework\"\ncp -v \"${src_swiftdoc}\" \"${dst_swiftdoc}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1DF4116218DCB596001CDFC7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				626A2759195CA01D00A2D70F /* XCPExecutionShouldContinue.swift in Sources */,
+				5EC01A1F1BA0DE86008FCDB1 /* XCPlaygroundPage.swift in Sources */,
+				5EF4DDF718F35DEF00B8AE7C /* XCPShowView.swift in Sources */,
+				5E3FBDBA1970725D000BC36F /* XCPSharedDataDirectory.swift in Sources */,
+				1D31347D18DCE66E00891152 /* XCPValueHistory.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		620174CA194645E60012C53A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A87782401C73AE38008A7C4C /* XCPShowView.swift in Sources */,
+				626A275A195CA01D00A2D70F /* XCPExecutionShouldContinue.swift in Sources */,
+				5EC01A201BA0DE86008FCDB1 /* XCPlaygroundPage.swift in Sources */,
+				5E3FBDBB1970725D000BC36F /* XCPSharedDataDirectory.swift in Sources */,
+				620174F4194647B20012C53A /* XCPValueHistory.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318F921CF603630015809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8318FDC1CF604D50015809A /* PlaygroundPage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FA51CF6036E0015809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8318FDD1CF604D50015809A /* PlaygroundPage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FB71CF603790015809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8318FDE1CF604D50015809A /* PlaygroundPage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8318FF81CF607C00015809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80A0AC21CF610E70074DF3B /* PlaygroundSupportTests_OSX.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A83190061CF607C50015809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80A0AC61CF610E70074DF3B /* PlaygroundSupportTests_iOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A83190141CF607C70015809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A80A0ACA1CF610E70074DF3B /* PlaygroundSupportTests_tvOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8E46BE21ACB6C9D003F5755 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A87782411C73AE3B008A7C4C /* XCPShowView.swift in Sources */,
+				A8E46BE31ACB6C9D003F5755 /* XCPExecutionShouldContinue.swift in Sources */,
+				5EC01A211BA0DE86008FCDB1 /* XCPlaygroundPage.swift in Sources */,
+				A8E46BE51ACB6C9D003F5755 /* XCPSharedDataDirectory.swift in Sources */,
+				A8E46BE61ACB6C9D003F5755 /* XCPValueHistory.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD69F1C74FEE6005B5982 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8FBD6CE1C7524BD005B5982 /* XCPlaygroundCommonTests.swift in Sources */,
+				A8FBD6A61C74FEE6005B5982 /* XCPlaygroundTests_OSX.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6AE1C752475005B5982 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8FBD6CF1C7524BD005B5982 /* XCPlaygroundCommonTests.swift in Sources */,
+				A8FBD6B51C752475005B5982 /* XCPlaygroundTests_iOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8FBD6BE1C75249E005B5982 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8FBD6D01C7524BD005B5982 /* XCPlaygroundCommonTests.swift in Sources */,
+				A8FBD6C51C75249E005B5982 /* XCPlaygroundTests_tvOS.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5E3650601B56D87100205D2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E36505A1B56D83300205D2D /* Print Swift compiler version */;
+			targetProxy = 5E36505F1B56D87100205D2D /* PBXContainerItemProxy */;
+		};
+		5E3650621B56D87600205D2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E36505A1B56D83300205D2D /* Print Swift compiler version */;
+			targetProxy = 5E3650611B56D87600205D2D /* PBXContainerItemProxy */;
+		};
+		5E3650641B56D87C00205D2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E36505A1B56D83300205D2D /* Print Swift compiler version */;
+			targetProxy = 5E3650631B56D87C00205D2D /* PBXContainerItemProxy */;
+		};
+		94182A0F1D25D605002CCB9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8FC12D51CF62B6B005BE06F /* AllProducts_macOS */;
+			targetProxy = 94182A0E1D25D605002CCB9E /* PBXContainerItemProxy */;
+		};
+		94182A111D25D605002CCB9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8FC12DF1CF62B99005BE06F /* AllProducts_iOS */;
+			targetProxy = 94182A101D25D605002CCB9E /* PBXContainerItemProxy */;
+		};
+		94182A131D25D605002CCB9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8FC12E91CF62BA0005BE06F /* AllProducts_tvOS */;
+			targetProxy = 94182A121D25D605002CCB9E /* PBXContainerItemProxy */;
+		};
+		A806071C1CCEAD3000E951C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1DF4116118DCB596001CDFC7 /* XCPlayground_OSX */;
+			targetProxy = A806071B1CCEAD3000E951C8 /* PBXContainerItemProxy */;
+		};
+		A806071E1CCEAD3000E951C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 620174C9194645E60012C53A /* XCPlayground_iOS */;
+			targetProxy = A806071D1CCEAD3000E951C8 /* PBXContainerItemProxy */;
+		};
+		A80607201CCEAD3000E951C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8E46BDD1ACB6C9D003F5755 /* XCPlayground_tvOS */;
+			targetProxy = A806071F1CCEAD3000E951C8 /* PBXContainerItemProxy */;
+		};
+		A80A0ACC1CF612610074DF3B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318F8F1CF603630015809A /* PlaygroundSupport_OSX */;
+			targetProxy = A80A0ACB1CF612610074DF3B /* PBXContainerItemProxy */;
+		};
+		A8318F901CF603630015809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E36505A1B56D83300205D2D /* Print Swift compiler version */;
+			targetProxy = A8318F911CF603630015809A /* PBXContainerItemProxy */;
+		};
+		A8318FA31CF6036E0015809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E36505A1B56D83300205D2D /* Print Swift compiler version */;
+			targetProxy = A8318FA41CF6036E0015809A /* PBXContainerItemProxy */;
+		};
+		A8318FB51CF603790015809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5E36505A1B56D83300205D2D /* Print Swift compiler version */;
+			targetProxy = A8318FB61CF603790015809A /* PBXContainerItemProxy */;
+		};
+		A8318FD11CF604610015809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318F8F1CF603630015809A /* PlaygroundSupport_OSX */;
+			targetProxy = A8318FD01CF604610015809A /* PBXContainerItemProxy */;
+		};
+		A8318FD31CF604610015809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318FA21CF6036E0015809A /* PlaygroundSupport_iOS */;
+			targetProxy = A8318FD21CF604610015809A /* PBXContainerItemProxy */;
+		};
+		A8318FD51CF604610015809A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318FB41CF603790015809A /* PlaygroundSupport_tvOS */;
+			targetProxy = A8318FD41CF604610015809A /* PBXContainerItemProxy */;
+		};
+		A8390F1B1CF6289800EC811D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318FA21CF6036E0015809A /* PlaygroundSupport_iOS */;
+			targetProxy = A8390F1A1CF6289800EC811D /* PBXContainerItemProxy */;
+		};
+		A8390F1D1CF6289D00EC811D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318FB41CF603790015809A /* PlaygroundSupport_tvOS */;
+			targetProxy = A8390F1C1CF6289D00EC811D /* PBXContainerItemProxy */;
+		};
+		A8FBD6AA1C74FEE6005B5982 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1DF4116118DCB596001CDFC7 /* XCPlayground_OSX */;
+			targetProxy = A8FBD6A91C74FEE6005B5982 /* PBXContainerItemProxy */;
+		};
+		A8FBD6B91C752475005B5982 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 620174C9194645E60012C53A /* XCPlayground_iOS */;
+			targetProxy = A8FBD6B81C752475005B5982 /* PBXContainerItemProxy */;
+		};
+		A8FBD6C91C75249E005B5982 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8E46BDD1ACB6C9D003F5755 /* XCPlayground_tvOS */;
+			targetProxy = A8FBD6C81C75249E005B5982 /* PBXContainerItemProxy */;
+		};
+		A8FC12D61CF62B6B005BE06F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1DF4116118DCB596001CDFC7 /* XCPlayground_OSX */;
+			targetProxy = A8FC12D71CF62B6B005BE06F /* PBXContainerItemProxy */;
+		};
+		A8FC12F41CF62BBD005BE06F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318F8F1CF603630015809A /* PlaygroundSupport_OSX */;
+			targetProxy = A8FC12F31CF62BBD005BE06F /* PBXContainerItemProxy */;
+		};
+		A8FC12F81CF62BD2005BE06F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8E46BDD1ACB6C9D003F5755 /* XCPlayground_tvOS */;
+			targetProxy = A8FC12F71CF62BD2005BE06F /* PBXContainerItemProxy */;
+		};
+		A8FC12FA1CF62BD2005BE06F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318FB41CF603790015809A /* PlaygroundSupport_tvOS */;
+			targetProxy = A8FC12F91CF62BD2005BE06F /* PBXContainerItemProxy */;
+		};
+		A8FC12FC1CF62BD8005BE06F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 620174C9194645E60012C53A /* XCPlayground_iOS */;
+			targetProxy = A8FC12FB1CF62BD8005BE06F /* PBXContainerItemProxy */;
+		};
+		A8FC12FE1CF62BD8005BE06F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8318FA21CF6036E0015809A /* PlaygroundSupport_iOS */;
+			targetProxy = A8FC12FD1CF62BD8005BE06F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1D7FD52118BFE00400C718C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+				TOOLCHAINS = default;
+			};
+			name = Debug;
+		};
+		1D7FD52218BFE00400C718C6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				SWIFT_SKIP_IMPLICIT_STDLIB_RUNPATH_SEARCH_PATH = YES;
+				SWIFT_STDLIB = swiftCore;
+				SWIFT_VERSION = 3.0;
+				TOOLCHAINS = default;
+			};
+			name = Release;
+		};
+		1DF4117618DCB596001CDFC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "XCPlayground/XCPlayground-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = XCPlayground;
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Debug;
+		};
+		1DF4117718DCB596001CDFC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "XCPlayground/XCPlayground-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = XCPlayground;
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Release;
+		};
+		5E36505B1B56D83400205D2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5E36505C1B56D83400205D2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		620174E9194645E60012C53A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "XCPlayground/XCPlayground-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = XCPlayground;
+				SDKROOT = iphonesimulator;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		620174EA194645E60012C53A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "XCPlayground/XCPlayground-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = XCPlayground;
+				SDKROOT = iphonesimulator;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Ounchecked";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		94182A0C1D25D5F5002CCB9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		94182A0D1D25D5F5002CCB9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A80607191CCEAD2500E951C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A806071A1CCEAD2500E951C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A8318F9E1CF603630015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundSupport/PlaygroundSupport-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = PlaygroundSupport;
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Debug;
+		};
+		A8318F9F1CF603630015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "PlaygroundSupport/PlaygroundSupport-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../ @loader_path/../../../../PrivateFrameworks/";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = PlaygroundSupport;
+				SDKROOT = macosx;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Release;
+		};
+		A8318FB01CF6036E0015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundSupport/PlaygroundSupport-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = PlaygroundSupport;
+				SDKROOT = iphonesimulator;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		A8318FB11CF6036E0015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundSupport/PlaygroundSupport-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = PlaygroundSupport;
+				SDKROOT = iphonesimulator;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Ounchecked";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		A8318FC21CF603790015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundSupport/PlaygroundSupport-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = PlaygroundSupport;
+				SDKROOT = appletvsimulator;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		A8318FC31CF603790015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "PlaygroundSupport/PlaygroundSupport-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = PlaygroundSupport;
+				SDKROOT = appletvsimulator;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Ounchecked";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		A8318FCE1CF604540015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A8318FCF1CF604540015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A8318FFF1CF607C00015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PlaygroundSupportTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.PlaygroundSupportTests-OSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A83190001CF607C00015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PlaygroundSupportTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.PlaygroundSupportTests-OSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A831900D1CF607C50015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PlaygroundSupportTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.PlaygroundSupportTests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A831900E1CF607C50015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PlaygroundSupportTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.PlaygroundSupportTests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A831901B1CF607C70015809A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PlaygroundSupportTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.PlaygroundSupportTests-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+			};
+			name = Debug;
+		};
+		A831901C1CF607C70015809A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = PlaygroundSupportTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.PlaygroundSupportTests-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A8E46BEE1ACB6C9D003F5755 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DT_TOOLCHAIN_DIR = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "XCPlayground/XCPlayground-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = XCPlayground;
+				SDKROOT = appletvsimulator;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		A8E46BEF1ACB6C9D003F5755 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
+				AXLE_ENABLE_DEBUG_INFO = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "XCPlayground/XCPlayground-Info.plist";
+				INSTALL_PATH = "$(DT_TOOLCHAIN_DIR)/Developer/Platforms/AppleTVSimulator.platform/Developer/Library/Frameworks";
+				PRODUCT_NAME = XCPlayground;
+				SDKROOT = appletvsimulator;
+				SUPPORTED_PLATFORMS = "appletvsimulator appletvos";
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Ounchecked";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		A8FBD6AB1C74FEE6005B5982 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.XCPlaygroundTests-OSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A8FBD6AC1C74FEE6005B5982 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.XCPlaygroundTests-OSX";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A8FBD6BB1C752475005B5982 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.XCPlaygroundTests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A8FBD6BC1C752475005B5982 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.XCPlaygroundTests-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A8FBD6CB1C75249E005B5982 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.XCPlaygroundTests-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+			};
+			name = Debug;
+		};
+		A8FBD6CC1C75249E005B5982 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCPlaygroundTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.dt.Xcode.XCPlaygroundTests-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A8FC12DD1CF62B6B005BE06F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A8FC12DE1CF62B6B005BE06F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A8FC12E71CF62B99005BE06F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A8FC12E81CF62B99005BE06F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		A8FC12F11CF62BA0005BE06F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		A8FC12F21CF62BA0005BE06F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D7FD51518BFE00400C718C6 /* Build configuration list for PBXProject "PlaygroundSupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D7FD52118BFE00400C718C6 /* Debug */,
+				1D7FD52218BFE00400C718C6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DF4117518DCB596001CDFC7 /* Build configuration list for PBXNativeTarget "XCPlayground_OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DF4117618DCB596001CDFC7 /* Debug */,
+				1DF4117718DCB596001CDFC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5E36505D1B56D83400205D2D /* Build configuration list for PBXAggregateTarget "Print Swift compiler version" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5E36505B1B56D83400205D2D /* Debug */,
+				5E36505C1B56D83400205D2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		620174E8194645E60012C53A /* Build configuration list for PBXNativeTarget "XCPlayground_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				620174E9194645E60012C53A /* Debug */,
+				620174EA194645E60012C53A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94182A0B1D25D5F5002CCB9E /* Build configuration list for PBXAggregateTarget "AllProducts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94182A0C1D25D5F5002CCB9E /* Debug */,
+				94182A0D1D25D5F5002CCB9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A80607181CCEAD2500E951C8 /* Build configuration list for PBXAggregateTarget "XCPlayground" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A80607191CCEAD2500E951C8 /* Debug */,
+				A806071A1CCEAD2500E951C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8318F9D1CF603630015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupport_OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8318F9E1CF603630015809A /* Debug */,
+				A8318F9F1CF603630015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8318FAF1CF6036E0015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupport_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8318FB01CF6036E0015809A /* Debug */,
+				A8318FB11CF6036E0015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8318FC11CF603790015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupport_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8318FC21CF603790015809A /* Debug */,
+				A8318FC31CF603790015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8318FCD1CF604540015809A /* Build configuration list for PBXAggregateTarget "PlaygroundSupport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8318FCE1CF604540015809A /* Debug */,
+				A8318FCF1CF604540015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8318FFE1CF607C00015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupportTests_OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8318FFF1CF607C00015809A /* Debug */,
+				A83190001CF607C00015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A831900C1CF607C50015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupportTests_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A831900D1CF607C50015809A /* Debug */,
+				A831900E1CF607C50015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A831901A1CF607C70015809A /* Build configuration list for PBXNativeTarget "PlaygroundSupportTests_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A831901B1CF607C70015809A /* Debug */,
+				A831901C1CF607C70015809A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8E46BED1ACB6C9D003F5755 /* Build configuration list for PBXNativeTarget "XCPlayground_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8E46BEE1ACB6C9D003F5755 /* Debug */,
+				A8E46BEF1ACB6C9D003F5755 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8FBD6AD1C74FEE6005B5982 /* Build configuration list for PBXNativeTarget "XCPlaygroundTests_OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8FBD6AB1C74FEE6005B5982 /* Debug */,
+				A8FBD6AC1C74FEE6005B5982 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8FBD6BA1C752475005B5982 /* Build configuration list for PBXNativeTarget "XCPlaygroundTests_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8FBD6BB1C752475005B5982 /* Debug */,
+				A8FBD6BC1C752475005B5982 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8FBD6CA1C75249E005B5982 /* Build configuration list for PBXNativeTarget "XCPlaygroundTests_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8FBD6CB1C75249E005B5982 /* Debug */,
+				A8FBD6CC1C75249E005B5982 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8FC12DC1CF62B6B005BE06F /* Build configuration list for PBXAggregateTarget "AllProducts_macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8FC12DD1CF62B6B005BE06F /* Debug */,
+				A8FC12DE1CF62B6B005BE06F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8FC12E61CF62B99005BE06F /* Build configuration list for PBXAggregateTarget "AllProducts_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8FC12E71CF62B99005BE06F /* Debug */,
+				A8FC12E81CF62B99005BE06F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8FC12F01CF62BA0005BE06F /* Build configuration list for PBXAggregateTarget "AllProducts_tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8FC12F11CF62BA0005BE06F /* Debug */,
+				A8FC12F21CF62BA0005BE06F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D7FD51218BFE00400C718C6 /* Project object */;
+}

@@ -1,0 +1,28 @@
+# Don't try to build if there are input errors.
+#
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.llbuild
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build > %t.out 2> %t.err || true
+# RUN: %{FileCheck} --check-prefix CHECK --input-file %t.err %s
+# RUN: %{FileCheck} --check-prefix CHECK-ERR --input-file %t.err %s
+#
+# CHECK-NOT: not-a-real-command
+
+client:
+  name: basic
+
+targets:
+  "": ["output"]
+
+commands:
+  dummy:
+    tool: shell
+    outputs: ["output"]
+    args: not-a-real-command
+
+# CHECK-ERR: build.llbuild:[[@LINE+2]]:1: error: unexpected trailing top-level section
+# CHECK-ERR: error: unable to load build file
+this:
+  is:
+    an: error

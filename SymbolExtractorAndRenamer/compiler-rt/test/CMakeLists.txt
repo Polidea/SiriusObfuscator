@@ -1,0 +1,103 @@
+# Needed for lit support
+include(AddLLVM)
+
+configure_lit_site_cfg(
+  ${CMAKE_CURRENT_SOURCE_DIR}/lit.common.configured.in
+  ${CMAKE_CURRENT_BINARY_DIR}/lit.common.configured)
+
+# BlocksRuntime (and most of builtins) testsuites are not yet ported to lit.
+# add_subdirectory(BlocksRuntime)
+
+set(SANITIZER_COMMON_LIT_TEST_DEPS)
+if(COMPILER_RT_STANDALONE_BUILD)
+  add_executable(FileCheck IMPORTED GLOBAL)
+  set_property(TARGET FileCheck PROPERTY IMPORTED_LOCATION ${LLVM_TOOLS_BINARY_DIR}/FileCheck)
+  list(APPEND SANITIZER_COMMON_LIT_TEST_DEPS FileCheck)
+endif()
+
+# When ANDROID, we build tests with the host compiler (i.e. CMAKE_C_COMPILER),
+# and run tests with tools from the host toolchain.
+if(NOT ANDROID)
+  if(NOT COMPILER_RT_STANDALONE_BUILD)
+    # Use LLVM utils and Clang from the same build tree.
+    list(APPEND SANITIZER_COMMON_LIT_TEST_DEPS
+      clang clang-headers FileCheck count not llvm-config llvm-nm llvm-objdump
+      llvm-readobj llvm-symbolizer compiler-rt-headers sancov)
+    if (COMPILER_RT_HAS_PROFILE)
+      list(APPEND SANITIZER_COMMON_LIT_TEST_DEPS profile)
+    endif()
+    if (WIN32)
+      list(APPEND SANITIZER_COMMON_LIT_TEST_DEPS KillTheDoctor)
+    endif()
+  endif()
+  if(CMAKE_HOST_UNIX)
+    list(APPEND SANITIZER_COMMON_LIT_TEST_DEPS SanitizerLintCheck)
+  endif()
+endif()
+
+# Run sanitizer tests only if we're sure that clang would produce
+# working binaries.
+if(COMPILER_RT_CAN_EXECUTE_TESTS)
+  if(COMPILER_RT_BUILD_BUILTINS)
+    add_subdirectory(builtins)
+  endif()
+  if(COMPILER_RT_HAS_ASAN)
+    add_subdirectory(asan)
+  endif()
+  if(COMPILER_RT_HAS_DFSAN)
+    add_subdirectory(dfsan)
+  endif()
+  if (COMPILER_RT_HAS_INTERCEPTION)
+    add_subdirectory(interception)
+  endif()
+  if(COMPILER_RT_HAS_LSAN)
+    add_subdirectory(lsan)
+  endif()
+  if(COMPILER_RT_HAS_MSAN)
+    add_subdirectory(msan)
+  endif()
+  if(COMPILER_RT_HAS_PROFILE)
+    add_subdirectory(profile)
+  endif()
+  if(COMPILER_RT_HAS_SANITIZER_COMMON)
+    add_subdirectory(sanitizer_common)
+  endif()
+  if(COMPILER_RT_HAS_TSAN)
+    add_subdirectory(tsan)
+  endif()
+  if(COMPILER_RT_HAS_UBSAN)
+    add_subdirectory(ubsan)
+  endif()
+  # CFI tests require diagnostic mode, which is implemented in UBSan.
+  if(COMPILER_RT_HAS_UBSAN)
+    add_subdirectory(cfi)
+  endif()
+  if(COMPILER_RT_HAS_SAFESTACK)
+    add_subdirectory(safestack)
+  endif()
+  if(COMPILER_RT_HAS_ESAN)
+    add_subdirectory(esan)
+  endif()
+  if(COMPILER_RT_HAS_SCUDO)
+    add_subdirectory(scudo)
+  endif()
+  if(COMPILER_RT_HAS_XRAY)
+    add_subdirectory(xray)
+  endif()
+endif()
+
+if(COMPILER_RT_STANDALONE_BUILD)
+  # Now that we've traversed all the directories and know all the lit testsuites,
+  # introduce a rule to run to run all of them.
+  get_property(LLVM_LIT_TESTSUITES GLOBAL PROPERTY LLVM_LIT_TESTSUITES)
+  get_property(LLVM_LIT_DEPENDS GLOBAL PROPERTY LLVM_LIT_DEPENDS)
+  add_lit_target(check-compiler-rt
+    "Running all regression tests"
+    ${LLVM_LIT_TESTSUITES}
+    DEPENDS ${LLVM_LIT_DEPENDS})
+  if(NOT TARGET check-all)
+    add_custom_target(check-all)
+  endif()
+  add_custom_target(compiler-rt-test-depends DEPENDS ${LLVM_LIT_DEPENDS})
+  add_dependencies(check-all check-compiler-rt)
+endif()

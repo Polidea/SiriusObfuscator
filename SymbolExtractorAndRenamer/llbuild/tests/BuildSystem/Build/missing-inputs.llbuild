@@ -1,0 +1,61 @@
+# Check reporting of missing inputs (including missing inputs produced by other
+# commands).
+
+# Run an initial build which fails on the command.
+#
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.llbuild
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build &> %t.out || true
+# RUN: cat %t.out
+# RUN: %{FileCheck} %s --input-file %t.out --check-prefix=CHECK-FAILURE
+#
+# CHECK-FAILURE: missing input 'input' and no rule to build it
+# CHECK-FAILURE: cannot build 'output-1' due to missing input
+# CHECK-FAILURE-NOT: missing input 'output-2' and no rule to build it
+
+# RUN: touch %t.build/input
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build &> %t2.out || true
+# RUN: cat %t2.out
+# RUN: %{FileCheck} %s --input-file %t2.out --check-prefix=CHECK-FAILURE-2
+#
+# At this point, we have unblocked the commands, and commands are allowed to run
+# against missing outputs of previous commands (under the expectation that the
+# commands themselves will diagnose errors). This approach allows transparent
+# support of commands which may not produce an output (as long as the consumer
+# is prepared to handle this), but we could also diagnose missing outputs as a
+# response to the producing command to get stronger consistency checking.
+#
+# CHECK-FAILURE-2-NOT: missing input 'output-2' and no rule to build it
+# CHECK-FAILURE-2: cp: {{.*}}output-2{{.*}}: No such file
+
+client:
+  name: basic
+
+targets:
+  "": ["output"]
+
+commands:
+  C1:
+    tool: shell
+    inputs: ["input"]
+    outputs: ["output-1"]
+    args: cp input output-1
+
+  C2:
+    tool: shell
+    # A command which doesn't produce its output
+    outputs: ["output-2"]
+    args: true
+
+  C3:
+    tool: shell
+    inputs: ["output-2"]
+    outputs: ["output-2B"]
+    args: cp output-2 output-2B
+
+  C4:
+    tool: shell
+    inputs: ["output-1", "output-2B"]
+    outputs: ["output"]
+    args: cp output-1 output

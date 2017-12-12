@@ -1,0 +1,43 @@
+# Check string specific parsing functionality.
+#
+# RUN: %{llbuild} ninja parse %s 2> %t.err
+# RUN: %{FileCheck} < %t.err %s
+
+# Check that we recognize special characters for path strings in build decls.
+#
+# CHECK: actOnBeginBuildDecl(/*Name=*/"this", /*Outputs=*/["some#file"], /*Inputs=*/["#is#a#path", "and#another", "and#yet#another", "one#more"], /*NumExplicitInputs=*/2, /*NumImplicitInputs=*/1)
+build some#file:this#is#a#path and#another|and#yet#another||one#more
+
+# Check that we do not recognize path strings in rule decls.
+#
+# actOnBeginRuleDecl(/*Name=*/"this")
+rule this#latter part is a comment
+
+# Check that we recognize path strings in pool decls.
+#
+# CHECK: actOnBeginPoolDecl(/*Name=*/"this")
+pool this#latter part is a comment
+
+# Check that we recognize path strings in include decls.
+#
+# CHECK: actOnIncludeDecl(/*IsInclude=*/true, /*Path=*/"this#is#a#path")
+include this#is#a#path
+
+# Check that we recognize path strings in default decls.
+#
+# CHECK: actOnDefaultDecl(/*Names=*/["this#is#a#path"])
+default this#is#a#path
+
+# Check that we handle $-sequences at the start of path processing.
+#
+# CHECK: actOnDefaultDecl(/*Names=*/["thisisapath"])
+default $
+thisisapath
+
+
+# Check that we handle spaces following $\n sequences.
+#
+# CHECK: actOnDefaultDecl(/*Names=*/["this$\n  isapath"])
+default this$
+  isapath
+

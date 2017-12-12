@@ -1,0 +1,35 @@
+# Check that, by default, directories are automatically created for output files.
+#
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.llbuild
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build > %t.out
+# RUN: test -d %t.build/subdir
+# RUN: test -f %t.build/subdir/subsubdir/file
+# RUN: test -L %t.build/subdir-2/subsubdir/symlink
+# RUN: %{FileCheck} --input-file=%t.out %s
+#
+# CHECK: TOUCH
+# CHECK: SYMLINK
+
+client:
+  name: basic
+
+targets:
+  "": ["<all>"]
+
+commands:
+  C.all:
+    tool: phony
+    inputs: ["subdir/subsubdir/file", "subdir-2/subsubdir/symlink"]
+    outputs: ["<all>"]
+  C.touch:
+    tool: shell
+    description: TOUCH
+    args: ["touch", "subdir/subsubdir/file"]
+    outputs: ["subdir/subsubdir/file"]
+  C.symlink:
+    tool: symlink
+    description: SYMLINK
+    outputs: ["subdir-2/subsubdir/symlink"]
+    contents: ignored

@@ -1,0 +1,29 @@
+// Check a package with spaces.
+//
+// Make a sandbox dir.
+// RUN: rm -rf %t.dir
+// RUN: mkdir -p %t.dir/more\ spaces/special\ tool
+// RUN: cp %s %t.dir/more\ spaces/special\ tool/Package.swift
+// RUN: echo 'foo()' > %t.dir/more\ spaces/special\ tool/main.swift
+// RUN: echo 'func foo() { print("HI") }' > %t.dir/more\ spaces/special\ tool/some\ file.swift
+// RUN: %{swift} build --package-path %t.dir/more\ spaces/special\ tool -v 2>&1 | tee %t.build-log
+//
+// Check the build log.
+//
+// RUN: %{FileCheck} --check-prefix CHECK-BUILD-LOG --input-file %t.build-log %s
+//
+// CHECK-BUILD-LOG: swiftc{{.*}} -module-name special_tool {{.*}} "{{.*}}/more spaces/special tool/some file.swift"
+//
+// Verify that the tool exists and works.
+//
+// RUN: test -x %t.dir/more\ spaces/special\ tool/.build/debug/special\ tool
+// RUN: %t.dir/more\ spaces/special\ tool/.build/debug/special\ tool > %t.out
+// RUN: %{FileCheck} --check-prefix CHECK-TOOL-OUTPUT --input-file %t.out %s
+//
+// CHECK-TOOL-OUTPUT: HI
+
+import PackageDescription
+
+let package = Package(
+   name: "special tool"
+)

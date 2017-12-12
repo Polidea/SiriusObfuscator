@@ -1,0 +1,28 @@
+// Trivial test for Swift build.
+//
+// Make a sandbox dir.
+// RUN: rm -rf %t.dir
+// RUN: mkdir -p %t.dir/tool
+// RUN: cp %s %t.dir/tool/Package.swift
+// RUN: echo 'print("HI")' > %t.dir/tool/main.swift
+// RUN: %{swift} build --package-path %t.dir/tool -v 2>&1 | tee %t.build-log
+//
+// Check the build log.
+//
+// RUN: %{FileCheck} --check-prefix CHECK-BUILD-LOG --input-file %t.build-log %s
+//
+// CHECK-BUILD-LOG: swiftc{{.*}} -module-name tool
+//
+// Verify that the tool exists and works.
+//
+// RUN: test -x %t.dir/tool/.build/debug/tool
+// RUN: %t.dir/tool/.build/debug/tool > %t.out
+// RUN: %{FileCheck} --check-prefix CHECK-TOOL-OUTPUT --input-file %t.out %s
+//
+// CHECK-TOOL-OUTPUT: HI
+
+import PackageDescription
+
+let package = Package(
+   name: "tool"
+)

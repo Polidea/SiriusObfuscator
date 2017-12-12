@@ -1,0 +1,97 @@
+# Check build decl loading.
+#
+# RUN: %{llbuild} ninja load-manifest %s > %t 2> %t.err
+# RUN: %{FileCheck} < %t %s
+# RUN: %{FileCheck} --check-prefix=CHECK-ERR < %t.err %s
+
+# CHECK: build "target01": phony
+build target01: phony
+
+# CHECK: build "target02": phony "explicit-a" "explicit-b" | "implicit-a" "implicit-b" || "order-a" "order-b"
+build target02: phony explicit-a explicit-b | implicit-a implicit-b || order-a order-b
+
+# CHECK-ERR: builds.ninja:[[@LINE+1]]:16: error: unknown rule
+build target03: no-rule
+
+# CHECK: build "target04": phony
+# CHECK-NEXT: command = "value1"
+# CHECK-NEXT: description = "value2"
+build target04: phony
+      command = value1
+      description = value2
+
+# Check that we properly evaluate values in bindings (which do not use prior
+# bindings in the decl).
+#
+# CHECK: build "target05": phony
+# CHECK-NEXT: command = "A C"
+target05_varA = A
+build target05: phony
+      target05_varA = B
+      command = ${target05_varA} C
+
+# Check that we diagnose empty paths in build statements.
+#
+# CHECK-ERR: builds.ninja:[[@LINE+3]]:15: error: empty output path
+# CHECK-ERR: builds.ninja:[[@LINE+2]]:38: error: empty input path
+target06_var =
+build target06 ${target06_var}: phony ${target06_var}
+
+# Check all the attributes that can be assigned.
+pool poolA
+     depth = 12
+# CHECK: build "target07": phony
+# CHECK: command = "thecommand"
+# CHECK: deps = gcc
+# CHECK: depfile = "thedepfile"
+# CHECK: generator = 1
+# CHECK: restat = 1
+# CHECK: pool = poolA
+build target07: phony
+      command = thecommand
+      description = thedescription
+      deps = gcc
+      depfile = thedepfile
+      generator = true
+      restat = true
+      pool = poolA
+
+# Check error handling of deps statements.
+#
+# CHECK-ERR: builds.ninja:[[@LINE+1]]:0: error: invalid 'deps' style
+build target08: phony
+      deps = unknown
+# CHECK-ERR: builds.ninja:[[@LINE+1]]:0: error: missing 'depfile' attribute
+build target09_A: phony
+      deps = gcc
+# CHECK-ERR: builds.ninja:[[@LINE+1]]:0: error: invalid 'depfile' attribute
+build target09_B: phony
+      deps = msvc
+      depfile = foobar
+
+# Check error handling of pool statement.
+#
+# CHECK-ERR: builds.ninja:[[@LINE+1]]:0: error: unknown pool
+build target08: phony
+      pool = thisisnotapool
+
+# Check deferred evaluation of rule parameters.
+# CHECK: build "target10": target10_rule
+# CHECK-NEXT: command = "command"
+# CHECK-NEXT: description = "build var and global var and command"
+target10_global = global
+rule target10_rule
+     command = command
+     description = ${target10_build_var} and ${command}
+build target10: target10_rule
+      target10_build_var = build var and ${target10_global} var
+
+# Check expansion of ${in} and ${out}.
+#
+# CHECK: build "target11": target11_rule
+# CHECK-NEXT: command = "target11 target11_inputA -o target11"
+# CHECK-NEXT: description = "this is empty: \"\" here"
+rule target11_rule
+     command = target11 ${in} -o ${out}
+build target11: target11_rule target11_inputA | target11_inputB
+     description = this is empty: "${out}" here

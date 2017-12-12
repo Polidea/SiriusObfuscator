@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Check that a command terminates with an error exit code.
+if "$@"; then
+    echo "error: unexpected successful exit: " "$@" 1>&2
+    exit 1
+fi
+exit 0

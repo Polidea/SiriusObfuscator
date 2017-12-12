@@ -1,0 +1,93 @@
+# Check basic parsing functionality.
+#
+# RUN: %{llbuild} ninja parse %s 2> %t.err
+# RUN: %{FileCheck} < %t.err %s
+
+# Sanity check parse-only mode.
+#
+# RUN: %{llbuild} ninja parse-only %s | wc -c > %t2.out
+# RUN: %{FileCheck} < %t2.out %s --check-prefix CHECK-PARSE-ONLY-COUNT
+#
+# CHECK-PARSE-ONLY-COUNT: {{ *0}}
+
+# CHECK: actOnBeginManifest("<main>")
+
+# Check binding parsing.
+#
+# CHECK: basic.ninja:[[@LINE+1]]:8: error: expected '=' token
+variable
+# CHECK: actOnBindingDecl(/*Name=*/"variable", /*Value=*/"value")
+variable = value
+
+# Check "default" parsing.
+#
+# CHECK: basic.ninja:[[@LINE+1]]:7: error: expected target path string
+default
+# CHECK: actOnDefaultDecl(/*Names=*/["a", "b", "c"])
+default a b c
+# CHECK: basic.ninja:[[@LINE+1]]:10: error: expected newline token
+default a :
+
+# Check "include" and "subninja" parsing.
+#
+# CHECK: actOnIncludeDecl(/*IsInclude=*/true, /*Path=*/"t2.ninja")
+include t2.ninja
+# CHECK: actOnIncludeDecl(/*IsInclude=*/false, /*Path=*/"t3.ninja")
+subninja t3.ninja
+# CHECK: basic.ninja:[[@LINE+1]]:17: error: expected newline token
+include t4.ninja bad
+
+# Check "build" parsing.
+#
+# CHECK: basic.ninja:[[@LINE+1]]:5: error: expected output path string
+build
+# CHECK: basic.ninja:[[@LINE+1]]:9: error: expected ':' token
+build foo
+# CHECK: basic.ninja:[[@LINE+1]]:10: error: expected rule name identifier
+build foo:
+# CHECK: actOnBeginBuildDecl(/*Name=*/"cc", /*Outputs=*/["a.o"], /*Inputs=*/["b.o"], /*NumExplicitInputs=*/1, /*NumImplicitInputs=*/0)
+# CHECK: actOnBuildBindingDecl({{.*}}, /*Name=*/"name", /*Value=*/"value")
+build a.o: cc b.o
+   name = value
+# CHECK: actOnEndBuildDecl(/*Decl=*/{{.*}})
+
+# Check "build" implicit and order-only parsing.
+#
+# CHECK: actOnBeginBuildDecl(/*Name=*/"cc", /*Outputs=*/["a.o"], /*Inputs=*/["b.o"], /*NumExplicitInputs=*/0, /*NumImplicitInputs=*/0)
+build a.o: cc | || b.o
+# CHECK: actOnBeginBuildDecl(/*Name=*/"cc", /*Outputs=*/["a.o"], /*Inputs=*/["b.o", "c.o"], /*NumExplicitInputs=*/1, /*NumImplicitInputs=*/0)
+build a.o: cc b.o | || c.o
+# CHECK: actOnBeginBuildDecl(/*Name=*/"cc", /*Outputs=*/["a.o"], /*Inputs=*/["b.o", "c.o", "d.o"], /*NumExplicitInputs=*/1, /*NumImplicitInputs=*/1)
+build a.o: cc b.o | c.o || d.o
+# CHECK: basic.ninja:[[@LINE+1]]:14: error: expected newline token
+build a.o: cc :
+
+# Check "pool" parsing.
+#
+# CHECK: basic.ninja:[[@LINE+1]]:4: error: expected pool name identifier
+pool
+# CHECK: actOnBeginPoolDecl(/*Name=*/"linkpool"
+# CHECK: actOnPoolBindingDecl({{.*}}, /*Name=*/"variable", /*Value=*/"value")
+pool linkpool
+  variable = value
+# CHECK: actOnEndPoolDecl(/*Decl=*/{{.*}})
+
+# Check "rule" parsing.
+#
+# CHECK: basic.ninja:[[@LINE+1]]:4: error: expected rule name identifier
+rule
+# CHECK: actOnBeginRuleDecl(/*Name=*/"link"
+# CHECK: actOnRuleBindingDecl({{.*}}, /*Name=*/"variable", /*Value=*/"value")
+rule link
+  variable = value
+# CHECK: actOnEndRuleDecl(/*Decl=*/{{.*}})
+
+# Check for blank lines in parameterized decls.
+# CHECK: actOnBeginRuleDecl(/*Name=*/"testrule"
+# CHECK-NOT: error:
+# CHECK: actOnRuleBindingDecl({{.*}}, /*Name=*/"command", /*Value=*/"value")
+rule testrule
+  # empty line
+  command = value
+
+# CHECK: actOnEndManifest()

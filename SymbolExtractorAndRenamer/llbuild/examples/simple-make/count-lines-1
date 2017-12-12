@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+#
+# This source file is part of the Swift.org open source project
+#
+# Copyright (c) 2014 - 2015 Apple Inc. and the Swift project authors
+# Licensed under Apache License v2.0 with Runtime Library Exception
+#
+# See http://swift.org/LICENSE.txt for license information
+# See http://swift.org/CONTRIBUTORS.txt for the list of Swift project authors
+
+from simplebuild import *
+
+class CountLinesRule(SimpleAsyncRule):
+    def __init__(self, path):
+        self.path = str(path)
+
+    def run(self):
+        with open(self.path) as file:
+            return len(file.readlines())
+
+# Get the input path.
+_,path = sys.argv
+
+# Run the job
+engine = DataDrivenEngine(globals())
+engine.attach_db(".count-lines.db")
+result = engine.build(CountLinesRule.asKey(path))
+print result
+
+

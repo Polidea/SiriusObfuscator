@@ -1,0 +1,379 @@
+// RUN: %target-run-simple-swiftgyb
+// REQUIRES: executable_test
+
+import StdlibUnittest
+import StdlibCollectionUnittest
+
+let CopyToNativeArrayBufferTests = TestSuite("CopyToNativeArrayBufferTests")
+
+CopyToNativeArrayBufferTests.test("Sequence._copyToContiguousArray()") {
+  do {
+    // Call from a static context.
+    let s =
+      MinimalSequence(elements: LifetimeTracked(10)..<LifetimeTracked(27))
+
+    expectEqual(0, s.timesMakeIteratorCalled.value)
+    let copy = s._copyToContiguousArray()
+    expectEqual(1, s.timesMakeIteratorCalled.value)
+    expectEqualSequence(
+      Array(10..<27),
+      copy.map { $0.value })
+  }
+  do {
+    // Call from a generic context.
+    let wrapped = MinimalSequence(elements: LifetimeTracked(10)..<LifetimeTracked(27))
+    let s = LoggingSequence(wrapping: wrapped)
+
+    expectEqual(0, wrapped.timesMakeIteratorCalled.value)
+    let copy = s._copyToContiguousArray()
+    expectEqual(1, wrapped.timesMakeIteratorCalled.value)
+    expectEqualSequence(
+      Array(10..<27),
+      copy.map { $0.value })
+  }
+}
+
+CopyToNativeArrayBufferTests.test("Collection._copyToContiguousArray()") {
+  // Check that collections are handled with the collection-specific API.  This
+  // means that we are calling the right default implementation (one for
+  // collections, not the one for sequences).
+
+  do {
+    // Call from a static context.
+    let c =
+      DefaultedCollection(elements: LifetimeTracked(10)..<LifetimeTracked(27))
+
+    expectEqual(0, c.timesMakeIteratorCalled.value)
+    expectEqual(0, c.timesStartIndexCalled.value)
+    let copy = c._copyToContiguousArray()
+    expectEqual(0, c.timesMakeIteratorCalled.value)
+    expectNotEqual(0, c.timesStartIndexCalled.value)
+    expectEqualSequence(
+      Array(10..<27),
+      copy.map { $0.value })
+  }
+  do {
+    // Call from a generic context.
+    let wrapped =
+      DefaultedCollection(elements: LifetimeTracked(10)..<LifetimeTracked(27))
+    let s = LoggingSequence(wrapping: wrapped)
+    expectEqual(0, wrapped.timesMakeIteratorCalled.value)
+    expectEqual(0, wrapped.timesStartIndexCalled.value)
+    let copy = s._copyToContiguousArray()
+    expectEqual(0, wrapped.timesMakeIteratorCalled.value)
+    expectNotEqual(0, wrapped.timesStartIndexCalled.value)
+
+    expectEqualSequence(
+      Array(10..<27),
+      copy.map { $0.value })
+  }
+}
+
+%{
+all_array_types = ['ContiguousArray', 'ArraySlice', 'Array']
+}%
+
+var ArrayTestSuite = TestSuite("Array")
+
+ArrayTestSuite.test("sizeof") {
+  var a = [ 10, 20, 30 ]
+#if arch(i386) || arch(arm)
+  expectEqual(4, MemoryLayout.size(ofValue: a))
+#else
+  expectEqual(8, MemoryLayout.size(ofValue: a))
+#endif
+}
+
+ArrayTestSuite.test("valueDestruction") {
+  var a = [LifetimeTracked]()
+  for i in 100...110 {
+    a.append(LifetimeTracked(i))
+  }
+}
+
+//===----------------------------------------------------------------------===//
+// Native array tests
+// FIXME: incomplete.
+//===----------------------------------------------------------------------===//
+
+ArrayTestSuite.test("Native/count/empty") {
+  let a = [LifetimeTracked]()
+  expectEqual(0, a.count)
+}
+
+ArrayTestSuite.test("Native/count") {
+  let a = [ LifetimeTracked(10), LifetimeTracked(20), LifetimeTracked(30) ]
+  expectEqual(3, a.count)
+}
+
+ArrayTestSuite.test("Native/isEmpty/empty") {
+  let a = [LifetimeTracked]()
+  expectTrue(a.isEmpty)
+}
+
+ArrayTestSuite.test("Native/isEmpty") {
+  let a = [ LifetimeTracked(10), LifetimeTracked(20), LifetimeTracked(30) ]
+  expectFalse(a.isEmpty)
+}
+
+% for Kind in ['Array', 'ContiguousArray']:
+ArrayTestSuite.test("${Kind}/popLast") {
+  // Empty
+  do {
+    var a = ${Kind}<Int>()
+    let popped = a.popLast()
+    expectNil(popped)
+    expectTrue(a.isEmpty)
+  }
+
+  do {
+    var popped = [Int]()
+    var a: ${Kind}<Int> = [1010, 2020, 3030]
+    while let element = a.popLast() {
+      popped.append(element)
+    }
+    expectEqualSequence([1010, 2020, 3030], popped.reversed())
+    expectTrue(a.isEmpty)
+  }
+}
+% end
+
+// Check how removeFirst() affects indices.
+% for Kind in ['Array', 'ContiguousArray']:
+ArrayTestSuite.test("${Kind}/removeFirst") {
+  do {
+    var a: ${Kind}<OpaqueValue<Int>> = ${Kind}([ 1 ].map(OpaqueValue.init))
+    a.removeFirst()
+    expectEqual(0, a.startIndex)
+  }
+  do {
+    var a: ${Kind}<OpaqueValue<Int>> = ${Kind}([ 1, 2 ].map(OpaqueValue.init))
+    a.removeFirst()
+    expectEqual(0, a.startIndex)
+  }
+}
+% end
+
+ArrayTestSuite.test("ArraySlice/removeFirst") {
+  do {
+    let a: [OpaqueValue<Int>] = [ 99, 1010, 99 ].map(OpaqueValue.init)
+    var s = a[1..<2]
+    expectEqual(1, s.startIndex)
+    s.removeFirst()
+    expectEqual(2, s.startIndex)
+  }
+  do {
+    let a: [OpaqueValue<Int>] = [ 99, 1010, 2020, 99 ].map(OpaqueValue.init)
+    var s = a[1..<2]
+    expectEqual(1, s.startIndex)
+    s.removeFirst()
+    expectEqual(2, s.startIndex)
+  }
+}
+
+//===----------------------------------------------------------------------===//
+// Array and EvilCollection that changes its size while we are not looking
+//===----------------------------------------------------------------------===//
+
+let evilBoundsError = "EvilCollection: index out of range"
+
+final class EvilSequence : Sequence {
+  init(_ growth: Int) {
+    self.growth = growth
+  }
+
+  var growth: Int
+  var _count: Int = 20
+
+  var underestimatedCount: Int {
+    defer { _count += growth }
+    return _count
+  }
+
+  func makeIterator() -> AnyIterator<LifetimeTracked> {
+    var i = 0
+    return AnyIterator {
+      if i >= self._count { return nil }
+      let result = LifetimeTracked(i)
+      i += 1
+      return result
+    }
+  }
+}
+
+final class EvilCollection : Collection {
+  func index(after i: Int) -> Int {
+    return i + 1
+  }
+
+  init(_ growth: Int, boundsChecked: Bool) {
+    self.growth = growth
+    self.boundsChecked = boundsChecked
+  }
+
+  var growth: Int
+  var _count: Int = 20
+  var boundsChecked: Bool
+
+  var startIndex : Int {
+    _count += growth
+    return 0
+  }
+
+  var endIndex : Int {
+    return _count
+  }
+
+  subscript(i: Int) -> LifetimeTracked {
+    if boundsChecked {
+      precondition(i >= 0 && i < _count, evilBoundsError)
+    }
+    return LifetimeTracked(i)
+  }
+
+  // Default implementation will call _failEarlyRangeCheck,
+  // passing in a startIndex that will grow _count faster than
+  // necessary.
+  func formIndex(after i: inout Int) {
+    i += 1
+  }
+}
+
+for (step, evilBoundsCheck) in [ (1, true), (-1, false), (-1, true) ] {
+
+  let message = step < 0 && evilBoundsCheck
+    ? evilBoundsError
+    : "invalid Collection: count differed in successive traversals"
+
+  let constructionMessage =
+    /*_isStdlibInternalChecksEnabled() && !evilBoundsCheck && step <= 0
+      ? "_UnsafePartiallyInitializedContiguousArrayBuffer has no more capacity"
+      :*/ message
+
+  // The invalid Collection error is a _debugPreconditon that will only fire
+  // in a Debug assert configuration.
+  let expectedToFail = (step < 0 && evilBoundsCheck) ||
+                       _isDebugAssertConfiguration()
+
+  let natureOfEvil = step > 0 ? "Growth" : "Shrinkage"
+  let boundsChecked = evilBoundsCheck ? "BoundsChecked" : "NoBoundsCheck"
+  let testPrefix = "MemorySafety/\(boundsChecked)/Evil\(natureOfEvil)"
+
+  ArrayTestSuite.test("\(testPrefix)/Infrastructure/EvilSequence") {
+    let evil = EvilSequence(step)
+    let count0 = evil.underestimatedCount
+    let count1 = evil.underestimatedCount
+    expectNotEqual(count0, count1)
+   if step > 0 {
+      expectLE(count0, count1)
+    }
+    else {
+      expectGE(count0, count1)
+    }
+  }
+
+  let t1 = ArrayTestSuite.test("\(testPrefix)/Infrastructure/EvilCollection")
+  (evilBoundsCheck && _isDebugAssertConfiguration()
+    ? t1.crashOutputMatches(evilBoundsError) : t1)
+  .code {
+    let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+    let count0 = evil.count
+    let count1 = evil.count
+    expectNotEqual(count0, count1)
+   if step > 0 {
+      expectLE(count0, count1)
+    }
+    else {
+      expectGE(count0, count1)
+    }
+    if evilBoundsCheck {
+      expectCrashLater()
+    }
+    let x = evil[-1]
+    _blackHole(x)
+  }
+
+  let t2 = ArrayTestSuite.test("\(testPrefix)/Construction")
+  (_isDebugAssertConfiguration() && expectedToFail
+    ? t2.crashOutputMatches(constructionMessage) : t2)
+  .code {
+    let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+
+    if expectedToFail {
+      expectCrashLater()
+    }
+
+    let a = Array(evil)
+    _blackHole(a)
+  }
+
+  for (op, rangeMax) in ["Grow":0, "Shrink":200] {
+    let t3 =  ArrayTestSuite.test("\(testPrefix)/replaceSubrange/\(op)Unique")
+    (_isDebugAssertConfiguration() ? t3.crashOutputMatches(message) : t3)
+    .code {
+      let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+      var a = Array((0..<200).lazy.map { LifetimeTracked($0) })
+      if expectedToFail {
+        expectCrashLater()
+      }
+      a.replaceSubrange(0..<rangeMax, with: evil)
+    }
+
+    let t4 = ArrayTestSuite.test("\(testPrefix)/replaceSubrange/\(op)NonUnique")
+    (_isDebugAssertConfiguration() ? t4.crashOutputMatches(message) : t4)
+    .code {
+      let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+      var a = Array((0..<200).lazy.map { LifetimeTracked($0) })
+      var b = a
+      if expectedToFail {
+        expectCrashLater()
+      }
+      a.replaceSubrange(0..<rangeMax, with: evil)
+      _fixLifetime(b)
+    }
+  }
+
+  ArrayTestSuite.test("\(testPrefix)/SequenceMap")
+  .skip(.custom(
+    { _isFastAssertConfiguration() },
+    reason: "this trap is not guaranteed to happen in -Ounchecked"))
+  .code {
+    let evil = EvilSequence(step)
+
+    if step < 0 {
+      expectCrashLater()
+    }
+    let a = evil.map { $0 }
+    _blackHole(a)
+  }
+
+  ArrayTestSuite.test("\(testPrefix)/CollectionMap")
+  .code {
+    let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+
+    if expectedToFail {
+      expectCrashLater()
+    }
+
+    let a = evil.map { $0 }
+    _blackHole(a)
+  }
+
+  ArrayTestSuite.test("\(testPrefix)/FilterAll")
+  .code {
+    let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+
+    let a = evil.filter { _ in true }
+    _blackHole(a)
+  }
+
+  ArrayTestSuite.test("\(testPrefix)/FilterNone")
+  .code {
+    let evil = EvilCollection(step, boundsChecked: evilBoundsCheck)
+
+    let a = evil.filter { _ in false }
+    _blackHole(a)
+  }
+}
+
+runAllTests()

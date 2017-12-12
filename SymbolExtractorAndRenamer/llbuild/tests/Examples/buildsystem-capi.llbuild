@@ -1,0 +1,59 @@
+# Check that the BuildSystem C API example builds and runs correctly.
+#
+# RUN: cc -o %t.exe %{srcroot}/examples/c-api/buildsystem/main.c -I %{srcroot}/products/libllbuild/public-api -lllbuild -L %{llbuild-lib-dir} -Werror
+# RUN: env LD_LIBRARY_PATH=%{llbuild-lib-dir} %t.exe %s > %t.out
+# RUN: cat %t.out
+# RUN: %{FileCheck} %s --input-file %t.out
+#
+# CHECK: -- read file contents: {{.*}}/buildsystem-capi.llbuild
+# CHECK: initial build:
+# CHECK: -- stat: /
+# CHECK: command_started: <hello> -- HELLO
+# CHECK: command_finished: <hello>
+# CHECK: command_started: <fancy-thing>
+# CHECK: fancy_command_execute_command
+# CHECK: command_finished: <fancy-thing>
+# CHECK: command_started: <error> -- FAILING-COMMAND
+# CHECK: had_command_failure
+# CHECK: build had command failures
+#
+# CHECK: second build:
+# CHECK: command_started: <error> -- FAILING-COMMAND
+# CHECK: build had command failures
+
+client:
+  name: basic
+  version: 0
+
+tools: { "fancy": {} }
+    
+targets:
+  "": ["<all>"]
+
+nodes:
+  "/": { "is-directory": false }
+
+commands:
+  "<all>":
+    tool: phony
+    inputs: ["<error>"]
+    outputs: ["<all>"]
+
+  "<hello>":
+    tool: shell
+    args: ["echo", "Hello, world!"]
+    inputs: ["/"]
+    outputs: ["<hello>"]
+    description: HELLO
+
+  "<fancy-thing>":
+    tool: fancy
+    inputs: ["<hello>"]
+    outputs: ["<fancy-thing>"]
+    
+  "<error>":
+    tool: shell
+    args: ["false"]
+    inputs: ["<hello>", "<fancy-thing>"]
+    outputs: ["<error>"]
+    description: FAILING-COMMAND

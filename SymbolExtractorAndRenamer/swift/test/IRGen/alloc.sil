@@ -1,0 +1,35 @@
+// RUN: %swift -target x86_64-apple-macosx10.9 -module-name main %s -emit-ir -o - | %FileCheck %s
+// RUN: %swift -target i386-apple-ios7.0 %s -module-name main -emit-ir -o - | %FileCheck %s
+// RUN: %swift -target x86_64-apple-ios7.0 %s -module-name main -emit-ir -o - | %FileCheck %s
+// RUN: %swift -target armv7-apple-ios7.0 %s -module-name main -emit-ir -o - | %FileCheck %s
+// RUN: %swift -target arm64-apple-ios7.0 %s -module-name main -emit-ir -o - | %FileCheck %s
+// RUN: %swift -target x86_64-unknown-linux-gnu %s -disable-objc-interop -module-name main -emit-ir -o - | %FileCheck %s
+
+// REQUIRES: CODEGENERATOR=X86
+// REQUIRES: CODEGENERATOR=ARM
+
+import Builtin
+
+struct Pair<T> {
+  var fst: T, snd: T
+}
+
+struct Huge {
+  var pairs: Pair<Pair<Pair<Pair<Pair<Pair<Pair<Pair<Pair<Builtin.Int64>>>>>>>>>
+  var unalign: Builtin.Int8
+}
+
+// CHECK: @_swift_slowAlloc = external global i8* ([[SIZE_T:i(32|64)]],
+
+// CHECK:    define linkonce_odr hidden void @_T04main4HugeVwde(
+// CHECK:      [[T0:%.*]] = bitcast [[BUFFER:.[0-9]+ x i8.]]* {{%.*}} to i8**
+// CHECK-NEXT: [[T1:%.*]] = load i8*, i8** [[T0]]
+// CHECK-NEXT: call void @swift_rt_swift_slowDealloc(i8* [[T1]], [[SIZE_T]] 4097, [[SIZE_T]] 7)
+// CHECK-NEXT: ret void
+
+
+// CHECK:    define linkonce_odr hidden [[OPAQUE:%swift.opaque]]* @_T04main4HugeVwal({{.*}}* [[BUFFER:%.*]], %swift.type
+// CHECK:  [[BOXPAIR:%.*]] = call { %swift.refcounted*, %swift.opaque* } @swift_allocBox({{.*}} @_T04main4HugeVMf
+// CHECK:  [[REF:%.*]] = extractvalue { %swift.refcounted*, %swift.opaque* } %0, 0
+// CHECK:  [[BUFFER_ADDR:%.*]] = bitcast {{.*}}* [[BUFFER]] to %swift.refcounted**
+// CHECK:  store %swift.refcounted* [[REF]], %swift.refcounted** [[BUFFER_ADDR]]

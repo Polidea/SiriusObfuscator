@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -ex
+
+# Delegate to lit to actually test.
+python ../llvm/utils/lit/lit.py -sv "$@"

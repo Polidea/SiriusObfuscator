@@ -1,0 +1,32 @@
+# Check the handling of generator commands, which are not rerun when they change.
+
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.ninja
+# RUN: touch %t.build/config.ninja
+# RUN: %{llbuild} ninja build --jobs 1 --chdir %t.build &> %t1.out
+# RUN: %{FileCheck} --check-prefix CHECK-FIRST --input-file %t1.out %s
+#
+# CHECK-FIRST-NOT: echo
+# CHECK-FIRST: date
+
+# Running again after changing the generator flags should not rebuild.
+#
+# RUN: echo "echo_flags = foo" > %t.build/config.ninja
+# RUN: %{llbuild} ninja build --jobs 1 --chdir %t.build &> %t2.out
+# RUN: %{FileCheck} --check-prefix CHECK-SECOND --input-file %t2.out %s
+#
+# CHECK-SECOND-NOT: echo
+# CHECK-SECOND: date
+
+echo_flags = 
+include config.ninja
+
+rule GENERATOR
+     command = echo ${echo_flags}
+     generator = 1
+rule DATE
+     command = date
+
+build build.ninja: GENERATOR
+build output: DATE

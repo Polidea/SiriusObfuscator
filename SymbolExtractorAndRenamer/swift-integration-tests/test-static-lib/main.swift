@@ -1,0 +1,3 @@
+import staticLib
+
+hello()

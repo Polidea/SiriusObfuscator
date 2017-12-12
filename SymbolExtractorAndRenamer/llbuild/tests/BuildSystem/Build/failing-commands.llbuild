@@ -1,0 +1,55 @@
+# Check that we always rerun commands which fail.
+
+# Run an initial build which fails on the command.
+#
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.llbuild
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build > %t.out || true
+# RUN: test ! -f %t.build/output
+# RUN: %{FileCheck} %s --input-file %t.out --check-prefix=CHECK-FAILURE
+#
+# CHECK-FAILURE: cp input output-1
+# CHECK-FAILURE: cp: {{.*}}input{{.*}}: No such file or directory
+# CHECK-FAILURE-NOT: cp output-1 output
+# CHECK-FAILURE-NOT: cp: {{.*}}output-1{{.*}}: No such file or directory
+
+
+# Rebuild and verify the command reruns.
+#
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build > %t2.out || true
+# RUN: test ! -f %t.build/output
+# RUN: %{FileCheck} %s --input-file %t2.out --check-prefix=CHECK-FAILURE-REBUILD
+#
+# CHECK-FAILURE-REBUILD: cp: {{.*}}input{{.*}}: No such file or directory
+
+
+# Create the missing input, and verify everything works. Aside from the obvious,
+# this also ensures our patterns above stay up to date.
+#
+# RUN: touch %t.build/input
+# RUN: %{llbuild} buildsystem build --serial --chdir %t.build > %t3.out
+# RUN: test -f %t.build/output
+# RUN: %{FileCheck} %s --input-file %t3.out --check-prefix=CHECK-SUCCESSFUL-REBUILD
+#
+# CHECK-SUCCESSFUL-REBUILD: cp input output-1
+# CHECK-SUCCESSFUL-REBUILD: cp output-1 output
+
+client:
+  name: basic
+
+targets:
+  "": ["output"]
+
+commands:
+  C1:
+    tool: shell
+    # NOTE: We intentionally don't declare the input here, we don't want to test "missing input behavior".
+    outputs: ["output-1"]
+    args: cp input output-1
+    
+  C2:
+    tool: shell
+    inputs: ["output-1"]
+    outputs: ["output"]
+    args: cp output-1 output

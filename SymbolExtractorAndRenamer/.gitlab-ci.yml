@@ -1,0 +1,9 @@
+obfuscator_debug:
+    stage: test
+    script:
+        - swift/utils/build-script -R
+    tags:
+        - xcode-9.0
+    only:
+        - tags
+

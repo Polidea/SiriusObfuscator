@@ -1,0 +1,105 @@
+//===--- KnownProtocols.def - Compiler protocol metaprogramming -*- C++ -*-===//
+//
+// This source file is part of the Swift.org open source project
+//
+// Copyright (c) 2014 - 2017 Apple Inc. and the Swift project authors
+// Licensed under Apache License v2.0 with Runtime Library Exception
+//
+// See https://swift.org/LICENSE.txt for license information
+// See https://swift.org/CONTRIBUTORS.txt for the list of Swift project authors
+//
+//===----------------------------------------------------------------------===//
+//
+// This file defines macros used for macro-metaprogramming with compiler-known
+// protocols.
+//
+//===----------------------------------------------------------------------===//
+
+
+/// \def PROTOCOL_WITH_NAME(Id, Name)
+///
+/// The enumerator value is \c KnownProtocolKind::Id. The protocol represented
+/// is simply named \p Name.
+#ifndef PROTOCOL_WITH_NAME
+#define PROTOCOL_WITH_NAME(Id, Name)
+#endif
+
+/// \def EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(Id, Name)
+#ifndef EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME
+#define EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(Id, Name) \
+    PROTOCOL_WITH_NAME(Id, Name)
+#endif
+
+/// \def BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(Id, Name)
+///
+/// Note that this is not a special form of EXPRESSIBLE_BY_LITERAL_PROTOCOL.
+#ifndef BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME
+#define BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(Id, Name) \
+    PROTOCOL_WITH_NAME(Id, Name)
+#endif
+
+
+#define PROTOCOL(name) PROTOCOL_WITH_NAME(name, #name)
+#define PROTOCOL_(name) PROTOCOL_WITH_NAME(name, "_" #name)
+#define EXPRESSIBLE_BY_LITERAL_PROTOCOL(name) \
+    EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(name, #name)
+#define EXPRESSIBLE_BY_LITERAL_PROTOCOL_(name) \
+    EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(name, "_" #name)
+#define BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(name) \
+    BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME(name, "_" #name)
+
+PROTOCOL(Sequence)
+PROTOCOL(IteratorProtocol)
+PROTOCOL(RawRepresentable)
+PROTOCOL(Equatable)
+PROTOCOL(Hashable)
+PROTOCOL(Comparable)
+PROTOCOL(Error)
+PROTOCOL_(ErrorCodeProtocol)
+PROTOCOL(OptionSet)
+
+PROTOCOL_(BridgedNSError)
+PROTOCOL_(BridgedStoredNSError)
+PROTOCOL_(CFObject)
+PROTOCOL_(SwiftNewtypeWrapper)
+PROTOCOL(CodingKey)
+PROTOCOL(Encodable)
+PROTOCOL(Decodable)
+
+PROTOCOL_(ObjectiveCBridgeable)
+PROTOCOL_(DestructorSafeContainer)
+
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByArrayLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByBooleanLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByDictionaryLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByExtendedGraphemeClusterLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByFloatLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByIntegerLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByStringInterpolation)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByStringLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByNilLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL(ExpressibleByUnicodeScalarLiteral)
+
+EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByColorLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByImageLiteral)
+EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByFileReferenceLiteral)
+
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinBooleanLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinUTF16ExtendedGraphemeClusterLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinExtendedGraphemeClusterLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinFloatLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinIntegerLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinStringLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinUTF16StringLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinUnicodeScalarLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinConstStringLiteral)
+BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_(ExpressibleByBuiltinConstUTF16StringLiteral)
+
+#undef EXPRESSIBLE_BY_LITERAL_PROTOCOL
+#undef EXPRESSIBLE_BY_LITERAL_PROTOCOL_
+#undef EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME
+#undef BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_
+#undef BUILTIN_EXPRESSIBLE_BY_LITERAL_PROTOCOL_WITH_NAME
+#undef PROTOCOL
+#undef PROTOCOL_
+#undef PROTOCOL_WITH_NAME

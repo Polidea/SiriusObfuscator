@@ -1,0 +1,5 @@
+module Zlib [system] {
+    header "/usr/include/zlib.h"
+    link "z"
+    export *
+}

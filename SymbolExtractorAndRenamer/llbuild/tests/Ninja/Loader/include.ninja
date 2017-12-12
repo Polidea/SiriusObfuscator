@@ -1,0 +1,35 @@
+# Check basic include processing.
+#
+# RUN: %{llbuild} ninja load-manifest %s > %t 2> %t.err
+# RUN: %{FileCheck} < %t %s
+# RUN: %{FileCheck} --check-prefix=CHECK-ERR < %t.err %s
+
+include Inputs/include-b.ninja
+
+# Check that subninja establishes a new bindings context; this will also create
+# a new command using ${parent_var} so we can check the parent scope worked
+# properly.
+#
+# CHECK: Top-Level Bindings
+# CHECK: should_be_empty = ""
+#
+# CHECK: build "b1-parent_scope_check": phony
+parent_var = b1-parent_scope_check
+subninja Inputs/include-b-2.ninja
+should_be_empty = ${input3_var}
+
+build input input2 xxxx: phony
+# CHECK: build "b2": testrule "input" "input2" "xxxx"
+build b2: testrule input ${input2_var} xx${should_be_empty}xx
+
+# Check that we diagnose broken includes.
+#
+# CHECK-ERR: include.ninja:[[@LINE+1]]:8: error: unable to open input
+include Inputs/include-does-not-exist.ninja
+
+
+# Check that we report errors in include files appropriately.
+#
+# CHECK-ERR: include-with-error.ninja:1:2: error: expected '=' token
+# CHECK-ERR-NEXT: I have an error on line 1
+include Inputs/include-with-error.ninja

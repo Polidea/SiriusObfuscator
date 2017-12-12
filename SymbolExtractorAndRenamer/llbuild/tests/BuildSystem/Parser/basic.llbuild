@@ -1,0 +1,103 @@
+# Check basic parsing functionality.
+#
+# RUN: %{llbuild} buildsystem parse %s > %t.out 2> %t.err
+# RUN: %{FileCheck} < %t.out %s
+#
+# Sanity check --no-output mode.
+# RUN: %{llbuild} buildsystem parse --no-output %s > %t2.out
+# RUN: wc -c < %t2.out > %t2.out.size
+# RUN: %{FileCheck} < %t2.out.size %s --check-prefix CHECK-NO-OUT-SIZE
+#
+# CHECK-NO-OUT-SIZE: {{^ *0$}}
+
+# Declare the client information.
+#
+# CHECK: client ('example-client', version: 1)
+# CHECK:  -- 'extra-key': 'extra-value'
+client:
+  name: example-client
+  version: 1
+  extra-key: extra-value
+
+# Define the tools.
+#
+# CHECK: tool('cc')
+# CHECK:  -- 'enable-dependencies': 'True'
+# CHECK:  -- 'cwd': '/tmp/example'
+# CHECK: tool('link')
+# CHECK:  -- 'cwd': '/tmp/example'
+# CHECK:  -- 'extra-map': {
+# CHECK:  --   'key': 'value'
+# CHECK:  -- }
+tools:
+  cc:
+    enable-dependencies: True
+    cwd: /tmp/example
+  link:
+    cwd: /tmp/example
+    extra-map:
+      key: value
+
+# Define the targets.
+#
+# CHECK: target('hello')
+# CHECK:  -- nodes: ['hello']
+targets:
+  hello: ["hello"]
+
+# Define properties on nodes.
+#
+# CHECK: node('hello.o')
+# CHECK:  -- 'hash-content': 'True'
+# CHECK:  -- 'extra-map': {
+# CHECK:  --   'key': 'value'
+# CHECK:  -- }
+nodes:
+  hello:
+    hash-content: True
+  hello.o:
+    hash-content: True
+    extra-map:
+      key: value
+
+# Define the commands.
+#
+# CHECK: command('link-hello')
+# CHECK:  -- 'tool': 'link'
+# CHECK:  -- 'description': 'LINK'
+# CHECK:  -- 'inputs': ['hello.o', 'bye.o']
+# CHECK:  -- 'outputs': ['hello']
+# CHECK:  -- -- loaded command('link-hello')
+# CHECK: command('cc-hello.o')
+# CHECK:  -- 'tool': 'cc'
+# CHECK:  -- 'inputs': ['hello.c']
+# CHECK:  -- 'outputs': ['hello.o']
+# CHECK:  -- 'args': ['-O0']
+# CHECK:  -- 'extra-map': {
+# CHECK:  --   'key': 'value'
+# CHECK:  -- }
+# CHECK: tool('clang')
+# CHECK: command('bye.o')
+# CHECK:   -- 'tool': 'clang')
+# CHECK:   -- 'inputs': ['bye.c']
+# CHECK:   -- 'outputs': ['bye.o']
+# CHECK:   -- 'args': ['-O0', '-g']
+# CHECK:   -- -- loaded command('bye.o')
+commands:
+  link-hello:
+    tool: link
+    description: LINK
+    inputs: ["hello.o", "bye.o"]
+    outputs: ["hello"]
+  cc-hello.o:
+    tool: cc
+    inputs: ["hello.c"]
+    outputs: ["hello.o"]
+    args: ["-O0"]
+    extra-map:
+      key: value
+  bye.o:
+    tool: clang
+    inputs: ["bye.c"]
+    outputs: ["bye.o"]
+    args: ["-O0", "-g"]

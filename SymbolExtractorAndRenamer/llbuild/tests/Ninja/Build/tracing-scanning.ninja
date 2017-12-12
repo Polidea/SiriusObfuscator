@@ -1,0 +1,43 @@
+# Check build engine tracing of scanning events.
+
+# RUN: rm -rf %t.build
+# RUN: mkdir -p %t.build
+# RUN: cp %s %t.build/build.ninja
+# RUN: touch %t.build/input-1
+# RUN: touch %t.build/input-2
+# RUN: %{llbuild} ninja build --jobs 1 --chdir %t.build
+
+# Check dependency scanning on rebuild.
+#
+# RUN: echo "mod" >> %t.build/input-2
+# RUN: %{llbuild} ninja build --jobs 1 --chdir %t.build --trace %t.trace-out
+# RUN: %{FileCheck} --input-file %t.trace-out %s
+#
+# We scan "output", which pauses, then "input-1" (which doesn't need to run),
+# then "input-2" (which does need to run), and then return to "output", which
+# needs to be deferred waiting for "input-2" to complete. After it completes, we
+# rescan "output" and realize it needs to run.
+#
+# CHECK: { "new-rule", "[[RULE1:.*]]", "output" },
+# CHECK: { "checking-rule-needs-to-run", "[[RULE1]]" },
+# CHECK: { "paused-input-request-for-rule-scan", "[[RULE1]]" },
+# CHECK: { "new-rule", "[[RULE2:.*]]", "input-1" },
+# CHECK: { "checking-rule-needs-to-run", "[[RULE2]]" },
+# CHECK: { "rule-does-not-need-to-run", "[[RULE2]]" },
+# CHECK: { "rule-scanning-next-input", "[[RULE1]]", "[[RULE2]]" },
+# CHECK: { "new-rule", "[[RULE3:.*]]", "input-2" },
+# CHECK: { "checking-rule-needs-to-run", "[[RULE3]]" },
+# CHECK: { "rule-needs-to-run", "[[RULE3]]", "invalid-value" },
+# CHECK: { "rule-scanning-next-input", "[[RULE1]]", "[[RULE3]]" },
+# CHECK: { "created-task-for-rule", "[[TASK1:.*]]", "[[RULE3]]" },
+# CHECK: { "rule-scanning-deferred-on-task", "[[RULE1]]", "[[TASK1]]" },
+# CHECK: { "finished-task", "[[TASK1]]", "[[RULE3]]", "changed" },
+# CHECK: { "rule-scanning-next-input", "[[RULE1]]", "[[RULE3]]" },
+# CHECK: { "rule-needs-to-run", "[[RULE1]]", "input-rebuilt", "[[RULE3]]" },
+
+rule CAT
+     command = cat ${in} > $out
+
+build output: CAT input-1 input-2
+
+default output

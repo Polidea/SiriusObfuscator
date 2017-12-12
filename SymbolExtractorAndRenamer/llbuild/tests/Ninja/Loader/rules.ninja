@@ -1,0 +1,41 @@
+# Check rule loading.
+#
+# RUN: %{llbuild} ninja load-manifest %s > %t 2> %t.err
+# RUN: %{FileCheck} < %t %s
+# RUN: %{FileCheck} --check-prefix=CHECK-ERR < %t.err %s
+
+# CHECK: rule rule1
+# CHECK: command = "command ${expr} arg $\narg2"
+rule rule1
+     command = command ${expr} arg $
+arg2
+
+# CHECK-ERR: rules.ninja:[[@LINE+2]]:5: error: duplicate rule
+rule rule2
+rule rule2
+
+# CHECK-ERR: rules.ninja:[[@LINE+2]]:5: error: unexpected variable
+rule rule3
+     unknown_variable = value
+
+# CHECK-ERR: rules.ninja:[[@LINE+1]]:0: error: missing 'command' variable assignment
+rule rule4
+
+# Ensure we diagnose attempts to define a new phony rule.
+# CHECK-ERR: rules.ninja:[[@LINE+1]]:5: error: duplicate rule
+rule phony
+
+# Check all the valid rule variables.
+# CHECK-ERR-NOT: unexpected variable
+pool somepool
+     depth = 5
+rule rule5
+     command = command
+     description = description
+     deps = gcc
+     depfile = depfile
+     generator = true
+     pool = somepool
+     restat = true
+     rspfile = rspfile
+     rspfile_content = rspfile_content

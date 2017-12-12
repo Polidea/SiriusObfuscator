@@ -1,0 +1,394 @@
+[0.22.0]
+
+  * Removed `pre` from blocktags scanner. `pre` is handled separately
+    in rule 1 and needn't be handled in rule 6.
+  * Added `iframe` to list of blocktags, as per spec change.
+  * Fixed bug with `HRULE` after blank line. This previously caused cmark
+    to break out of a list, thinking it had two consecutive blanks.
+  * Check for empty string before trying to look at line ending.
+  * Make sure every line fed to `S_process_line` ends with `\n` (#72).
+    So `S_process_line` sees only unix style line endings. Ultimately we
+    probably want a better solution, allowing the line ending style of
+    the input file to be preserved. This solution forces output with newlines.
+  * Improved `cmark_strbuf_normalize_whitespace` (#73). Now all characters
+    that satisfy `cmark_isspace` are recognized as whitespace. Previously
+    `\r` and `\t` (and others) weren't included.
+  * Treat line ending with EOF as ending with newline (#71).
+  * Fixed `--hardbreaks` with `\r\n` line breaks (#68).
+  * Disallow list item starting with multiple blank lines (jgm/CommonMark#332).
+  * Allow tabs before closing `#`s in ATX header
+  * Removed `cmark_strbuf_printf` and `cmark_strbuf_vprintf`.
+    These are no longer needed, and cause complications for MSVC.
+    Also removed `HAVE_VA_COPY` and `HAVE_C99_SNPRINTF` feature tests.
+  * Added option to disable tests (Kevin Wojniak).
+  * Added `CMARK_INLINE` macro.
+  * Removed need to disable MSVC warnings 4267, 4244, 4800
+    (Kevin Wojniak).
+  * Fixed MSVC inline errors when cmark is included in sources that
+    don't have the same set of disabled warnings (Kevin Wojniak).
+  * Fix `FileNotFoundError` errors on tests when cmark is built from
+    another project via `add_subdirectory()` (Kevin Wojniak).
+  * Prefix `utf8proc` functions to avoid conflict with existing library
+    (Kevin Wojniak).
+  * Avoid name clash between Windows `.pdb` files (Nick Wellnhofer).
+  * Improved `smart_punct.txt` (see jgm/commonmark.js#61).
+  * Set `POSITION_INDEPENDENT_CODE` `ON` for static library (see #39).
+  * `make bench`: allow overriding `BENCHFILE`. Previously if you did
+    this, it would clopper `BENCHFILE` with the default bench file.
+  * `make bench`: Use -10 priority with renice.
+  * Improved `make_autolink`. Ensures that title is chunk with empty
+    string rather than NULL, as with other links.
+  * Added `clang-check` target.
+  * Travis: split `roundtrip_test` and `leakcheck` (OGINO Masanori).
+  * Use clang-format, llvm style, for formatting. Reformatted all source files.
+    Added `format` target to Makefile. Removed `astyle` target.
+    Updated `.editorconfig`.
+
+[0.21.0]
+
+  * Updated to version 0.21 of spec.
+  * Added latex renderer (#31). New exported function in API:
+    `cmark_render_latex`. New source file: `src/latex.hs`.
+  * Updates for new HTML block spec. Removed old `html_block_tag` scanner.
+    Added new `html_block_start` and `html_block_start_7`, as well
+    as `html_block_end_n` for n = 1-5. Rewrote block parser for new HTML
+    block spec.
+  * We no longer preprocess tabs to spaces before parsing.
+    Instead, we keep track of both the byte offset and
+    the (virtual) column as we parse block starts.
+    This allows us to handle tabs without converting
+    to spaces first.  Tabs are left as tabs in the output, as
+    per the revised spec.
+  * Removed utf8 validation by default.  We now replace null characters
+    in the line splitting code.
+  * Added `CMARK_OPT_VALIDATE_UTF8` option and command-line option
+    `--validate-utf8`.  This option causes cmark to check for valid
+    UTF-8, replacing invalid sequences with the replacement
+    character, U+FFFD.  Previously this was done by default in
+    connection with tab expansion, but we no longer do it by
+    default with the new tab treatment.  (Many applications will
+    know that the input is valid UTF-8, so validation will not
+    be necessary.)
+  * Added `CMARK_OPT_SAFE` option and `--safe` command-line flag.
+    + Added `CMARK_OPT_SAFE`.  This option disables rendering of raw HTML
+      and potentially dangerous links.
+    + Added `--safe` option in command-line program.
+    + Updated `cmark.3` man page.
+    + Added `scan_dangerous_url` to scanners.
+    + In HTML, suppress rendering of raw HTML and potentially dangerous
+      links if `CMARK_OPT_SAFE`.  Dangerous URLs are those that begin
+      with `javascript:`, `vbscript:`, `file:`, or `data:` (except for
+      `image/png`, `image/gif`, `image/jpeg`, or `image/webp` mime types).
+    + Added `api_test` for `OPT_CMARK_SAFE`.
+    + Rewrote `README.md` on security.
+  * Limit ordered list start to 9 digits, per spec.
+  * Added width parameter to `render_man` (API change).
+  * Extracted common renderer code from latex, man, and commonmark
+    renderers into a separate module, `renderer.[ch]` (#63).  To write a
+    renderer now, you only need to write a character escaping function
+    and a node rendering function.  You pass these to `cmark_render`
+    and it handles all the plumbing (including line wrapping) for you.
+    So far this is an internal module, but we might consider adding
+    it to the API in the future.
+  * commonmark writer:  correctly handle email autolinks.
+  * commonmark writer:  escape `!`.
+  * Fixed soft breaks in commonmark renderer.
+  * Fixed scanner for link url. re2c returns the longest match, so we
+    were getting bad results with `[link](foo\(and\(bar\)\))`
+    which it would parse as containing a bare `\` followed by
+    an in-parens chunk ending with the final paren.
+  * Allow non-initial hyphens in html tag names. This allows for
+    custom tags, see jgm/CommonMark#239.
+  * Updated `test/smart_punct.txt`.
+  * Implemented new treatment of hyphens with `--smart`, converting
+    sequences of hyphens to sequences of em and en dashes that contain no
+    hyphens.
+  * HTML renderer:  properly split info on first space char (see
+    jgm/commonmark.js#54).
+  * Changed version variables to functions (#60, Andrius Bentkus).
+    This is easier to access using ffi, since some languages, like C#
+    like to use only function interfaces for accessing library
+    functionality.
+  * `process_emphasis`: Fixed setting lower bound to potential openers.
+    Renamed `potential_openers` -> `openers_bottom`.
+    Renamed `start_delim` -> `stack_bottom`.
+  * Added case for #59 to `pathological_test.py`.
+  * Fixed emphasis/link parsing bug (#59).
+  * Fixed off-by-one error in line splitting routine.
+    This caused certain NULLs not to be replaced.
+  * Don't rtrim in `subject_from_buffer`.  This gives bad results in
+    parsing reference links, where we might have trailing blanks
+    (`finalize` removes the bytes parsed as a reference definition;
+    before this change, some blank bytes might remain on the line).
+    + Added `column` and `first_nonspace_column` fields to `parser`.
+    + Added utility function to advance the offset, computing
+      the virtual column too.  Note that we don't need to deal with
+      UTF-8 here at all.  Only ASCII occurs in block starts.
+    + Significant performance improvement due to the fact that
+      we're not doing UTF-8 validation.
+  * Fixed entity lookup table.  The old one had many errors.
+    The new one is derived from the list in the npm entities package.
+    Since the sequences can now be longer (multi-code-point), we
+    have bumped the length limit from 4 to 8, which also affects
+    `houdini_html_u.c`.  An example of the kind of error that was fixed:
+    `&ngE;` should be rendered as "≧̸" (U+02267 U+00338), but it was
+    being rendered as "≧" (which is the same as `&gE;`).
+  * Replace gperf-based entity lookup with binary tree lookup.
+    The primary advantage is a big reduction in the size of
+    the compiled library and executable (> 100K).
+    There should be no measurable performance difference in
+    normal documents.  I detected only a slight performance
+    hit in a file containing 1,000,000 entities.
+    + Removed `src/html_unescape.gperf` and `src/html_unescape.h`.
+    + Added `src/entities.h` (generated by `tools/make_entities_h.py`).
+    + Added binary tree lookup functions to `houdini_html_u.c`, and
+      use the data in `src/entities.h`.
+    * Renamed `entities.h` -> `entities.inc`, and
+      `tools/make_entities_h.py` -> `tools/make_entitis_inc.py`.
+  * Fixed cases like
+    ```
+    [ref]: url
+    "title" ok
+    ```
+    Here we should parse the first line as a reference.
+  * `inlines.c`:  Added utility functions to skip spaces and line endings.
+  * Fixed backslashes in link destinations that are not part of escapes
+    (jgm/commonmark#45).
+  * `process_line`: Removed "add newline if line doesn't have one."
+    This isn't actually needed.
+  * Small logic fixes and a simplification in `process_emphasis`.
+  * Added more pathological tests:
+    + Many link closers with no openers.
+    + Many link openers with no closers.
+    + Many emph openers with no closers.
+    + Many closers with no openers.
+    + `"*a_ " * 20000`.
+  * Fixed `process_emphasis` to handle new pathological cases.
+    Now we have an array of pointers (`potential_openers`),
+    keyed to the delim char.  When we've failed to match a potential opener
+    prior to point X in the delimiter stack, we reset `potential_openers`
+    for that opener type to X, and thus avoid having to look again through
+    all the openers we've already rejected.
+  * `process_inlines`:  remove closers from delim stack when possible.
+    When they have no matching openers and cannot be openers themselves,
+    we can safely remove them.  This helps with a performance case:
+    `"a_ " * 20000` (jgm/commonmark.js#43).
+  * Roll utf8proc_charlen into utf8proc_valid (Nick Wellnhofer).
+    Speeds up "make bench" by another percent.
+  * `spec_tests.py`: allow `→` for tab in HTML examples.
+  * `normalize.py`:  don't collapse whitespace in pre contexts.
+  * Use utf-8 aware re2c.
+  * Makefile afl target:  removed `-m none`, added `CMARK_OPTS`.
+  * README: added `make afl` instructions.
+  * Limit generated generated `cmark.3` to 72 character line width.
+  * Travis: switched to containerized build system.
+  * Removed `debug.h`. (It uses GNU extensions, and we don't need it anyway.)
+  * Removed sundown from benchmarks, because the reading was anomalous.
+    sundown had an arbitrary 16MB limit on buffers, and the benchmark
+    input exceeded that.  So who knows what we were actually testing?
+    Added hoedown, sundown's successor, which is a better comparison.
+
+[0.20.0]
+
+  * Fixed bug in list item parsing when items indented >= 4 spaces (#52).
+  * Don't allow link labels with no non-whitespace characters
+    (jgm/CommonMark#322).
+  * Fixed multiple issues with numeric entities (#33, Nick Wellnhofer).
+  * Support CR and CRLF line endings (Ben Trask).
+  * Added test for different line endings to `api_test`.
+  * Allow NULL value in string setters (Nick Wellnhofer).  (NULL
+    produces a 0-length string value.)  Internally, URL and
+    title are now stored as `cmark_chunk` rather than `char *`.
+  * Fixed memory leak in `cmark_consolidate_text_nodes` (#32).
+  * Fixed `is_autolink` in the CommonMark renderer (#50).  Previously *any*
+    link with an absolute URL was treated as an autolink.
+  * Cope with broken `snprintf` on Windows (Nick Wellnhofer).  On Windows,
+    `snprintf` returns -1 if the output was truncated. Fall back to
+    Windows-specific `_scprintf`.
+  * Switched length parameter on `cmark_markdown_to_html`,
+    `cmark_parser_feed`, and `cmark_parse_document` from `int`
+    to `size_t` (#53, Nick Wellnhofer).
+  * Use a custom type `bufsize_t` for all string sizes and indices.
+    This allows to switch to 64-bit string buffers by changing a single
+    typedef and a macro definition (Nick Wellnhofer).
+  * Hardened the `strbuf` code, checking for integer overflows and
+    adding range checks (Nick Wellnhofer).
+  * Removed unused function `cmark_strbuf_attach` (Nick Wellnhofer).
+  * Fixed all implicit 64-bit to 32-bit conversions that
+    `-Wshorten-64-to-32` warns about (Nick Wellnhofer).
+  * Added helper function `cmark_strbuf_safe_strlen` that converts
+    from `size_t` to `bufsize_t` and throws an error in case of
+    an overflow (Nick Wellnhofer).
+  * Abort on `strbuf` out of memory errors (Nick Wellnhofer).
+    Previously such errors were not being trapped.  This involves
+    some internal changes to the `buffer` library that do not affect
+    the API.
+  * Factored out `S_find_first_nonspace` in `S_proces_line`.
+    Added fields `offset`, `first_nonspace`, `indent`, and `blank`
+    to `cmark_parser` struct.  This just removes some repetition.
+  * Added Racket Racket (5.3+) wrapper (Eli Barzilay).
+  * Removed `-pg` from Debug build flags (#47).
+  * Added Ubsan build target, to check for undefined behavior.
+  * Improved `make leakcheck`.  We now return an error status if anything
+    in the loop fails.  We now check `--smart` and `--normalize` options.
+  * Removed `wrapper3.py`, made `wrapper.py` work with python 2 and 3.
+    Also improved the wrapper to work with Windows, and to use smart
+    punctuation (as an example).
+  * In `wrapper.rb`, added argument for options.
+  * Revised luajit wrapper.
+  * Added build status badges to README.md.
+  * Added links to go, perl, ruby, R, and Haskell bindings to README.md.
+
+[0.19.0]
+
+  * Fixed `_` emphasis parsing to conform to spec (jgm/CommonMark#317).
+  * Updated `spec.txt`.
+  * Compile static library with `-DCMARK_STATIC_DEFINE` (Nick Wellnhofer).
+  * Suppress warnings about Windows runtime library files (Nick Wellnhofer).
+    Visual Studio Express editions do not include the redistributable files.
+    Set `CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS` to suppress warnings.
+  * Added appyeyor: Windows continuous integration (`appveyor.yml`).
+  * Use `os.path.join` in `test/cmark.py` for proper cross-platform paths.
+  * Fixed `Makefile.nmake`.
+  * Improved `make afl`:  added `test/afl_dictionary`, increased timeout
+    for hangs.
+  * Improved README with a description of the library's strengths.
+  * Pass-through Unicode non-characters (Nick Wellnhofer).
+    Despite their name, Unicode non-characters are valid code points. They
+    should be passed through by a library like libcmark.
+  * Check return status of `utf8proc_iterate` (#27).
+
+[0.18.3]
+
+  * Include patch level in soname (Nick Wellnhofer). Minor version is
+    tied to spec version, so this allows breaking the ABI between spec
+    releases.
+  * Install compiler-provided system runtime libraries (Changjiang Yang).
+  * Use `strbuf_printf` instead of `snprintf`. `snprintf` is not
+    available on some platforms (Visual Studio 2013 and earlier).
+  * Fixed memory access bug: "invalid read of size 1" on input `[link](<>)`.
+
+[0.18.2]
+
+  * Added commonmark renderer: `cmark_render_commonmark`. In addition
+    to options, this takes a `width` parameter.  A value of 0 disables
+    wrapping; a positive value wraps the document to the specified
+    width.  Note that width is automatically set to 0 if the
+    `CMARK_OPT_HARDBREAKS` option is set.
+  * The `cmark` executable now allows `-t commonmark` for output as
+    CommonMark.  A `--width` option has been added to specify wrapping
+    width.
+  * Added `roundtrip_test` Makefile target.  This runs all the spec
+    through the commonmark renderer, and then through the commonmark
+    parser, and compares normalized HTML to the test.  All tests pass
+    with the current parser and renderer, giving us some confidence that
+    the commonmark renderer is sufficiently robust.  Eventually this
+    should be pythonized and put in the cmake test routine.
+  * Removed an unnecessary check in `blocks.c`.  By the time we check
+    for a list start, we've already checked for a horizontal rule, so
+    we don't need to repeat that check here.  Thanks to Robin Stocker for
+    pointing out a similar redundancy in commonmark.js.
+  * Fixed bug in `cmark_strbuf_unescape` (`buffer.c`).  The old function
+    gave incorrect results on input like `\\*`, since the next backslash
+    would be treated as escaping the `*` instead of being escaped itself.
+  * `scanners.re`:  added `_scan_scheme`, `scan_scheme`, used in the
+    commonmark renderer.
+  * Check for `CMAKE_C_COMPILER` (not `CC_COMPILER`) when setting C flags.
+  * Update code examples in documentation, adding new parser option
+    argument, and using `CMARK_OPT_DEFAULT` (Nick Wellnhofer).
+  * Added options parameter to `cmark_markdown_to_html`.
+  * Removed obsolete reference to `CMARK_NODE_LINK_LABEL`.
+  * `make leakcheck` now checks all output formats.
+  * `test/cmark.py`:  set default options for `markdown_to_html`.
+  * Warn about buggy re2c versions (Nick Wellnhofer).
+
+[0.18.1]
+
+  * Build static version of library in default build (#11).
+  * `cmark.h`:  Add missing argument to `cmark_parser_new` (#12).
+
+[0.18]
+
+  * Switch to 2-clause BSD license, with agreement of contributors.
+  * Added Profile build type, `make prof` target.
+  * Fixed autolink scanner to conform to the spec. Backslash escapes
+    not allowed in autolinks.
+  * Don't rely on strnlen being available (Nick Wellnhofer).
+  * Updated scanners for new whitespace definition.
+  * Added `CMARK_OPT_SMART` and `--smart` option, `smart.c`, `smart.h`.
+  * Added test for `--smart` option.
+  * Fixed segfault with --normalize (closes #7).
+  * Moved normalization step from XML renderer to `cmark_parser_finish`.
+  * Added options parameter to `cmark_parse_document`, `cmark_parse_file`.
+  * Fixed man renderer's escaping for unicode characters.
+  * Don't require python3 to make `cmark.3` man page.
+  * Use ASCII escapes for punctuation characters for portability.
+  * Made `options` an int rather than a long, for consistency.
+  * Packed `cmark_node` struct to fit into 128 bytes.
+    This gives a small performance boost and lowers memory usage.
+  * Repacked `delimiter` struct to avoid hole.
+  * Fixed use-after-free bug, which arose when a paragraph containing
+    only reference links and blank space was finalized (#9).
+    Avoid using `parser->current` in the loop that creates new
+    blocks, since `finalize` in `add_child` may have removed
+    the current parser (if it contains only reference definitions).
+    This isn't a great solution; in the long run we need to rewrite
+    to make the logic clearer and to make it harder to make
+    mistakes like this one.
+  * Added 'Asan' build type. `make asan` will link against ASan; the
+    resulting executable will do checks for memory access issues.
+    Thanks @JordanMilne for the suggestion.
+  * Add Makefile target to fuzz with AFL (Nick Wellnhofer)
+    The variable `$AFL_PATH` must point to the directory containing the AFL
+    binaries. It can be set as an environment variable or passed to make on
+    the command line.
+
+[0.17]
+
+  * Stripped out all JavaScript related code and documentation, moving
+    it to a separate repository (<https://github.com/jgm/commonmark.js>).
+  * Improved Makefile targets, so that `cmake` is run again only when
+    necessary (Nick Wellnhofer).
+  * Added `INSTALL_PREFIX` to the Makefile, allowing installation to a
+    location other than `/usr/local` without invoking `cmake`
+    manually (Nick Wellnhofer).
+  * `make test` now guarantees that the project will
+    be rebuilt before tests are run (Nick Wellnhofer).
+  * Prohibited overriding of some Makefile variables (Nick Wellnhofer).
+  * Provide version number and string, both as macros
+    (`CMARK_VERSION`, `CMARK_VERSION_STRING`) and as symbols
+    (`cmark_version`, `cmark_version_string`) (Nick Wellnhofer).  All of
+    these come from `cmark_version.h`, which is constructed from a
+    template `cmark_version.h.in` and data in `CMakeLists.txt`.
+  * Avoid calling `free` on null pointer.
+  * Added an accessor for an iterator's root node (`cmark_iter_get_root`).
+  * Added user data field for nodes (Nick Wellnhofer).  This is
+    intended mainly for use in bindings for dynamic languages, where
+    it could store a pointer to a target language object (#287).  But
+    it can be used for anything.
+  * Man renderer:  properly escape multiline strings.
+  * Added assertion to raise error if finalize is called on a closed block.
+  * Implemented the new spec rule for emphasis and strong emphasis with `_`.
+  * Moved the check for fence-close with the other checks for end-of-block.
+  * Fixed a bug with loose list detection with items containings
+    fenced code blocks (#285).
+  * Removed recursive algorithm in `ends_with_blank_line` (#286).
+  * Minor code reformatting: renamed parameters.
+
+[0.16]
+
+  * Added xml renderer (XML representation of the CommonMark AST,
+    which is described in `CommonMark.dtd`).
+  * Reduced size of gperf entity table (Nick Wellnhofer).
+  * Reworked iterators to allow deletion of nodes during iteration
+    (Nick Wellnhofer).
+  * Optimized `S_is_leaf`.
+  * Added `cmark_iter_reset` to iterator API.
+  * Added `cmark_consolidate_text_nodes` to API to combine adjacent
+    text nodes.
+  * Added `CMARK_OPT_NORMALIZE` to options (this combines adjacent
+    text nodes).
+  * Added `--normalize` option to command-line program.
+  * Improved regex for HTML comments in inline parsing.
+  * Python is no longer required for a basic build from the
+    repository.

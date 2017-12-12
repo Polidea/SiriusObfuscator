@@ -1,0 +1,39 @@
+// Check that we can debug a system module package.
+//
+// Unfortunately this doesn't work yet. See: SR-3280 and SR-3863.
+// REQUIRES: disabled
+//
+// Make a sandbox dir.
+// RUN: rm -rf %t.dir
+// RUN: mkdir -p %t.dir
+// RUN: cp -r %S/CFoo %t.dir/
+// RUN: cp -r %S/Foo %t.dir/
+//
+// Create and drop the library inside build folder.
+// RUN: mkdir -p %t.dir/Foo/.build/debug
+// RUN: clang -shared %t.dir/CFoo/foo.c -o %t.dir/Foo/.build/debug/libfoo.so
+//
+// Create the git repo for the lib package
+// RUN: git -C %t.dir/CFoo init
+// RUN: git -C %t.dir/CFoo add .
+// RUN: git -C %t.dir/CFoo config user.name "Test User"
+// RUN: git -C %t.dir/CFoo config user.email "test@user.com"
+// RUN: git -C %t.dir/CFoo commit -m "Creating package"
+// RUN: git -C %t.dir/CFoo tag 1.0.0
+//
+// Check the build log.
+// RUN: %{swift} build --package-path %t.dir/Foo 2>&1 | tee %t.build-log
+// RUN: %{FileCheck} --check-prefix CHECK-BUILD-LOG --input-file %t.build-log %s
+// CHECK-BUILD-LOG: Compile Swift Module 'Foo'
+
+// Verify that the build worked.
+// RUN: test -x %t.dir/Foo/.build/debug/Foo
+// RUN: %t.dir/Foo/.build/debug/Foo > %t.out
+// RUN: %{FileCheck} --check-prefix CHECK-APP-OUTPUT --input-file %t.out %s
+// CHECK-APP-OUTPUT: 5
+// CHECK-APP-OUTPUT-NEXT: OK
+
+// Check we can debug the executable.
+// RUN: %{lldb} %t.dir/Foo/.build/debug/Foo -o "b main.swift:2" -o r -o "po foo()" -b &> %t.lldb
+// RUN: %{FileCheck} --check-prefix CHECK-LLDB-LOG --input-file %t.lldb %s
+// CHECK-LLDB-LOG: (lldb) po foo()

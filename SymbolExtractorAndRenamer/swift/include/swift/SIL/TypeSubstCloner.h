@@ -1,0 +1,273 @@
+//===--- TypeSubstCloner.h - Clones code and substitutes types --*- C++ -*-===//
+//
+// This source file is part of the Swift.org open source project
+//
+// Copyright (c) 2014 - 2017 Apple Inc. and the Swift project authors
+// Licensed under Apache License v2.0 with Runtime Library Exception
+//
+// See https://swift.org/LICENSE.txt for license information
+// See https://swift.org/CONTRIBUTORS.txt for the list of Swift project authors
+//
+//===----------------------------------------------------------------------===//
+//
+// This file defines TypeSubstCloner, which derives from SILCloner and
+// has support for type substitution while cloning code that uses generics.
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef SWIFT_SIL_TYPESUBSTCLONER_H
+#define SWIFT_SIL_TYPESUBSTCLONER_H
+
+#include "swift/AST/GenericEnvironment.h"
+#include "swift/AST/ProtocolConformance.h"
+#include "swift/AST/Type.h"
+#include "swift/SIL/SILCloner.h"
+#include "swift/SIL/DynamicCasts.h"
+#include "swift/SILOptimizer/Utils/Local.h"
+#include "llvm/Support/Debug.h"
+
+namespace swift {
+
+/// TypeSubstCloner - a utility class for cloning code while remapping types.
+template<typename ImplClass>
+class TypeSubstCloner : public SILClonerWithScopes<ImplClass> {
+  friend class SILVisitor<ImplClass>;
+  friend class SILCloner<ImplClass>;
+
+  typedef SILClonerWithScopes<ImplClass> super;
+
+  void postProcess(SILInstruction *Orig, SILInstruction *Cloned) {
+    llvm_unreachable("Clients need to explicitly call a base class impl!");
+  }
+
+  void computeSubsMap() {
+    if (auto genericSig = Original.getLoweredFunctionType()
+          ->getGenericSignature()) {
+      SubsMap = genericSig->getSubstitutionMap(ApplySubs);
+    }
+  }
+
+  // A helper class for cloning different kinds of apply instructions.
+  // Supports cloning of self-recursive functions.
+  class ApplySiteCloningHelper {
+    SILValue Callee;
+    SubstitutionList Subs;
+    SmallVector<SILValue, 8> Args;
+    SmallVector<Substitution, 8> NewSubsList;
+    SmallVector<Substitution, 8> RecursiveSubsList;
+
+  public:
+    ApplySiteCloningHelper(ApplySite AI, TypeSubstCloner &Cloner)
+        : Callee(Cloner.getOpValue(AI.getCallee())) {
+      SILType SubstCalleeSILType = Cloner.getOpType(AI.getSubstCalleeSILType());
+
+      Args = Cloner.template getOpValueArray<8>(AI.getArguments());
+      SILBuilder &Builder = Cloner.getBuilder();
+      Builder.setCurrentDebugScope(Cloner.super::getOpScope(AI.getDebugScope()));
+
+      // Remap substitutions.
+      NewSubsList = Cloner.getOpSubstitutions(AI.getSubstitutions());
+      Subs = NewSubsList;
+
+      if (!Cloner.Inlining) {
+        FunctionRefInst *FRI = dyn_cast<FunctionRefInst>(AI.getCallee());
+        if (FRI && FRI->getReferencedFunction() == AI.getFunction() &&
+            Subs == Cloner.ApplySubs) {
+          // Handle recursions by replacing the apply to the callee with an
+          // apply to the newly specialized function, but only if substitutions
+          // are the same.
+          auto LoweredFnTy = Builder.getFunction().getLoweredFunctionType();
+          auto RecursiveSubstCalleeSILType = LoweredFnTy;
+          auto GenSig = LoweredFnTy->getGenericSignature();
+          if (GenSig) {
+            // Compute substitutions for the specialized function. These
+            // substitutions may be different from the original ones, e.g.
+            // there can be less substitutions.
+            GenSig->getSubstitutions(AI.getFunction()
+                                         ->getLoweredFunctionType()
+                                         ->getGenericSignature()
+                                         ->getSubstitutionMap(Subs),
+                                     RecursiveSubsList);
+            // Use the new set of substitutions to compute the new
+            // substituted callee type.
+            RecursiveSubstCalleeSILType = LoweredFnTy->substGenericArgs(
+                AI.getModule(), RecursiveSubsList);
+          }
+
+          // The specialized recursive function may have different calling
+          // convention for parameters. E.g. some of former indirect parameters
+          // may become direct. Some of indirect return values may become
+          // direct. Do not replace the callee in that case.
+          if (SubstCalleeSILType.getSwiftRValueType() ==
+              RecursiveSubstCalleeSILType) {
+            Subs = RecursiveSubsList;
+            Callee = Builder.createFunctionRef(
+                Cloner.getOpLocation(AI.getLoc()), &Builder.getFunction());
+            SubstCalleeSILType =
+                SILType::getPrimitiveObjectType(RecursiveSubstCalleeSILType);
+          }
+        }
+      }
+
+      assert(Subs.empty() ||
+             SubstCalleeSILType ==
+                 Callee->getType().substGenericArgs(AI.getModule(), Subs));
+    }
+
+    ArrayRef<SILValue> getArguments() const {
+      return Args;
+    }
+
+    SILValue getCallee() const {
+      return Callee;
+    }
+
+    SubstitutionList getSubstitutions() const {
+      return Subs;
+    }
+  };
+
+public:
+  using SILClonerWithScopes<ImplClass>::asImpl;
+  using SILClonerWithScopes<ImplClass>::getBuilder;
+  using SILClonerWithScopes<ImplClass>::getOpLocation;
+  using SILClonerWithScopes<ImplClass>::getOpValue;
+  using SILClonerWithScopes<ImplClass>::getASTTypeInClonedContext;
+  using SILClonerWithScopes<ImplClass>::getOpASTType;
+  using SILClonerWithScopes<ImplClass>::getTypeInClonedContext;
+  using SILClonerWithScopes<ImplClass>::getOpType;
+  using SILClonerWithScopes<ImplClass>::getOpBasicBlock;
+  using SILClonerWithScopes<ImplClass>::doPostProcess;
+  using SILClonerWithScopes<ImplClass>::ValueMap;
+  using SILClonerWithScopes<ImplClass>::addBlockWithUnreachable;
+  using SILClonerWithScopes<ImplClass>::OpenedArchetypesTracker;
+
+  TypeSubstCloner(SILFunction &To,
+                  SILFunction &From,
+                  SubstitutionList ApplySubs,
+                  SILOpenedArchetypesTracker &OpenedArchetypesTracker,
+                  bool Inlining = false)
+    : SILClonerWithScopes<ImplClass>(To, OpenedArchetypesTracker, Inlining),
+      SwiftMod(From.getModule().getSwiftModule()),
+      Original(From),
+      ApplySubs(ApplySubs),
+      Inlining(Inlining) {
+    computeSubsMap();
+  }
+
+  TypeSubstCloner(SILFunction &To,
+                  SILFunction &From,
+                  SubstitutionList ApplySubs,
+                  bool Inlining = false)
+    : SILClonerWithScopes<ImplClass>(To, Inlining),
+      SwiftMod(From.getModule().getSwiftModule()),
+      Original(From),
+      ApplySubs(ApplySubs),
+      Inlining(Inlining) {
+    computeSubsMap();
+  }
+
+
+protected:
+  SILType remapType(SILType Ty) {
+    return Ty.subst(Original.getModule(), SubsMap);
+  }
+
+  CanType remapASTType(CanType ty) {
+    return ty.subst(SubsMap)->getCanonicalType();
+  }
+
+  ProtocolConformanceRef remapConformance(Type type,
+                                          ProtocolConformanceRef conf) {
+    return conf.subst(type,
+                      QuerySubstitutionMap{SubsMap},
+                      LookUpConformanceInSubstitutionMap(SubsMap));
+  }
+
+  void visitApplyInst(ApplyInst *Inst) {
+    ApplySiteCloningHelper Helper(ApplySite::isa(Inst), *this);
+    ApplyInst *N =
+        getBuilder().createApply(getOpLocation(Inst->getLoc()),
+                                 Helper.getCallee(), Helper.getSubstitutions(),
+                                 Helper.getArguments(), Inst->isNonThrowing());
+    doPostProcess(Inst, N);
+  }
+
+  void visitTryApplyInst(TryApplyInst *Inst) {
+    ApplySiteCloningHelper Helper(ApplySite::isa(Inst), *this);
+    TryApplyInst *N = getBuilder().createTryApply(
+        getOpLocation(Inst->getLoc()), Helper.getCallee(),
+        Helper.getSubstitutions(), Helper.getArguments(),
+        getOpBasicBlock(Inst->getNormalBB()),
+        getOpBasicBlock(Inst->getErrorBB()));
+    doPostProcess(Inst, N);
+  }
+
+  void visitPartialApplyInst(PartialApplyInst *Inst) {
+    ApplySiteCloningHelper Helper(ApplySite::isa(Inst), *this);
+    auto ParamConvention =
+        Inst->getType().getAs<SILFunctionType>()->getCalleeConvention();
+    PartialApplyInst *N = getBuilder().createPartialApply(
+        getOpLocation(Inst->getLoc()), Helper.getCallee(),
+        Helper.getSubstitutions(), Helper.getArguments(), ParamConvention);
+    doPostProcess(Inst, N);
+  }
+
+  /// Attempt to simplify a conditional checked cast.
+  void visitCheckedCastAddrBranchInst(CheckedCastAddrBranchInst *inst) {
+    SILLocation loc = getOpLocation(inst->getLoc());
+    SILValue src = getOpValue(inst->getSrc());
+    SILValue dest = getOpValue(inst->getDest());
+    CanType sourceType = getOpASTType(inst->getSourceType());
+    CanType targetType = getOpASTType(inst->getTargetType());
+    SILBasicBlock *succBB = getOpBasicBlock(inst->getSuccessBB());
+    SILBasicBlock *failBB = getOpBasicBlock(inst->getFailureBB());
+
+    SILBuilderWithPostProcess<TypeSubstCloner, 16> B(this, inst);
+    B.setCurrentDebugScope(super::getOpScope(inst->getDebugScope()));
+
+    // Try to use the scalar cast instruction.
+    if (canUseScalarCheckedCastInstructions(B.getModule(),
+                                            sourceType, targetType)) {
+      emitIndirectConditionalCastWithScalar(B, SwiftMod, loc,
+                                            inst->getConsumptionKind(),
+                                            src, sourceType,
+                                            dest, targetType,
+                                            succBB, failBB);
+      return;
+    }
+
+    // Otherwise, use the indirect cast.
+    B.createCheckedCastAddrBranch(loc, inst->getConsumptionKind(),
+                                  src, sourceType,
+                                  dest, targetType,
+                                  succBB, failBB);
+    return;
+  }
+
+  void visitUpcastInst(UpcastInst *Upcast) {
+    // If the type substituted type of the operand type and result types match
+    // there is no need for an upcast and we can just use the operand.
+    if (getOpType(Upcast->getType()) ==
+        getOpValue(Upcast->getOperand())->getType()) {
+      ValueMap.insert({SILValue(Upcast), getOpValue(Upcast->getOperand())});
+      return;
+    }
+    super::visitUpcastInst(Upcast);
+  }
+
+  /// The Swift module that the cloned function belongs to.
+  ModuleDecl *SwiftMod;
+  /// The substitutions list for the specialization.
+  SubstitutionMap SubsMap;
+  /// The original function to specialize.
+  SILFunction &Original;
+  /// The substitutions used at the call site.
+  SubstitutionList ApplySubs;
+  /// True, if used for inlining.
+  bool Inlining;
+};
+
+} // end namespace swift
+
+#endif

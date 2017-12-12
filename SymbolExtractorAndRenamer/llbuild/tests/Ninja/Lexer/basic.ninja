@@ -1,0 +1,54 @@
+# Check basic lexing functionality.
+#
+# RUN: %{llbuild} ninja lex %s 2> %t.err
+# RUN: %{FileCheck} < %t.err %s
+
+# CHECK: (Token "Comment" String:{{.*}} Length:70 Line:[[@LINE+1]] Column:0)
+# This is a 70 character comment (which does not include the newline).
+
+# CHECK: (Token "Colon" String:":" Length:1 Line:[[@LINE+1]] Column:0)
+:
+
+# CHECK: (Token "Pipe" String:"|" Length:1 Line:[[@LINE+1]] Column:0)
+|
+
+# CHECK: (Token "PipePipe" String:"||" Length:2 Line:[[@LINE+1]] Column:0)
+||
+
+# CHECK: (Token "Identifier" String:"a" Length:1 Line:[[@LINE+3]] Column:0)
+# CHECK: (Token "Equals" String:"=" Length:1 Line:[[@LINE+2]] Column:1)
+# CHECK: (Token "Identifier" String:"b" Length:1 Line:[[@LINE+1]] Column:3)
+a= b
+
+# CHECK: (Token "Identifier" String:"a" Length:1 Line:[[@LINE+3]] Column:0)
+# CHECK: (Token "Colon" String:":" Length:1 Line:[[@LINE+2]] Column:1)
+# CHECK: (Token "Identifier" String:"b" Length:1 Line:[[@LINE+1]] Column:3)
+a: b
+
+# CHECK: (Token "Identifier" String:"a" Length:1 Line:[[@LINE+3]] Column:0)
+# CHECK: (Token "Unknown" String:"$" Length:1 Line:[[@LINE+2]] Column:1)
+# CHECK: (Token "Identifier" String:"b" Length:1 Line:[[@LINE+1]] Column:2)
+a$b
+
+# Check indentation tokens.
+#
+# CHECK: (Token "Indentation" String:"    " Length:4 Line:[[@LINE+2]] Column:0)
+# CHECK: (Token "Identifier" String:"b" Length:1 Line:[[@LINE+1]] Column:4)
+    b
+
+# Check keyword tokens.
+#
+# CHECK: (Token "KWBuild" String:"build" Length:5 Line:[[@LINE+1]] Column:0)
+build
+# CHECK: (Token "KWDefault" String:"default" Length:7 Line:[[@LINE+1]] Column:0)
+default
+# CHECK: (Token "KWInclude" String:"include" Length:7 Line:[[@LINE+1]] Column:0)
+include
+# CHECK: (Token "KWPool" String:"pool" Length:4 Line:[[@LINE+1]] Column:0)
+pool
+# CHECK: (Token "KWRule" String:"rule" Length:4 Line:[[@LINE+1]] Column:0)
+rule
+# CHECK: (Token "KWSubninja" String:"subninja" Length:8 Line:[[@LINE+1]] Column:0)
+subninja
+
+# CHECK: (Token "EndOfFile" String:{{.*}} Length:0 Line:[[@LINE+1]] Column:0)
