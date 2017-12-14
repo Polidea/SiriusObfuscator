@@ -1,0 +1,8 @@
+file_extractor:
+    stage: test
+    script:
+        - /bin/bash Scripts/build.sh
+        - /bin/bash Scripts/run_all_tests.sh
+    tags:
+        - xcode-9.0
+

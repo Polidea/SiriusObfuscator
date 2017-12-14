@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+if $PROGRAM_NAME == __FILE__
+  fileInPackage = File.expand_path('../../../vendor/Gemfile', __FILE__)
+  fileInDevelopment = File.expand_path('../../Gemfile', __FILE__)
+  if File.file?(fileInPackage)
+    ENV['BUNDLE_GEMFILE'] = fileInPackage
+  elsif File.file?(fileInDevelopment)
+    ENV['BUNDLE_GEMFILE'] = fileInDevelopment
+  else
+    abort("Unable to find Gemfile")
+  end
+  require 'bundler/setup'
+end
+
+$LOAD_PATH.unshift "#{File.dirname(__FILE__)}/../lib"
+
+require "file-extractor"
+
+FileExtractor::Command.run(ARGV)

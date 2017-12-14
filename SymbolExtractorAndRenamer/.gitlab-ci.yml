@@ -1,7 +1,9 @@
 obfuscator_debug:
     stage: test
+    before_script:
+        - /bin/bash $CACHE_DIR/ninjaScript.bash
     script:
-        - swift/utils/build-script -R
+        - /bin/bash Scripts/build.sh
     tags:
         - xcode-9.0
     only:

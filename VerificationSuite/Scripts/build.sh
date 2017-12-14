@@ -1,4 +1,6 @@
 #!/bin/bash
 
-echo "Building verification suite"
+swift build -c release
+
+cp $(swift build -c release --show-bin-path)/VerificationSuite .
 

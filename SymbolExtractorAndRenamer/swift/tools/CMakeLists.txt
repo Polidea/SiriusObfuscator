@@ -13,6 +13,7 @@ add_swift_tool_subdirectory(swift-llvm-opt)
 add_swift_tool_subdirectory(swift-api-digester)
 add_swift_tool_subdirectory(swift-syntax-test)
 add_swift_tool_subdirectory(obfuscator-symbol-extractor)
+add_swift_tool_subdirectory(obfuscator-name-mapper)
 add_swift_tool_subdirectory(obfuscator-renamer)
 
 if(SWIFT_BUILD_SOURCEKIT)

@@ -1,6 +1,12 @@
 add_swift_host_tool(obfuscator-symbol-extractor
   obfuscator-symbol-extractor.cpp
-  LINK_LIBRARIES swiftDriver swiftFrontend swiftIDE
-  SWIFT_COMPONENT tools
+  LINK_LIBRARIES 
+  swiftDriver 
+  swiftFrontend
+  swiftObfuscation
+  LLVM_COMPONENT_DEPENDS
+  Support
+  SWIFT_COMPONENT 
+  tools
 )
 
