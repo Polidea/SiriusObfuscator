@@ -23,5 +23,5 @@ rm tmp.file
 git add . -A
 git commit --fixup $NEWSHA
 
-git rebase --interactive --autosquash $GITSHA
+GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash $GITSHA
 
