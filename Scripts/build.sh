@@ -3,7 +3,6 @@
 projects=(
   "FileExtractor"
   "SymbolExtractorAndRenamer"
-  "NameMapper"
   "TestProjects"
   "VerificationSuite"
 )
