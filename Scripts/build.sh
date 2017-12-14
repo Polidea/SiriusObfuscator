@@ -8,7 +8,9 @@ projects=(
 )
 for i in ${!projects[@]}; do
   echo "BUILD: cd ${projects[$i]} && /bin/bash Scripts/build.sh"
-  cd ${projects[$i]} && /bin/bash Scripts/build.sh
+  cd ${projects[$i]} 
+  /bin/bash Scripts/build.sh
+  cd ..
 done
 
 mkdir bin
