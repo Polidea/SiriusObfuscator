@@ -15,6 +15,7 @@ git commit -m "Updated dependencies"
 NEWSHA=$(git log -1 --format="%H")
 
 for i in ${!projects[@]}; do
+  git fetch ${projects[$i]} 
   git merge -X subtree=${projects[$i]} --squash ${projects[$i]}/master --allow-unrelated-histories
   git commit --fixup $NEWSHA
 done

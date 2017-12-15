@@ -1,3 +1,6 @@
 /file-extractor*
 /build
 /bin
+/*.xcodeproj
+/.build
+/Packages
