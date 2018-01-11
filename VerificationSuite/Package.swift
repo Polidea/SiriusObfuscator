@@ -6,12 +6,13 @@ import PackageDescription
 let package = Package(
     name: "VerificationSuite",
     dependencies: [
-        .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.0.0")
+        .package(url: "https://github.com/apple/swift-package-manager.git", from: "0.1.0"),
+        .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.1.0")
     ],
     targets: [
         .target(
             name: "VerificationSuite",
-            dependencies: ["ShellOut"]
+            dependencies: ["Utility", "ShellOut"]
         ),
         .testTarget(
             name: "VerificationSuiteTests",

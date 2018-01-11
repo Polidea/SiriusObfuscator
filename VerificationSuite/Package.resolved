@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/JohnSundell/ShellOut.git",
         "state": {
           "branch": null,
-          "revision": "479a89d9bfa7585496bd4a3e4faffac5b01af37f",
-          "version": "2.0.0"
+          "revision": "f1c253a34a40df4bfd268b09fdb101b059f6d52d",
+          "version": "2.1.0"
+        }
+      },
+      {
+        "package": "SwiftPM",
+        "repositoryURL": "https://github.com/apple/swift-package-manager.git",
+        "state": {
+          "branch": null,
+          "revision": "90abb3c4c9415afee34291e66e655c58a1902784",
+          "version": "0.1.0"
         }
       }
     ]

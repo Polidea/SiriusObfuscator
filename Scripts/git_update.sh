@@ -7,22 +7,16 @@ projects=(
   "VerificationSuite"
 )
 
-GITSHA=$(git log -1 --format="%H")
-
-touch tmp.file
-git add . -A
-git commit -m "Updated dependencies"
-NEWSHA=$(git log -1 --format="%H")
+mv SymbolExtractorAndRenamer/build ./tmp_build
 
 for i in ${!projects[@]}; do
-  git fetch ${projects[$i]} 
-  git merge -X subtree=${projects[$i]} --squash ${projects[$i]}/master --allow-unrelated-histories
-  git commit --fixup $NEWSHA
+  git rm -r ${projects[$i]} --quiet
+  git fetch ${projects[$i]}
+  git read-tree --prefix=${projects[$i]} -u ${projects[$i]}/master
 done
 
-rm tmp.file
-git add . -A
-git commit --fixup $NEWSHA
+mv tmp_build SymbolExtractorAndRenamer/build 
 
-GIT_SEQUENCE_EDITOR=true git rebase --interactive --autosquash $GITSHA
+git add . -A
+git commit -m "Updated dependencies"
 

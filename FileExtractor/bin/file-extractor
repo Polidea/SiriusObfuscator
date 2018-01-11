@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# encoding: utf-8
 
 if $PROGRAM_NAME == __FILE__
   fileInPackage = File.expand_path('../../../vendor/Gemfile', __FILE__)

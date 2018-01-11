@@ -1,5 +1,6 @@
 import Foundation
 import ShellOut
+import Utility
 
 guard let myselfInArguments = CommandLine.arguments.first
   else {
@@ -7,90 +8,135 @@ guard let myselfInArguments = CommandLine.arguments.first
     exit(1)
 }
 
-do {
+func execute() throws {
+  
+  let parser = ArgumentParser(
+    usage: "-projectrootpath [PROJECTROOTPATH] -obfuscatedproject [OBFUSCATEDPROJECTPATH]",
+    overview: "Obfuscator tool"
+  )
+  
+  let originalPathArgument: OptionArgument<String> = parser.add(
+    option: "-projectrootpath",
+    kind: String.self,
+    usage: """
+    Path to Xcode project root folder. It's the folder that contains the Xcode project file (.xcodeproj or .xcworkspace) and the source files. It's a required parameter.
+    """
+  )
+  
+  let obfuscatedPathArgument: OptionArgument<String> = parser.add(
+    option: "-obfuscatedproject",
+    kind: String.self,
+    usage: """
+    Path to the directory to which the obfuscated project will be copied. It's a required parameter.
+    """
+  )
+  
+  var arguments = Array(CommandLine.arguments.dropFirst())
+  if arguments.isEmpty {
+    arguments.append("-help")
+  }
+  
+  let result = try parser.parse(arguments)
+  
+  guard let originalPath = result.get(originalPathArgument) else {
+    print("Parameter -projectrootpath is required")
+    return;
+  }
+  
+  guard let obfuscatedPath = result.get(obfuscatedPathArgument) else {
+    print("Parameter -obfuscatedproject is required")
+    return;
+  }
+  
   let dirName = try shellOut(to: "dirname", arguments: [myselfInArguments])
   let selfDir = try shellOut(to: ["cd \(dirName)", "pwd"])
   let introMessage = """
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-Welcome to Swift obfuscator
+Welcome to Swift Obfuscator
 
-\u{001B}[0;35m===========================\u{001B}[0;37m
-
-The obfuscation process consists of multiple steps. We'll do them one by one.
 """
   print(introMessage)
   let fileExtractorMessage = """
 
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-1) First, let's launch File Extractor
-
-File Extractor output:
+1) File Extractor:
 
 """
   print(fileExtractorMessage)
-  let fileExtractorOutput = try shellOut(to: "\(selfDir)/file-extractor", arguments: [])
+  let fileExtractorOutput = try shellOut(
+    to: "\(selfDir)/file-extractor",
+    arguments: ["-projectrootpath", originalPath, "-filesjson", "files.json"]
+  )
   print(fileExtractorOutput)
   let symbolExtractorMessage = """
 
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-2) Then, let's launch Symbol Extractor
-
-Symbol Extractor output:
+2) Symbol Extractor:
 
 """
   print(symbolExtractorMessage)
-  let symbolExtractorOutput = try shellOut(to: "\(selfDir)/symbol-extractor", arguments: [])
+  let symbolExtractorOutput = try shellOut(
+    to: "\(selfDir)/symbol-extractor",
+    arguments: ["-filesjson", "files.json", "-symbolsjson", "symbols.json"]
+  )
   print(symbolExtractorOutput)
   let nameMapperMessage = """
 
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-3) Then, let's run Name Mapper
-
-Name Mapper output:
+3) Name Mapper:
 
 """
   print(nameMapperMessage)
-  let nameMapperOutput = try shellOut(to: "\(selfDir)/name-mapper", arguments: [])
+  let nameMapperOutput = try shellOut(
+    to: "\(selfDir)/name-mapper",
+    arguments: ["-symbolsjson", "symbols.json", "-renamesjson", "renames.json"]
+  )
   print(nameMapperOutput)
   let renamerMessage = """
 
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-4) Then, let's run Renamer. This it the steps that performs the actual renaming
-
-Renamer output:
+4) Renamer:
 
 """
   print(renamerMessage)
-  let renamerOutput = try shellOut(to: "\(selfDir)/renamer", arguments: [])
+  let renamerOutput = try shellOut(
+    to: "\(selfDir)/renamer",
+    arguments: [
+      "-filesjson",
+      "files.json",
+      "-renamesjson",
+      "renames.json",
+      "-obfuscatedproject",
+      obfuscatedPath
+    ]
+  )
   print(renamerOutput)
-  let verificationSuiteMessage = """
-
-\u{001B}[0;35m===========================\u{001B}[0;37m
-
-5) Finally, let's run Verification Suite to see what has just happened
-
-Verification Suite output:
-
-"""
-  print(verificationSuiteMessage)
-  let verificationSuiteOutput = try shellOut(to: "\(selfDir)/verification-suite", arguments: [])
-  print(verificationSuiteOutput)
   let farewellMessage = """
 
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-That's the full process of obfuscation in the Swift Obfuscator 1.0.
+Obfuscation process has finished correctly.
 
-It doesn't do anything right now, but stay tuned!
+You might want to run Verification Suite to see the results of obfuscation.
+
+Please consult:
+
+$ bin/verification-suite -help
+
+for more information.
 
 \u{001B}[0;35m===========================\u{001B}[0;37m
 """
   print(farewellMessage)
+}
+
+do {
+  try execute()
 } catch {
   let error = error as! ShellOutError
   print("STDERR: \(error.message)")

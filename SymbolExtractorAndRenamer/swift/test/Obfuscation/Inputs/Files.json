@@ -1,0 +1,12 @@
+{  
+    "module":{  
+       "name":"ModuleName"
+    },
+    "sdk":{  
+       "name":"",
+       "path":""
+    },
+    "filenames":[ ],
+    "explicitelyLinkedFrameworks":[ ],
+    "systemLinkedFrameworks":[ ]
+ }

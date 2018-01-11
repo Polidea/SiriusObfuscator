@@ -16,7 +16,7 @@ do {
     to: [
       "export BUNDLE_GEMFILE=\"\(selfDir)/lib/vendor/Gemfile\"",
       "unset BUNDLE_IGNORE_CONFIG",
-      "exec \"\(selfDir)/lib/ruby/bin/ruby\" -rbundler/setup \"\(selfDir)/lib/file-extractor/bin/file-extractor\" \"\(arguments.joined(separator: " "))\""
+      "exec \"\(selfDir)/lib/ruby/bin/ruby\" -rbundler/setup \"\(selfDir)/lib/file-extractor/bin/file-extractor\" \"\(arguments.joined(separator: "\" \""))\""
     ]
   )
   print(output)

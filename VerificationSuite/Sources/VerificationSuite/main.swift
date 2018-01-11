@@ -1,34 +1,67 @@
 import Foundation
+import Utility
 
-// check script arguments
+// parse command line arguments
 
-if CommandLine.argc != 5 {
-  print("Usage: \(CommandLine.arguments[0]) <UNOBFUSCATED project .xcodeproj file> <UNOBFUSCATED project scheme> <OBFUSCATED project .xcodeproj file> <OBFUSCATED project scheme>")
-  exit(0)
-}
+let parser = ArgumentParser(usage: "[options]", overview: "Tool for automatically presenting and veryfying the effectiveness of the obfuscation.")
 
-
-// build projects and extract executables paths
-
-let xcodeprojBeforeObfuscation = CommandLine.arguments[1]
-let schemeBeforeObfuscation = CommandLine.arguments[2]
-let xcodeprojAfterObfuscation = CommandLine.arguments[3]
-let schemeAfterObfuscation = CommandLine.arguments[4]
+let xcodeprojBeforeArg: OptionArgument<String> = parser.add(option: "-originalxcodeproj", kind: String.self, usage: "Path to xcodeproj file in project before obfuscation")
+let schemeBeforeArg: OptionArgument<String> = parser.add(option: "-originalscheme", kind: String.self, usage: "Scheme name in project before obfuscation")
+let xcodeprojAfterArg: OptionArgument<String> = parser.add(option: "-obfuscatedxcodeproj", kind: String.self, usage: "Path to xcodeproj file in project after obfuscation")
+let schemeAfterArg: OptionArgument<String> = parser.add(option: "-obfuscatedscheme", kind: String.self, usage: "Scheme name in project after obfuscation")
 
 let buildPathBeforeObfuscation = "UnobfuscatedBuild"
 let buildPathAfterObfuscation = "ObfuscatedBuild"
 
-let unobfuscatedExecutablePath = executableFromProjectBuild(xcodeproj: xcodeprojBeforeObfuscation, scheme: schemeBeforeObfuscation, outputPath: buildPathBeforeObfuscation)
-let obfuscatedExecutablePath = executableFromProjectBuild(xcodeproj: xcodeprojAfterObfuscation, scheme: schemeAfterObfuscation, outputPath: buildPathAfterObfuscation)
+let symbolsBeforeFile = "before.txt"
+let symbolsAfterFile = "after.txt"
 
+do {
+  
+  let arguments = Array(CommandLine.arguments.dropFirst())
+  let result = try parser.parse(arguments)
 
-// TODO:
-// - extract swift symbols from executables
-// - demangle them
-// - compare symbols before / after obfuscation
+  let xcodeprojBeforeObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: xcodeprojBeforeArg, name: "xcodeprojBefore")
+  let schemeBeforeObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: schemeBeforeArg, name: "schemeBefore")
+  let xcodeprojAfterObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: xcodeprojAfterArg, name: "xcodeprojAfter")
+  let schemeAfterObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: schemeAfterArg, name: "schemeAfter")
 
+  // build projects and extract executables paths
 
-// remove build directories
+  let unobfuscatedExecutablePath = try executableFromProjectBuild(xcodeproj: xcodeprojBeforeObfuscation, scheme: schemeBeforeObfuscation, outputPath: buildPathBeforeObfuscation)
+  let obfuscatedExecutablePath = try executableFromProjectBuild(xcodeproj: xcodeprojAfterObfuscation, scheme: schemeAfterObfuscation, outputPath: buildPathAfterObfuscation)
 
-removeDirectory(buildPathBeforeObfuscation)
-removeDirectory(buildPathAfterObfuscation)
+  // extract symbol names from executables and demangle them
+
+  let symbolsBefore = try demangle(symbols: extractSymbolNames(executable: unobfuscatedExecutablePath))
+  try printToFile(string: symbolsBefore, filename: symbolsBeforeFile)
+  
+  let symbolsAfter = try demangle(symbols: extractSymbolNames(executable: obfuscatedExecutablePath))
+  try printToFile(string: symbolsAfter, filename: symbolsAfterFile)
+
+  // compare symbol names before / after obfuscation
+
+  print("\n\nDIFF BEFORE / AFTER OBFUSCATION:")
+  let diff = try diffFiles(before: symbolsBeforeFile, after: symbolsAfterFile)
+  print(diff)
+
+  // remove build directories and symbol files
+
+  try removeDirectory(buildPathBeforeObfuscation)
+  try removeDirectory(buildPathAfterObfuscation)
+
+  try removeFile(symbolsBeforeFile)
+  try removeFile(symbolsAfterFile)
+  
+} catch ArgumentParserError.expectedArguments(_, let stringArray) {
+  print("Missing argument: \(stringArray)")
+  
+} catch {
+  print(error.localizedDescription)
+  try? removeDirectory(buildPathBeforeObfuscation)
+  try? removeDirectory(buildPathAfterObfuscation)
+  
+  try? removeFile(symbolsBeforeFile)
+  try? removeFile(symbolsAfterFile)
+}
+

@@ -4,3 +4,8 @@
 /*.xcodeproj
 /.build
 /Packages
+/tmp_build
+/lib
+/files.json
+/symbols.json
+/renames.json
