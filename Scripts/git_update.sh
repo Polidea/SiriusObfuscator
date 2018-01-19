@@ -7,7 +7,8 @@ projects=(
   "VerificationSuite"
 )
 
-mv SymbolExtractorAndRenamer/build ./tmp_build
+cp -r -p SymbolExtractorAndRenamer/build ./tmp_build
+rm -r SymbolExtractorAndRenamer/build
 
 for i in ${!projects[@]}; do
   git rm -r ${projects[$i]} --quiet
@@ -15,7 +16,8 @@ for i in ${!projects[@]}; do
   git read-tree --prefix=${projects[$i]} -u ${projects[$i]}/master
 done
 
-mv tmp_build SymbolExtractorAndRenamer/build 
+cp -r -p tmp_build SymbolExtractorAndRenamer/build 
+rm -r tmp_build
 
 git add . -A
 git commit -m "Updated dependencies"

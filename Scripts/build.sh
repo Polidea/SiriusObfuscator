@@ -22,23 +22,23 @@ tar -xf FileExtractor/file-extractor-1.0.0-osx.tar.gz -C .
 mv file-extractor-1.0.0-osx/* bin/
 
 echo "Installing FileExtractor"
-cp SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-symbol-extractor bin/symbol-extractor
+cp -r -p SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-symbol-extractor bin/symbol-extractor
 
 echo "Installing NameMapper"
-cp SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-name-mapper bin/name-mapper
+cp -r -p SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-name-mapper bin/name-mapper
 
 echo "Installing Renamer"
-cp SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-renamer bin/renamer
+cp -r -p SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-renamer bin/renamer
 
 echo "Copying Swift compiler lib catalog"
 rm -r lib
 mkdir lib
-cp -r SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/lib/swift ./lib/swift
+cp -r -p SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/lib/swift ./lib/swift
 
 echo "Installing VerificationSuite"
-cp VerificationSuite/VerificationSuite bin/verification-suite
+cp -r -p VerificationSuite/VerificationSuite bin/verification-suite
 
 echo "Installing ObfuscatorTool"
 swift build -c release 
-cp $(swift build -c release --show-bin-path)/ObfuscatorTool bin/obfuscator
+cp -r -p $(swift build -c release --show-bin-path)/ObfuscatorTool bin/obfuscator
 
