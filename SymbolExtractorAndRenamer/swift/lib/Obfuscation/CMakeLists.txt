@@ -1,12 +1,12 @@
 add_swift_library(swiftObfuscation STATIC
+  CompilerInfrastructure.cpp
   DataStructures.cpp
+  DeclarationParser.cpp
   FileIO.cpp
   NameMapping.cpp
-  Random.cpp
-  SymbolExtracting.cpp
   Renaming.cpp
-  SymbolProvider.cpp
-  CompilerInfrastructure.cpp
+  SourceFileWalker.cpp
+  SymbolExtracting.cpp
   Utils.cpp
   LINK_LIBRARIES
   swiftParse

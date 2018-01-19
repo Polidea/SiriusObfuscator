@@ -23,12 +23,10 @@ struct CompilerInvocationConfiguration {
   MainExecutablePath(MainExecutablePath),
   SdkPath(FilesJson.Sdk.Path),
   InputFilenames(FilesJson.Filenames) {
-    std::vector<SearchPathOptions::FrameworkSearchPath> Paths;
     for (const auto &Framework : FilesJson.ExplicitelyLinkedFrameworks) {
       SearchPathOptions::FrameworkSearchPath Path(Framework.Path, false);
       Paths.push_back(Path);
     }
-    this->Paths = Paths;
   }
 };
 
@@ -52,8 +50,6 @@ setupCompilerInstance(CompilerInstance &CompilerInstance,
                       std::string MainExecutablePath) {
   CompilerInvocationConfiguration Configuration(FilesJson, MainExecutablePath);
   auto Invocation = createInvocation(Configuration);
-  PrintingDiagnosticConsumer PrintDiags;
-  CompilerInstance.addDiagnosticConsumer(&PrintDiags);
   if (CompilerInstance.setup(Invocation)) {
     return stringError("Error during JSON file read");
   }

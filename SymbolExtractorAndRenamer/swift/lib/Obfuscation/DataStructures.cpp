@@ -29,7 +29,7 @@ void MappingTraits<Project>::mapping(IO &Io, Project &Object) {
   Io.mapRequired("rootPath", Object.RootPath);
 }
 
-typedef swift::obfuscation::Module ObfuscationModule;
+using ObfuscationModule = swift::obfuscation::Module;
 void MappingTraits<ObfuscationModule>::mapping(IO &Io,
                                                ObfuscationModule &Object) {
   Io.mapRequired("name", Object.Name);
@@ -40,7 +40,7 @@ void MappingTraits<Sdk>::mapping(IO &Io, Sdk &Object) {
   Io.mapRequired("path", Object.Path);
 }
 
-typedef ExplicitelyLinkedFrameworks ELF;
+using ELF = ExplicitelyLinkedFrameworks;
 void MappingTraits<ELF>::mapping(IO &Io, ELF &Object) {
   Io.mapRequired("name", Object.Name);
   Io.mapRequired("path", Object.Path);
@@ -53,6 +53,7 @@ void MappingTraits<SymbolsJson>::mapping(IO &Io, SymbolsJson &Object) {
 void MappingTraits<Symbol>::mapping(IO &Io, Symbol &Object) {
   Io.mapRequired("identifier", Object.Identifier);
   Io.mapRequired("name", Object.Name);
+  Io.mapRequired("module", Object.Module);
 }
 
 void MappingTraits<RenamesJson>::mapping(IO &Io, RenamesJson &Object) {
@@ -63,6 +64,7 @@ void MappingTraits<SymbolRenaming>::mapping(IO &Io, SymbolRenaming &Object) {
   Io.mapRequired("identifier", Object.Identifier);
   Io.mapRequired("originalName", Object.OriginalName);
   Io.mapRequired("obfuscatedName", Object.ObfuscatedName);
+  Io.mapRequired("module", Object.Module);
 }
 
 template <typename U>
@@ -93,16 +95,19 @@ void ObjectTraits<SymbolsJson>::mapping(Output &Out, SymbolsJson &Object) {
 void ObjectTraits<Symbol>::mapping(Output &Out, Symbol &Object) {
   Out.mapRequired("name", Object.Name);
   Out.mapRequired("identifier", Object.Identifier);
+  Out.mapRequired("module", Object.Module);
 }
 
 void ObjectTraits<RenamesJson>::mapping(Output &Out, RenamesJson &Object) {
   Out.mapRequired("symbols", Object.Symbols);
 }
 
-void ObjectTraits<SymbolRenaming>::mapping(Output &Out, SymbolRenaming &Object) {
+void ObjectTraits<SymbolRenaming>::mapping(Output &Out,
+                                           SymbolRenaming &Object) {
   Out.mapRequired("identifier", Object.Identifier);
   Out.mapRequired("originalName", Object.OriginalName);
   Out.mapRequired("obfuscatedName", Object.ObfuscatedName);
+  Out.mapRequired("module", Object.Module);
 }
 
 } // namespace json

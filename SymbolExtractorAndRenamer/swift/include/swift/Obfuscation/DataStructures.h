@@ -40,6 +40,14 @@ struct FilesJson {
 struct Symbol {
   std::string Identifier;
   std::string Name;
+  std::string Module;
+  
+  Symbol() = default;
+  
+  Symbol(const std::string &Identifier,
+         const std::string &Name,
+         const std::string &Module)
+  : Identifier(Identifier), Name(Name), Module(Module) {};
   
   bool operator< (const Symbol &Right) const;
 };
@@ -52,6 +60,7 @@ struct SymbolRenaming {
   std::string Identifier;
   std::string OriginalName;
   std::string ObfuscatedName;
+  std::string Module;
   
   bool operator< (const SymbolRenaming &Right) const;
 };

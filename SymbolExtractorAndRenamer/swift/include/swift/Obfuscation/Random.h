@@ -1,6 +1,7 @@
 #ifndef Random_h
 #define Random_h
 
+#include <cassert>
 #include <vector>
 #include <string>
 #include <random>
@@ -8,85 +9,83 @@
 namespace swift {
 namespace obfuscation {
 
+template<typename EngineType, typename DistributionType>
 class RandomIntegerGenerator {
   
 private:
   
-  std::random_device RandomDevice;
-  std::mt19937 Engine;
-  std::uniform_int_distribution<int> Distribution;
+  EngineType Engine;
+  DistributionType Distribution;
   
 public:
   
-  RandomIntegerGenerator(int Min, int Max)
-  : RandomDevice(),
-  Engine(RandomDevice()),
-  Distribution(std::uniform_int_distribution<int>(Min, Max)) {}
+  RandomIntegerGenerator(int Min, int Max);
   
   int rand();
 
 };
 
-template<typename T>
+template<typename ElementType, typename GeneratorType>
 class RandomElementChooser {
   
 private:
   
-  RandomIntegerGenerator* Generator;
-  std::vector<T> List;
+  GeneratorType Generator;
+  std::vector<ElementType> List;
   
 public:
   
-  RandomElementChooser(const std::vector<T> &ListToChooseFrom) :
-  Generator(new RandomIntegerGenerator(0, ListToChooseFrom.size() - 1)),
-  List(ListToChooseFrom) {}
+  RandomElementChooser(const std::vector<ElementType> &ListToChooseFrom);
   
-  T rand() const;
-  
-  ~RandomElementChooser();
+  ElementType rand();
 
 };
 
-template<typename T>
+template<typename ElementType>
+using length_type = typename std::vector<ElementType>::size_type;
+
+template<typename ElementType, typename ChooserType>
 class RandomVectorGenerator {
   
 private:
   
-  RandomElementChooser<T>* Chooser;
+  ChooserType Chooser;
   
 public:
   
-  RandomVectorGenerator(const std::vector<T> &ListToChooseFrom) :
-  Chooser(new RandomElementChooser<T>(ListToChooseFrom)) {}
+  RandomVectorGenerator(const std::vector<ElementType> &ListToChooseFrom);
   
-  typedef typename std::vector<T>::size_type size_type;
-  
-  std::vector<T> rand(size_type Length) const;
-  
-  ~RandomVectorGenerator();
+  std::vector<ElementType> rand(length_type<ElementType> Length);
 
 };
 
+template<typename ChooserType>
 class RandomStringGenerator {
   
 private:
   
-  RandomVectorGenerator<std::string>* Generator;
+  RandomVectorGenerator<std::string, ChooserType> Generator;
   
 public:
   
-  typedef std::vector<std::string>::size_type size_type;
+  RandomStringGenerator(const std::vector<std::string> &ListToChooseFrom);
   
-  RandomStringGenerator(const std::vector<std::string> &ListToChooseFrom)
-  : Generator(new RandomVectorGenerator<std::string>(ListToChooseFrom)) {}
-  
-  std::string rand(size_type Length) const;
-  
-  ~RandomStringGenerator();
+  std::string rand(length_type<std::string> Length);
 
 };
+  
+using RandomUniformIntGenerator =
+  RandomIntegerGenerator<std::mt19937, std::uniform_int_distribution<int>>;
+  
+using RandomUniformCharacterChooser =
+  RandomElementChooser<std::string, RandomUniformIntGenerator>;
+  
+using RandomUniformStringGenerator =
+  RandomStringGenerator<RandomUniformCharacterChooser>;
 
 } //namespace obfuscation
 } //namespace swift
+
+#include "Random-Template.h"
 
 #endif /* Random_h */

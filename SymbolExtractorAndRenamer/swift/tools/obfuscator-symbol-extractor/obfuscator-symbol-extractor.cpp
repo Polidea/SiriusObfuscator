@@ -26,8 +26,10 @@ SymbolJsonPath("symbolsjson",
 
 void printSymbols(const std::vector<Symbol> &Symbols) {
   for (const auto &Symbol : Symbols) {
-    llvm::outs() << "identifier: " << Symbol.Identifier << '\n'
-      << "name: " << Symbol.Name << '\n';
+    llvm::outs()
+      << "identifier: " << Symbol.Identifier << '\n'
+      << "name: " << Symbol.Name << '\n'
+      << "module: " << Symbol.Module << '\n';
   }
 }
 
@@ -56,14 +58,17 @@ int main(int argc, char *argv[]) {
   }
 
   std::string PathToJson = options::FilesJsonPath;
-  std::string MainExecutablePath = llvm::sys::fs::getMainExecutable(argv[0],
-                                                                    reinterpret_cast<void *>(&anchorForGetMainExecutable));
+  void *MainExecutablePointer =
+    reinterpret_cast<void *>(&anchorForGetMainExecutable);
+  std::string MainExecutablePath =
+    llvm::sys::fs::getMainExecutable(argv[0], MainExecutablePointer);
   auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
   if (auto Error = FilesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
   
-  auto SymbolsOrError = extractSymbols(FilesJsonOrError.get(), MainExecutablePath);
+  auto SymbolsOrError = extractSymbols(FilesJsonOrError.get(),
+                                       MainExecutablePath);
   if (auto Error = SymbolsOrError.takeError()) {
     ExitOnError(std::move(Error));
   }

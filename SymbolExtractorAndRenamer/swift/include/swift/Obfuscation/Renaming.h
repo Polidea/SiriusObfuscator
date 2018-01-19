@@ -12,7 +12,7 @@
 namespace swift {
 namespace obfuscation {
 
-typedef std::vector<std::pair<std::string, std::string>> FilesList;
+using FilesList = std::vector<std::pair<std::string, std::string>>;
 
 llvm::Expected<FilesList> performRenaming(std::string MainExecutablePath,
                                           const FilesJson &FilesJson,

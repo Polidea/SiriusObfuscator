@@ -45,7 +45,8 @@ The output data format is called `Symbols.json` and presented below:
   "symbols": [  
     {
       "identifier": <string>,
-      "name": <string>
+      "name": <string>,
+      "module": <string>
     }
   ]
 }
@@ -56,6 +57,8 @@ The output data format is called `Symbols.json` and presented below:
 `name` is directly corresponding to the actual string defined in the Swift source code. This string will be replaced by the `Renamer`. 
 
 `identifier` contains all the information required to uniquely identify the given symbol in the source code. It will be used by `Renamer` to decide whether the symbol it comes across should be renamed or not.
+
+`module` contains the name of the module that allows us to identify whether the symbol should be included in renaming or not.
 
 ## Feature list
 
@@ -93,7 +96,8 @@ The output format is called `Renames.json` and presented below:
     {
       "identifier": <string>,
       "originalName": <string>,
-      "obfuscatedName": <string>
+      "obfuscatedName": <string>,
+      "module": <string>
     }
   ]
 }
@@ -101,7 +105,7 @@ The output format is called `Renames.json` and presented below:
 
 `symbols` is an array of objects containing the original name of symbol, its identifier and the proposes obfuscated name.
 
-`originalName` and `identifier` are the same as `name` and `symbol` fields in the `Symbols.json` format, respectively.
+`originalName` and `identifier` and `module` are the same as `name` and `identifier` and `module` fields in the `Symbols.json` format, respectively.
 
 `obfuscatedName` is the proposed name that the original name of symbol should be changed to.
 

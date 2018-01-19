@@ -1,4 +1,5 @@
 add_swift_unittest(SwiftObfuscationTests
+    RandomTests.cpp
     SwiftObfuscationTests.cpp
 )
 

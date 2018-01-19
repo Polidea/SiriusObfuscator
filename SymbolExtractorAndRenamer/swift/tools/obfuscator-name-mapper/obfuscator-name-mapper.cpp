@@ -18,16 +18,19 @@ SymbolsJsonPath("symbolsjson",
 
 static llvm::cl::opt<std::string>
 RenamesJsonPath("renamesjson",
-                llvm::cl::desc("Name of the output file to write extracted symbols with proposed renamings"),
+                llvm::cl::desc("Name of the output file to write extracted "
+                               "symbols with proposed renamings"),
                 llvm::cl::cat(ObfuscatorNameMapper));
 
 }
 
 void printRenamings(const std::vector<SymbolRenaming> &Renamings) {
   for (const auto &Renaming : Renamings) {
-    llvm::outs() << "identifier: " << Renaming.Identifier << '\n'
+    llvm::outs()
+      << "identifier: " << Renaming.Identifier << '\n'
       << "originalName: " << Renaming.OriginalName << '\n'
-      << "obfuscatedName: " << Renaming.ObfuscatedName << '\n';
+      << "obfuscatedName: " << Renaming.ObfuscatedName << '\n'
+      << "module: " << Renaming.Module << '\n';
   }
 }
 

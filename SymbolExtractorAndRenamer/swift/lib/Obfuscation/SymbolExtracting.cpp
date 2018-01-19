@@ -1,22 +1,13 @@
 #include "swift/Obfuscation/SymbolExtracting.h"
 #include "swift/Obfuscation/DataStructures.h"
 #include "swift/Obfuscation/CompilerInfrastructure.h"
-#include "swift/Obfuscation/SymbolProvider.h"
+#include "swift/Obfuscation/SourceFileWalker.h"
 
 #include <vector>
 #include <set>
 
 namespace swift {
 namespace obfuscation {
-
-std::set<Symbol> findSymbolsToObfuscate(SourceFile &SourceFile) {
-  auto Source = findSymbolsWithRanges(SourceFile);
-  std::set<Symbol> Result;
-  for (const auto &Symbol : Source) {
-    Result.insert(Symbol.Symbol);
-  }
-  return Result;
-}
 
 llvm::Expected<SymbolsJson> extractSymbols(const FilesJson &FilesJson,
                                           std::string MainExecutablePath) {
@@ -30,14 +21,18 @@ llvm::Expected<SymbolsJson> extractSymbols(const FilesJson &FilesJson,
   }
   
   SymbolsJson Json;
+  std::set<Symbol> Result;
   for (auto* Unit : CompilerInstance.getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {
-      auto CurrentSymbols = findSymbolsToObfuscate(*Current);
-      std::copy(CurrentSymbols.begin(),
-                CurrentSymbols.end(),
-                std::back_inserter(Json.Symbols));
+      auto CurrentSymbols = walkAndCollectSymbols(*Current);
+      for (const auto &Symbol : CurrentSymbols) {
+        Result.insert(Symbol.Symbol);
+      }
     }
   }
+  std::copy(Result.begin(),
+            Result.end(),
+            std::back_inserter(Json.Symbols));
   return Json;
 }
 
