@@ -1,6 +1,8 @@
 #ifndef Random_h
 #define Random_h
 
+#include "swift/Obfuscation/Utils.h"
+
 #include <cassert>
 #include <vector>
 #include <string>
@@ -9,6 +11,11 @@
 namespace swift {
 namespace obfuscation {
 
+/// Generates integer value from a specified [Min; Max] range.
+///
+/// \tparam EngineType random number engine type such as std::mt19937
+/// \tparam DistributionType type of probability distribution
+/// such as std::uniform_int_distribution<int>
 template<typename EngineType, typename DistributionType>
 class RandomIntegerGenerator {
   
@@ -24,7 +31,12 @@ public:
   int rand();
 
 };
-
+ 
+/// Chooses random element from the specified vector.
+///
+/// \tparam ElementType type of the elements in vector
+/// \tparam GeneratorType type of the generator used to generate the index
+/// of chosen element
 template<typename ElementType, typename GeneratorType>
 class RandomElementChooser {
   
@@ -41,9 +53,14 @@ public:
 
 };
 
+  
 template<typename ElementType>
 using length_type = typename std::vector<ElementType>::size_type;
 
+/// Generates the vector of elements randomly chosen from the specified vector.
+///
+/// \tparam ElementType type of the elements in vector
+/// \tparam ChooserType class that generates random elements from predefined set
 template<typename ElementType, typename ChooserType>
 class RandomVectorGenerator {
   
@@ -59,6 +76,10 @@ public:
 
 };
 
+/// Generates string of specified length containing elements randomly chosed
+/// from the specified vector.
+///
+/// \tparam ChooserType type of the chooser used by RandomVectorGenerator
 template<typename ChooserType>
 class RandomStringGenerator {
   

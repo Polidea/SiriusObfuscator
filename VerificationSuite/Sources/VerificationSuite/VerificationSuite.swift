@@ -51,7 +51,11 @@ func xcodebuild(project: String, scheme: String, outputBuildPath: String) throws
 func extractSymbolNames(executable: String) throws -> [String] {
   // TODO: for now, we expect the system to provide us with the nm tool available and globally linked
   // - consider adding nm tool path as script parameter
-  let nmOutput = try shellOut(to: "nm", arguments: [executable, "-format=posix"])
+  let nmOutput = try shellOut(to: "nm", arguments: [
+    executable,
+    "-format=posix",
+    "-p"  // don't sort, display in symbol-table order
+    ])
   let lines = nmOutput.components(separatedBy: "\n").filter { !$0.isEmpty }
   let symbolNames = lines.map { $0.components(separatedBy: " ").first! }
   return symbolNames
@@ -61,18 +65,30 @@ func demangle(symbols: [String]) throws -> String {
   // TODO: for now, we expect the system to provide us with the xcrun tool available and globally linked
   // - consider adding xcrun tool path as script parameter
   let demangleExec = try shellOut(to: "xcrun", arguments: ["--find", "swift-demangle"])
-  return try shellOut(to: demangleExec, arguments: ["-compact"] + symbols)
+  return try shellOut(to: demangleExec, arguments: [
+    "-compact", // compact mode (only emit the demangled names)
+    "-simplified" // don't display module names or implicit self types
+    ] + symbols)
 }
 
 func printToFile(string: String, filename: String) throws {
   try shellOut(to: "echo", arguments: ["'\(string)'", ">", filename])
 }
 
-func diffFiles(before: String, after: String) throws -> String {
+func diffFiles(before: String, after: String, printUnchanged: Bool) throws -> String {
+  let columnWidth = 200
+  var arguments = [
+    before,
+    after,
+    "--report-identical-files",
+    "--side-by-side",
+    "--width=\(columnWidth)"
+  ]
+  if !printUnchanged {
+    arguments.append("--suppress-common-lines")
+  }
   do {
-    let diff = try shellOut(to: "diff", arguments: [before, after])
-    return diff
-    
+    return try shellOut(to: "diff", arguments: arguments)
   } catch let error as ShellOutError {
     // Ignore error if the message is empty
     if error.message.isEmpty {

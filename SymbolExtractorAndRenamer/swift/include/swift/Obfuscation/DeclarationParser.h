@@ -3,6 +3,8 @@
 
 #include "swift/Frontend/Frontend.h"
 #include "swift/Obfuscation/DataStructures.h"
+#include "swift/Obfuscation/DeclarationParsingUtils.h"
+#include "swift/Obfuscation/SourceFileWalker.h"
 
 namespace swift {
 namespace obfuscation {
@@ -30,7 +32,8 @@ namespace obfuscation {
 /// \returns llvm::Expected object containing either the symbol extracted
 ///          from information in \p Declaration object or llvm::Error object
 ///          with the information on why no symbol could be extracted.
-llvm::Expected<Symbol> extractSymbol(Decl* Declaration);
+SymbolsOrError
+extractSymbol(Decl* Declaration, CharSourceRange Range);
     
 } //namespace obfuscation
 } //namespace swift

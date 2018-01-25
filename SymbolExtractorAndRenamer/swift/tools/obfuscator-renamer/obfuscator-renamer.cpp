@@ -67,12 +67,15 @@ int main(int argc, char *argv[]) {
     llvm::errs() << "cannot find path to the obfuscated project" << '\n';
     return 1;
   }
-  
-  auto FilesJsonOrError = parseJson<FilesJson>(options::FilesJsonPath);
+
+  MemoryBufferProvider BufferProvider = MemoryBufferProvider();
+  auto FilesJsonOrError =
+  parseJson<FilesJson>(options::FilesJsonPath, BufferProvider);
   if (auto Error = FilesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
-  auto RenamesJsonOrError = parseJson<RenamesJson>(options::RenamesJsonPath);
+  auto RenamesJsonOrError =
+  parseJson<RenamesJson>(options::RenamesJsonPath, BufferProvider);
   if (auto Error = RenamesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }

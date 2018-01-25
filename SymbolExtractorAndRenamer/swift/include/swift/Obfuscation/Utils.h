@@ -3,7 +3,9 @@
 
 #include "llvm/Support/Error.h"
 
+#include <set>
 #include <string>
+#include <vector>
 
 namespace swift {
 namespace obfuscation {
@@ -29,7 +31,21 @@ llvm::Error stringError(const std::string Message,
                         const std::error_code Error =
                           std::error_code(1, std::generic_category()));
 
+template<typename ElementType>
+void copyToVector(const std::vector<ElementType> &FromVector,
+                  std::vector<ElementType> &ToVector);
+  
+template<typename ElementType>
+void copyToVector(const std::set<ElementType> &FromSet,
+                  std::vector<ElementType> &ToVector);
+  
+template<typename ElementType>
+void copyToStream(const std::vector<ElementType> &FromVector,
+                  std::ostream_iterator<ElementType> Inserter);
+
 } //namespace obfuscation
 } //namespace swift
+
+#include "swift/Obfuscation/Utils-Template.h"
 
 #endif /* Utils_h */

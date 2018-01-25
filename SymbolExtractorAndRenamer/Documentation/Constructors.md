@@ -1,149 +1,99 @@
 # Constructors Renaming
 
-# Finding constructors declarations and calls in source code
+# Finding constructor calls in source code
 
-After compiling source code we extract Decl objects. To determine if the Decl object represents either constructor declaration or call we cast Decl to ConstructorDecl using dyn_cast.
+## Creating AST
+
+After passing project source files to `CompilerInstance` via  `CompilerInvocationConfiguration` the AST is created by calling:
+
 ```
-if (auto *ConstructorDeclaration = dyn_cast<ConstructorDecl>(BaseDeclaration)) { ... }
+CompilerInstance.performSema();
 ```
+Next, we retrieve source files representations by calling
 
-We can also identify that Decl relates to constructor by retrieving it's kind name:
 ```
-auto DeclKind = BaseDeclaration->getKind();
-auto KindName = BaseDeclaration->getKindName(DeclKind);
+ComplierInstance.getMainModule()->getFiles();
 ```
+and cast each `FileUnit` object to `SourceFile`.
 
-# Use Cases
+For finding constructor calls we use `RenamesCollector`. It's a subclass of `SourceEntityWalker` - part of swiftAST toolchain for traversing AST and providing source information.
 
-When renaming constructors various cases were considered. For each case we gathered ideas and Swift Compilator solutions to differenciate constructor definitions and calls in source code.
+We pass  `SourceFile` objects one by one to `RenamesCollector`:
 
-## Structs
-
-### Empty struct without init
-
-#### Declaration
-
-No explicit constructor declaration in source code - nothing to obfuscate.
-
-#### Call
-
-To identify the constructor type we check the result type by calling:
 ```
-Decl->getResultInterfaceType()
+RenamesCollector.walk(SourceFile);
 ```
+and use `SourceEntityWalker`'s callbacks to find constuctor calls.
 
-### Empty struct with custom empty init
+## Finding constructor calls in AST
 
-**TODO: Differenciate constructor declarations from calls**
+For finding constructor calls while traversing AST we use `SourceEntityWalker`'s callback overriden by `RenamesCollector`:
 
-#### Declaration
-
-To identify the constructor type we check the result type by calling:
 ```
-Decl->getResultInterfaceType()
+bool visitDeclReference(ValueDecl *Declaration, CharSourceRange Range,
+TypeDecl *CtorTyRef, ExtensionDecl *ExtTyRef,
+Type T, ReferenceMetaData Data)
 ```
+If `CtorTyRef` parameter is non-null, it means that we've found constructor declaration reference and it represents the type owning this constructor.
 
-#### Call
+## Renaming
 
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
+After casting `CtorTyRef` to `NominalTypeDecl` it is represented in `symbols.json` the same way as type declaration. This way we ensure that each constructor is renamed to the same name as the type of object it is constructing.
 
-### Struct with property and memberwise init
+Currently only the constructor calls' names are being renamed. If the constructor has arguments, their names are not being renamed in neither constructor declarations nor calls.
 
-**TODO: Differenciate constructor declarations from calls**
+## Examples
 
-#### Declaration
+### Example 1: Implicit / empty init
 
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
+```swift
+struct Sample { }
+struct Sample { init {} }
+let sample = Sample()
+let sample2 = Sample.init()
 
-#### Call
+———————————————————————————
 
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
+struct ObfuscatedSample { }
+struct ObfuscatedSample { init {} }
+let sample = ObfuscatedSample()
+let sample2 = ObfuscatedSample.init()
 ```
 
-## Classes
+### Example 2: Memberwise init
 
-### Empty class without init
+```swift
+struct Sample {
+  let number: Int
+  let text: String
+}
+let sample = Sample(number: 42, text: "24")
+let sample2 = Sample.init(number: 42, text: "24")
 
-**TODO: Differenciate constructor declarations from calls**
+———————————————————————————————————————————
 
-#### Declaration
-
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
-
-#### Call
-
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
-
-### Empty class with custom empty init
-
-**TODO: Differenciate constructor declarations from calls**
-
-#### Declaration
-
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
+struct ObfuscatedSample {
+  let number: Int
+  let text: String
+}
+let sample = ObfuscatedSample(number: 42, text: "24")
+let sample2 = ObfuscatedSample.init(number: 42, text: "24")
 ```
 
-#### Call
+### Example 3: Init with arguments
 
-To identify the constructor type we check the result type by calling:
+```swift
+struct Sample {
+  init(number: Int, text: String) { /* ... */ }
+}
+let sample = Sample(number: 42, text: "24")
+let sample2 = Sample.init(number: 42, text: "24")
+
+———————————————————————————————————————————
+
+struct ObfuscatedSample {
+  init(number: Int, text: String) { /* ... */ }
+}
+let sample = ObfuscatedSample(number: 42, text: "24")
+let sample2 = ObfuscatedSample.init(number: 42, text: "24")
 ```
-Decl->getResultInterfaceType()
-```
-
-### Empty class without init - subclass of UIViewController
-
-**TODO: Differenciate constructor declarations from calls**
-
-#### Declaration
-
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
-
-#### Call
-
-To identify the constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
-
-### Empty subclass of UIViewController with custom init and `required init?(coder aDecoder: NSCoder)`
-
-**TODO: Differenciate constructor declarations from calls**
-
-#### Declaration
-
-To identify the custom constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
-
-For  `required init?(coder aDecoder: NSCoder)` getRequiredInterfactType() returns error. We can handle it by checking:
-```
-if (ConstructorDeclaration->getInterfaceType()->getKind() == TypeKind::Error) { ... }
-```
-
-#### Call
-
-To identify the custom constructor type we check the result type by calling:
-```
-Decl->getResultInterfaceType()
-```
-

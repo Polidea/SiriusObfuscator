@@ -2,6 +2,7 @@
 #include "swift/Obfuscation/DataStructures.h"
 #include "swift/Obfuscation/CompilerInfrastructure.h"
 #include "swift/Obfuscation/SourceFileWalker.h"
+#include "swift/Obfuscation/Utils.h"
 
 #include <vector>
 #include <set>
@@ -30,9 +31,7 @@ llvm::Expected<SymbolsJson> extractSymbols(const FilesJson &FilesJson,
       }
     }
   }
-  std::copy(Result.begin(),
-            Result.end(),
-            std::back_inserter(Json.Symbols));
+  copyToVector(Result, Json.Symbols);
   return Json;
 }
 

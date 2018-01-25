@@ -50,9 +50,10 @@ int main(int argc, char *argv[]) {
     llvm::errs() << "cannot find Symbols json file" << '\n';
     return 1;
   }
-  
+
+  MemoryBufferProvider BufferProvider = MemoryBufferProvider();
   std::string PathToJson = options::SymbolsJsonPath;
-  auto SymbolsJsonOrError = parseJson<SymbolsJson>(PathToJson);
+  auto SymbolsJsonOrError = parseJson<SymbolsJson>(PathToJson, BufferProvider);
   if (auto Error = SymbolsJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
@@ -66,7 +67,9 @@ int main(int argc, char *argv[]) {
   printRenamings(Renamings.Symbols);
   
   std::string PathToOutput = options::RenamesJsonPath;
-  if (auto Error = writeToFile(Renamings, PathToOutput, llvm::outs())) {
+  FileFactory<llvm::raw_fd_ostream> Factory = FileFactory<llvm::raw_fd_ostream>();
+
+  if (auto Error = writeToPath(Renamings, PathToOutput, Factory, llvm::outs())) {
     ExitOnError(std::move(Error));
   }
   return 0;

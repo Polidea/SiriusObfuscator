@@ -9,7 +9,7 @@
 namespace swift {
 namespace obfuscation {
 
-class UniqueTypeNameGenerator {
+class UniqueIdentifierGenerator {
   
 private:
   std::set<std::string> GeneratedSymbols;
@@ -45,7 +45,7 @@ private:
   
 public:
   
-  UniqueTypeNameGenerator()
+  UniqueIdentifierGenerator()
   : TailSymbols(concatenateHeadAndTailSymbols()),
   HeadGenerator(HeadSymbols),
   TailGenerator(TailSymbols) {}
@@ -56,18 +56,44 @@ public:
   
 };
   
-const std::vector<std::string> UniqueTypeNameGenerator::UniquelyTailSymbols =
+const std::vector<std::string> UniqueIdentifierGenerator::UniquelyTailSymbols =
   {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
   
-const std::vector<std::string> UniqueTypeNameGenerator::HeadSymbols =
-  {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
-   "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D",
-   "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
-   "T", "U", "V", "W", "X", "Y", "Z"};
-
-llvm::Expected<RenamesJson> proposeRenamings(const SymbolsJson &SymbolsJson) {
+const std::vector<std::string> UniqueIdentifierGenerator::HeadSymbols =
+  {"_", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+   "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
+   "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+   "S", "T", "U", "V", "W", "X", "Y", "Z"};
   
-  UniqueTypeNameGenerator TypeNameGenerator;
+struct ObfuscatedIdentifiersGenerators {
+  UniqueIdentifierGenerator IdentifierGenerator;
+};
+
+llvm::Expected<std::string>
+generateNameForType(ObfuscatedIdentifiersGenerators &Generators,
+                    SymbolType Type) {
+  switch (Type) {
+    case SymbolType::Type:
+      return Generators.IdentifierGenerator.generateName();
+    case SymbolType::NamedFunction:
+      return Generators.IdentifierGenerator.generateName();
+    case SymbolType::ExternalParameter:
+      return Generators.IdentifierGenerator.generateName();
+    case SymbolType::InternalParameter:
+      return Generators.IdentifierGenerator.generateName();
+    case SymbolType::SingleParameter:
+      return Generators.IdentifierGenerator.generateName();
+    case SymbolType::Variable:
+      return Generators.IdentifierGenerator.generateName();
+    case SymbolType::Operator:
+      return stringError("Operator names are not supported yet");
+  }
+}
+  
+llvm::Expected<RenamesJson>
+proposeRenamings(const SymbolsJson &SymbolsJson) {
+  
+  ObfuscatedIdentifiersGenerators Generators;
   RenamesJson RenamesJson;
   
   for (const auto &Symbol : SymbolsJson.Symbols) {
@@ -75,11 +101,12 @@ llvm::Expected<RenamesJson> proposeRenamings(const SymbolsJson &SymbolsJson) {
     Renaming.Identifier = Symbol.Identifier;
     Renaming.OriginalName = Symbol.Name;
     Renaming.Module = Symbol.Module;
-    auto NameOrError = TypeNameGenerator.generateName();
+    Renaming.Type = Symbol.Type;
+    auto NameOrError = generateNameForType(Generators, Symbol.Type);
     if (auto Error = NameOrError.takeError()) {
       return std::move(Error);
     }
-    Renaming.ObfuscatedName = NameOrError.get();
+    Renaming.ObfuscatedName = NameOrError.get(); // "obfuscated" + Symbol.Name;
     RenamesJson.Symbols.push_back(Renaming);
   }
   

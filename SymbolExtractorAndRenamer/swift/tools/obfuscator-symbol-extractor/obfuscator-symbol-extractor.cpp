@@ -62,10 +62,12 @@ int main(int argc, char *argv[]) {
     reinterpret_cast<void *>(&anchorForGetMainExecutable);
   std::string MainExecutablePath =
     llvm::sys::fs::getMainExecutable(argv[0], MainExecutablePointer);
-  auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
-  if (auto Error = FilesJsonOrError.takeError()) {
-    ExitOnError(std::move(Error));
-  }
+
+    auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
+
+    if (auto Error = FilesJsonOrError.takeError()) {
+        ExitOnError(std::move(Error));
+    }
   
   auto SymbolsOrError = extractSymbols(FilesJsonOrError.get(),
                                        MainExecutablePath);
@@ -78,9 +80,13 @@ int main(int argc, char *argv[]) {
     llvm::errs() << "there is no path to write extracted symbols to" << '\n';
     return 1;
   }
+
   std::string PathToOutput = options::SymbolJsonPath;
-  auto WriteErrorCode = writeToFile(SymbolsOrError.get(),
+  FileFactory<llvm::raw_fd_ostream> Factory = FileFactory<llvm::raw_fd_ostream>();
+
+  auto WriteErrorCode = writeToPath(SymbolsOrError.get(),
                                     PathToOutput,
+                                    Factory,
                                     llvm::outs());
   ExitOnError(std::move(WriteErrorCode));
   return 0;

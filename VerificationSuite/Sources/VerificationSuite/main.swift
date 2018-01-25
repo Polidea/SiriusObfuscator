@@ -9,6 +9,7 @@ let xcodeprojBeforeArg: OptionArgument<String> = parser.add(option: "-originalxc
 let schemeBeforeArg: OptionArgument<String> = parser.add(option: "-originalscheme", kind: String.self, usage: "Scheme name in project before obfuscation")
 let xcodeprojAfterArg: OptionArgument<String> = parser.add(option: "-obfuscatedxcodeproj", kind: String.self, usage: "Path to xcodeproj file in project after obfuscation")
 let schemeAfterArg: OptionArgument<String> = parser.add(option: "-obfuscatedscheme", kind: String.self, usage: "Scheme name in project after obfuscation")
+let printUnchangedSymbolsFlag: OptionArgument<Bool> = parser.add(option: "-printunchangedsymbols", shortName: "-p", kind: Bool.self, usage: "Print unchanged symbols when diffing extracted symbols from original and obfuscated projects")
 
 let buildPathBeforeObfuscation = "UnobfuscatedBuild"
 let buildPathAfterObfuscation = "ObfuscatedBuild"
@@ -25,6 +26,7 @@ do {
   let schemeBeforeObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: schemeBeforeArg, name: "schemeBefore")
   let xcodeprojAfterObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: xcodeprojAfterArg, name: "xcodeprojAfter")
   let schemeAfterObfuscation = try getRequiredArgument(parsingResult: result, parser: parser, argument: schemeAfterArg, name: "schemeAfter")
+  let printUnchangedSymbols = result.get(printUnchangedSymbolsFlag) ?? false
 
   // build projects and extract executables paths
 
@@ -41,8 +43,8 @@ do {
 
   // compare symbol names before / after obfuscation
 
-  print("\n\nDIFF BEFORE / AFTER OBFUSCATION:")
-  let diff = try diffFiles(before: symbolsBeforeFile, after: symbolsAfterFile)
+  print("\nDIFF OF SYMBOLS BEFORE | AFTER OBFUSCATION:\n")
+  let diff = try diffFiles(before: symbolsBeforeFile, after: symbolsAfterFile, printUnchanged: printUnchangedSymbols)
   print(diff)
 
   // remove build directories and symbol files

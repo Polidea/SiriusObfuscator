@@ -1,45 +1,42 @@
 #include "swift/Obfuscation/SourceFileWalker.h"
 #include "swift/Obfuscation/DeclarationParser.h"
+#include "swift/Obfuscation/DeclarationParsingUtils.h"
+#include "swift/Obfuscation/ExpressionParser.h"
 
 #include <string>
 
 namespace swift {
 namespace obfuscation {
-  
-const char* pointerToRangeValue(const SymbolWithRange &Symbol) {
-  auto Pointer = Symbol.Range.getStart().getOpaquePointerValue();
-  return static_cast<const char *>(Pointer);
-}
-  
-bool SymbolWithRange::operator< (const SymbolWithRange &Right) const {
-  auto less = std::less<const char *>();
-  if (const auto* RangeValuePointer = pointerToRangeValue(*this)) {
-    if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
-      auto isRangeLess = less(RangeValuePointer, RightRangeValuePointer);
-      return Symbol < Right.Symbol || isRangeLess;
-    }
-  }
-  assert(false && "Comparing Symbols with Ranges requires Ranges Start "
-                  "Location Values Pointers to be of const char type");
-}
 
 struct RenamesCollector: public SourceEntityWalker {
   std::set<SymbolWithRange> Bucket;
   
-  void handleSymbol(Symbol &Symbol, const CharSourceRange &Range) {
-    Bucket.insert(SymbolWithRange(Symbol, Range));
+  void handleSymbols(std::vector<SymbolWithRange> &Symbols) {
+    for (auto &Symbol : Symbols) {
+      Bucket.insert(Symbol);
+    }
+  }
+
+  bool walkToExprPre(Expr *Expression) override {
+    auto Symbols = extractSymbol(Expression);
+    if (auto Error = Symbols.takeError()) {
+      llvm::consumeError(std::move(Error));
+      return true;
+    }
+    handleSymbols(Symbols.get());
+    return true;
   }
   
   bool walkToDeclPre(Decl *Declaration, CharSourceRange Range) override {
     if (Declaration->isImplicit()) {
       return false;
     }
-    auto SymbolOrError = extractSymbol(Declaration);
-    if (auto Error = SymbolOrError.takeError()) {
+    auto Symbols = extractSymbol(Declaration, Range);
+    if (auto Error = Symbols.takeError()) {
       llvm::consumeError(std::move(Error));
       return true;
     }
-    handleSymbol(SymbolOrError.get(), Range);
+    handleSymbols(Symbols.get());
     return true;
   }
   
@@ -47,19 +44,19 @@ struct RenamesCollector: public SourceEntityWalker {
                           TypeDecl *CtorTyRef, ExtensionDecl *ExtTyRef,
                           Type T, ReferenceMetaData Data) override {
     
-    std::unique_ptr<llvm::Expected<Symbol>> SymbolOrError(nullptr);
+    std::unique_ptr<SymbolsOrError> Symbols(nullptr);
     if (CtorTyRef) {
-      SymbolOrError =
-        llvm::make_unique<llvm::Expected<Symbol>>(extractSymbol(CtorTyRef));
+      Symbols =
+        llvm::make_unique<SymbolsOrError>(extractSymbol(CtorTyRef, Range));
     } else {
-       SymbolOrError =
-        llvm::make_unique<llvm::Expected<Symbol>>(extractSymbol(Declaration));
+      Symbols =
+        llvm::make_unique<SymbolsOrError>(extractSymbol(Declaration, Range));
     }
-    if (auto Error = SymbolOrError->takeError()) {
+    if (auto Error = Symbols->takeError()) {
       llvm::consumeError(std::move(Error));
       return true;
     }
-    handleSymbol(SymbolOrError->get(), Range);
+    handleSymbols(Symbols->get());
     return true;
   }
 };

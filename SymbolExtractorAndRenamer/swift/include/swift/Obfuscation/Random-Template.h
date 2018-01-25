@@ -58,9 +58,7 @@ std::string
 RandomStringGenerator<ChooserType>::rand(length_type<std::string> Length) {
   auto Characters = Generator.rand(Length);
   std::stringstream Result;
-  std::copy(Characters.cbegin(),
-            Characters.cend(),
-            std::ostream_iterator<std::string>(Result, ""));
+  copyToStream(Characters, std::ostream_iterator<std::string>(Result, ""));
   return Result.str();
 }
   

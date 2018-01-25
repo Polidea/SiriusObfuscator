@@ -9,22 +9,6 @@
 namespace swift {
 namespace obfuscation {
 
-/// SymbolWithRange - struct for linking the symbol identified in the Swift
-/// source code with the range in which it was encountered.
-struct SymbolWithRange {
-  Symbol Symbol;
-  CharSourceRange Range;
-  
-  /// @brief Trivial memberwise-like constructor
-  SymbolWithRange(const swift::obfuscation::Symbol &Symbol,
-                  const CharSourceRange &Range)
-  : Symbol(Symbol), Range(Range) {}
-  
-  /// @brief Comparison operator required for containing SymbolWithRange in
-  /// sets. It's taking into consideration both symbol identifier and range.
-  bool operator< (const SymbolWithRange &Right) const;
-};
-
 /// Identifies the symbols in the given Swift AST SourceFile object.
 ///
 /// The SourceFile might be extracted from the compiler after it consumes and

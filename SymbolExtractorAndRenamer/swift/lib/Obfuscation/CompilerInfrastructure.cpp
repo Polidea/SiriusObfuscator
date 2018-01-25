@@ -31,7 +31,7 @@ struct CompilerInvocationConfiguration {
 };
 
 CompilerInvocation
-  createInvocation(const CompilerInvocationConfiguration &Configuration) {
+createInvocation(const CompilerInvocationConfiguration &Configuration) {
     CompilerInvocation Invocation;
     Invocation.setModuleName(Configuration.ModuleName);
     Invocation.setMainExecutablePath(Configuration.MainExecutablePath);

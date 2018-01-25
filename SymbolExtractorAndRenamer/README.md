@@ -46,7 +46,8 @@ The output data format is called `Symbols.json` and presented below:
     {
       "identifier": <string>,
       "name": <string>,
-      "module": <string>
+      "module": <string>,
+      "type": <enum string>("type", "namedFunction", "operator")
     }
   ]
 }
@@ -59,6 +60,8 @@ The output data format is called `Symbols.json` and presented below:
 `identifier` contains all the information required to uniquely identify the given symbol in the source code. It will be used by `Renamer` to decide whether the symbol it comes across should be renamed or not.
 
 `module` contains the name of the module that allows us to identify whether the symbol should be included in renaming or not.
+
+`type` contains the type of the symbol. It's a string of value from a strictly limited enumeration. `type` means that the symbol represents type (like class or struct name), `namedFunction` means that the symbol represents function or method with name, and `operator` means that the symbol represents the operator.
 
 ## Feature list
 
@@ -97,7 +100,8 @@ The output format is called `Renames.json` and presented below:
       "identifier": <string>,
       "originalName": <string>,
       "obfuscatedName": <string>,
-      "module": <string>
+      "module": <string>,
+      "type": <enum string>("type", "namedFunction", "operator")
     }
   ]
 }
@@ -105,7 +109,7 @@ The output format is called `Renames.json` and presented below:
 
 `symbols` is an array of objects containing the original name of symbol, its identifier and the proposes obfuscated name.
 
-`originalName` and `identifier` and `module` are the same as `name` and `identifier` and `module` fields in the `Symbols.json` format, respectively.
+`originalName` and `identifier` and `module` and `type` are the same as `name` and `identifier` and `module` and `type` fields in the `Symbols.json` format, respectively.
 
 `obfuscatedName` is the proposed name that the original name of symbol should be changed to.
 
@@ -161,7 +165,21 @@ The input data formats are `Files.json` and `Renames.json` and are described in 
    `swift/utils/build-script --clean --xcode --release-debuginfo --debug-swift`
 
 6. (optional) Build the Swift compiler in the version allowing for the fast incremental compilation with ninja  
-   `swift/utils/build-script --release-debuginfo`
+   `swift/utils/build-script -R`
+
+### Build documentation (optional)
+
+1. Install doxygen
+   `brew install doxygen`
+
+2. Install graphviz
+   `brew install graphviz`
+
+3. Build documentation
+   `doxygen Doxyfile`
+
+4. Open documentation
+   `open Documentation/doxygen/index.html`
 
 ## Further read
 

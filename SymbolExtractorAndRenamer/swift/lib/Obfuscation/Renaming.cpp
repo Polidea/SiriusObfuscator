@@ -80,7 +80,7 @@ static bool shouldRename(const SymbolRenaming &Symbol,
 llvm::Expected<bool> performActualRenaming(SourceFile &Current,
                                            const std::string &ModuleName,
                                            const RenamesJson &RenamesJson,
-                                           swift::SourceManager &SourceManager,
+                                           SourceManager &SourceManager,
                                            unsigned int BufferId,
                                            StringRef Path) {
   bool performedRenaming = false;
