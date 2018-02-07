@@ -17,10 +17,13 @@ TBA
 1. Clone the source  
    `git clone ssh://git@gitlab2.polidea.com:23/SwiftObfuscator/ObfuscatorTool.git`
 
-2. (optional, do it if there's a need for updating the dependencies) Update dependencies  
+2. Add git-subtrees remotes
+   `bash Scripts/git_remotes.sh`
+
+3. (optional, do it if there's a need for updating the dependencies) Update dependecies
    `bash Scripts/git_update.sh`
 
-2. Build all the dependent projects and the main project  
+4. Build all the dependent projects and the main project
    `bash Scripts/build.sh`
 
 ## Further read
