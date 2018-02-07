@@ -125,10 +125,14 @@ llvm::Expected<FilesList>
 performRenaming(std::string MainExecutablePath,
                 const FilesJson &FilesJson,
                 const RenamesJson &RenamesJson,
-                std::string ObfuscatedProjectPath) {
+                std::string ObfuscatedProjectPath,
+                llvm::raw_ostream &DiagnosticStream) {
   
   CompilerInstance CI;
-  if (auto Error = setupCompilerInstance(CI, FilesJson, MainExecutablePath)) {
+  if (auto Error = setupCompilerInstance(CI,
+                                         FilesJson,
+                                         MainExecutablePath,
+                                         DiagnosticStream)) {
     return std::move(Error);
   }
   

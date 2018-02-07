@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="29px" height="20px" viewBox="0 0 29 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_oldest</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_oldest" transform="translate(-2.000000, 0.000000)">
+            <g id="ic_back" transform="translate(7.500000, 11.500000) scale(1, -1) rotate(90.000000) translate(-7.500000, -11.500000) translate(0.000000, 4.000000)" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round">
+                <polyline id="Rectangle-1" transform="translate(5.449747, 7.692388) rotate(-315.000000) translate(-5.449747, -7.692388) " points="8.44974747 10.6923882 2.44974747 10.6923882 2.44974747 4.69238816 2.44974747 4.69238816"></polyline>
+                <path d="M12.4978777,2.93715143 L3.65685425,11.7781746" id="Rectangle-1" transform="translate(7.656854, 7.778175) rotate(-315.000000) translate(-7.656854, -7.778175) "></path>
+            </g>
+            <path d="M21.1802949,8.68247946 C21.1668918,8.74671722 21.1599847,8.81332753 21.1602895,8.88158832 C21.1626302,9.40590406 21.5895696,9.82904844 22.1138853,9.82670774 L27.1287683,9.79985561 C27.6530841,9.79751492 28.0762285,9.37057553 28.0738878,8.84625979 C28.0715471,8.32194405 27.6446077,7.89879966 27.1202919,7.90114036 L23.0756566,7.92279731 L23.0530202,2.85224434 C23.0506795,2.3279286 22.6237401,1.90478422 22.0994244,1.90712491 C21.5751086,1.9094656 21.1519642,2.336405 21.1543049,2.86072074 L21.1802949,8.68247946 Z M22.5,17 C27.1944204,17 31,13.1944204 31,8.5 C31,3.80557963 27.1944204,0 22.5,0 C17.8055796,0 14,3.80557963 14,8.5 C14,13.1944204 17.8055796,17 22.5,17 Z" id="ic_time" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>

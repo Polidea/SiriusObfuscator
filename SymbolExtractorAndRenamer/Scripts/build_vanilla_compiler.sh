@@ -9,7 +9,7 @@ echo "Switching git from commit ${commit_sha} to commit 3cb38854e963b84873a7b776
 git checkout 3cb38854e963b84873a7b7769b6c0b3f28c86015
 
 echo "Building project at vanilla state"
-swift/utils/build-script -R
+swift/utils/build-script -R --ios --tvos --watchos
 
 echo "Making directory for sources in cache"
 mkdir build/TMP_SOURCES

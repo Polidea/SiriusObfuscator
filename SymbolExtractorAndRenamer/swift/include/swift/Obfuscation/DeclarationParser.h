@@ -3,12 +3,11 @@
 
 #include "swift/Frontend/Frontend.h"
 #include "swift/Obfuscation/DataStructures.h"
-#include "swift/Obfuscation/DeclarationParsingUtils.h"
 #include "swift/Obfuscation/SourceFileWalker.h"
 
 namespace swift {
 namespace obfuscation {
-
+  
 /// Given the Swift AST node of Decl type, identifies the symbol it represents.
 ///
 /// In case no symbol is found, returnes Error.

@@ -8,7 +8,7 @@ module FileExtractor
     end
 
     def self.update_frameworks_paths(data)
-      data.explicitelyLinkedFrameworks.map do |framework|
+      data.explicitlyLinkedFrameworks.map do |framework|
         framework.path = framework.path.sub("${SDKROOT}", data.sdk.path)
         framework
       end

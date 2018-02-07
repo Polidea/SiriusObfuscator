@@ -36,12 +36,14 @@ namespace obfuscation {
 ///        this function. This is required for the compiler to use the relative
 ///        paths for it's inner workings (such as finding the necessary
 ///        libraries to dynamically link).
+/// \param DiagnosticStream Stream for writing the diagnostic information into.
 ///
 /// \returns llvm::Expected object containing either the extracted symbols
 ///          in the SymbolJson structure or the llvm::Error object with
 ///          the information on the failure cause.
 llvm::Expected<SymbolsJson> extractSymbols(const FilesJson &FilesJson,
-                                           std::string MainExecutablePath);
+                                           std::string MainExecutablePath,
+                                           llvm::raw_ostream &DiagnosticStream);
 
 } //namespace obfuscation
 } //namespace swift

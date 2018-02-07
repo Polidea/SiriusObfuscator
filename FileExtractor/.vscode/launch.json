@@ -11,11 +11,11 @@
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/bin/file-extractor",
             "args": [
-                "-help"
-                // "-projectrootpath",
-                // "${workspaceRoot}/../TestProjects/macOS/Original/XcodeSampleProject",
-                // "-filesjson",
-                // "${workspaceRoot}/../files.json"
+                // "-help"
+                "-projectrootpath",
+                "${workspaceRoot}/../TestProjects/macOS/Original/XcodeSampleProject",
+                "-filesjson",
+                "${workspaceRoot}/../files.json"
             ],
             "pathToBundler": "${workspaceRoot}/bin/bundle",
             "pathToRDebugIDE": "${workspaceRoot}/bin/rdebug-ide",
@@ -29,7 +29,10 @@
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/bin/file-extractor",
             "args": [
-                "${workspaceRoot}/../TestProjects/iOS/Original/XcodeSampleProject"
+                "-projectrootpath",
+                "${workspaceRoot}/../TestProjects/iOS/Original/XcodeSampleProject",
+                "-filesjson",
+                "${workspaceRoot}/../files.json"
             ],
             "pathToBundler": "${workspaceRoot}/bin/bundle",
             "pathToRDebugIDE": "${workspaceRoot}/bin/rdebug-ide",
@@ -43,7 +46,10 @@
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/bin/file-extractor",
             "args": [
-                "${workspaceRoot}/../TestProjects/tvOS/Original/XcodeSampleProject"
+                "-projectrootpath",
+                "${workspaceRoot}/../TestProjects/tvOS/Original/XcodeSampleProject",
+                "-filesjson",
+                "${workspaceRoot}/../files.json"
             ],
             "pathToBundler": "${workspaceRoot}/bin/bundle",
             "pathToRDebugIDE": "${workspaceRoot}/bin/rdebug-ide",
@@ -57,7 +63,10 @@
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/bin/file-extractor",
             "args": [
-                "${workspaceRoot}/../TestProjects/watchOS/Original/XcodeSampleProject"
+                "-projectrootpath",
+                "${workspaceRoot}/../TestProjects/watchOS/Original/XcodeSampleProject",
+                "-filesjson",
+                "${workspaceRoot}/../files.json"
             ],
             "pathToBundler": "${workspaceRoot}/bin/bundle",
             "pathToRDebugIDE": "${workspaceRoot}/bin/rdebug-ide",

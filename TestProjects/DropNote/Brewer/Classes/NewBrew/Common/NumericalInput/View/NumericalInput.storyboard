@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Nt8-cx-7Mh">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Numerical Input View Controller-->
+        <scene sceneID="ral-xR-jAA">
+            <objects>
+                <viewController storyboardIdentifier="NumericalInput" id="Nt8-cx-7Mh" customClass="NumericalInputViewController" customModule="Dropnote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="iRT-yL-d8y"/>
+                        <viewControllerLayoutGuide type="bottom" id="TJl-VY-Zsu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4Ui-7I-tsL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0.00" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fvo-N1-Nnn" customClass="NumericalInputTextField" customModule="Dropnote" customModuleProvider="target">
+                                <rect key="frame" x="70" y="90" width="460" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="boa-M9-gVC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="done"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xcn-uN-5ND">
+                                <rect key="frame" x="279" y="230" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="xcn-uN-5ND" firstAttribute="centerX" secondItem="4Ui-7I-tsL" secondAttribute="centerX" id="Cwx-h6-Cem"/>
+                            <constraint firstItem="Fvo-N1-Nnn" firstAttribute="centerX" secondItem="4Ui-7I-tsL" secondAttribute="centerX" id="MOh-9H-SVu"/>
+                            <constraint firstItem="Fvo-N1-Nnn" firstAttribute="top" secondItem="iRT-yL-d8y" secondAttribute="bottom" constant="70" id="QzH-CI-tTH"/>
+                            <constraint firstItem="Fvo-N1-Nnn" firstAttribute="leading" secondItem="4Ui-7I-tsL" secondAttribute="leadingMargin" constant="50" id="ozn-yA-ZqF"/>
+                            <constraint firstItem="xcn-uN-5ND" firstAttribute="top" secondItem="Fvo-N1-Nnn" secondAttribute="bottom" constant="60" id="qTz-NQ-OUb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Fvo-N1-Nnn" secondAttribute="trailing" constant="50" id="zWP-Bn-GJK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="informativeLabel" destination="xcn-uN-5ND" id="hrA-Jc-Mdu"/>
+                        <outlet property="inputTextField" destination="Fvo-N1-Nnn" id="At6-Cz-teQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ihm-Ul-kPd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="168" y="417"/>
+        </scene>
+    </scenes>
+</document>

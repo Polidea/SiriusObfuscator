@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ng5-2p-Qaa">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Sequence Settings View Controller-->
+        <scene sceneID="RDf-b9-ipK">
+            <objects>
+                <viewController storyboardIdentifier="SequenceSettings" id="Ng5-2p-Qaa" customClass="SequenceSettingsViewController" customModule="Dropnote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eAk-s1-ur9"/>
+                        <viewControllerLayoutGuide type="bottom" id="lsy-Ef-3f1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SKa-4q-CwA">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WTG-BU-zDq">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SequenceSettingsCell" id="8tz-if-3hP" customClass="SequenceSettingsCell" customModule="Dropnote" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8tz-if-3hP" id="iEn-J3-LX2">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="WTG-BU-zDq" firstAttribute="top" secondItem="SKa-4q-CwA" secondAttribute="top" id="Ddr-w0-5jZ"/>
+                            <constraint firstItem="WTG-BU-zDq" firstAttribute="bottom" secondItem="lsy-Ef-3f1" secondAttribute="top" id="Vnj-yE-9Af"/>
+                            <constraint firstAttribute="trailing" secondItem="WTG-BU-zDq" secondAttribute="trailing" id="eQE-gd-b99"/>
+                            <constraint firstItem="WTG-BU-zDq" firstAttribute="leading" secondItem="SKa-4q-CwA" secondAttribute="leading" id="xfj-hX-H96"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="uzy-28-bLn">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="bYy-jK-2tV">
+                            <connections>
+                                <action selector="editAction:" destination="Ng5-2p-Qaa" id="D8X-rw-OOA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="editBarButtonItem" destination="bYy-jK-2tV" id="DoR-Kq-TPt"/>
+                        <outlet property="tableView" destination="WTG-BU-zDq" id="8xw-BX-aIi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZKg-QC-1r7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="246" y="314"/>
+        </scene>
+    </scenes>
+</document>

@@ -164,8 +164,12 @@ The input data formats are `Files.json` and `Renames.json` and are described in 
 5. Build the Swift compiler in the Xcode-friendly way.  
    `swift/utils/build-script --clean --xcode --release-debuginfo --debug-swift`
 
-6. (optional) Build the Swift compiler in the version allowing for the fast incremental compilation with ninja  
-   `swift/utils/build-script -R`
+6. Build the Swift compiler using ninja with support for iOS, tvOS and watchOS
+   `swift/utils/build-script --ios --tvos --watchos --release-debuginfo --debug-swift`
+
+7. Copy the generated libraries from ninja build to Xcode build
+   `rm -r -f build/Xcode-RelWithDebInfoAssert+swift-DebugAssert/swift-macosx-x86_64/Debug/lib/swift`
+   `cp -r build/Ninja-RelWithDebInfoAssert+swift-DebugAssert/swift-macosx-x86_64/lib/swift build/Xcode-RelWithDebInfoAssert+swift-DebugAssert/swift-macosx-x86_64/Debug/lib/swift`
 
 ### Build documentation (optional)
 

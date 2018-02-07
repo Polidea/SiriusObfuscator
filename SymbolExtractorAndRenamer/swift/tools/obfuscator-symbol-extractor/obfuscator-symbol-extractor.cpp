@@ -22,6 +22,13 @@ SymbolJsonPath("symbolsjson",
                llvm::cl::desc("Name of the file to write extracted Symbols"),
                llvm::cl::cat(ObfuscatorSymbolExtractor));
   
+static llvm::cl::opt<bool>
+PrintDiagnostics("printdiagnostics",
+                 llvm::cl::init(false),
+                 llvm::cl::desc("Print diagnostic informations from "
+                                "Swift compiler"),
+                 llvm::cl::cat(ObfuscatorSymbolExtractor));
+
 }
 
 void printSymbols(const std::vector<Symbol> &Symbols) {
@@ -63,14 +70,22 @@ int main(int argc, char *argv[]) {
   std::string MainExecutablePath =
     llvm::sys::fs::getMainExecutable(argv[0], MainExecutablePointer);
 
-    auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
+  auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
 
-    if (auto Error = FilesJsonOrError.takeError()) {
-        ExitOnError(std::move(Error));
-    }
+  if (auto Error = FilesJsonOrError.takeError()) {
+      ExitOnError(std::move(Error));
+  }
+  
+  llvm::raw_ostream *DiagnosticStream;
+  if (options::PrintDiagnostics) {
+    DiagnosticStream = &llvm::outs();
+  } else {
+    DiagnosticStream = new llvm::raw_null_ostream();
+  }
   
   auto SymbolsOrError = extractSymbols(FilesJsonOrError.get(),
-                                       MainExecutablePath);
+                                       MainExecutablePath,
+                                       *DiagnosticStream);
   if (auto Error = SymbolsOrError.takeError()) {
     ExitOnError(std::move(Error));
   }

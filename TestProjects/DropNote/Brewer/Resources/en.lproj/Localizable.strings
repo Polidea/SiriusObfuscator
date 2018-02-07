@@ -1,0 +1,128 @@
+/* 
+  Localizable.strings
+  Brewer
+
+  Created by Maciej Oczko on 06.06.2016.
+  Copyright © 2016 Maciej Oczko. All rights reserved.
+*/
+
+// Navigation
+
+"NavigationEdit" = "Edit";
+"NavigationDone" = "Done";
+
+// Main Screen
+
+"StartBrewingItemTitle" = "Start brewing";
+"HistoryItemTitle" = "History";
+"SettingsItemTitle" = "Settings";
+
+"HistoryFilterPlaceholder" = "Search";
+"HistoryEmptySetDescription" = "Here you'll see the history of your brewings";
+
+// Brews sorting
+
+"BrewingsSortingSortTitle" = "Sort";
+"BrewingsSortingDateAscending" = "From the oldest";
+"BrewingsSortingDateDescending" = "From the newest";
+"BrewingsSortingScoreAscending" = "From the worst";
+"BrewingsSortingScoreDescending" = "From the best";
+
+// Settings
+
+"SettingsBrewingSequenceMenuItemTitle" = "Brewing sequence";
+"SettingsBrewingSequenceMenuDefaultSubtitle" = "Default";
+"SettingsUnitsMenuItemTitle" = "Units";
+"SettingsAboutMenuItemTitle" = "About";
+"SettingsFeedbackMenuItemTitle" = "Feedback";
+"SettingsRateMenuItemTitle" = "Please rate Dropnote";
+
+"SettingsAboutThanksForTransaltion" = "Thanks for translation";
+
+// Method picker
+
+"MethodPickItemTitle" = "Pick method";
+
+"MethodEsspressoMachine" = "Espresso machine";
+"MethodPourOver" = "Pour-Over";
+"MethodAeropress" = "Aeropress";
+"MethodKone" = "Kone";
+"MethodKalita" = "Kalita";
+
+"MethodDetailV60" = "V60";
+"MethodDetailChemex" = "Chemex";
+"MethodDetailTraditional" = "Traditional";
+"MethodDetailInverted" = "Inverted";
+
+// Sequence
+
+"SequenceItemTitle" = "Sequence";
+
+// Units
+
+"UnitsItemTitle" = "Units";
+
+// Brewing attributes
+
+"AttributeCoffeeWeight" = "Coffee weight";
+"AttributeGrindSize" = "Grind size";
+"AttributeTampStrength" = "Tamp strength";
+"AttributeTemperature" = "Temperature";
+"AttributeWaterWeight" = "Water weight or volume";
+"AttributeTime" = "Time";
+"AttributeNotes" = "Notes";
+"AttributePreInfusionTime" = "Pre-infusion time";
+
+// Units category items
+
+"UnitCategoryWater" = "Water";
+"UnitCategoryCoffee" = "Coffee";
+"UnitCategoryTemperature" = "Temperature";
+
+// New brew
+
+"NewBrewItemTitle" = "New brew";
+
+"NewBrewCoffeeInputPlaceholder" = "Type your coffee...";
+"NewBrewCoffeeMachinePlaceholder" = "Type your espresso machine...";
+
+"SelectableSearchCoffeeItemTitle" = "Coffee";
+"SelectableSearchCoffeeMachineItemTitle" = "Espresso machine";
+
+"GrindSizeSliderButtonTitle" = "Tap here to use slider";
+"GrindSizeNumericButtonTitle" = "Tap here to provide numerical value";
+
+"GrindSizeLevelExtraFine" = "Extra fine";
+"GrindSizeLevelFine" = "Fine";
+"GrindSizeLevelMedium" = "Medium";
+"GrindSizeLevelCoarse" = "Coarse";
+
+// Informative
+
+"TimeInformativeText" = "Type duration of brewing process";
+"GrindSizeInformativeText" = "Type or select grind size";
+"WaterInformativeText" = "Type weight or volume of water\nUnit can be changed in settings";
+"TemperatureInformativeText" = "Type water temperature\nUnit can be changed in settings";
+"WeightInformativeText" = "Type coffee weight\nUnit can be changed in settings";
+"TampingInformativeText" = "Select tamping strength";
+
+// Brew details
+
+"BrewDetailsItemTitle" = "Brew details";
+"BrewDetailScore" = "Score";
+"BrewScoreDetailsItemTitle" = "Score details";
+"BrewDetailsRemoveTitle" = "Remove brew";
+
+"BrewDetailsConfirmationTitle" = "Are you sure you want to remove this brew?";
+"BrewDetailsConfirmationYes" = "Remove";
+"BrewDetailsConfirmationNo" = "Cancel";
+
+// Cupping attributes
+
+"CuppingAttributeAroma" = "Aroma";
+"CuppingAttributeAcidity" = "Acidity";
+"CuppingAttributeAftertaste" = "Aftertaste";
+"CuppingAttributeBalance" = "Balance";
+"CuppingAttributeBody" = "Body";
+"CuppingAttributeSweetness" = "Sweetness";
+"CuppingAttributeOverall" = "Overall";

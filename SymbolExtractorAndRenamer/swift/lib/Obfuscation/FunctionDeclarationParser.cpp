@@ -1,7 +1,7 @@
 #include "swift/Obfuscation/FunctionDeclarationParser.h"
 #include "swift/Obfuscation/ParameterDeclarationParser.h"
-#include "swift/Obfuscation/DeclarationParsingUtils.h"
 #include "swift/Obfuscation/Utils.h"
+#include "swift/Obfuscation/DeclarationParsingUtils.h"
 
 #include <string>
 #include <vector>
@@ -9,15 +9,7 @@
 namespace swift {
 namespace obfuscation {
 
-std::string functionName(const FuncDecl* Declaration) {
-  return Declaration->getName().str().str();
-}
-
 llvm::Error isDeclarationSupported(const FuncDecl* Declaration) {
-  if (Declaration->isBinaryOperator() || Declaration->isUnaryOperator()) {
-    return stringError("don't support operators right now, since it requires "
-                       "the special obfuscated identifier");
-  }
   if (Declaration->isGetterOrSetter()) {
     return stringError("don't support getters and setters right now, since "
                        "it's the computed property name that should be "
@@ -29,17 +21,6 @@ llvm::Error isDeclarationSupported(const FuncDecl* Declaration) {
   return llvm::Error::success();
 }
 
-const FuncDecl*
-baseOverridenDeclarationWithModules(const FuncDecl* Declaration,
-                                    std::set<std::string> &Modules) {
-  if (auto* OverrideDeclaration = Declaration->getOverriddenDecl()) {
-    Modules.insert(moduleName(OverrideDeclaration));
-    return baseOverridenDeclarationWithModules(OverrideDeclaration, Modules);
-  } else {
-    return Declaration;
-  }
-}
-
 std::string functionSignature(const FuncDecl *Declaration) {
   if (Declaration->getDeclContext()->isTypeContext()) {
     auto Interface = Declaration->getMethodInterfaceType().getString();
@@ -49,15 +30,17 @@ std::string functionSignature(const FuncDecl *Declaration) {
   }
 }
 
-ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration,
-                                           const std::string &ModuleName,
-                                           const std::string &SymbolName) {
+ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration) {
+  std::string ModuleName;
+  std::string SymbolName = declarationName(Declaration);
   std::vector<std::string> Parts;
-  std::string UpdatedModuleName = ModuleName;
+  
   auto ProtocolRequirements = Declaration->getSatisfiedProtocolRequirements();
   auto *ProtocolDeclaration =
   dyn_cast<ProtocolDecl>(Declaration->getDeclContext());
   if (ProtocolRequirements.empty() && ProtocolDeclaration == nullptr) {
+    ModuleName = moduleName(Declaration);
+    Parts.push_back("module." + ModuleName);
     
     auto TypeNameOrError = enclosingTypeName(Declaration);
     if (auto Error = TypeNameOrError.takeError()) {
@@ -65,6 +48,9 @@ ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration,
       Parts.push_back("function." + SymbolName);
     } else {
       Parts.push_back("type." + TypeNameOrError.get());
+      if (Declaration->isStatic()) {
+        Parts.push_back("static");
+      }
       Parts.push_back("method." + SymbolName);
     }
     
@@ -80,17 +66,22 @@ ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration,
     //       protocols. it's just a name that's the same.
     //       this simplified handling should be improved in the future.
     if (!ProtocolRequirements.empty()) {
-      UpdatedModuleName = moduleName(ProtocolRequirements.front());
+      ModuleName = moduleName(ProtocolRequirements.front());
     } else {
-      UpdatedModuleName = moduleName(ProtocolDeclaration);
+      ModuleName = moduleName(ProtocolDeclaration);
     }
+    Parts.push_back("module." + ModuleName);
+    
     Parts.push_back("protocol");
+    if (Declaration->isStatic()) {
+      Parts.push_back("static");
+    }
     Parts.push_back("method." + SymbolName);
   }
   
   Parts.push_back(functionSignature(Declaration));
   
-  return std::make_pair(UpdatedModuleName, Parts);
+  return std::make_pair(ModuleName, Parts);
 }
 
 SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
@@ -105,34 +96,29 @@ SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
                        "might be safely obfuscated");
   }
 }
-  
+
 SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range) {
   
   if (auto Error = isDeclarationSupported(Declaration)) {
     return std::move(Error);
   }
   
-  std::vector<SymbolWithRange> Symbols;
-  auto ModuleNameAndParts = moduleNameAndParts(Declaration);
-  std::string ModuleName = ModuleNameAndParts.first;
-  std::vector<std::string> Parts = ModuleNameAndParts.second;
-  
   if (Declaration->getOverriddenDecl() != nullptr) {
-    return parseOverridenDeclaration(Declaration, ModuleName, Range);
+    return parseOverridenDeclaration(Declaration,
+                                     moduleName(Declaration),
+                                     Range);
   }
   
-  std::string SymbolName = functionName(Declaration);
-  
-  auto IdentifierParts = functionIdentifierParts(Declaration,
-                                                 ModuleName,
-                                                 SymbolName);
-  ModuleName = IdentifierParts.first;
-  copyToVector(IdentifierParts.second, Parts);
+  auto ModuleAndParts = functionIdentifierParts(Declaration);
+  std::string ModuleName = ModuleAndParts.first;
+  std::vector<std::string> Parts = ModuleAndParts.second;
   
   Symbol Symbol(combineIdentifier(Parts),
-                SymbolName,
+                declarationName(Declaration),
                 ModuleName,
                 SymbolType::NamedFunction);
+  
+  std::vector<SymbolWithRange> Symbols;
   Symbols.push_back(SymbolWithRange(Symbol, Range));
   
   auto ParametersSymbolsOrError =

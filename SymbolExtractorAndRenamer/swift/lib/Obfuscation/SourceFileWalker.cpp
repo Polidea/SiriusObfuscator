@@ -53,7 +53,10 @@ struct RenamesCollector: public SourceEntityWalker {
         llvm::make_unique<SymbolsOrError>(extractSymbol(Declaration, Range));
     }
     if (auto Error = Symbols->takeError()) {
-      llvm::consumeError(std::move(Error));
+      llvm::handleAllErrors(std::move(Error),
+                            [](const llvm::StringError &StringError) {
+        llvm::errs() << "Error: " << StringError.message();
+      });
       return true;
     }
     handleSymbols(Symbols->get());

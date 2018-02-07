@@ -10,12 +10,14 @@ bool vectorContains(const std::vector<T> &Vector, const T &Element) {
 }
 
 TEST(DataStructuresDeserialization, DeserializeProject) {
-  std::string JsonString = "{\n\"rootPath\": \"samplePath\"\n}";
+  std::string JsonString = "{\n\"rootPath\": \"sampleRootPath\"\n,"
+                           " \n\"projectFilePath\": \"sampleProjectFilePath\"\n}";
   
   auto DeserializedOrError = deserialize<Project>(JsonString);
   
   auto Expected = Project();
-  Expected.RootPath = "samplePath";
+  Expected.RootPath = "sampleRootPath";
+  Expected.ProjectFilePath = "sampleProjectFilePath";
   
   if (auto ErrorCode = DeserializedOrError.takeError()) {
     llvm::consumeError(std::move(ErrorCode));
@@ -24,15 +26,18 @@ TEST(DataStructuresDeserialization, DeserializeProject) {
   auto Deserialized = DeserializedOrError.get();
   
   EXPECT_EQ(Deserialized.RootPath, Expected.RootPath);
+  EXPECT_EQ(Deserialized.ProjectFilePath, Expected.ProjectFilePath);
 }
 
 TEST(DataStructuresDeserialization, DeserializeModule) {
-  std::string JsonString = "{\n\"name\": \"sampleName\"\n}";
+  std::string JsonString = "{\n\"name\": \"sampleName\","
+                           "\"triple\": \"sampleTriple\"\n}";
 
   auto DeserializedOrError = deserialize<Module>(JsonString);
 
   auto Expected = Module();
   Expected.Name = "sampleName";
+  Expected.TargetTriple = "sampleTriple";
   
   if (auto ErrorCode = DeserializedOrError.takeError()) {
     llvm::consumeError(std::move(ErrorCode));
@@ -41,6 +46,7 @@ TEST(DataStructuresDeserialization, DeserializeModule) {
   auto Deserialized = DeserializedOrError.get();
 
   EXPECT_EQ(Deserialized.Name, Expected.Name);
+  EXPECT_EQ(Deserialized.TargetTriple, Expected.TargetTriple);
 }
 
 TEST(DataStructuresDeserialization, DeserializeSdk) {
@@ -68,9 +74,9 @@ TEST(DataStructuresDeserialization, DeserializeExplicitlyLinkedFramework) {
   "\"name\": \"sampleName\"\n,"
   "\"path\": \"samplePath\",\n}";
 
-  auto DeserializedOrError = deserialize<ExplicitelyLinkedFrameworks>(JsonString);
+  auto DeserializedOrError = deserialize<ExplicitlyLinkedFrameworks>(JsonString);
 
-  auto Expected = ExplicitelyLinkedFrameworks();
+  auto Expected = ExplicitlyLinkedFrameworks();
   Expected.Name = "sampleName";
   Expected.Path = "samplePath";
 

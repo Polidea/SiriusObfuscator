@@ -9,42 +9,44 @@
 namespace swift {
 namespace obfuscation {
 
-/// Provides memory buffer for given path.
-///
-/// In case of failing during execution returns Error.
-///
-/// Typical usage:
-/// \code
-///  auto Buffer = BufferProvider.getBuffer(PathToJson);
-/// \endcode
-///
-/// \param Path - string containing path to file.
-///
-/// \returns llvm::ErrorOr object containing either the memory buffer
-/// or llvm::Error object with the information.
 struct MemoryBufferProvider {
-    virtual ~MemoryBufferProvider() = default;
-    virtual llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>>
-    getBuffer(std::string Path) const;
+  virtual ~MemoryBufferProvider() = default;
+  
+  /// Provides memory buffer for given path.
+  ///
+  /// In case of failing during execution returns Error.
+  ///
+  /// Typical usage:
+  /// \code
+  ///  auto Buffer = BufferProvider.getBuffer(PathToJson);
+  /// \endcode
+  ///
+  /// \param Path - string containing path to file.
+  ///
+  /// \returns llvm::ErrorOr object containing either the memory buffer
+  /// or llvm::Error object with the information.
+  virtual llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>>
+  getBuffer(std::string Path) const;
 };
 
-/// Provides file for given path.
-///
-/// In case of failing during execution returns Error.
-///
-/// Typical usage:
-/// \code
-/// auto File = Factory.getFile(PathToOutput);
-/// \endcode
-///
-/// \param Path - string containing path to file.
-///
-/// \returns llvm::ErrorOr object containing either the file
-/// or llvm::Error object with error information.
 template <typename FileType>
 struct FileFactory {
-    virtual ~FileFactory() = default;
-    virtual llvm::ErrorOr<std::unique_ptr<FileType>> getFile(std::string Path);
+  virtual ~FileFactory() = default;
+  
+  /// Provides file for given path.
+  ///
+  /// In case of failing during execution returns Error.
+  ///
+  /// Typical usage:
+  /// \code
+  /// auto File = Factory.getFile(PathToOutput);
+  /// \endcode
+  ///
+  /// \param Path - string containing path to file.
+  ///
+  /// \returns llvm::ErrorOr object containing either the file
+  /// or llvm::Error object with error information.
+  virtual llvm::ErrorOr<std::unique_ptr<FileType>> getFile(std::string Path);
 };
 
     
@@ -70,7 +72,8 @@ struct FileFactory {
 /// the information.
 template<typename T>
 llvm::Expected<T> parseJson(std::string PathToJson,
-                            const MemoryBufferProvider &BufferProvider = MemoryBufferProvider());
+                            const MemoryBufferProvider &BufferProvider =
+                              MemoryBufferProvider());
 
 } //namespace obfuscation
 } //namespace swift

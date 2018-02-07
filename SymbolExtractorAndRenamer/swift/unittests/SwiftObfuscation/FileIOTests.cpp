@@ -89,25 +89,34 @@ TEST(ParseJson, ErrorParsingText) {
 TEST(ParseJson, SuccessParsingText) {
     FakeMemoryBufferProvider FakeProvider = FakeMemoryBufferProvider();
     std::string RootPath = "testRootPath";
+    std::string ProjectFilePath = "testProjectFilePath";
     std::string ModuleName = "testModuleName";
+    std::string ModuleTriple = "testModuleTriple";
     std::string SdkName = "testName";
     std::string SdkPath = "testSDKPath";
-    std::string FileName1 = "testFileName1";
-    std::string FileName2 = "testFileName2";
+    std::string SourceFileName1 = "testSourceFileName1";
+    std::string SourceFileName2 = "testSourceFileName2";
+    std::string LayoutFileName1 = "testLayoutFileName1";
+    std::string LayoutFileName2 = "testLayoutFileName2";
     std::string ExplicitFrameworkName = "testExplicitFrameworkName";
     std::string ExplicitFrameworkPath = "testExplicitFrameworkPath";
     std::string SystemFramework = "testSystemFramework";
     FakeMemoryBuffer::Payload = "{\r\n  \"project\":{\r\n"
-        "\"rootPath\":\"" + RootPath + "\"\r\n   },"
+        "\"rootPath\":\"" + RootPath + "\",\r\n"
+        "\"projectFilePath\":\"" + ProjectFilePath + "\"\r\n   },"
         "\"module\":{\r\n"
-        "\"name\":\"" + ModuleName + "\"\r\n   },\r\n"
+        "\"name\":\"" + ModuleName + "\",\r\n"
+        "\"triple\": \"" + ModuleTriple + "\"\r\n   },\r\n"
         "\"sdk\":{\r\n"
         "\"name\":\"" + SdkName + "\",\r\n"
         "\"path\":\"" + SdkPath + "\"\r\n   },\r\n"
-        "\"filenames\":[\r\n"
-        "\"" + FileName1 + "\",\r\n"
-        "\"" + FileName2 + "\"\r\n   ],\r\n"
-        "\"explicitelyLinkedFrameworks\":[\r\n {\r\n"
+        "\"sourceFiles\":[\r\n"
+        "\"" + SourceFileName1 + "\",\r\n"
+        "\"" + SourceFileName2 + "\"\r\n   ],\r\n"
+        "\"layoutFiles\":[\r\n"
+        "\"" + LayoutFileName1 + "\",\r\n"
+        "\"" + LayoutFileName2 + "\"\r\n   ],\r\n"
+        "\"explicitlyLinkedFrameworks\":[\r\n {\r\n"
         "\"name\":\"" + ExplicitFrameworkName + "\",\r\n"
         "\"path\":\"" + ExplicitFrameworkPath + "\"\r\n }\r\n ],\r\n"
         "\"systemLinkedFrameworks\":[\r\n \"" + SystemFramework + "\"\r\n   ]\r\n}";
@@ -123,14 +132,22 @@ TEST(ParseJson, SuccessParsingText) {
     }
     auto FilesJson = Result.get();
     EXPECT_EQ(FilesJson.Project.RootPath, RootPath);
+    EXPECT_EQ(FilesJson.Project.ProjectFilePath, ProjectFilePath);
     EXPECT_EQ(FilesJson.Module.Name, ModuleName);
+    EXPECT_EQ(FilesJson.Module.TargetTriple, ModuleTriple);
     EXPECT_EQ(FilesJson.Sdk.Name, SdkName);
     EXPECT_EQ(FilesJson.Sdk.Path, SdkPath);
-    std::vector<std::string> ExpectedFilenames = {FileName1, FileName2};
-    EXPECT_EQ(FilesJson.Filenames, ExpectedFilenames);
-    EXPECT_EQ(FilesJson.ExplicitelyLinkedFrameworks.size(), 1U);
-    EXPECT_EQ(FilesJson.ExplicitelyLinkedFrameworks[0].Name, ExplicitFrameworkName);
-    EXPECT_EQ(FilesJson.ExplicitelyLinkedFrameworks[0].Path, ExplicitFrameworkPath);
+    std::vector<std::string> ExpectedSourceFilenames
+      = {SourceFileName1, SourceFileName2};
+    EXPECT_EQ(FilesJson.SourceFiles, ExpectedSourceFilenames);
+    std::vector<std::string> ExpectedLayoutFilenames
+      = {LayoutFileName1, LayoutFileName2};
+    EXPECT_EQ(FilesJson.LayoutFiles, ExpectedLayoutFilenames);
+    EXPECT_EQ(FilesJson.ExplicitlyLinkedFrameworks.size(), 1U);
+    EXPECT_EQ(FilesJson.ExplicitlyLinkedFrameworks[0].Name,
+              ExplicitFrameworkName);
+    EXPECT_EQ(FilesJson.ExplicitlyLinkedFrameworks[0].Path,
+              ExplicitFrameworkPath);
     EXPECT_EQ(FilesJson.SystemLinkedFrameworks.size(), 1U);
     EXPECT_EQ(FilesJson.SystemLinkedFrameworks[0], SystemFramework);
 }

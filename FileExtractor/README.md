@@ -29,18 +29,21 @@ The output data format is called `Files.json` and presented below:
 ```javascript
 {
   "project": {
-    "rootPath": <string>
+    "rootPath": <string>,
+    "projectFilePath": <string>
   },
   "module": {
-    "name": <string>
+    "name": <string>,
+    "triple": <string>
   },
   "sdk": {
-    "name": <string>
+    "name": <string>,
     "path": <string>
   },
-  "filenames": [ <string> ]
-  "systemLinkedFrameworks": [<string>]
-  "explicitelyLinkedFrameworks": [
+  "sourceFiles": [ <string> ],
+  "layoutFiles": [ <string> ],
+  "systemLinkedFrameworks": [<string>],
+  "explicitlyLinkedFrameworks": [
     {
       "name": <string>,
       "path": <string>
@@ -48,44 +51,52 @@ The output data format is called `Files.json` and presented below:
   ]
 }
 ```
-`project` is an object that contains the path to the project root directory. This directory will be copied by the Renamer to provide place for writing the obfuscated Swift source files to.
+`project` is an object that contains the path to the project root directory and path to the actual xcodeproj or xcworkspace file. This directory will be copied by the Renamer to provide place for writing the obfuscated Swift source files to.
 
-`module` is an object that contains the name of the module that the Swift source code files are part of. It's required for performing the further analysis and will be used to discriminate between the symbols from the external modules (such as linked frameworks) and the symbols that should be obfuscated.
+`module` is an object that contains the name of the module that the Swift source code files are part of and the target triple for the compiler. It's required for performing the further analysis and will be used to discriminate between the symbols from the external modules (such as linked frameworks) and the symbols that should be obfuscated.
 
 `sdk` is an object that contains both the name and the path to the SDK that the source code will be compiled against. The name is taken from the Xcode project and used as an input for the `xcrun --sdk <sdk.name> --show-sdk-path` to obtain the path to the SDK. Sample names are: `appletvos`, `appletvsimulator`, `iphoneos`, `iphonesimulator`, `macosx`, `watchos`, `watchsimulator`.
 
-`filenames` is an array of paths to files containing the Swift source code that the tool should obfuscate.
+`sourceFiles` is an array of paths to files containing the Swift source code that the tool should obfuscate.
+
+`layoutFiles` is an array of paths to storyboard / xib files containing the layouts that the tool should obfuscate.
 
 `systemLinkedFrameworks` contains the list of names of frameworks that are imported in the source code (with various form of Swift `import` statement), but not included in the Xcode project. Since Xcode autolinks the system frameworks by default (see `CLANG_MODULES_AUTOLINK` flag), these frameworks should be automatically found by the compiler, which uses the SDK path for this purpose. They are used to identify the module that the symbol is part of.
 
-`explicitelyLinkedFrameworks` contains the list of framework objects with name and path. These are taken from the Xcode project, which must contain the names and paths to frameworks that are not automatically linked. They are required for the Swift compiler to perform the analysis and also used to identify which module is the symbol part of.
+`explicitlyLinkedFrameworks` contains the list of framework objects with name and path. These are taken from the Xcode project, which must contain the names and paths to frameworks that are not automatically linked. They are required for the Swift compiler to perform the analysis and also used to identify which module is the symbol part of.
 
 Sample `Files.json` file might look like that:
 
 ```javascript
 {
-   "project": {
-       "rootPath": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/macOSTestApp"
-   },
-   "module": {
-      "name":"macOSTestApp"
-   },
-   "sdk": {
-      "name":"macosx",
-      "path":"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk"
-   },
-   "filenames": [
-      "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/macOSTestApp/macOSTestApp/ViewController.swift",
-      "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/macOSTestApp/macOSTestApp/AppDelegate.swift"
-   ],
-   "explicitelyLinkedFrameworks": [
+  "project": {
+    "rootPath": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject",
+    "projectFilePath": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/iOSTestApp.xcodeproj"
+  },
+  "module": {
+    "name": "iOSTestApp",
+    "triple": "arm64-apple-ios11.0"
+  },
+  "sdk": {
+    "name": "iphoneos",
+    "path": "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk"
+  },
+  "sourceFiles": [
+    "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/iOSTestApp/ViewController.swift",
+    "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/iOSTestApp/AppDelegate.swift"
+  ],
+  "layoutFiles": [
+    "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/iOSTestApp/Base.lproj/LaunchScreen.storyboard",
+    "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/iOSTestApp/Base.lproj/Main.storyboard"
+  ],
+   "explicitlyLinkedFrameworks": [
       {
          "name":"CoreImage",
-         "path":"/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/"
+         "path":"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/"
       }
    ],
    "systemLinkedFrameworks":[
-      "Cocoa"
+      "UIKit"
    ]
 }
 ```

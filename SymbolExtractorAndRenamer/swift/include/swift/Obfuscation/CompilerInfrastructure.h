@@ -34,7 +34,8 @@ namespace obfuscation {
 llvm::Error
 setupCompilerInstance(CompilerInstance &CompilerInstance,
                       const FilesJson &FilesJson,
-                      std::string MainExecutablePath);
+                      std::string MainExecutablePath,
+                      llvm::raw_ostream &LogStream);
   
 } //namespace obfuscation
 } //namespace swift

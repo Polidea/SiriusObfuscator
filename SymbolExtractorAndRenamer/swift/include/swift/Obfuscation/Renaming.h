@@ -46,12 +46,14 @@ using FilesList = std::vector<std::pair<std::string, std::string>>;
 /// contains the new name.
 /// \param ObfuscatedProjectPath Path where the project copy will be created
 /// and renaming will be performed.
+/// \param DiagnosticStream Stream for writing the diagnostic information into.
 ///
 /// \returns List of project files that were affected by the renaming.
 llvm::Expected<FilesList> performRenaming(std::string MainExecutablePath,
                                           const FilesJson &FilesJson,
                                           const RenamesJson &RenamesJson,
-                                          std::string ObfuscatedProjectPath);
+                                          std::string ObfuscatedProjectPath,
+                                          llvm::raw_ostream &DiagnosticStream);
 
 } //namespace obfuscation
 } //namespace swift

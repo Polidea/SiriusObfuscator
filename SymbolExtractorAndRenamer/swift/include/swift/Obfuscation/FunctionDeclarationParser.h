@@ -15,13 +15,7 @@ namespace obfuscation {
     
 std::string functionName(const FuncDecl* Declaration);
   
-const FuncDecl*
-baseOverridenDeclarationWithModules(const FuncDecl* Declaration,
-                                    std::set<std::string> &Modules);
-  
-ModuleNameAndParts functionIdentifierParts(const FuncDecl* Declaration,
-                                           const std::string &ModuleName,
-                                           const std::string &SymbolName);
+ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration);
   
 SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range);
     

@@ -3,7 +3,8 @@ module FileExtractor
   class DataIntegrityChecker
 
     def self.verify_data_integrity(data)
-      files_not_from_root = files_not_in_path(data.filenames, data.project.rootPath)
+      files_not_from_root = files_not_in_path(data.sourceFiles, data.project.rootPath) \
+                          + files_not_in_path(data.layoutFiles, data.project.rootPath) 
       if files_not_from_root.empty?
         return true, nil
       else 

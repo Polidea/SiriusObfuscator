@@ -26,7 +26,7 @@ module FileExtractor
       data = data_extractor.extract_data
       data.systemLinkedFrameworks = FileExtractor::ModulesExtractor.system_linked_frameworks(data)
       data.sdk.path = FileExtractor::SdkResolver.sdk_path(data)
-      data.explicitelyLinkedFrameworks = FileExtractor::SdkResolver.update_frameworks_paths(data)
+      data.explicitlyLinkedFrameworks = FileExtractor::SdkResolver.update_frameworks_paths(data)
       data
     end
 

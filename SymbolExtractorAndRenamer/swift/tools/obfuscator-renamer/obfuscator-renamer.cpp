@@ -27,6 +27,13 @@ ObfuscatedProjectPath("obfuscatedproject",
                       llvm::cl::desc("Path to the directory for obfuscated "
                                      "project"),
                       llvm::cl::cat(ObfuscatorRenamer));
+
+static llvm::cl::opt<bool>
+PrintDiagnostics("printdiagnostics",
+                 llvm::cl::init(false),
+                 llvm::cl::desc("Print diagnostic informations from "
+                                "Swift compiler"),
+                 llvm::cl::cat(ObfuscatorRenamer));
   
 }
 
@@ -85,10 +92,18 @@ int main(int argc, char *argv[]) {
   std::string MainExecutablePath =
     llvm::sys::fs::getMainExecutable(argv[0], MainExecutablePointer);
   
+  llvm::raw_ostream *DiagnosticStream;
+  if (options::PrintDiagnostics) {
+    DiagnosticStream = &llvm::outs();
+  } else {
+    DiagnosticStream = new llvm::raw_null_ostream();
+  }
+  
   auto FilesOrError = performRenaming(MainExecutablePath,
                                       FilesJsonOrError.get(),
                                       RenamesJsonOrError.get(),
-                                      options::ObfuscatedProjectPath);
+                                      options::ObfuscatedProjectPath,
+                                      *DiagnosticStream);
   if (auto Error = FilesOrError.takeError()) {
     ExitOnError(std::move(Error));
   }

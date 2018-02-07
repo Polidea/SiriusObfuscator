@@ -8,11 +8,11 @@ module FileExtractor
     end
   end
 
-  Project = Struct.new(:rootPath) do
+  Project = Struct.new(:rootPath, :projectFilePath) do
     include StructSerialization
   end
 
-  Module = Struct.new(:name) do
+  Module = Struct.new(:name, :triple) do
     include StructSerialization
   end
 
@@ -20,18 +20,18 @@ module FileExtractor
     include StructSerialization
   end
 
-  ExplicitelyLinkedFramework = Struct.new(:name, :path) do
+  ExplicitlyLinkedFramework = Struct.new(:name, :path) do
     include StructSerialization
   end
   
-  FilesJson = Struct.new(:project, :module, :sdk, :filenames, :explicitelyLinkedFrameworks, :systemLinkedFrameworks) do
+  FilesJson = Struct.new(:project, :module, :sdk, :sourceFiles, :layoutFiles, :explicitlyLinkedFrameworks, :systemLinkedFrameworks) do
     include StructSerialization
 
     def to_h
       hash = super.to_h
       hash[:module] = self.module.to_h
       hash[:sdk] = self.sdk.to_h
-      hash[:explicitelyLinkedFrameworks] = self.explicitelyLinkedFrameworks.map do |framework| framework.to_h end
+      hash[:explicitlyLinkedFrameworks] = self.explicitlyLinkedFrameworks.map do |framework| framework.to_h end
       hash
     end
   end

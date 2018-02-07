@@ -10,8 +10,6 @@ namespace swift {
 namespace obfuscation {
 
 class UniqueIdentifierGenerator {
-  
-private:
   std::set<std::string> GeneratedSymbols;
   static const std::vector<std::string> UniquelyTailSymbols;
   static const std::vector<std::string> HeadSymbols;
@@ -44,7 +42,6 @@ private:
   }
   
 public:
-  
   UniqueIdentifierGenerator()
   : TailSymbols(concatenateHeadAndTailSymbols()),
   HeadGenerator(HeadSymbols),
@@ -55,6 +52,32 @@ public:
   }
   
 };
+
+class UniqueOperatorGenerator {
+  std::set<std::string> GeneratedSymbols;
+  static const std::vector<std::string> OperatorSymbols;
+  RandomUniformStringGenerator Generator;
+  const std::string::size_type IdentifierLength = 32;
+
+  llvm::Expected<std::string> generateName(int NumbersOfTriesLeft) {
+    if (NumbersOfTriesLeft <= 0) {
+      return stringError("couldn't generate unique type name");
+    }
+    auto Name = Generator.rand(IdentifierLength);
+
+    if (GeneratedSymbols.insert(Name).second) {
+      return Name;
+    } else {
+      return generateName(NumbersOfTriesLeft - 1);
+    }
+  }
+
+public:
+  UniqueOperatorGenerator() : Generator(OperatorSymbols) {}
+  llvm::Expected<std::string> generateName() {
+    return generateName(100);
+  }
+};
   
 const std::vector<std::string> UniqueIdentifierGenerator::UniquelyTailSymbols =
   {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
@@ -64,9 +87,14 @@ const std::vector<std::string> UniqueIdentifierGenerator::HeadSymbols =
    "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
    "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
    "S", "T", "U", "V", "W", "X", "Y", "Z"};
-  
+
+// "/" symbol is omitted to avoid generating comments in operator names
+const std::vector<std::string> UniqueOperatorGenerator::OperatorSymbols =
+    {"=", "-", "+", "!", "*", "%", "<", ">", "&", "|", "^", "~", "?"};
+
 struct ObfuscatedIdentifiersGenerators {
   UniqueIdentifierGenerator IdentifierGenerator;
+  UniqueOperatorGenerator OperatorGenerator;
 };
 
 llvm::Expected<std::string>
@@ -86,7 +114,7 @@ generateNameForType(ObfuscatedIdentifiersGenerators &Generators,
     case SymbolType::Variable:
       return Generators.IdentifierGenerator.generateName();
     case SymbolType::Operator:
-      return stringError("Operator names are not supported yet");
+      return Generators.OperatorGenerator.generateName();
   }
 }
   
@@ -106,7 +134,7 @@ proposeRenamings(const SymbolsJson &SymbolsJson) {
     if (auto Error = NameOrError.takeError()) {
       return std::move(Error);
     }
-    Renaming.ObfuscatedName = NameOrError.get(); // "obfuscated" + Symbol.Name;
+    Renaming.ObfuscatedName = NameOrError.get();
     RenamesJson.Symbols.push_back(Renaming);
   }
   

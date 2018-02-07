@@ -1,4 +1,4 @@
 #!/bin/bash
 
-swift/utils/build-script -R
+swift/utils/build-script -R --ios --tvos --watchos
 

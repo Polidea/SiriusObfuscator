@@ -10,13 +10,16 @@
 namespace swift {
 namespace obfuscation {
 
-llvm::Expected<SymbolsJson> extractSymbols(const FilesJson &FilesJson,
-                                          std::string MainExecutablePath) {
+llvm::Expected<SymbolsJson>
+extractSymbols(const FilesJson &FilesJson,
+               std::string MainExecutablePath,
+               llvm::raw_ostream &DiagnosticStream) {
   
   CompilerInstance CompilerInstance;
   auto Error = setupCompilerInstance(CompilerInstance,
                                      FilesJson,
-                                     MainExecutablePath);
+                                     MainExecutablePath,
+                                     DiagnosticStream);
   if (Error) {
     return std::move(Error);
   }
@@ -32,6 +35,7 @@ llvm::Expected<SymbolsJson> extractSymbols(const FilesJson &FilesJson,
     }
   }
   copyToVector(Result, Json.Symbols);
+  std::sort(Json.Symbols.begin(), Json.Symbols.end());
   return Json;
 }
 

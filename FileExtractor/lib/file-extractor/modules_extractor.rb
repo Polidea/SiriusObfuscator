@@ -3,8 +3,8 @@ module FileExtractor
   class ModulesExtractor
 
     def self.system_linked_frameworks(data)
-      explicitely_linked_frameworks_names = frameworks_names(data.explicitelyLinkedFrameworks)
-      modules(data.filenames, explicitely_linked_frameworks_names)
+      explicitly_linked_frameworks_names = frameworks_names(data.explicitlyLinkedFrameworks)
+      modules(data.sourceFiles, explicitly_linked_frameworks_names)
     end
 
     private 
