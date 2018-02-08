@@ -1,8 +1,31 @@
-obfuscator_tool:
+obfuscator_tool_debug:
     stage: test
     script:
         - /bin/bash Scripts/build.sh
         - bin/obfuscator
     tags:
         - xcode-9.0
+    except:
+        - master
 
+obfuscator_tool_master:
+    stage: test
+    script:
+        - /bin/bash Scripts/build.sh
+        - /bin/bash Scripts/deploy_build_artifacts.sh
+        - bin/obfuscator
+    tags:
+        - xcode-9.0
+    only:
+        - master
+
+obfuscator_tool_release:
+    stage: test
+    script:
+        - /bin/bash Scripts/build.sh
+        - /bin/bash Scripts/deploy_build_artifacts.sh
+        - bin/obfuscator
+    tags:
+        - xcode-9.0
+    only:
+        - tags

@@ -21,7 +21,7 @@ echo "Installing FileExtractor"
 tar -xf FileExtractor/file-extractor-1.0.0-osx.tar.gz -C .
 mv file-extractor-1.0.0-osx/* bin/
 
-echo "Installing FileExtractor"
+echo "Installing SymbolExtractor"
 cp -r -p SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64/bin/obfuscator-symbol-extractor bin/symbol-extractor
 
 echo "Installing NameMapper"
@@ -39,6 +39,6 @@ echo "Installing VerificationSuite"
 cp -r -p VerificationSuite/VerificationSuite bin/verification-suite
 
 echo "Installing ObfuscatorTool"
-swift build -c release 
+swift build -c release -Xswiftc -static-stdlib
 cp -r -p $(swift build -c release --show-bin-path)/ObfuscatorTool bin/obfuscator
 
