@@ -11,7 +11,7 @@ The information include the list of files containing the Swift source code that 
 ## Usage
 
 ```bash
-$ file-extractor -projectrootpath <path-to-xcode-project> -filesjson <path-to-output-file>
+$ file-extractor -projectrootpath <path-to-xcode-project> [-filesjson <path-to-output-file>] [-projectfile <path-to-xcodeproj>]
 ```
 
 where
@@ -19,6 +19,8 @@ where
 `<path-to-xcode-project>` is a path to Xcode project root folder. It\'s the folder that contains both the Xcode project file (.xcodeproj or .xcworkspace) and the source files. It's a required parameter.
 
 `<path-to-output-file>` is a path to the file that the extraced data will be written to. If it's an optional parameter. If ommited, tool will print out to the standard output.
+
+`<path-to-xcodeproj>` is a path to the Xcode project file. It's an optional parameter and should be provided only when the tool fails to automatically identify which project to parse.
 
 ## Data formats
 
@@ -42,13 +44,14 @@ The output data format is called `Files.json` and presented below:
   },
   "sourceFiles": [ <string> ],
   "layoutFiles": [ <string> ],
-  "systemLinkedFrameworks": [<string>],
+  "implicitlyLinkedFrameworks": [ <string> ],
   "explicitlyLinkedFrameworks": [
     {
       "name": <string>,
       "path": <string>
     }
-  ]
+  ],
+  "frameworkSearchPaths": [ <string> ]
 }
 ```
 `project` is an object that contains the path to the project root directory and path to the actual xcodeproj or xcworkspace file. This directory will be copied by the Renamer to provide place for writing the obfuscated Swift source files to.
@@ -61,9 +64,11 @@ The output data format is called `Files.json` and presented below:
 
 `layoutFiles` is an array of paths to storyboard / xib files containing the layouts that the tool should obfuscate.
 
-`systemLinkedFrameworks` contains the list of names of frameworks that are imported in the source code (with various form of Swift `import` statement), but not included in the Xcode project. Since Xcode autolinks the system frameworks by default (see `CLANG_MODULES_AUTOLINK` flag), these frameworks should be automatically found by the compiler, which uses the SDK path for this purpose. They are used to identify the module that the symbol is part of.
+`implicitlyLinkedFrameworks` contains the list of names of frameworks that are imported in the source code (with various form of Swift `import` statement), but not included in the Xcode project. There are two types of such frameworks. One is system frameworks. Since Xcode autolinks the system frameworks by default (see `CLANG_MODULES_AUTOLINK` flag), these frameworks should be automatically found by the compiler, which uses the SDK path for this purpose. Second one is frameworks with paths added to search paths, but not explicitely stated as dependencies. They are used to identify the module that the symbol is part of.
 
 `explicitlyLinkedFrameworks` contains the list of framework objects with name and path. These are taken from the Xcode project, which must contain the names and paths to frameworks that are not automatically linked. They are required for the Swift compiler to perform the analysis and also used to identify which module is the symbol part of.
+
+`frameworkSearchPaths` contains the list of paths to search for non-system frameworks. It's especially useful when working with Cocoapods projects, since they dont specify the framework dependencies explicitely, but set the paths.
 
 Sample `Files.json` file might look like that:
 
@@ -95,8 +100,11 @@ Sample `Files.json` file might look like that:
          "path":"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.0.sdk/System/Library/Frameworks/"
       }
    ],
-   "systemLinkedFrameworks":[
+   "implicitlyLinkedFrameworks":[
       "UIKit"
+   ],
+   "frameworkSearchPaths": [
+      "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/Dropnote/Pods/Crashlytics/iOS"
    ]
 }
 ```

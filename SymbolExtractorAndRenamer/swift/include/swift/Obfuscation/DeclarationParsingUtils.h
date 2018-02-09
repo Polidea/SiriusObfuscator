@@ -14,14 +14,23 @@ namespace obfuscation {
 using ModuleNameAndParts = std::pair<std::string, std::vector<std::string>>;
   
 std::string combineIdentifier(std::vector<std::string> &Parts);
-  
+
+std::string declarationName(const ValueDecl* Declaration);
+
 std::string moduleName(const Decl* Declaration);
+
+std::string externalParameterName(const ParamDecl *Declaration);
+
+std::string internalParameterName(const ParamDecl *Declaration);
+
+std::string symbolName(const OperatorDecl *Declaration);
+
+std::string functionName(const AbstractFunctionDecl* Declaration);
   
 ModuleNameAndParts moduleNameAndParts(const Decl *Declaration);
   
 std::string typeName(const NominalTypeDecl* Declaration);
 
-std::string declarationName(const ValueDecl* Declaration);
 
 llvm::Expected<std::string> enclosingTypeName(const Decl* Declaration);
 

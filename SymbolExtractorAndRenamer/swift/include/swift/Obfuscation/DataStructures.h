@@ -38,8 +38,9 @@ struct FilesJson {
   Sdk Sdk;
   std::vector<std::string> SourceFiles;
   std::vector<std::string> LayoutFiles;
-  std::vector<std::string> SystemLinkedFrameworks;
+  std::vector<std::string> ImplicitlyLinkedFrameworks;
   std::vector<ExplicitlyLinkedFrameworks> ExplicitlyLinkedFrameworks;
+  std::vector<std::string> FrameworkSearchPaths;
 };
 
 enum class SymbolType: int {

@@ -221,6 +221,12 @@
       "identifier": "module.TestModuleName.struct.StructWithMemberwiseInit.variable.property",
       "module": "TestModuleName",
       "type": "variable"
+    },
+    {
+      "name": "number",
+      "identifier": "module.TestModuleName.type.CustomInitViewController.method.init.signature.(Int) -> CustomInitViewController.parameter.position.list1_parameter0.single.number",
+      "module": "TestModuleName",
+      "type": "singleParameter"
     }
   ]
 }

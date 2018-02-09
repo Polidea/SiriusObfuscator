@@ -14,13 +14,16 @@ namespace swift {
 namespace obfuscation {
   
 SymbolsOrError
-parseSeparateFunctionDeclarationForParameters(const FuncDecl* Declaration);
+parseSeparateFunctionDeclarationForParameters(const AbstractFunctionDecl* Declaration);
 
 SymbolsOrError
 parseFunctionFromCallExpressionForParameters(const FuncDecl* Declaration);
   
 SymbolsOrError parseSeparateDeclarationWithRange(const ParamDecl* Declaration,
                                                  CharSourceRange Range);
+
+SymbolsOrError parse(const ParamDecl* Declaration);
+
   
 } //namespace obfuscation
 } //namespace swift

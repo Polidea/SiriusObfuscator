@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DeA-bj-R4a">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Pick Method-->
+        <scene sceneID="rsc-Bd-geb">
+            <objects>
+                <viewController storyboardIdentifier="MethodPicker" title="Pick Method" id="DeA-bj-R4a" customClass="MethodPickerViewController" customModule="Dropnote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="oV6-Ah-Tna"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hc0-bt-zdD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vGR-Gu-dYH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="oCp-mA-qkI">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MethodPickerCell" rowHeight="90" id="N6P-j1-z2e" customClass="MethodPickerCell" customModule="Dropnote" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="90"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="N6P-j1-z2e" id="eQv-5K-7XL">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="89.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mPX-LS-ADf">
+                                                    <rect key="frame" x="15" y="10" width="58" height="58"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="58" id="67C-y7-6sT"/>
+                                                        <constraint firstAttribute="width" constant="58" id="HbC-Vz-bdD"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fio-SG-kBV">
+                                                    <rect key="frame" x="88" y="28" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="mPX-LS-ADf" firstAttribute="leading" secondItem="eQv-5K-7XL" secondAttribute="leading" constant="15" id="08s-vs-xMI"/>
+                                                <constraint firstItem="fio-SG-kBV" firstAttribute="leading" secondItem="eQv-5K-7XL" secondAttribute="leading" constant="88" id="WYq-Fw-t8p"/>
+                                                <constraint firstItem="fio-SG-kBV" firstAttribute="top" secondItem="eQv-5K-7XL" secondAttribute="topMargin" constant="20" id="aYU-bv-wUg"/>
+                                                <constraint firstItem="fio-SG-kBV" firstAttribute="leading" secondItem="mPX-LS-ADf" secondAttribute="trailing" constant="15" id="fe6-Ak-WvO"/>
+                                                <constraint firstAttribute="bottom" secondItem="mPX-LS-ADf" secondAttribute="bottom" constant="15" id="gAw-rq-hPz"/>
+                                                <constraint firstItem="mPX-LS-ADf" firstAttribute="top" secondItem="eQv-5K-7XL" secondAttribute="top" constant="10" id="mrD-XE-Rsh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="iconImageView" destination="mPX-LS-ADf" id="tc4-LG-HPa"/>
+                                            <outlet property="titleLabel" destination="fio-SG-kBV" id="OE4-Jd-JG8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="oCp-mA-qkI" secondAttribute="trailing" id="FHa-EU-L4N"/>
+                            <constraint firstItem="oCp-mA-qkI" firstAttribute="leading" secondItem="vGR-Gu-dYH" secondAttribute="leading" id="Y2c-yW-hyu"/>
+                            <constraint firstItem="oCp-mA-qkI" firstAttribute="top" secondItem="vGR-Gu-dYH" secondAttribute="top" id="aJ6-xh-rRn"/>
+                            <constraint firstItem="oCp-mA-qkI" firstAttribute="bottom" secondItem="Hc0-bt-zdD" secondAttribute="top" id="mlC-EZ-SQE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="oCp-mA-qkI" id="WjB-s5-9Ei"/>
+                        <segue destination="OPc-CH-FK4" kind="show" identifier="SequenceSettings" id="cxd-zz-AT9"/>
+                        <segue destination="Jgk-pL-tQy" kind="unwind" identifier="MethodPickerUnwind" unwindAction="prepareForUnwind:" id="I3Y-62-9sj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ove-VL-bNR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Jgk-pL-tQy" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="220" y="284"/>
+        </scene>
+        <!--SequenceSettings-->
+        <scene sceneID="j4e-tF-DTX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SequenceSettings" id="OPc-CH-FK4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ehi-i0-gGT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="753.5" y="284"/>
+        </scene>
+    </scenes>
+</document>

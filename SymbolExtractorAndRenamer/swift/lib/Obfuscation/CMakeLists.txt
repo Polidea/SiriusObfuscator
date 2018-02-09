@@ -1,3 +1,7 @@
+# Make libxml2 available for swiftObfuscation.
+# We assume that it's present because it's bundled with Xcode.
+include_directories(SYSTEM ${LIBXML2_INCLUDE_DIR})
+
 add_swift_library(swiftObfuscation STATIC
   CompilerInfrastructure.cpp
   DataStructures.cpp
@@ -15,11 +19,12 @@ add_swift_library(swiftObfuscation STATIC
   SymbolExtracting.cpp
   Utils.cpp
   VariableDeclarationParser.cpp
+  LayoutRenamer.cpp
   LINK_LIBRARIES
   swiftParse
   swiftAST
   swiftSema
   swiftDriver
   swiftFrontend
+  ${LIBXML2_LIBRARIES}
 )
-

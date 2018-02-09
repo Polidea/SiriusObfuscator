@@ -29,6 +29,9 @@ SymbolsOrError extractSymbol(Decl* Declaration, CharSourceRange Range) {
   } else if (const auto *OperatorDeclaration = dyn_cast<OperatorDecl>(Declaration)) {
       SingleSymbolOrErrorPointer =
       llvm::make_unique<SingleSymbolOrError>(parse(OperatorDeclaration));
+  } else if (const auto *ConstructDeclaration = dyn_cast<ConstructorDecl>(Declaration)) {
+      SymbolsOrErrorPointer =
+      llvm::make_unique<SymbolsOrError>(parse(ConstructDeclaration, Range));
   } else if (const auto *ParamDeclaration = dyn_cast<ParamDecl>(Declaration)) {
     auto Symbols = parseSeparateDeclarationWithRange(ParamDeclaration, Range);
     SymbolsOrErrorPointer =

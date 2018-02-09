@@ -15,26 +15,32 @@ module FileExtractor
       @main_build_settings = build_settings(@main_target)
     end
 
-    def extract_data
-      FileExtractor::FilesJson.new(
+    def extract_data_and_build_directory
+      dir = @main_build_settings["BUILT_PRODUCTS_DIR"]
+      return FileExtractor::FilesJson.new(
         FileExtractor::Project.new(@root_path, @project.path.to_s),
-        FileExtractor::Module.new(module_name(@main_target), triple(@main_build_settings)),
-        FileExtractor::Sdk.new(sdk(@main_target), nil),
+        FileExtractor::Module.new(module_name(@main_build_settings), triple(@main_build_settings)),
+        FileExtractor::Sdk.new(sdk_name(@main_build_settings), sdk_path(@main_build_settings)),
         source_files(@main_target),
         layout_files(@main_target),
-        explicitly_linked_frameworks(@main_target),
-        nil
-      )
+        update_frameworks_paths(explicitly_linked_frameworks(@main_target), @main_build_settings),
+        nil,
+        framework_search_paths(@main_build_settings)
+      ), dir
     end
 
     private
 
-    def module_name(target)
-      target.name
+    def module_name(build_settings)
+      build_settings["PRODUCT_MODULE_NAME"]
     end
 
-    def sdk(target)
-      target.sdk
+    def sdk_name(build_settings)
+      build_settings["SDK_NAME"]
+    end
+
+    def sdk_path(build_settings)
+      build_settings["SDKROOT"]
     end
 
     def source_files(target)
@@ -65,14 +71,36 @@ module FileExtractor
 
     def explicitly_linked_frameworks(target)
       target.frameworks_build_phase.files.map do |framework|
-        name = framework.file_ref.name
+        name = framework.display_name
         path = framework.file_ref.real_path.to_s
         FileExtractor::ExplicitlyLinkedFramework.new(name.sub(".framework", ""), path.sub(name, ""))
       end
     end
 
+    def update_frameworks_paths(frameworks, build_settings)
+      frameworks.map do |framework|
+        framework.path = framework.path.sub("${SDKROOT}", build_settings["SDKROOT"])
+        framework.path = framework.path.sub("${BUILT_PRODUCTS_DIR}", build_settings["BUILT_PRODUCTS_DIR"])
+        framework
+      end
+    end
+
+    def framework_search_paths(build_settings)
+      search_paths = build_settings["FRAMEWORK_SEARCH_PATHS"]
+      framework_search_paths = []
+      if !search_paths.nil?
+        framework_search_paths = search_paths.split("\" ").map do |path_to_clean|
+          path_to_clean.sub(/^\"/, '')
+        end
+      end
+      framework_search_paths
+    end
+
     def triple(build_settings)
-      architecture = build_settings["CURRENT_ARCH"]
+      architecture = build_settings["PLATFORM_PREFERRED_ARCH"]
+      if architecture.nil?
+        architecture = build_settings["CURRENT_ARCH"]
+      end
       sdk = case build_settings["PLATFORM_NAME"]
         when "iphoneos"
           build_settings["SDK_NAME"].gsub("iphoneos", "ios")

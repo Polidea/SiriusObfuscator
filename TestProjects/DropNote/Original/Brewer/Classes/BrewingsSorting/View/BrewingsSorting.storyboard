@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="LjZ-67-4Y6">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Dz8-gp-ekq">
+            <objects>
+                <navigationController id="LjZ-67-4Y6" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="U6q-FG-KS8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="6lL-7J-c9s" kind="relationship" relationship="rootViewController" id="huL-am-wAO"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ilG-sb-Zbk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="46" y="350"/>
+        </scene>
+        <!--Brewings Sorting View Controller-->
+        <scene sceneID="ZAM-xB-V8q">
+            <objects>
+                <viewController id="6lL-7J-c9s" customClass="BrewingsSortingViewController" customModule="Dropnote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ip7-ei-Kwa"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ndv-dk-NBh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sy4-im-UKj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MZS-Zu-UIP">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BrewingsSortingOptionCell" id="cBl-Ve-EPf" customClass="BrewingsSortingOptionCell" customModule="Dropnote" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cBl-Ve-EPf" id="Gzk-U6-XgR">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MZS-Zu-UIP" firstAttribute="bottom" secondItem="Ndv-dk-NBh" secondAttribute="top" id="5bS-vj-eX1"/>
+                            <constraint firstItem="MZS-Zu-UIP" firstAttribute="leading" secondItem="sy4-im-UKj" secondAttribute="leading" id="Dqa-rg-jqj"/>
+                            <constraint firstAttribute="trailing" secondItem="MZS-Zu-UIP" secondAttribute="trailing" id="KDV-Gj-Tie"/>
+                            <constraint firstItem="MZS-Zu-UIP" firstAttribute="top" secondItem="Ip7-ei-Kwa" secondAttribute="bottom" id="fXV-1e-l9m"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="8AR-Gn-qqP">
+                        <barButtonItem key="leftBarButtonItem" image="ic_close" id="i4Q-fk-wKh">
+                            <connections>
+                                <action selector="close:" destination="6lL-7J-c9s" id="sr5-yx-DNI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="MZS-Zu-UIP" id="2ON-sL-Dnq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DVR-5F-b69" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="789" y="343"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="ic_close" width="18" height="18"/>
+    </resources>
+</document>

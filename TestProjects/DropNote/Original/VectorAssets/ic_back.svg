@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_back</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
+        <g id="ic_back" transform="translate(1.000000, 1.000000)" stroke="#F5F2E9" stroke-width="3">
+            <polyline id="Rectangle-1" transform="translate(9.692388, 9.692388) rotate(-315.000000) translate(-9.692388, -9.692388) " points="15.6923882 15.6923882 3.69238816 15.6923882 3.69238816 3.69238816 3.69238816 3.69238816"></polyline>
+            <path d="M15.9470942,3.60925473 L4.27817459,15.2781746" id="Rectangle-1" transform="translate(9.778175, 9.778175) rotate(-315.000000) translate(-9.778175, -9.778175) "></path>
+        </g>
+    </g>
+</svg>

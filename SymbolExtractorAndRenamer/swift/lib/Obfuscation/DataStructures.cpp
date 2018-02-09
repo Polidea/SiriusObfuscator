@@ -83,9 +83,12 @@ void MappingTraits<FilesJson>::mapping(IO &Io, FilesJson &Object) {
   Io.mapRequired("sdk", Object.Sdk);
   Io.mapRequired("sourceFiles", Object.SourceFiles);
   Io.mapRequired("layoutFiles", Object.LayoutFiles);
-  Io.mapRequired("systemLinkedFrameworks", Object.SystemLinkedFrameworks);
+  Io.mapRequired("implicitlyLinkedFrameworks",
+                 Object.ImplicitlyLinkedFrameworks);
   Io.mapRequired("explicitlyLinkedFrameworks",
                  Object.ExplicitlyLinkedFrameworks);
+  Io.mapRequired("frameworkSearchPaths",
+                 Object.FrameworkSearchPaths);
 }
   
 void MappingTraits<Project>::mapping(IO &Io, Project &Object) {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="58px" height="58px" viewBox="0 0 58 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_coffee_machine</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_coffee_machine">
+            <g id="Group-11">
+                <path d="M53,29 C53,42.2540882 42.2540882,53 29,53 C15.7459118,53 5,42.2540882 5,29 C5,15.7459118 15.7459118,5 29,5 C42.2540882,5 53,15.7459118 53,29" id="Fill-15" fill="#A08DE0"></path>
+                <path d="M29,58 C12.9832968,58 0,45.0167032 0,29 C0,12.9832968 12.9832968,0 29,0 C45.0167032,0 58,12.9832968 58,29 C58,45.0167032 45.0167032,58 29,58 Z" id="Fill-17" fill="#A08DE0" opacity="0.6"></path>
+                <path d="M32.2929115,19.3982713 L32.2929115,15.9654255 C32.2929115,14.2819149 32.8239602,12.650266 33.7568834,11.2320479 C34.5483304,10.0272606 35.1183363,8.86835106 35.1183363,8.02260638 C35.1183363,5.24800532 32.3790275,3 29,3 C25.6230228,3 22.8837141,5.24800532 22.8837141,8.02260638 C22.8837141,8.86835106 23.45372,10.0272606 24.245167,11.2320479 C25.1760398,12.650266 25.7070885,14.2819149 25.7070885,15.9654255 L25.7070885,19.3982713 L22,21.5465426 L22,24 L36,24 L36,21.5465426 L32.2929115,19.3982713 L32.2929115,19.3982713 Z" id="Stroke-761" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" fill="#F5F2E9"></path>
+                <path d="M26,19 L31.5226803,19" id="Stroke-766" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round"></path>
+                <g id="Group-4" transform="translate(1.000000, 27.000000)">
+                    <g id="Group-754" transform="translate(24.000000, 9.000000)">
+                        <polyline id="Fill-752" fill="#F6F2E9" points="5.94666667 0.2674 7.72533333 3.5754 0.541333333 3.5754 2.31733333 0.2674"></polyline>
+                        <polyline id="Stroke-753" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" points="5.94666667 0.2674 7.72533333 3.5754 0.541333333 3.5754 2.31733333 0.2674"></polyline>
+                    </g>
+                    <g id="Group-757" transform="translate(15.000000, 0.000000)">
+                        <polyline id="Fill-755" fill="#F6F2E9" points="4.9542 1.8754 0.9002 1.8754 0.9002 5.1834 4.9542 5.1834"></polyline>
+                        <polyline id="Stroke-756" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" points="4.9542 1.8754 0.9002 1.8754 0.9002 5.1834 4.9542 5.1834"></polyline>
+                    </g>
+                    <polygon id="Stroke-759" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" fill="#F5F2E9" points="19 2 37 2 35.5796759 9 20.4203241 9"></polygon>
+                    <polyline id="Stroke-764" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" points="31 2 31 4.388 25 4.388 25 2"></polyline>
+                    <path d="M16,5.72771415 L3.29058247,6.99449749 C1.50332063,7.10592751 0,5.51071886 0,3.50302366 L0,3.49715892 C0,1.48946373 1.50332063,-0.107699832 3.29058247,0.0056850961 L16,1.27246843" id="Stroke-768" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" fill="#73645E"></path>
+                </g>
+                <g id="Group-5" transform="translate(21.000000, 44.000000)">
+                    <polygon id="Stroke-763" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" fill="#F5F2E9" points="12.686847 11 3.31529601 11 0 0 16 0"></polygon>
+                    <path d="M10,5.84015852 C10,7.0330251 9.10458716,8 8,8 C6.89541284,8 6,7.0330251 6,5.84015852 C6,4.64729194 8,2 8,2 C8,2 10,4.64729194 10,5.84015852" id="Fill-765" fill="#73645E"></path>
+                    <path d="M15.8275717,2 C17.579258,2 19,3.34352159 19,5 C19,6.65647841 17.579258,8 15.8275717,8 L14,8" id="Stroke-769" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -10,7 +10,7 @@ namespace swift {
 namespace obfuscation {
   
 llvm::Expected<std::string> position(const ParamDecl *Declaration,
-                                     const FuncDecl *FunctionDeclaration) {
+                                     const AbstractFunctionDecl *FunctionDeclaration) {
   
   auto ParameterLists = FunctionDeclaration->getParameterLists();
   for (unsigned ListIndex = 0; ListIndex < ParameterLists.size(); ++ListIndex) {
@@ -38,18 +38,17 @@ SymbolsOrError parse(const ParamDecl* Declaration) {
     return stringError("We shouldn't rename implicit parameters");
   }
   if (const auto *FunctionDeclaration =
-      dyn_cast<FuncDecl>(Declaration->getDeclContext())) {
+      dyn_cast<AbstractFunctionDecl>(Declaration->getDeclContext())) {
     
     std::set<std::string> Modules;
-    auto *BaseFunctionDeclaration =
-      baseOverridenDeclarationWithModules(FunctionDeclaration, Modules);
+    auto *BaseFunctionDeclaration = baseOverridenDeclarationWithModules(FunctionDeclaration, Modules);
     
     bool OverridenMethodIsFromTheSameModule =
       Modules.size() == 0
       || (Modules.size() == 1 && Modules.count(moduleName(Declaration)) == 1);
     
-    std::string ExternalName = Declaration->getArgumentName().str().str();
-    std::string InternalName = Declaration->getName().str().str();
+    auto ExternalName = externalParameterName(Declaration);
+    auto InternalName = internalParameterName(Declaration);
     
     std::vector<SymbolWithRange> Symbols;
     
@@ -120,7 +119,7 @@ SymbolsOrError parse(const ParamDecl* Declaration) {
   return stringError("Couldn't identify what function parameter belong to");
 }
   
-SymbolsOrError parametersSymbolsFromFunction(const FuncDecl* Declaration) {
+SymbolsOrError parametersSymbolsFromFunction(const AbstractFunctionDecl* Declaration) {
     
   std::vector<SymbolWithRange> Symbols;
 
@@ -142,7 +141,7 @@ SymbolsOrError parametersSymbolsFromFunction(const FuncDecl* Declaration) {
 }
 
 SymbolsOrError
-parseSeparateFunctionDeclarationForParameters(const FuncDecl* Declaration) {
+parseSeparateFunctionDeclarationForParameters(const AbstractFunctionDecl* Declaration) {
   return parametersSymbolsFromFunction(Declaration);
 }
   

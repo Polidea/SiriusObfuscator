@@ -21,7 +21,7 @@ llvm::Error isDeclarationSupported(const FuncDecl* Declaration) {
   return llvm::Error::success();
 }
 
-std::string functionSignature(const FuncDecl *Declaration) {
+std::string functionSignature(const AbstractFunctionDecl *Declaration) {
   if (Declaration->getDeclContext()->isTypeContext()) {
     auto Interface = Declaration->getMethodInterfaceType().getString();
     return "signature." + Interface;
@@ -30,7 +30,7 @@ std::string functionSignature(const FuncDecl *Declaration) {
   }
 }
 
-ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration) {
+ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
   std::string ModuleName;
   std::string SymbolName = declarationName(Declaration);
   std::vector<std::string> Parts;
@@ -84,6 +84,15 @@ ModuleNameAndParts functionIdentifierParts(const FuncDecl *Declaration) {
   return std::make_pair(ModuleName, Parts);
 }
 
+SymbolsOrError parse(const AbstractFunctionDecl* Declaration, CharSourceRange Range) {
+    if (auto FunctionDecl = dyn_cast<FuncDecl>(Declaration)) {
+        return parse(FunctionDecl, Range);
+    } else if (auto ConstructDecl = dyn_cast<ConstructorDecl>(Declaration)) {
+        return parse(ConstructDecl, Range);
+    }
+    return stringError("trying to parse unsupported declaration type");
+}
+
 SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
                                          const std::string &ModuleName,
                                          const CharSourceRange &Range) {
@@ -97,6 +106,10 @@ SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
   }
 }
 
+SymbolsOrError parse(const ConstructorDecl* Declaration, CharSourceRange Range) {
+    return parseSeparateFunctionDeclarationForParameters(Declaration);
+}
+  
 SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range) {
   
   if (auto Error = isDeclarationSupported(Declaration)) {

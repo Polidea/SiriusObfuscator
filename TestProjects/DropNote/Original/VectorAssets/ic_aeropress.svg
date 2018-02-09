@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="58px" height="58px" viewBox="0 0 58 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7.2 (28276) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_aeropress</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_aeropress">
+            <path d="M58,29 C58,45.0167032 45.0167032,58 29,58 C12.9832968,58 0,45.0167032 0,29 C0,12.9832968 12.9832968,0 29,0 C45.0167032,0 58,12.9832968 58,29" id="Fill-7" fill="#84D9BB" opacity="0.6"></path>
+            <path d="M53,29 C53,42.2540882 42.2540882,53 29,53 C15.7459118,53 5,42.2540882 5,29 C5,15.7459118 15.7459118,5 29,5 C42.2540882,5 53,15.7459118 53,29" id="Fill-9" fill="#84D9BB"></path>
+            <polygon id="Fill-741" fill="#F6F2E9" points="22 35 35 35 35 12 22 12"></polygon>
+            <polygon id="Stroke-742" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" points="22 35 35 35 35 12 22 12"></polygon>
+            <polygon id="Stroke-744" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" fill="#F5F2E9" points="23 12 34 12 34 6 23 6"></polygon>
+            <polygon id="Stroke-746" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round" fill="#F5F2E9" points="34.8574979 54 23.1425021 54 19 40 39 40"></polygon>
+            <path d="M31,47.8401585 C31,49.0330251 30.1045872,50 29,50 C27.8954128,50 27,49.0330251 27,47.8401585 C27,46.6472919 29,44 29,44 C29,44 31,46.6472919 31,47.8401585" id="Fill-747" fill="#73645E"></path>
+            <polygon id="Fill-748" fill="#73645E" points="22 35 35 35 35 23 22 23"></polygon>
+            <path d="M19.4932445,35 L37.5069408,35" id="Stroke-749" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M20.4921933,6 L36.5080624,6" id="Stroke-750" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M39.1942634,42 C41.2966102,42 43,43.7898793 43,45.9989725 C43,48.2080658 41.2966102,50 39.1942634,50 L36.2051472,50" id="Stroke-751" stroke="#73645E" stroke-width="1.334" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </g>
+</svg>

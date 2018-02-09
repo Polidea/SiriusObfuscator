@@ -2,6 +2,7 @@
 #include "swift/Obfuscation/CompilerInfrastructure.h"
 #include "swift/Obfuscation/SourceFileWalker.h"
 #include "swift/Obfuscation/Utils.h"
+#include "swift/Obfuscation/LayoutRenamer.h"
 
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/Support/FileSystem.h"
@@ -9,6 +10,7 @@
 #include "swift/IDE/Utils.h"
 
 #include <memory>
+#include <unordered_map>
 
 namespace swift {
 namespace obfuscation {
@@ -82,7 +84,8 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
                                            const RenamesJson &RenamesJson,
                                            SourceManager &SourceManager,
                                            unsigned int BufferId,
-                                           StringRef Path) {
+                                           StringRef Path,
+                                           std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols) {
   bool performedRenaming = false;
   auto SymbolsWithRanges = walkAndCollectSymbols(Current);
   
@@ -113,6 +116,7 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
         Editor->ide::SourceEditConsumer::accept(SourceManager,
                                                 SymbolWithRange.Range,
                                                 ObfuscatedName);
+        RenamedSymbols.insert({Symbol.OriginalName, Symbol});
         performedRenaming = true;
         break;
       }
@@ -142,6 +146,8 @@ performRenaming(std::string MainExecutablePath,
   }
   
   FilesList Files;
+  std::unordered_map<std::string, SymbolRenaming> RenamedSymbols;
+  
   for (auto* Unit : CI.getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {
 
@@ -161,13 +167,41 @@ performRenaming(std::string MainExecutablePath,
                                 RenamesJson,
                                 SourceManager,
                                 BufferId,
-                                Path)) {
+                                Path,
+                                RenamedSymbols)) {
         auto Filename = llvm::sys::path::filename(Path).str();
         Files.push_back(std::pair<std::string, std::string>(Filename, Path));
       }
     }
   }
   
+  for (const auto &LayoutFile: FilesJson.LayoutFiles) {
+    
+    auto PathOrError = computeObfuscatedPath(LayoutFile,
+                                             FilesJson.Project.RootPath,
+                                             ObfuscatedProjectPath);
+    
+    if (auto Error = PathOrError.takeError()) {
+      return std::move(Error);
+    }
+    
+    auto Path = PathOrError.get().str().str();
+    
+    LayoutRenamer LayoutRenamer(LayoutFile);
+
+    auto PerformedRenamingOrError = LayoutRenamer.performRenaming(RenamedSymbols, Path);
+    
+    if (auto Error = PerformedRenamingOrError.takeError()) {
+      return std::move(Error);
+    }
+    
+    auto PerformedRenaming = PerformedRenamingOrError.get();
+    
+    if (PerformedRenaming) {
+      Files.push_back(std::pair<std::string, std::string>(LayoutFile, Path));
+    }
+  }
+    
   return Files;
 }
 

@@ -31,6 +31,22 @@ std::string moduleName(const Decl* Declaration) {
   return Declaration->getModuleContext()->getBaseName().getIdentifier().get();
 }
 
+std::string externalParameterName(const ParamDecl *Declaration) {
+  return Declaration->getArgumentName().str().str();
+}
+
+std::string internalParameterName(const ParamDecl *Declaration) {
+  return Declaration->getName().str().str();
+}
+
+std::string symbolName(const OperatorDecl *Declaration) {
+  return Declaration->getName().str().str();
+}
+
+std::string functionName(const AbstractFunctionDecl* Declaration) {
+    return Declaration->getName().str().str();
+}
+
 ModuleNameAndParts moduleNameAndParts(const Decl *Declaration) {
   std::string ModuleName = moduleName(Declaration);
   std::vector<std::string> Parts;
@@ -69,6 +85,10 @@ baseOverridenDeclarationWithModules(const VarDecl *Declaration,
                                     std::set<std::string> &Modules);
 template const FuncDecl*
 baseOverridenDeclarationWithModules(const FuncDecl *Declaration,
+                                    std::set<std::string> &Modules);
+
+template const AbstractFunctionDecl*
+baseOverridenDeclarationWithModules(const AbstractFunctionDecl *Declaration,
                                     std::set<std::string> &Modules);
 
 } //namespace obfuscation

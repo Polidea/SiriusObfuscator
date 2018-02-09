@@ -2,6 +2,7 @@
 #include "swift/Obfuscation/FunctionDeclarationParser.h"
 #include "swift/Obfuscation/ParameterDeclarationParser.h"
 #include "swift/Obfuscation/Utils.h"
+#include "swift/Obfuscation/DeclarationParsingUtils.h"
 
 namespace swift {
 namespace obfuscation {
@@ -13,7 +14,7 @@ SingleSymbolOrError parse(const OperatorDecl* Declaration) {
   auto ModuleNameAndParts = moduleNameAndParts(Declaration);
   std::string ModuleName = ModuleNameAndParts.first;
   std::vector<std::string> Parts = ModuleNameAndParts.second;
-  std::string SymbolName = Declaration->getName().str().str();
+  std::string SymbolName = symbolName(Declaration);
   Parts.push_back("operator." + SymbolName);
 
   return Symbol(combineIdentifier(Parts),

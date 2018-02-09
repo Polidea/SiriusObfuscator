@@ -24,6 +24,9 @@ using FilesList = std::vector<std::pair<std::string, std::string>>;
 /// 3. Walks the AST and collects symbols listed in RenamesJson.
 /// 4. Performs renames on collected symbols in project copy
 /// in ObfuscatedProjectPath using renames from RenamesJson.
+/// 5. Performs renames on layout files (.storyboard and .xib)
+/// using paths from FilesJson. More information about layouts
+/// renaming in LayoutRenamer.h.
 ///
 /// Typical usage:
 /// \code

@@ -29,6 +29,10 @@ struct CompilerInvocationConfiguration {
       SearchPathOptions::FrameworkSearchPath Path(Framework.Path, false);
       Paths.push_back(Path);
     }
+    for (const auto &FrameworkPath : FilesJson.FrameworkSearchPaths) {
+      SearchPathOptions::FrameworkSearchPath Path(FrameworkPath, false);
+      Paths.push_back(Path);
+    }
   }
 };
 

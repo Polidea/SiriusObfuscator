@@ -1,0 +1,136 @@
+fastlane_version "1.94.1"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+
+  end
+
+  # -- Tests -- #
+
+  desc "Runs all the tests"
+  lane :test do
+    cocoapods
+    scan
+  end
+
+  # -- TestFlight -- #
+
+  desc "Submit a new Beta Build to Apple TestFlight"
+  desc "- Ensure git clean status"
+  desc "- Increment build number"
+  desc "- Build"
+  desc "- Send to iTunesConnect skipping submission & skipping waiting for build to process"
+  desc "- Cleant build artifacts"
+  desc "- Commit version bump"
+  desc "- Add git tab b{build_number}"
+  desc "- Push to git remote"
+  lane :beta do
+    ensure_git_status_clean
+    sigh(
+      adhoc: false,
+      force: true
+    )
+    cocoapods
+    increment_build_number
+    gym(
+      scheme: "Brewer TestFlight",
+      output_directory: "build"
+    )
+    pilot(
+      skip_submission: true,
+      skip_waiting_for_build_processing: true,
+      distribute_external: false
+    )
+    clean_build_artifacts
+    commit_build_tag
+  end
+
+  lane :commit_build_tag do
+    git_add(path: "./")
+    commit_version_bump(
+      message: 'Version bump',
+      force: true
+    )
+    build_number = get_build_number
+    add_git_tag(tag: "b#{build_number}")
+  end
+
+  # -- AppStore -- #
+
+  desc "Deploy a new version to the App Store"
+  desc "- Ensure git clean status"
+  desc "- Match AppStore profile"
+  desc "- Build"
+  desc "- Send to iTunesConnect"
+  desc "- Clean build artifacts"
+  lane :deploy do
+    ensure_git_status_clean
+    increment_build_number
+    cocoapods
+    match(type: "appstore")
+    gym(scheme: "Brewer AppStore")
+    deliver(
+      skip_screenshots: true,
+      force: true
+    )
+    clean_build_artifacts
+    commit_build_tag
+  end
+
+  # -- Helpers -- #
+
+  desc "Adds git tag for current version"
+  lane :add_version_tag do
+    version_number = get_version_number
+    add_git_tag(tag: "#{version_number}")
+  end
+
+  desc "Creates new screenshots"
+  lane :screenshots do
+    snapshot(skip_open_summary: true)
+  end
+
+  desc "Send screenshots for iTunes Connect"
+  lane :deliver_screenshots do
+    deliver(
+      skip_binary_upload: true,
+      skip_metadata: true,
+      force: true
+    )
+  end
+
+  desc "Creates new screenshots and uploads them to iTunes Connect"
+  lane :screens do
+    screenshots
+    # frameit # This produces wrong, unsupported image size!
+    deliver_screenshots
+  end
+
+  desc "Increments patch"
+  lane :increment_version_patch do
+    increment_version_number(bump_type: "patch")
+  end
+
+  desc "Increments minor"
+  lane :increment_version_minor do
+    increment_version_number(bump_type: "minor")
+  end
+
+  desc "Increments major"
+  lane :increment_version_major do
+    increment_version_number(bump_type: "major")
+  end
+
+  desc "Increments build number"
+  lane :build_number_up do
+    increment_build_number
+  end
+
+  after_all do |lane|
+  end
+
+  error do |lane, exception|
+  end
+end
