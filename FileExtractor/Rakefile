@@ -64,7 +64,7 @@ def create_package(target)
   sh "cp -r lib #{package_dir}/lib/file-extractor/lib"
   sh "mkdir #{package_dir}/lib/ruby"
   sh "tar -xzf packaging/traveling-ruby-#{TRAVELING_RUBY_VERSION}-#{target}.tar.gz -C #{package_dir}/lib/ruby"
-  sh "cd packaging && swift build -c release && cp $(swift build -c release --show-bin-path)/file-extractor ."
+  sh "cd packaging && swift build -c release -Xswiftc -static-stdlib && cp $(swift build -c release --show-bin-path)/file-extractor ."
   sh "cp packaging/file-extractor #{package_dir}/#{PACKAGE_NAME}"
   sh "rm packaging/file-extractor"
   sh "cp -pR packaging/vendor #{package_dir}/lib/"

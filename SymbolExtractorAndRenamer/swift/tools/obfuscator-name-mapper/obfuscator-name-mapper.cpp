@@ -21,7 +21,16 @@ RenamesJsonPath("renamesjson",
                 llvm::cl::desc("Name of the output file to write extracted "
                                "symbols with proposed renamings"),
                 llvm::cl::cat(ObfuscatorNameMapper));
-
+  
+static llvm::cl::opt<NameMappingStrategy>
+NameMappingStrategy("namemappingstrategy",
+                    llvm::cl::init(NameMappingStrategy::random),
+                    llvm::cl::desc("Choose name mapping strategy:"),
+                    llvm::cl::values(
+                      clEnumValN(NameMappingStrategy::random, "random", "Generate random unique identifiers (default)"),
+                      clEnumValN(NameMappingStrategy::deterministic, "deterministic", "Generate deterministic identifiers (useful for testing)")
+                    ),
+                llvm::cl::cat(ObfuscatorNameMapper));
 }
 
 void printRenamings(const std::vector<SymbolRenaming> &Renamings) {
@@ -58,7 +67,8 @@ int main(int argc, char *argv[]) {
     ExitOnError(std::move(Error));
   }
   
-  auto RenamingsOrError = proposeRenamings(SymbolsJsonOrError.get());
+  NameMapping NameMapping(options::NameMappingStrategy);
+  auto RenamingsOrError = NameMapping.proposeRenamings(SymbolsJsonOrError.get());
   if (auto Error = RenamingsOrError.takeError()) {
     ExitOnError(std::move(Error));
   }

@@ -9,10 +9,22 @@
 namespace swift {
 namespace obfuscation {
 
-class UniqueIdentifierGenerator {
+const std::vector<std::string> BaseIdentifierGenerator::UniquelyTailSymbols =
+  {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+
+const std::vector<std::string> BaseIdentifierGenerator::HeadSymbols =
+  {"_", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+    "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
+    "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
+    "S", "T", "U", "V", "W", "X", "Y", "Z"};
+
+// "/" symbol is omitted to avoid generating comments in operator names
+const std::vector<std::string> BaseIdentifierGenerator::OperatorSymbols =
+  {"=", "-", "+", "!", "*", "%", "<", ">", "&", "|", "^", "~", "?"};
+  
+/// Generates random unique identifiers for symbols.
+class RandomUniqueIdentifierGenerator: public BaseIdentifierGenerator {
   std::set<std::string> GeneratedSymbols;
-  static const std::vector<std::string> UniquelyTailSymbols;
-  static const std::vector<std::string> HeadSymbols;
   std::vector<std::string> TailSymbols;
   RandomUniformCharacterChooser HeadGenerator;
   RandomUniformStringGenerator TailGenerator;
@@ -42,20 +54,20 @@ class UniqueIdentifierGenerator {
   }
   
 public:
-  UniqueIdentifierGenerator()
+  RandomUniqueIdentifierGenerator()
   : TailSymbols(concatenateHeadAndTailSymbols()),
   HeadGenerator(HeadSymbols),
   TailGenerator(TailSymbols) {}
   
-  llvm::Expected<std::string> generateName() {
+  llvm::Expected<std::string> generateName(const Symbol &Symbol) {
     return generateName(100);
   }
   
 };
 
-class UniqueOperatorGenerator {
+/// Generates random unique identifiers for operators.
+class RandomUniqueOperatorGenerator: public BaseIdentifierGenerator {
   std::set<std::string> GeneratedSymbols;
-  static const std::vector<std::string> OperatorSymbols;
   RandomUniformStringGenerator Generator;
   const std::string::size_type IdentifierLength = 32;
 
@@ -73,55 +85,74 @@ class UniqueOperatorGenerator {
   }
 
 public:
-  UniqueOperatorGenerator() : Generator(OperatorSymbols) {}
-  llvm::Expected<std::string> generateName() {
+  RandomUniqueOperatorGenerator() : Generator(OperatorSymbols) {}
+  llvm::Expected<std::string> generateName(const Symbol &Symbol) {
     return generateName(100);
   }
 };
   
-const std::vector<std::string> UniqueIdentifierGenerator::UniquelyTailSymbols =
-  {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+/// Generates deterministic identifiers for symbols.
+/// Used in tests.
+class DeterministicIdentifierGenerator: public BaseIdentifierGenerator {
   
-const std::vector<std::string> UniqueIdentifierGenerator::HeadSymbols =
-  {"_", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
-   "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
-   "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
-   "S", "T", "U", "V", "W", "X", "Y", "Z"};
-
-// "/" symbol is omitted to avoid generating comments in operator names
-const std::vector<std::string> UniqueOperatorGenerator::OperatorSymbols =
-    {"=", "-", "+", "!", "*", "%", "<", ">", "&", "|", "^", "~", "?"};
-
-struct ObfuscatedIdentifiersGenerators {
-  UniqueIdentifierGenerator IdentifierGenerator;
-  UniqueOperatorGenerator OperatorGenerator;
+public:
+  
+  llvm::Expected<std::string> generateName(const Symbol &Symbol) {
+    // TODO: implement deterministic mapping for given symbol
+    return "TestObfuscation"+Symbol.Name;
+  }
+  
 };
 
+/// Generates deterministic identifiers for operators.
+/// Used in tests.
+class DeterministicOperatorGenerator: public BaseIdentifierGenerator {
+  
+public:
+
+  llvm::Expected<std::string> generateName(const Symbol &Symbol) {
+    // TODO: implement deterministic mapping for given symbol
+    return "TestObfuscation"+Symbol.Name;
+  }
+};
+
+// NameMapping implementation
+  
+  NameMapping::NameMapping(enum NameMappingStrategy NameMappingStrategy):
+    NameMappingStrategy(NameMappingStrategy) {};
+  
 llvm::Expected<std::string>
-generateNameForType(ObfuscatedIdentifiersGenerators &Generators,
-                    SymbolType Type) {
-  switch (Type) {
+  NameMapping::generateNameForSymbol(const Symbol &Symbol) {
+    
+  switch (Symbol.Type) {
     case SymbolType::Type:
-      return Generators.IdentifierGenerator.generateName();
+      return IdentifierGenerator->generateName(Symbol);
     case SymbolType::NamedFunction:
-      return Generators.IdentifierGenerator.generateName();
+      return IdentifierGenerator->generateName(Symbol);
     case SymbolType::ExternalParameter:
-      return Generators.IdentifierGenerator.generateName();
+      return IdentifierGenerator->generateName(Symbol);
     case SymbolType::InternalParameter:
-      return Generators.IdentifierGenerator.generateName();
+      return IdentifierGenerator->generateName(Symbol);
     case SymbolType::SingleParameter:
-      return Generators.IdentifierGenerator.generateName();
+      return IdentifierGenerator->generateName(Symbol);
     case SymbolType::Variable:
-      return Generators.IdentifierGenerator.generateName();
+      return IdentifierGenerator->generateName(Symbol);
     case SymbolType::Operator:
-      return Generators.OperatorGenerator.generateName();
+      return OperatorGenerator->generateName(Symbol);
   }
 }
   
 llvm::Expected<RenamesJson>
-proposeRenamings(const SymbolsJson &SymbolsJson) {
+  NameMapping::proposeRenamings(const SymbolsJson &SymbolsJson) {
   
-  ObfuscatedIdentifiersGenerators Generators;
+  if(NameMappingStrategy == NameMappingStrategy::random) {
+    this->IdentifierGenerator = llvm::make_unique<RandomUniqueIdentifierGenerator>();
+    this->OperatorGenerator = llvm::make_unique<RandomUniqueOperatorGenerator>();
+  } else if(NameMappingStrategy == NameMappingStrategy::deterministic) {
+    this->IdentifierGenerator = llvm::make_unique<DeterministicIdentifierGenerator>();
+    this->OperatorGenerator = llvm::make_unique<DeterministicOperatorGenerator>();
+  }
+    
   RenamesJson RenamesJson;
   
   for (const auto &Symbol : SymbolsJson.Symbols) {
@@ -130,7 +161,7 @@ proposeRenamings(const SymbolsJson &SymbolsJson) {
     Renaming.OriginalName = Symbol.Name;
     Renaming.Module = Symbol.Module;
     Renaming.Type = Symbol.Type;
-    auto NameOrError = generateNameForType(Generators, Symbol.Type);
+    auto NameOrError = generateNameForSymbol(Symbol);
     if (auto Error = NameOrError.takeError()) {
       return std::move(Error);
     }

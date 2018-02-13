@@ -1,0 +1,232 @@
+{
+  "symbols": [
+    {
+      "name": "NSViewController",
+      "identifier": "module.AppKit.class.NSViewController",
+      "module": "AppKit",
+      "type": "type"
+    },
+    {
+      "name": "NSApplicationDelegate",
+      "identifier": "module.AppKit.protocol.NSApplicationDelegate",
+      "module": "AppKit",
+      "type": "type"
+    },
+    {
+      "name": "applicationDidFinishLaunching",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ()",
+      "module": "AppKit",
+      "type": "namedFunction"
+    },
+    {
+      "name": "aNotification",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().parameter.position.list1_parameter0.internal.aNotification",
+      "module": "TestModuleName",
+      "type": "internalParameter"
+    },
+    {
+      "name": "cvc",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cvc",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "cvcei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cvcei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "cwi",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cwi",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "cwiei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cwiei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "sc",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.sc",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "scei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.scei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "ss",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.ss",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "ssei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.ssei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "swi",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swi",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "swiei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swiei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "swmi",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swmi",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "swmiei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swmiei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "vc1",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc1",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "vc1ei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc1ei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "vc2",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc2",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "vc2ei",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc2ei",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "applicationWillTerminate",
+      "identifier": "module.AppKit.protocol.method.applicationWillTerminate.signature.(Notification) -> ()",
+      "module": "AppKit",
+      "type": "namedFunction"
+    },
+    {
+      "name": "aNotification",
+      "identifier": "module.AppKit.protocol.method.applicationWillTerminate.signature.(Notification) -> ().parameter.position.list1_parameter0.internal.aNotification",
+      "module": "TestModuleName",
+      "type": "internalParameter"
+    },
+    {
+      "name": "viewDidLoad",
+      "identifier": "module.AppKit.type.NSViewController.method.viewDidLoad.signature.() -> Void",
+      "module": "AppKit",
+      "type": "namedFunction"
+    },
+    {
+      "name": "NSCoder",
+      "identifier": "module.Foundation.class.NSCoder",
+      "module": "Foundation",
+      "type": "type"
+    },
+    {
+      "name": "Notification",
+      "identifier": "module.Foundation.struct.Notification",
+      "module": "Foundation",
+      "type": "type"
+    },
+    {
+      "name": "NSObject",
+      "identifier": "module.ObjectiveC.class.NSObject",
+      "module": "ObjectiveC",
+      "type": "type"
+    },
+    {
+      "name": "fatalError",
+      "identifier": "module.Swift.function.fatalError.signature.(@autoclosure () -> String, StaticString, UInt) -> Never",
+      "module": "Swift",
+      "type": "namedFunction"
+    },
+    {
+      "name": "Int",
+      "identifier": "module.Swift.struct.Int",
+      "module": "Swift",
+      "type": "type"
+    },
+    {
+      "name": "AppDelegate",
+      "identifier": "module.TestModuleName.class.AppDelegate",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "ClassWithInit",
+      "identifier": "module.TestModuleName.class.ClassWithInit",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "CustomInitViewController",
+      "identifier": "module.TestModuleName.class.CustomInitViewController",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "SampleClass",
+      "identifier": "module.TestModuleName.class.SampleClass",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "ViewController",
+      "identifier": "module.TestModuleName.class.ViewController",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "SampleStruct",
+      "identifier": "module.TestModuleName.struct.SampleStruct",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "StructWithInit",
+      "identifier": "module.TestModuleName.struct.StructWithInit",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "StructWithMemberwiseInit",
+      "identifier": "module.TestModuleName.struct.StructWithMemberwiseInit",
+      "module": "TestModuleName",
+      "type": "type"
+    },
+    {
+      "name": "property",
+      "identifier": "module.TestModuleName.struct.StructWithMemberwiseInit.variable.property",
+      "module": "TestModuleName",
+      "type": "variable"
+    },
+    {
+      "name": "number",
+      "identifier": "module.TestModuleName.type.CustomInitViewController.method.init.signature.(Int) -> CustomInitViewController.parameter.position.list1_parameter0.single.number",
+      "module": "TestModuleName",
+      "type": "singleParameter"
+    }
+  ]
+}

@@ -200,4 +200,5 @@ In the alphabetical order:
 * [Jerzy Kleszcz](mailto:jerzy.kleszcz@polidea.com)
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 * [Jakub Sowa](jakub.sowa@polidea.com)
+* [Michał Zieliński](michal.zielinski@polidea.com)
 
