@@ -26,8 +26,12 @@ std::string internalParameterName(const ParamDecl *Declaration);
 std::string symbolName(const OperatorDecl *Declaration);
 
 std::string functionName(const AbstractFunctionDecl* Declaration);
+
+llvm::Expected<std::vector<std::string>>
+nominalTypeIdentifierParts(const NominalTypeDecl *Declaration,
+                           const std::string &SymbolName);
   
-ModuleNameAndParts moduleNameAndParts(const Decl *Declaration);
+ModuleNameAndParts moduleNameAndIdentifierParts(const Decl *Declaration);
   
 std::string typeName(const NominalTypeDecl* Declaration);
 
@@ -35,8 +39,12 @@ std::string typeName(const NominalTypeDecl* Declaration);
 llvm::Expected<std::string> enclosingTypeName(const Decl* Declaration);
 
 template<class T>
-const T* baseOverridenDeclarationWithModules(const T *Declaration,
-                                            std::set<std::string> &Modules);
+std::pair<const T*, std::set<std::string>>
+getBaseOverridenDeclarationWithModules(const T *Declaration);
+
+bool isMemberwise(const ConstructorDecl* Declaration);
+
+bool isMemberwiseConstructorParameter(const ParamDecl* Declaration);
 
 } //namespace obfuscation
 } //namespace swift

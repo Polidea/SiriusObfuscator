@@ -98,28 +98,20 @@ class DeterministicIdentifierGenerator: public BaseIdentifierGenerator {
 public:
   
   llvm::Expected<std::string> generateName(const Symbol &Symbol) {
-    // TODO: implement deterministic mapping for given symbol
-    return "TestObfuscation"+Symbol.Name;
+    
+    auto &MapForType = SymbolTypeMap[Symbol.Type];
+    int SymbolNameCount = MapForType[Symbol.Name];
+    MapForType[Symbol.Name] = ++SymbolNameCount;
+    
+    return SymbolShortNameMap[Symbol.Type] + std::to_string(SymbolNameCount) + "_" + Symbol.Name;
   }
   
-};
-
-/// Generates deterministic identifiers for operators.
-/// Used in tests.
-class DeterministicOperatorGenerator: public BaseIdentifierGenerator {
-  
-public:
-
-  llvm::Expected<std::string> generateName(const Symbol &Symbol) {
-    // TODO: implement deterministic mapping for given symbol
-    return "TestObfuscation"+Symbol.Name;
-  }
 };
 
 // NameMapping implementation
   
-  NameMapping::NameMapping(enum NameMappingStrategy NameMappingStrategy):
-    NameMappingStrategy(NameMappingStrategy) {};
+NameMapping::NameMapping(enum NameMappingStrategy NameMappingStrategy):
+  NameMappingStrategy(NameMappingStrategy) {};
   
 llvm::Expected<std::string>
   NameMapping::generateNameForSymbol(const Symbol &Symbol) {
@@ -150,7 +142,7 @@ llvm::Expected<RenamesJson>
     this->OperatorGenerator = llvm::make_unique<RandomUniqueOperatorGenerator>();
   } else if(NameMappingStrategy == NameMappingStrategy::deterministic) {
     this->IdentifierGenerator = llvm::make_unique<DeterministicIdentifierGenerator>();
-    this->OperatorGenerator = llvm::make_unique<DeterministicOperatorGenerator>();
+    this->OperatorGenerator = llvm::make_unique<DeterministicIdentifierGenerator>();
   }
     
   RenamesJson RenamesJson;

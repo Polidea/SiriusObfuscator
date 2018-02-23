@@ -1,5 +1,6 @@
 #include "swift/Obfuscation/ParameterDeclarationParser.h"
 #include "swift/Obfuscation/FunctionDeclarationParser.h"
+#include "swift/Obfuscation/VariableDeclarationParser.h"
 #include "swift/Obfuscation/DeclarationParsingUtils.h"
 #include "swift/Obfuscation/Utils.h"
 
@@ -40,8 +41,11 @@ SymbolsOrError parse(const ParamDecl* Declaration) {
   if (const auto *FunctionDeclaration =
       dyn_cast<AbstractFunctionDecl>(Declaration->getDeclContext())) {
     
-    std::set<std::string> Modules;
-    auto *BaseFunctionDeclaration = baseOverridenDeclarationWithModules(FunctionDeclaration, Modules);
+
+    auto BaseWithModules =
+      getBaseOverridenDeclarationWithModules(FunctionDeclaration);
+    auto BaseFunctionDeclaration = BaseWithModules.first;
+    auto Modules = BaseWithModules.second;
     
     bool OverridenMethodIsFromTheSameModule =
       Modules.size() == 0
@@ -140,6 +144,26 @@ SymbolsOrError parametersSymbolsFromFunction(const AbstractFunctionDecl* Declara
   return Symbols;
 }
 
+SingleSymbolOrError
+symbolFromMemberwiseConstructorParameter(const ParamDecl* Parameter) {
+  auto *Context = Parameter->getDeclContext();
+  if (const auto *Constructor = dyn_cast<ConstructorDecl>(Context)) {
+    auto *StructDeclaration =
+    Constructor->getResultInterfaceType()->getStructOrBoundGenericStruct();
+    auto Properties = StructDeclaration->getStoredProperties();
+    for (auto Variable : Properties) {
+      if (declarationName(Variable) == declarationName(Parameter)) {
+        return parse(Variable);
+      }
+    }
+    return stringError("Failed to find struct property with the same name as "
+                "memberwise constructor parameter");
+  } else {
+    return stringError("Failed to parse constructor declaration"
+                       "from parameter");
+  }
+}
+
 SymbolsOrError
 parseSeparateFunctionDeclarationForParameters(const AbstractFunctionDecl* Declaration) {
   return parametersSymbolsFromFunction(Declaration);
@@ -188,6 +212,49 @@ SymbolsOrError parseSeparateDeclarationWithRange(const ParamDecl* Declaration,
   }
   return Result;
 }
+
+llvm::Expected<SymbolWithRange> buildSymbol(Identifier Name, ValueDecl *Decl,
+                                            CharSourceRange Range) {
+  if (const auto *FunctionDecl = dyn_cast<AbstractFunctionDecl>(Decl)) {
+    auto ParameterLists = FunctionDecl->getParameterLists();
+    auto ParameterName = Name.str();
+    
+    for (auto *ParameterList: ParameterLists) {
+      for (auto *Parameter : *ParameterList) {
+        if (ParameterName == internalParameterName(Parameter)
+            || ParameterName == externalParameterName(Parameter)) {
+          
+          if (isMemberwiseConstructorParameter(Parameter)) {
+            auto SymbolOrError =
+            symbolFromMemberwiseConstructorParameter(Parameter);
+            if (auto Error = SymbolOrError.takeError()) {
+              return std::move(Error);
+            } else {
+              auto Symbol = SymbolOrError.get();
+              return SymbolWithRange(Symbol, Range);
+            }
+          } else {
+            SymbolsOrError Symbols = parse(Parameter);
+            if (auto Error = Symbols.takeError()) {
+              return std::move(Error);
+            } else {
+              if (Symbols.get().size() > 0) {
+                auto Symbol = Symbols.get()[0];
+                Symbol.Range = Range;
+                return Symbol;
+              }
+            }
+          }
+        }
+      }
+    }
+    return stringError("Cannot find parameter identifier in function declaration");
+  } else {
+    return stringError("Cannot build symbol for argument without "
+                       "function declaration");
+  }
+}
+
 
 } //namespace obfuscation
 } //namespace swift

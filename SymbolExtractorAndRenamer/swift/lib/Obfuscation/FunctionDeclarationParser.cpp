@@ -22,26 +22,44 @@ llvm::Error isDeclarationSupported(const FuncDecl* Declaration) {
 }
 
 std::string functionSignature(const AbstractFunctionDecl *Declaration) {
+  // The signature is available via different getters depending on whether
+  // it is a method or a free function
+  std::string Interface;
   if (Declaration->getDeclContext()->isTypeContext()) {
-    auto Interface = Declaration->getMethodInterfaceType().getString();
-    return "signature." + Interface;
+    Interface = Declaration->getMethodInterfaceType().getString();
   } else {
-    return "signature." + Declaration->getInterfaceType().getString();
+    Interface = Declaration->getInterfaceType().getString();
   }
+  return "signature." + Interface;
 }
 
-ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
+ModuleNameAndParts
+functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
+
   std::string ModuleName;
-  std::string SymbolName = declarationName(Declaration);
   std::vector<std::string> Parts;
-  
-  auto ProtocolRequirements = Declaration->getSatisfiedProtocolRequirements();
+
+  std::string SymbolName = declarationName(Declaration);
+
+  // Check if function is part of protocol declaration
   auto *ProtocolDeclaration =
-  dyn_cast<ProtocolDecl>(Declaration->getDeclContext());
-  if (ProtocolRequirements.empty() && ProtocolDeclaration == nullptr) {
-    ModuleName = moduleName(Declaration);
-    Parts.push_back("module." + ModuleName);
-    
+    Declaration->getDeclContext()->getAsProtocolOrProtocolExtensionContext();
+  auto IsPartOfProtocol = ProtocolDeclaration != nullptr;
+
+  // Check if function satisfies the protocol implemented by its
+  // containing class
+  auto ProtocolRequirements = Declaration->getSatisfiedProtocolRequirements();
+  auto SatisfiesProtocol = !ProtocolRequirements.empty();
+
+  if (!(SatisfiesProtocol || IsPartOfProtocol)) {
+    // This logic applies to function that has nothing to do with protocols
+
+    auto ModuleNameAndParts = moduleNameAndIdentifierParts(Declaration);
+    ModuleName = ModuleNameAndParts.first;
+    Parts = ModuleNameAndParts.second;
+
+    // Build different identifier depending whether
+    // the function is a free function or method
     auto TypeNameOrError = enclosingTypeName(Declaration);
     if (auto Error = TypeNameOrError.takeError()) {
       llvm::consumeError(std::move(Error));
@@ -55,6 +73,8 @@ ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl *Declarati
     }
     
   } else {
+    // This logic applies to function that
+    // is part of protocol or satisfies protocol
     
     // TODO: right now we're renaming all the methods in the protocols with
     //       the same name and signature to the same obfuscated name. the reason
@@ -65,12 +85,15 @@ ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl *Declarati
     //       there is no override relationship between the A.a() and B.a() in
     //       protocols. it's just a name that's the same.
     //       this simplified handling should be improved in the future.
-    if (!ProtocolRequirements.empty()) {
-      ModuleName = moduleName(ProtocolRequirements.front());
+    ModuleNameAndParts ModuleNameAndParts;
+    if (SatisfiesProtocol) {
+      ModuleNameAndParts =
+        moduleNameAndIdentifierParts(ProtocolRequirements.front());
     } else {
-      ModuleName = moduleName(ProtocolDeclaration);
+      ModuleNameAndParts = moduleNameAndIdentifierParts(ProtocolDeclaration);
     }
-    Parts.push_back("module." + ModuleName);
+    ModuleName = ModuleNameAndParts.first;
+    Parts = ModuleNameAndParts.second;
     
     Parts.push_back("protocol");
     if (Declaration->isStatic()) {
@@ -84,20 +107,19 @@ ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl *Declarati
   return std::make_pair(ModuleName, Parts);
 }
 
-SymbolsOrError parse(const AbstractFunctionDecl* Declaration, CharSourceRange Range) {
-    if (auto FunctionDecl = dyn_cast<FuncDecl>(Declaration)) {
-        return parse(FunctionDecl, Range);
-    } else if (auto ConstructDecl = dyn_cast<ConstructorDecl>(Declaration)) {
-        return parse(ConstructDecl, Range);
-    }
-    return stringError("trying to parse unsupported declaration type");
-}
-
 SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
                                          const std::string &ModuleName,
                                          const CharSourceRange &Range) {
-  std::set<std::string> Modules;
-  auto Base = baseOverridenDeclarationWithModules(Declaration, Modules);
+
+  auto BaseWithModules = getBaseOverridenDeclarationWithModules(Declaration);
+  auto Base = BaseWithModules.first;
+  auto Modules = BaseWithModules.second;
+
+  // Emits symbol only if the base overriden function and
+  // all the functions overriding it in the inheritance hierarchy are from
+  // the same module and it's the module we've passed as ModuleName parameter.
+  // Emitted symbol represents the base function so that all the functions that
+  // override it are renamed to the same obfuscated name
   if (Modules.size() == 1 && Modules.count(ModuleName) == 1) {
     return parse(Base, Range);
   } else {
@@ -107,7 +129,9 @@ SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
 }
 
 SymbolsOrError parse(const ConstructorDecl* Declaration, CharSourceRange Range) {
-    return parseSeparateFunctionDeclarationForParameters(Declaration);
+  // We're not interested in renaming the init function name,
+  // but we're interested in renaming the init parameters
+  return parseSeparateFunctionDeclarationForParameters(Declaration);
 }
   
 SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range) {
@@ -117,31 +141,33 @@ SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range) {
   }
   
   if (Declaration->getOverriddenDecl() != nullptr) {
+    // Overriden declaration must be treated separately because
+    // we mustn't rename function that overrides function from different module
     return parseOverridenDeclaration(Declaration,
                                      moduleName(Declaration),
                                      Range);
   }
-  
+
+  // Create the symbol for function
   auto ModuleAndParts = functionIdentifierParts(Declaration);
-  std::string ModuleName = ModuleAndParts.first;
-  std::vector<std::string> Parts = ModuleAndParts.second;
-  
+  auto ModuleName = ModuleAndParts.first;
+  auto Parts = ModuleAndParts.second;
   Symbol Symbol(combineIdentifier(Parts),
                 declarationName(Declaration),
                 ModuleName,
                 SymbolType::NamedFunction);
-  
   std::vector<SymbolWithRange> Symbols;
   Symbols.push_back(SymbolWithRange(Symbol, Range));
-  
+
+  // Create the symbols for function parameters
   auto ParametersSymbolsOrError =
     parseSeparateFunctionDeclarationForParameters(Declaration);
   if (auto Error = ParametersSymbolsOrError.takeError()) {
     return std::move(Error);
   }
-  
   copyToVector(ParametersSymbolsOrError.get(), Symbols);
-  
+
+  // Return both the function symbol and the parameters symbols together
   return Symbols;
 }
 

@@ -71,12 +71,12 @@ llvm::Error copyProject(const StringRef OriginalPath,
   return llvm::Error::success();
 }
 
-static bool shouldRename(const SymbolRenaming &Symbol,
-                         const SymbolWithRange &SymbolWithRange,
+static bool shouldRename(const struct SymbolRenaming &SymbolRenaming,
+                         const struct Symbol &Symbol,
                          const std::string &ModuleName) {
-  return SymbolWithRange.Symbol.Identifier == Symbol.Identifier
-      && SymbolWithRange.Symbol.Name == Symbol.OriginalName
-      && SymbolWithRange.Symbol.Module == ModuleName;
+  return Symbol.Identifier == SymbolRenaming.Identifier
+      && Symbol.Name == SymbolRenaming.OriginalName
+      && Symbol.Module == ModuleName;
 }
   
 llvm::Expected<bool> performActualRenaming(SourceFile &Current,
@@ -87,7 +87,7 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
                                            StringRef Path,
                                            std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols) {
   bool performedRenaming = false;
-  auto SymbolsWithRanges = walkAndCollectSymbols(Current);
+  auto IndexedSymbolsWithRanges = walkAndCollectSymbols(Current);
   
   using EditConsumer = swift::ide::SourceEditOutputConsumer;
   
@@ -95,10 +95,11 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
   std::unique_ptr<EditConsumer> Editor(nullptr);
   
   //TODO: would be way better to have a map instead of iterating through symbols
-  for (const auto &SymbolWithRange : SymbolsWithRanges) {
+  for (const auto &IndexedSymbolWithRange : IndexedSymbolsWithRanges) {
     for (const auto &Symbol : RenamesJson.Symbols) {
-      
-      if (shouldRename(Symbol, SymbolWithRange, ModuleName)) {
+      auto SymbolWithRange = IndexedSymbolWithRange.SymbolWithRange;
+
+      if (shouldRename(Symbol, SymbolWithRange.Symbol, ModuleName)) {
         if (Editor == nullptr) {
           std::error_code Error;
           DescriptorStream =

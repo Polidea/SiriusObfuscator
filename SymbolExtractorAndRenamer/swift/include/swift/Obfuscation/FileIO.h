@@ -24,11 +24,17 @@ struct MemoryBufferProvider {
   /// \param Path - string containing path to file.
   ///
   /// \returns llvm::ErrorOr object containing either the memory buffer
-  /// or llvm::Error object with the information.
+  /// or llvm::Error object with the information. It's llvm::ErrorOr,
+  /// not llvm::Expected, because this is the error format that
+  /// the underlying API returns.
   virtual llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>>
   getBuffer(std::string Path) const;
 };
 
+/// Creates the file streams to write to.
+///
+/// \tparam FileType - the type of the file stream with the possibility
+/// to write to it and close it.
 template <typename FileType>
 struct FileFactory {
   virtual ~FileFactory() = default;
@@ -45,12 +51,15 @@ struct FileFactory {
   /// \param Path - string containing path to file.
   ///
   /// \returns llvm::ErrorOr object containing either the file
-  /// or llvm::Error object with error information.
+  /// or llvm::Error object with error information. It's llvm::ErrorOr,
+  /// not llvm::Expected, because this is the error format that
+  /// the underlying API returns.
   virtual llvm::ErrorOr<std::unique_ptr<FileType>> getFile(std::string Path);
 };
 
     
-/// Given path to file containig json, parses file and returns object of type T.
+/// Given path to file containing json, parses file and returns object
+/// of type T.
 ///
 /// In case of failing reading file or failing parsing json, returns Error.
 ///

@@ -161,10 +161,10 @@ The input data formats are `Files.json` and `Renames.json` and are described in 
    `/bin/bash Scripts/git_remotes.sh`  
    Script takes the parameter defining which version of Swift will be used as the basis of the changes to the compiler.
 
-5. Build the Swift compiler in the Xcode-friendly way.  
+5. Build the Swift compiler in the Xcode-friendly way. A build can take multiple hours. Build artifacts require ~20GB of free disk space.
    `swift/utils/build-script --clean --xcode --release-debuginfo --debug-swift`
 
-6. Build the Swift compiler using ninja with support for iOS, tvOS and watchOS
+6. Build the Swift compiler using ninja with support for iOS, tvOS and watchOS. A build can take multiple hours. Build artifacts require ~20GB of free disk space.
    `swift/utils/build-script --ios --tvos --watchos --release-debuginfo --debug-swift`
 
 7. Copy the generated libraries from ninja build to Xcode build
@@ -197,7 +197,7 @@ TBA
 
 In the alphabetical order:
 
-* [Jerzy Kleszcz](mailto:jerzy.kleszcz@polidea.com)
+* [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 * [Jakub Sowa](jakub.sowa@polidea.com)
 * [Michał Zieliński](michal.zielinski@polidea.com)

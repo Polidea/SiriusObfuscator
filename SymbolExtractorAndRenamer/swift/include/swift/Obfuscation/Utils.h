@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <sstream>
 
 namespace swift {
 namespace obfuscation {
@@ -35,14 +36,24 @@ template<typename ElementType>
 void copyToVector(const std::vector<ElementType> &FromVector,
                   std::vector<ElementType> &ToVector);
   
-template<typename ElementType>
-void copyToVector(const std::set<ElementType> &FromSet,
+template<typename ElementType, typename CompareFrom>
+void copyToVector(const std::set<ElementType, CompareFrom> &FromSet,
                   std::vector<ElementType> &ToVector);
-  
+
+template<typename ElementType, typename CompareFrom, typename CompareTo>
+void copyToSet(const std::set<ElementType, CompareFrom> &FromSet,
+               std::set<ElementType, CompareTo> &ToSet);
+
+template<typename ElementType, typename CompareTo>
+void copyToSet(const std::vector<ElementType> &FromVector,
+               std::set<ElementType, CompareTo> &ToSet);
+
 template<typename ElementType>
 void copyToStream(const std::vector<ElementType> &FromVector,
                   std::ostream_iterator<ElementType> Inserter);
 
+std::vector<std::string> split(const std::string &String, char Delimiter);
+  
 } //namespace obfuscation
 } //namespace swift
 

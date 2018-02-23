@@ -7,17 +7,15 @@
 namespace swift {
 namespace obfuscation {
 
-using SingleSymbolOrError = llvm::Expected<Symbol>;
-
 SingleSymbolOrError parse(const OperatorDecl* Declaration) {
 
-  auto ModuleNameAndParts = moduleNameAndParts(Declaration);
+  auto ModuleNameAndParts = moduleNameAndIdentifierParts(Declaration);
   std::string ModuleName = ModuleNameAndParts.first;
-  std::vector<std::string> Parts = ModuleNameAndParts.second;
+  std::vector<std::string> IdentifierParts = ModuleNameAndParts.second;
   std::string SymbolName = symbolName(Declaration);
-  Parts.push_back("operator." + SymbolName);
+  IdentifierParts.push_back("operator." + SymbolName);
 
-  return Symbol(combineIdentifier(Parts),
+  return Symbol(combineIdentifier(IdentifierParts),
                 SymbolName,
                 ModuleName,
                 SymbolType::Operator);
@@ -25,36 +23,41 @@ SingleSymbolOrError parse(const OperatorDecl* Declaration) {
 
 SymbolsOrError parseOperator(const FuncDecl* Declaration, CharSourceRange Range) {
 
-    std::vector<SymbolWithRange> Symbols;
+  std::vector<SymbolWithRange> Symbols;
 
-    auto ParametersSymbolsOrError =
+  // Creates the symbols for the parameters of the operator implementation
+  auto ParametersSymbolsOrError =
     parseSeparateFunctionDeclarationForParameters(Declaration);
-    if (auto Error = ParametersSymbolsOrError.takeError()) {
-        return std::move(Error);
+  if (auto Error = ParametersSymbolsOrError.takeError()) {
+    return std::move(Error);
+  }
+  // Parameters for the operator implementation might be always renamed because
+  // they are not part of the interface that the operator defines
+  copyToVector(ParametersSymbolsOrError.get(), Symbols);
+
+  // We don't rename the operator if the operator is from other module
+  // than the operator's implementation
+  if (auto OperatorDecl = Declaration->getOperatorDecl()) {
+    auto OperatorModuleName = moduleName(OperatorDecl);
+    if (moduleName(Declaration) != OperatorModuleName) {
+      return Symbols;
     }
-    copyToVector(ParametersSymbolsOrError.get(), Symbols);
+  }
 
-    if (auto OperatorDecl = Declaration->getOperatorDecl()) {
-        auto OperatorModuleName = moduleName(OperatorDecl);
-        if (moduleName(Declaration) != OperatorModuleName) {
-            return Symbols;
-        }
-    }
-  
-    auto ModuleAndParts = functionIdentifierParts(Declaration);
-    auto ModuleName = ModuleAndParts.first;
-    auto Parts = ModuleAndParts.second;
-  
-    auto SymbolName = declarationName(Declaration);
-    Parts.push_back("operator." + SymbolName);
+  auto ModuleAndParts = moduleNameAndIdentifierParts(Declaration);
+  auto ModuleName = ModuleAndParts.first;
+  auto Parts = ModuleAndParts.second;
 
-    Symbol Symbol(combineIdentifier(Parts),
-                  SymbolName,
-                  ModuleName,
-                  SymbolType::Operator);
+  auto SymbolName = declarationName(Declaration);
+  Parts.push_back("operator." + SymbolName);
 
-    Symbols.push_back(SymbolWithRange(Symbol, Range));
-    return Symbols;
+  Symbol Symbol(combineIdentifier(Parts),
+                SymbolName,
+                ModuleName,
+                SymbolType::Operator);
+
+  Symbols.push_back(SymbolWithRange(Symbol, Range));
+  return Symbols;
 }
 
 } //namespace obfuscation

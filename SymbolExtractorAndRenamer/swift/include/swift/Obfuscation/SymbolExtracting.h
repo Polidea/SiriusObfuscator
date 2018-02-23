@@ -19,13 +19,15 @@ namespace obfuscation {
 /// semantic analysis, and then it uses the results of the analysis (AST tree)
 /// to identify the symbols in the Swift source code that should be obfuscated.
 ///
-/// It's designed to be called from the Swift compiler tool.
+/// It's designed to be called from the Swift compiler command line tool.
 ///
 /// Typical usage:
 /// \code
 /// std::string MainExecutablePath = llvm::sys::fs::getMainExecutable(
 ///             argv[0], reinterpret_cast<void *>(&anchorForGetMainExecutable));
-/// auto SymbolsOrError = extractSymbols(FilesJson, MainExecutablePath);
+/// auto SymbolsOrError = extractSymbols(FilesJson,
+///                                      MainExecutablePath,
+///                                      DiagnosticStream);
 /// \endcode
 ///
 /// \param FilesJson It's the structure containing information necessary for

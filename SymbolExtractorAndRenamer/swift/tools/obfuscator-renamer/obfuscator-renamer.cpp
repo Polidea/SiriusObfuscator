@@ -52,14 +52,21 @@ void printObfuscatedFiles(const FilesList &Files) {
 void anchorForGetMainExecutable() {}
 
 int main(int argc, char *argv[]) {
+  // Required by LLVM to properly parse command-line options
   INITIALIZE_LLVM(argc, argv);
   llvm::cl::HideUnrelatedOptions(options::ObfuscatorRenamer);
-  
+
+  // Defines the handler for flow-aborting errors, which lets you choose
+  // what code to return, whether to log and wheter to do any cleanup
+  // http://llvm.org/docs/ProgrammersManual.html#using-exitonerror-to-simplify-tool-code
   llvm::ExitOnError ExitOnError;
   ExitOnError.setExitCodeMapper(
     [](const llvm::Error &Err) { return 1; }
   );
+
   llvm::outs() << "Swift obfuscator renamer tool" << '\n';
+
+  // Must be called before checking the options for values
   llvm::cl::ParseCommandLineOptions(argc, argv, "obfuscator-renamer");
   
   if (options::FilesJsonPath.empty()) {
@@ -75,30 +82,33 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  MemoryBufferProvider BufferProvider = MemoryBufferProvider();
-  auto FilesJsonOrError =
-  parseJson<FilesJson>(options::FilesJsonPath, BufferProvider);
+  auto FilesJsonOrError = parseJson<FilesJson>(options::FilesJsonPath);
   if (auto Error = FilesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
-  auto RenamesJsonOrError =
-  parseJson<RenamesJson>(options::RenamesJsonPath, BufferProvider);
+  auto RenamesJsonOrError = parseJson<RenamesJson>(options::RenamesJsonPath);
   if (auto Error = RenamesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
-  
+
+  // Required for the compiler to find the path to this tool, and therefore
+  // exists only in the tools that are performing compilation (semantic analysis)
   void *MainExecutablePointer =
     reinterpret_cast<void *>(&anchorForGetMainExecutable);
   std::string MainExecutablePath =
     llvm::sys::fs::getMainExecutable(argv[0], MainExecutablePointer);
   
   llvm::raw_ostream *DiagnosticStream;
+  // Decides if and where the logs from the compiler will be printed.
+  // If llvm::raw_null_ostream is used, they're just discarded.
   if (options::PrintDiagnostics) {
     DiagnosticStream = &llvm::outs();
   } else {
     DiagnosticStream = new llvm::raw_null_ostream();
   }
-  
+
+  // This is the place that the actual renaming is performed.
+  // The logic for renaming is in the swiftObfuscation library.
   auto FilesOrError = performRenaming(MainExecutablePath,
                                       FilesJsonOrError.get(),
                                       RenamesJsonOrError.get(),
@@ -107,8 +117,10 @@ int main(int argc, char *argv[]) {
   if (auto Error = FilesOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
-  
+
+  // Prints only to the output, not to file
   printObfuscatedFiles(FilesOrError.get());
+  
   return 0;
 }
 

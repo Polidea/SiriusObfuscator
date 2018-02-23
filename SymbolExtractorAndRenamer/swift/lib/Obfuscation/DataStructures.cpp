@@ -60,17 +60,40 @@ SymbolWithRange::SymbolWithRange(const struct Symbol &Symbol,
 : Symbol(Symbol), Range(Range) {}
   
 bool SymbolWithRange::operator< (const SymbolWithRange &Right) const {
-  auto less = std::less<const char *>();
-  if (const auto* RangeValuePointer = pointerToRangeValue(*this)) {
-    if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
-      auto isRangeLess = less(RangeValuePointer, RightRangeValuePointer);
-      return Symbol < Right.Symbol || isRangeLess;
+  if (Symbol < Right.Symbol) {
+    return true;
+  } else if (Right.Symbol < Symbol) {
+    return false;
+  } else {
+    auto less = std::less<const char *>();
+    if (const auto* RangeValuePointer = pointerToRangeValue(*this)) {
+      if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
+        auto isRangeLess = less(RangeValuePointer, RightRangeValuePointer);
+        return isRangeLess;
+      }
     }
   }
   assert(false && "Comparing Symbols with Ranges requires Ranges Start "
-         "Location Values Pointers to be of const char type");
+                  "Location Values Pointers to be of const char type");
 }
-  
+
+IndexedSymbolWithRange::
+  IndexedSymbolWithRange(const int Index,
+                         const struct SymbolWithRange &SymbolWithRange)
+: Index(Index), SymbolWithRange(SymbolWithRange) {}
+
+bool IndexedSymbolWithRange::SymbolCompare::
+  operator() (const IndexedSymbolWithRange& Left,
+              const IndexedSymbolWithRange& Right) const {
+  return Left.SymbolWithRange.Symbol < Right.SymbolWithRange.Symbol;
+}
+
+bool IndexedSymbolWithRange::SymbolWithRangeCompare::
+  operator() (const IndexedSymbolWithRange& Left,
+              const IndexedSymbolWithRange& Right) const {
+  return Left.SymbolWithRange < Right.SymbolWithRange;
+}
+
 } //namespace obfuscation
 } //namespace swift
 

@@ -17,7 +17,6 @@ std::string functionName(const AbstractFunctionDecl* Declaration);
   
 ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl* Declaration);
 
-  
 SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range);
 SymbolsOrError parse(const ConstructorDecl* Declaration, CharSourceRange Range);
 

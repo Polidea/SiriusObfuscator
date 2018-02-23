@@ -26,6 +26,26 @@ protected:
   static const std::vector<std::string> UniquelyTailSymbols;
   static const std::vector<std::string> HeadSymbols;
   static const std::vector<std::string> OperatorSymbols;
+  
+  std::map<SymbolType, std::string> SymbolShortNameMap = {
+    { SymbolType::Type, "T" },
+    { SymbolType::NamedFunction, "NF" },
+    { SymbolType::SingleParameter, "SP" },
+    { SymbolType::ExternalParameter, "EP" },
+    { SymbolType::InternalParameter, "IP" },
+    { SymbolType::Variable, "V" },
+    { SymbolType::Operator, "O" }
+  };
+  
+  std::map<SymbolType, std::map<std::string, int>> SymbolTypeMap = {
+    { SymbolType::Type, {} },
+    { SymbolType::NamedFunction, {} },
+    { SymbolType::SingleParameter, {} },
+    { SymbolType::ExternalParameter, {} },
+    { SymbolType::InternalParameter, {} },
+    { SymbolType::Variable, {} },
+    { SymbolType::Operator, {} }
+  };
 
 public:
   virtual  llvm::Expected<std::string> generateName(const Symbol &Symbol) = 0;

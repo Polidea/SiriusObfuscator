@@ -47,7 +47,28 @@ std::string functionName(const AbstractFunctionDecl* Declaration) {
     return Declaration->getName().str().str();
 }
 
-ModuleNameAndParts moduleNameAndParts(const Decl *Declaration) {
+llvm::Expected<std::vector<std::string>>
+nominalTypeIdentifierParts(const NominalTypeDecl *Declaration,
+                           const std::string &SymbolName) {
+
+  std::vector<std::string> Parts;
+
+  if (auto *EnumDeclaration = dyn_cast<EnumDecl>(Declaration)) {
+    Parts.push_back("enum." + SymbolName);
+  } else if (auto *ClassDeclaration = dyn_cast<ClassDecl>(Declaration)) {
+    Parts.push_back("class." + SymbolName);
+  } else if (auto *ProtocolDeclaration = dyn_cast<ProtocolDecl>(Declaration)) {
+    Parts.push_back("protocol." + SymbolName);
+  } else if (auto *StructDeclaration = dyn_cast<StructDecl>(Declaration)) {
+    Parts.push_back("struct." + SymbolName);
+  } else {
+    return stringError("found unsupported declaration type");
+  }
+
+  return Parts;
+}
+
+ModuleNameAndParts moduleNameAndIdentifierParts(const Decl *Declaration) {
   std::string ModuleName = moduleName(Declaration);
   std::vector<std::string> Parts;
   Parts.push_back("module");
@@ -67,29 +88,60 @@ llvm::Expected<std::string> enclosingTypeName(const Decl* Declaration) {
   }
   return stringError("enclosing context of this declaration is not supported");
 }
-  
+
 template<class T>
-const T* baseOverridenDeclarationWithModules(const T *Declaration,
-                                            std::set<std::string> &Modules) {
+const T* findRecursivelyBaseOverridenDeclarationWithModules
+(const T *Declaration, std::set<std::string> &Modules) {
   static_assert(std::is_base_of<Decl, T>::value, "T is not a subclass of Decl");
   if (auto* OverrideDeclaration = Declaration->getOverriddenDecl()) {
     Modules.insert(moduleName(OverrideDeclaration));
-    return baseOverridenDeclarationWithModules(OverrideDeclaration, Modules);
+    return
+    findRecursivelyBaseOverridenDeclarationWithModules(OverrideDeclaration,
+                                                       Modules);
   } else {
     return Declaration;
   }
 }
+  
+template<class T>
+std::pair<const T*, std::set<std::string>>
+getBaseOverridenDeclarationWithModules(const T *Declaration) {
+  std::set<std::string> Modules;
+  auto Base = findRecursivelyBaseOverridenDeclarationWithModules(Declaration,
+                                                                 Modules);
+  return std::make_pair(Base, Modules);
+}
 
-template const VarDecl*
-baseOverridenDeclarationWithModules(const VarDecl *Declaration,
-                                    std::set<std::string> &Modules);
-template const FuncDecl*
-baseOverridenDeclarationWithModules(const FuncDecl *Declaration,
-                                    std::set<std::string> &Modules);
+template
+std::pair<const VarDecl*, std::set<std::string>>
+getBaseOverridenDeclarationWithModules(const VarDecl *Declaration);
+template
+std::pair<const FuncDecl*, std::set<std::string>>
+getBaseOverridenDeclarationWithModules(const FuncDecl *Declaration);
+template
+std::pair<const AbstractFunctionDecl*, std::set<std::string>>
+getBaseOverridenDeclarationWithModules(const AbstractFunctionDecl *Declaration);
 
-template const AbstractFunctionDecl*
-baseOverridenDeclarationWithModules(const AbstractFunctionDecl *Declaration,
-                                    std::set<std::string> &Modules);
+// Determines if the ConstructorDecl represents the Struct Memberwise
+// Initializer. Checks if the declaration is implicit. Also checks if
+// parameters list (other than self parameter) is not empty to exclude
+// Default Initializers.
+bool isMemberwiseConstructor(const ConstructorDecl* Declaration) {
+  auto ConstructsStruct = Declaration->getResultInterfaceType()->
+  getStructOrBoundGenericStruct() != nullptr;
+  
+  return ConstructsStruct
+  && Declaration->isImplicit()
+  && Declaration->getParameters()->size() != 0;
+}
+  
+bool isMemberwiseConstructorParameter(const ParamDecl* Declaration) {
+  auto *Context = Declaration->getDeclContext();
+  if (const auto *ConstructorDeclaration = dyn_cast<ConstructorDecl>(Context)) {
+    return isMemberwiseConstructor(ConstructorDeclaration);
+  }
+  return false;
+}
 
 } //namespace obfuscation
 } //namespace swift

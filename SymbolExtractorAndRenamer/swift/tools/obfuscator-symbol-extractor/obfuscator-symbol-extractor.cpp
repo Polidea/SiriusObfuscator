@@ -11,7 +11,7 @@ namespace options {
   
 static llvm::cl::OptionCategory
 ObfuscatorSymbolExtractor("Obfuscator Symbol Extractor");
-  
+
 static llvm::cl::opt<std::string>
 FilesJsonPath("filesjson",
               llvm::cl::desc("Name of the file containing File Extractor data"),
@@ -48,41 +48,52 @@ void printSymbols(const std::vector<Symbol> &Symbols) {
 void anchorForGetMainExecutable() {}
 
 int main(int argc, char *argv[]) {
+  // Required by LLVM to properly parse command-line options
   INITIALIZE_LLVM(argc, argv);
   llvm::cl::HideUnrelatedOptions(options::ObfuscatorSymbolExtractor);
-  
+
+  // Defines the handler for flow-aborting errors, which lets you choose
+  // what code to return, whether to log and wheter to do any cleanup
+  // http://llvm.org/docs/ProgrammersManual.html#using-exitonerror-to-simplify-tool-code
   llvm::ExitOnError ExitOnError;
   ExitOnError.setExitCodeMapper(
     [](const llvm::Error &Err) { return 1; }
   );
+
   llvm::outs() << "Swift obfuscator symbol extractor tool" << '\n';
-  
+
+  // Must be called before checking the options for values
   llvm::cl::ParseCommandLineOptions(argc, argv, "obfuscator-symbol-extractor");
   
   if (options::FilesJsonPath.empty()) {
     llvm::errs() << "cannot find Files Extractor json file" << '\n';
     return 1;
   }
-
   std::string PathToJson = options::FilesJsonPath;
+
+  // Required for the compiler to find the path to this tool, and therefore
+  // exists only in the tools that are performing compilation (semantic analysis)
   void *MainExecutablePointer =
     reinterpret_cast<void *>(&anchorForGetMainExecutable);
   std::string MainExecutablePath =
     llvm::sys::fs::getMainExecutable(argv[0], MainExecutablePointer);
 
   auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
-
   if (auto Error = FilesJsonOrError.takeError()) {
       ExitOnError(std::move(Error));
   }
   
   llvm::raw_ostream *DiagnosticStream;
+  // Decides if and where the logs from the compiler will be printed.
+  // If llvm::raw_null_ostream is used, they're just discarded.
   if (options::PrintDiagnostics) {
     DiagnosticStream = &llvm::outs();
   } else {
     DiagnosticStream = new llvm::raw_null_ostream();
   }
-  
+
+  // This is the place that the actual symbol extraction is performed.
+  // The logic for symbol extraction is in the swiftObfuscation library.
   auto SymbolsOrError = extractSymbols(FilesJsonOrError.get(),
                                        MainExecutablePath,
                                        *DiagnosticStream);
@@ -90,20 +101,23 @@ int main(int argc, char *argv[]) {
     ExitOnError(std::move(Error));
   }
 
+  // Prints only to the output, not to file
   printSymbols(SymbolsOrError.get().Symbols);
+
   if (options::SymbolJsonPath.empty()) {
     llvm::errs() << "there is no path to write extracted symbols to" << '\n';
     return 1;
   }
-
   std::string PathToOutput = options::SymbolJsonPath;
-  FileFactory<llvm::raw_fd_ostream> Factory = FileFactory<llvm::raw_fd_ostream>();
 
+  // Writes the extracted symbols to Symbols.json file. Saves at given path.
+  FileFactory<llvm::raw_fd_ostream> Factory;
   auto WriteErrorCode = writeToPath(SymbolsOrError.get(),
                                     PathToOutput,
                                     Factory,
                                     llvm::outs());
   ExitOnError(std::move(WriteErrorCode));
+
   return 0;
 }
 

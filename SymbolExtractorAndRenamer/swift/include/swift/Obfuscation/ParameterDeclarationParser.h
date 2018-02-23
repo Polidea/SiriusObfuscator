@@ -15,14 +15,21 @@ namespace obfuscation {
   
 SymbolsOrError
 parseSeparateFunctionDeclarationForParameters(const AbstractFunctionDecl* Declaration);
-
+  
 SymbolsOrError
 parseFunctionFromCallExpressionForParameters(const FuncDecl* Declaration);
+
+SingleSymbolOrError
+symbolFromMemberwiseConstructorParameter(const ParamDecl* Parameter);
   
 SymbolsOrError parseSeparateDeclarationWithRange(const ParamDecl* Declaration,
                                                  CharSourceRange Range);
 
 SymbolsOrError parse(const ParamDecl* Declaration);
+
+llvm::Expected<SymbolWithRange> buildSymbol(Identifier Name,
+                                            ValueDecl *Decl,
+                                            CharSourceRange Range);
 
   
 } //namespace obfuscation

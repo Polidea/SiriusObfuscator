@@ -7,10 +7,6 @@
 
 namespace swift {
 namespace obfuscation {
-
-llvm::Expected<std::vector<std::string>>
-nominalTypeIdentifierParts(const NominalTypeDecl *Declaration,
-                           const std::string &SymbolName);
   
 SingleSymbolOrError parse(const NominalTypeDecl* Declaration);
 

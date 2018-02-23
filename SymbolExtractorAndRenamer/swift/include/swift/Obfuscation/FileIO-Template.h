@@ -20,7 +20,6 @@ FileFactory<FileType>::getFile(std::string Path) {
   if (Error) {
       return Error;
   }
-
   return File;
 }
 

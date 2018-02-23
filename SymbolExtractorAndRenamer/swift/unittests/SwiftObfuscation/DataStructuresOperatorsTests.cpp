@@ -68,7 +68,7 @@ TEST(SymbolWithRangeLessThanOperator, ComparingSymbolsLessRangesEqual) {
 }
 
 TEST(SymbolWithRangeLessThanOperator, ComparingSymbolsGreaterRangesLess) {
-  EXPECT_TRUE(SymbolWithRange(Symbol2, SourceRange1)
+  EXPECT_FALSE(SymbolWithRange(Symbol2, SourceRange1)
               < SymbolWithRange(Symbol1, SourceRange2));
 }
 

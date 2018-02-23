@@ -12,22 +12,17 @@
 namespace swift {
 namespace obfuscation {
 
-struct RenamesCollector: public SourceEntityWalker {
-  std::set<SymbolWithRange> Bucket;
-  
-  void handleSymbols(std::vector<SymbolWithRange> &Symbols) {
-    for (auto &Symbol : Symbols) {
-      Bucket.insert(Symbol);
-    }
-  }
+struct SymbolsWalkerAndCollector: public SourceEntityWalker {
+
+  static int SymbolIndex;
+  std::set<IndexedSymbolWithRange,
+           IndexedSymbolWithRange::SymbolWithRangeCompare> Symbols;
+
+// Overriden methods called back as the AST is walked
 
   bool walkToExprPre(Expr *Expression) override {
     auto Symbols = extractSymbol(Expression);
-    if (auto Error = Symbols.takeError()) {
-      llvm::consumeError(std::move(Error));
-      return true;
-    }
-    handleSymbols(Symbols.get());
+    handleExtractionResult(Symbols);
     return true;
   }
   
@@ -36,62 +31,47 @@ struct RenamesCollector: public SourceEntityWalker {
       return false;
     }
     auto Symbols = extractSymbol(Declaration, Range);
-    if (auto Error = Symbols.takeError()) {
-      llvm::consumeError(std::move(Error));
-      return true;
-    }
-    handleSymbols(Symbols.get());
+    handleExtractionResult(Symbols);
     return true;
   }
 
-  llvm::Expected<SymbolWithRange> buildSymbol(Identifier Name, ValueDecl *Decl,
-                                              CharSourceRange Range) {
-  if (const auto *FunctionDecl = dyn_cast<AbstractFunctionDecl>(Decl)) {
-    auto ParameterLists = FunctionDecl->getParameterLists();
-    auto ParameterName = Name.str();
-
-    for (auto *ParameterList: ParameterLists) {
-      for (auto *Parameter : *ParameterList) {
-        if (ParameterName == internalParameterName(Parameter)
-            || ParameterName == externalParameterName(Parameter)) {
-          SymbolsOrError Symbols = parse(Parameter);
-          if (auto Error = Symbols.takeError()) {
-            return std::move(Error);
-          } else {
-            if (Symbols.get().size() > 0) {
-              auto Symbol = Symbols.get()[0];
-              Symbol.Range = Range;
-              return Symbol;
-            }
-          }
-        }
-      }
-    }
-    return stringError("Cannot find parameter identifier in function declaration");
-  } else {
-    return stringError("Cannot build symbol for argument without "
-                         "function declaration");
-    }
-  }
-
-  bool visitCallArgName(Identifier Name, CharSourceRange Range,
-                                  ValueDecl *D) override {
-
-    auto Symbol = buildSymbol(Name, D, Range);
-      if (auto Error = Symbol.takeError()) {
-        llvm::consumeError(std::move(Error));
-      } else {
-        Bucket.insert(Symbol.get());
-      }
-      return true;
-  }
-
+  // We need to extract symbols here even though we might have already seen
+  // this node in the walkToDeclPre because here we have additional
+  // contextual information like CtorTyRef
   bool visitDeclReference(ValueDecl *Declaration, CharSourceRange Range,
                           TypeDecl *CtorTyRef, ExtensionDecl *ExtTyRef,
                           Type T, ReferenceMetaData Data) override {
     auto Symbols = extractSymbol(CtorTyRef ? CtorTyRef : Declaration, Range);
     handleExtractionResult(Symbols);
     return true;
+  }
+
+  bool visitCallArgName(Identifier Name, CharSourceRange Range,
+                        ValueDecl *D) override {
+
+    auto Symbol = buildSymbol(Name, D, Range);
+    if (auto Error = Symbol.takeError()) {
+      llvm::consumeError(std::move(Error));
+    } else {
+      handleSymbol(Symbol.get());
+    }
+    return true;
+  }
+
+// Methods for handling the extracted symbols
+
+  void handleSymbol(SymbolWithRange & Symbol) {
+    auto InsertionResult =
+      Symbols.insert(IndexedSymbolWithRange(SymbolIndex, Symbol));
+    if (InsertionResult.second == true) {
+      ++SymbolsWalkerAndCollector::SymbolIndex;
+    }
+  }
+
+  void handleSymbols(std::vector<SymbolWithRange> &Symbols) {
+    for (auto &Symbol : Symbols) {
+      handleSymbol(Symbol);
+    }
   }
 
   void handleExtractionResult(SymbolsOrError &Symbols) {
@@ -101,12 +81,16 @@ struct RenamesCollector: public SourceEntityWalker {
       handleSymbols(Symbols.get());
     }
   }
+
 };
 
-std::set<SymbolWithRange> walkAndCollectSymbols(SourceFile &SourceFile) {
-  RenamesCollector Collector;
-  Collector.walk(SourceFile);
-  return Collector.Bucket;
+int SymbolsWalkerAndCollector::SymbolIndex;
+
+std::set<IndexedSymbolWithRange, IndexedSymbolWithRange::SymbolWithRangeCompare>
+walkAndCollectSymbols(SourceFile &SourceFile) {
+  SymbolsWalkerAndCollector Walker;
+  Walker.walk(SourceFile);
+  return Walker.Symbols;
 }
 
 } //namespace obfuscation

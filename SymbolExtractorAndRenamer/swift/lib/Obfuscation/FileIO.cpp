@@ -10,19 +10,20 @@ namespace obfuscation {
 
 llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>>
 MemoryBufferProvider::getBuffer(std::string Path) const {
-    return llvm::MemoryBuffer::getFile(Path);
+  return llvm::MemoryBuffer::getFile(Path);
 }
 
 template<class T>
 llvm::Expected<T> parseJson(std::string PathToJson,
                             const MemoryBufferProvider &BufferProvider) {
 
-  auto Buffer = BufferProvider.getBuffer(PathToJson);
-  if (auto ErrorCode = Buffer.getError()) {
+  auto BufferOrError = BufferProvider.getBuffer(PathToJson);
+  if (auto ErrorCode = BufferOrError.getError()) {
     return stringError("Error during JSON file read", ErrorCode);
   }
-  
-  return llvm::yaml::deserialize<T>(std::move(Buffer.get())->getBuffer());
+
+  auto Buffer = std::move(BufferOrError.get());
+  return llvm::yaml::deserialize<T>(Buffer->getBuffer());
 }
 
 template
