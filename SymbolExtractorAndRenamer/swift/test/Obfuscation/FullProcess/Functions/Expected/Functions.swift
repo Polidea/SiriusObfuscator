@@ -123,3 +123,51 @@ _ = V1_gcii.NF8_method()
 
 let V1_gcsi = T1_GenericClass<T1_SampleClass>()
 _ = V1_gcsi.NF8_method()
+
+// Protocol extensions
+protocol T1_Proto {
+  func NF1_hello()
+}
+extension NSString: T1_Proto {}
+extension T1_Proto where Self: NSString {
+  func NF1_hello() {}
+}
+
+// Overridden and conforming to protocol at the same time
+class T1_Test {}
+
+protocol T1_TestProto {
+  func NF1_foo(EP1_a IP1_b: T1_Test)
+}
+
+protocol T1_TestProto2 {
+  func NF1_foo(EP1_a IP1_b: T1_Test)
+}
+
+class T1_Parent {
+  func NF1_foo(EP1_a IP2_b: T1_Test) {}
+}
+
+class T1_Child: T1_Parent, T1_TestProto, T1_TestProto2 {
+  override func NF1_foo(EP1_a IP1_b: T1_Test) { super.NF1_foo(EP1_a: IP1_b) }
+}
+
+class T1_Parent2: T1_Parent, T1_TestProto2 {
+  override func NF1_foo(EP1_a IP1_b: T1_Test) { super.NF1_foo(EP1_a: IP1_b) }
+}
+
+class T1_Child2: T1_Parent2, T1_TestProto {
+  override func NF1_foo(EP1_a IP1_b: T1_Test) { super.NF1_foo(EP1_a: IP1_b) }
+}
+
+let V1_p = T1_Parent()
+V1_p.NF1_foo(EP1_a: T1_Test())
+
+let V1_c = T1_Child()
+V1_c.NF1_foo(EP1_a: T1_Test())
+
+let V1_p2 = T1_Parent2()
+V1_p2.NF1_foo(EP1_a: T1_Test())
+
+let V1_c2 = T1_Child2()
+V1_c2.NF1_foo(EP1_a: T1_Test())

@@ -150,6 +150,8 @@ using SingleSymbolOrError = llvm::Expected<Symbol>;
   
 using SymbolsOrError = llvm::Expected<std::vector<SymbolWithRange>>;
 
+using GlobalCollectedSymbols = std::set<IndexedSymbolWithRange,
+                                IndexedSymbolWithRange::SymbolWithRangeCompare>;
 } //namespace obfuscation
 } //namespace swift
 

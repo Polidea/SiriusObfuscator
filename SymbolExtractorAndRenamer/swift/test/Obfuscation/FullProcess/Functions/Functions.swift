@@ -124,3 +124,51 @@ _ = gcii.method()
 
 let gcsi = GenericClass<SampleClass>()
 _ = gcsi.method()
+
+// Protocol extensions
+protocol Proto {
+  func hello()
+}
+extension NSString: Proto {}
+extension Proto where Self: NSString {
+  func hello() {}
+}
+
+// Overridden and conforming to protocol at the same time
+class Test {}
+
+protocol TestProto {
+  func foo(a b: Test)
+}
+
+protocol TestProto2 {
+  func foo(a b: Test)
+}
+
+class Parent {
+  func foo(a b: Test) {}
+}
+
+class Child: Parent, TestProto, TestProto2 {
+  override func foo(a b: Test) { super.foo(a: b) }
+}
+
+class Parent2: Parent, TestProto2 {
+  override func foo(a b: Test) { super.foo(a: b) }
+}
+
+class Child2: Parent2, TestProto {
+  override func foo(a b: Test) { super.foo(a: b) }
+}
+
+let p = Parent()
+p.foo(a: Test())
+
+let c = Child()
+c.foo(a: Test())
+
+let p2 = Parent2()
+p2.foo(a: Test())
+
+let c2 = Child2()
+c2.foo(a: Test())

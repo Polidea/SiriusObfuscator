@@ -49,14 +49,18 @@ std::unique_ptr<SymbolsOrError> parseAsNominal(Decl* Declaration,
   return appendRangeToSymbol(parse(NominalDeclaration), Range);
 }
 
-std::unique_ptr<SymbolsOrError> parseAsFunction(Decl* Declaration,
-                                                CharSourceRange Range) {
+std::unique_ptr<SymbolsOrError> parseAsFunction(
+                                      GlobalCollectedSymbols &CollectedSymbols,
+                                      Decl* Declaration,
+                                      CharSourceRange Range) {
+  
   auto FunctionDeclaration = dyn_cast<FuncDecl>(Declaration);
   if (FunctionDeclaration->isOperator()) {
     return llvm::make_unique<SymbolsOrError>(parseOperator(FunctionDeclaration,
                                                            Range));
   } else {
-    return llvm::make_unique<SymbolsOrError>(parse(FunctionDeclaration,
+    return llvm::make_unique<SymbolsOrError>(parse(CollectedSymbols,
+                                                   FunctionDeclaration,
                                                    Range));
   }
 }
@@ -91,14 +95,18 @@ std::unique_ptr<SymbolsOrError> parseAsVariable(Decl* Declaration,
   return appendRangeToSymbol(parse(VariableDeclaration), Range);
 }
 
-SymbolsOrError extractSymbol(Decl* Declaration, CharSourceRange Range) {
+SymbolsOrError extractSymbol(GlobalCollectedSymbols &CollectedSymbols,
+                             Decl* Declaration,
+                             CharSourceRange Range) {
 
   std::unique_ptr<SymbolsOrError> SymbolsOrErrorPointer(nullptr);
 
   if (isNominal(Declaration)) {
     SymbolsOrErrorPointer = parseAsNominal(Declaration, Range);
   } else if (isFunc(Declaration)) {
-    SymbolsOrErrorPointer = parseAsFunction(Declaration, Range);
+    SymbolsOrErrorPointer = parseAsFunction(CollectedSymbols,
+                                            Declaration,
+                                            Range);
   } else if (isOperator(Declaration)) {
     SymbolsOrErrorPointer = parseAsOperator(Declaration, Range);
   } else if (isConstructor(Declaration)) {

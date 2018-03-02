@@ -15,8 +15,10 @@ namespace obfuscation {
 struct SymbolsWalkerAndCollector: public SourceEntityWalker {
 
   static int SymbolIndex;
-  std::set<IndexedSymbolWithRange,
-           IndexedSymbolWithRange::SymbolWithRangeCompare> Symbols;
+
+  // This is a vector that stores all of the collected IndexedSymbolWithRange
+  // thet are compared by symbol and range
+  GlobalCollectedSymbols Symbols;
 
 // Overriden methods called back as the AST is walked
 
@@ -27,15 +29,15 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
   }
   
   bool walkToDeclPre(Decl *Declaration, CharSourceRange Range) override {
-    auto Symbols = extractSymbol(Declaration, Range);
-    handleExtractionResult(Symbols);
+    auto ExtractedSymbols = extractSymbol(Symbols, Declaration, Range);
+    handleExtractionResult(ExtractedSymbols);
     return true;
   }
 
   void handleWhereClausesIfNeeded(const std::vector<Decl*> &&Declarations) {
     WhereClauseParser WhereClauseParser;
     for (auto *Declaration : Declarations) {
-      WhereClauseParser.collectSymbolsFromDeclaration(Declaration);
+      WhereClauseParser.collectSymbolsFromDeclaration(Symbols, Declaration);
     }
     handleSymbols(WhereClauseParser.harvestSymbols());
   }
@@ -50,8 +52,10 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
                           Type T,
                           ReferenceMetaData Data) override {
     handleWhereClausesIfNeeded({ Declaration, CtorTyRef, ExtTyRef });
-    auto Symbols = extractSymbol(CtorTyRef ? CtorTyRef : Declaration, Range);
-    handleExtractionResult(Symbols);
+    auto ExtractedSymbols = extractSymbol(Symbols,
+                                          CtorTyRef ? CtorTyRef : Declaration,
+                                          Range);
+    handleExtractionResult(ExtractedSymbols);
     return true;
   }
 

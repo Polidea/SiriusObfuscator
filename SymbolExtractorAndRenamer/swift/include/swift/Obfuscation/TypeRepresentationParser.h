@@ -16,16 +16,21 @@ private:
 
 public:
 
-  void collectSymbolsFromTypeRepresentation(TypeRepr *TypeRepresentation);
+  void collectSymbolsFromTypeRepresentation(
+                                      GlobalCollectedSymbols &CollectedSymbols,
+                                      TypeRepr *TypeRepresentation);
 
   std::set<SymbolWithRange> harvestSymbols();
 
 private:
 
-  void handleComponent(ComponentIdentTypeRepr *Component);
+  void handleComponent(GlobalCollectedSymbols &CollectedSymbols,
+                       ComponentIdentTypeRepr *Component);
 
-  void handleTypeRepresentationRecursively(TypeRepr *ParentOfTypeRepresentation,
-                                           TypeRepr *TypeRepresentation);
+  void handleTypeRepresentationRecursively(
+                                       GlobalCollectedSymbols &CollectedSymbols,
+                                       TypeRepr *ParentOfTypeRepresentation,
+                                       TypeRepr *TypeRepresentation);
 
 };
 

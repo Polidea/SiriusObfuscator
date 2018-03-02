@@ -32,7 +32,9 @@ namespace obfuscation {
 ///          from information in \p Declaration object or llvm::Error object
 ///          with the information on why no symbol could be extracted.
 SymbolsOrError
-extractSymbol(Decl* Declaration, CharSourceRange Range);
+extractSymbol(GlobalCollectedSymbols &CollectedSymbols,
+              Decl* Declaration,
+              CharSourceRange Range);
     
 } //namespace obfuscation
 } //namespace swift

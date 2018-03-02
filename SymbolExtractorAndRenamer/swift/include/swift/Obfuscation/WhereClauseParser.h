@@ -18,13 +18,15 @@ private:
 
 public:
 
-  void collectSymbolsFromDeclaration(Decl* Declaration);
+  void collectSymbolsFromDeclaration(GlobalCollectedSymbols &CollectedSymbols,
+                                     Decl* Declaration);
 
   std::set<SymbolWithRange> harvestSymbols();
 
 private:
 
-  void handleWhereClause(TrailingWhereClause *WhereClause);
+  void handleWhereClause(GlobalCollectedSymbols &CollectedSymbols,
+                         TrailingWhereClause *WhereClause);
 
 };
 

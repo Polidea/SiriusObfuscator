@@ -5,7 +5,9 @@
 namespace swift {
 namespace obfuscation {
 
-void WhereClauseParser::handleWhereClause(TrailingWhereClause *WhereClause) {
+void WhereClauseParser::handleWhereClause(
+                                      GlobalCollectedSymbols &CollectedSymbols,
+                                      TrailingWhereClause *WhereClause) {
   if (WhereClause == nullptr) { return; }
   TypeRepresentationParser TypeReprParser;
   auto Requirements = WhereClause->getRequirements();
@@ -36,29 +38,33 @@ void WhereClauseParser::handleWhereClause(TrailingWhereClause *WhereClause) {
     if (FirstTypeRepresentation != nullptr
         && !FirstTypeRepresentation->isInvalid()) {
       TypeReprParser
-        .collectSymbolsFromTypeRepresentation(FirstTypeRepresentation);
+        .collectSymbolsFromTypeRepresentation(CollectedSymbols,
+                                              FirstTypeRepresentation);
     }
     if (SecondTypeRepresentation != nullptr
         && !SecondTypeRepresentation->isInvalid()) {
       TypeReprParser
-        .collectSymbolsFromTypeRepresentation(SecondTypeRepresentation);
+        .collectSymbolsFromTypeRepresentation(CollectedSymbols,
+                                              SecondTypeRepresentation);
     }
   }
   copyToSet(TypeReprParser.harvestSymbols(), Symbols);
 }
 
-void WhereClauseParser::collectSymbolsFromDeclaration(Decl* Declaration) {
+void WhereClauseParser::collectSymbolsFromDeclaration(
+                                      GlobalCollectedSymbols &CollectedSymbols,
+                                      Decl* Declaration) {
   if (Declaration != nullptr) {
     if (auto *Extension = dyn_cast<ExtensionDecl>(Declaration)) {
-      handleWhereClause(Extension->getTrailingWhereClause());
+      handleWhereClause(CollectedSymbols, Extension->getTrailingWhereClause());
     } else if (auto *GenericType = dyn_cast<GenericTypeDecl>(Declaration)) {
-      handleWhereClause(GenericType->getTrailingWhereClause());
+      handleWhereClause(CollectedSymbols, GenericType->getTrailingWhereClause());
     } else if (auto *Subscript = dyn_cast<SubscriptDecl>(Declaration)) {
-      handleWhereClause(Subscript->getTrailingWhereClause());
+      handleWhereClause(CollectedSymbols, Subscript->getTrailingWhereClause());
     } else if (auto *AbstractFunc = dyn_cast<AbstractFunctionDecl>(Declaration)) {
-      handleWhereClause(AbstractFunc->getTrailingWhereClause());
+      handleWhereClause(CollectedSymbols, AbstractFunc->getTrailingWhereClause());
     } else if (auto *Associated = dyn_cast<AssociatedTypeDecl>(Declaration)) {
-      handleWhereClause(Associated->getTrailingWhereClause());
+      handleWhereClause(CollectedSymbols, Associated->getTrailingWhereClause());
     }
   }
 }
