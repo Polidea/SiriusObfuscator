@@ -58,19 +58,22 @@ nominalTypeIdentifierParts(const NominalTypeDecl *Declaration,
                            const std::string &SymbolName) {
 
   std::vector<std::string> Parts;
-
-  if (auto *EnumDeclaration = dyn_cast<EnumDecl>(Declaration)) {
-    Parts.push_back("enum." + SymbolName);
-  } else if (auto *ClassDeclaration = dyn_cast<ClassDecl>(Declaration)) {
-    Parts.push_back("class." + SymbolName);
-  } else if (auto *ProtocolDeclaration = dyn_cast<ProtocolDecl>(Declaration)) {
-    Parts.push_back("protocol." + SymbolName);
-  } else if (auto *StructDeclaration = dyn_cast<StructDecl>(Declaration)) {
-    Parts.push_back("struct." + SymbolName);
-  } else {
-    return stringError("found unsupported declaration type");
+  switch (Declaration->getKind()) {
+    case DeclKind::Enum:
+      Parts.push_back("enum." + SymbolName);
+      break;
+    case DeclKind::Class:
+      Parts.push_back("class." + SymbolName);
+      break;
+    case DeclKind::Protocol:
+      Parts.push_back("protocol." + SymbolName);
+      break;
+    case DeclKind::Struct:
+      Parts.push_back("struct." + SymbolName);
+      break;
+    default:
+      return stringError("found unsupported declaration type");
   }
-
   return Parts;
 }
 

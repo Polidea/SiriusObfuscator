@@ -23,7 +23,8 @@ parseOverridenDeclaration(const VarDecl *Declaration,
   auto BaseWithModules = getBaseOverridenDeclarationWithModules(Declaration);
   auto Base = BaseWithModules.first;
   auto Modules = BaseWithModules.second;
-  if (Modules.size() == 1 && Modules.count(ModuleName) == 1) {
+
+  if (isOverriddenMethodFromTheSameModule(Modules, ModuleName)) {
     return parse(Base);
   } else {
     return stringError("only overriding properties from the same module "
@@ -32,29 +33,32 @@ parseOverridenDeclaration(const VarDecl *Declaration,
 }
 
 llvm::Expected<ModuleNameAndParts>
-variableContextParts(const VarDecl *Declaration) {
+variableIdentifierPartsFromContext(const VarDecl *Declaration) {
+
   std::string ModuleName;
   std::vector<std::string> Parts;
   
   auto ProtocolRequirements = Declaration->getSatisfiedProtocolRequirements();
   auto *ProtocolDeclaration =
-  dyn_cast<ProtocolDecl>(Declaration->getDeclContext());
-  // TODO: for now, we're renaming all protocol properties with the same name
-  // to the same obfuscated name. this should be improved in the future.
+    dyn_cast<ProtocolDecl>(Declaration->getDeclContext());
+
+  // TODO: for now, we're renaming properties from different protocols
+  // but with the same name to the same obfuscated name.
+  // This should be improved in the future.
   if (!ProtocolRequirements.empty() || ProtocolDeclaration != nullptr) {
-    ModuleName = ProtocolRequirements.empty() ?
-    moduleName(ProtocolDeclaration) : moduleName(ProtocolRequirements.front());
+
+    // TODO: If the property satisfies multiple protocols, we're using
+    // the module name from the first of the protocols. This may lead to errors
+    // and should be changed in the future.
+    ModuleName = ProtocolRequirements.empty()
+                    ? moduleName(ProtocolDeclaration)
+                    : moduleName(ProtocolRequirements.front());
     Parts.push_back("module." + ModuleName);
     Parts.push_back("protocol");
-    
-  } else if (auto *FunctionDeclaration =
-             dyn_cast<FuncDecl>(Declaration->getDeclContext())) {
-    auto ModuleAndParts = functionIdentifierParts(FunctionDeclaration);
-    ModuleName = moduleName(Declaration);
-    Parts = ModuleAndParts.second;
-    
+
   } else if (auto *NominalTypeDeclaration =
-             dyn_cast<NominalTypeDecl>(Declaration->getDeclContext())) {
+              dyn_cast<NominalTypeDecl>(Declaration->getDeclContext())) {
+
     ModuleName = moduleName(Declaration);
     Parts.push_back("module." + ModuleName);
     std::string TypeName = typeName(NominalTypeDeclaration);
@@ -64,9 +68,14 @@ variableContextParts(const VarDecl *Declaration) {
       return std::move(Error);
     }
     copyToVector(ModuleAndParts.get(), Parts);
+
   } else if (Declaration->getDeclContext()->isModuleScopeContext()) {
     ModuleName = moduleName(Declaration);
     Parts.push_back("module." + ModuleName);
+  }
+
+  if (ModuleName.empty() && Parts.empty()) {
+    return stringError("No supported variable declaration found");
   }
   
   return std::make_pair(ModuleName, Parts);
@@ -82,7 +91,7 @@ SingleSymbolOrError parse(const VarDecl* Declaration) {
     return parseOverridenDeclaration(Declaration, moduleName(Declaration));
   }
   
-  auto ModuleAndPartsOrError = variableContextParts(Declaration);
+  auto ModuleAndPartsOrError = variableIdentifierPartsFromContext(Declaration);
   if (auto Error = ModuleAndPartsOrError.takeError()) {
     return std::move(Error);
   }

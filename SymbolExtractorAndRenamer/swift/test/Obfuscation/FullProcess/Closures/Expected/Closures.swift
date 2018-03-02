@@ -35,15 +35,15 @@ class T1_ClosureTest {
   }
   
   func NF1_f0() -> Int {
-    let V1_local = 2
+    let local = 2
     
     self.V1_closureWeakSelf()
     
-    let V1_closureCapturingLocalVariable: () -> Int = {
-      return V1_local
+    let closureCapturingLocalVariable: () -> Int = {
+      return local
     }
     
-    return V1_closureCapturingLocalVariable()
+    return closureCapturingLocalVariable()
   }
   
   func NF1_f1(SP1_closure: (Int) -> (Int)) -> Int {

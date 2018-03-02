@@ -37,46 +37,16 @@
       "type": "type"
     },
     {
-      "name": "ss",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.ss",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
       "name": "SampleStruct",
       "identifier": "module.TestModuleName.struct.SampleStruct",
       "module": "TestModuleName",
       "type": "type"
     },
     {
-      "name": "ssei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.ssei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "swi",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swi",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
       "name": "StructWithInit",
       "identifier": "module.TestModuleName.struct.StructWithInit",
       "module": "TestModuleName",
       "type": "type"
-    },
-    {
-      "name": "swiei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swiei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "swmi",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swmi",
-      "module": "TestModuleName",
-      "type": "variable"
     },
     {
       "name": "property",
@@ -91,34 +61,10 @@
       "type": "type"
     },
     {
-      "name": "swmiei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.swmiei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "sc",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.sc",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
       "name": "SampleClass",
       "identifier": "module.TestModuleName.class.SampleClass",
       "module": "TestModuleName",
       "type": "type"
-    },
-    {
-      "name": "scei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.scei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "cwi",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cwi",
-      "module": "TestModuleName",
-      "type": "variable"
     },
     {
       "name": "ClassWithInit",
@@ -127,46 +73,10 @@
       "type": "type"
     },
     {
-      "name": "cwiei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cwiei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "vc1",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc1",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
       "name": "ViewController",
       "identifier": "module.TestModuleName.class.ViewController",
       "module": "TestModuleName",
       "type": "type"
-    },
-    {
-      "name": "vc1ei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc1ei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "vc2",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc2",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "vc2ei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.vc2ei",
-      "module": "TestModuleName",
-      "type": "variable"
-    },
-    {
-      "name": "cvc",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cvc",
-      "module": "TestModuleName",
-      "type": "variable"
     },
     {
       "name": "number",
@@ -179,12 +89,6 @@
       "identifier": "module.TestModuleName.class.CustomInitViewController",
       "module": "TestModuleName",
       "type": "type"
-    },
-    {
-      "name": "cvcei",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().variable.cvcei",
-      "module": "TestModuleName",
-      "type": "variable"
     },
     {
       "name": "applicationWillTerminate",

@@ -87,6 +87,9 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
     //       this simplified handling should be improved in the future.
     ModuleNameAndParts ModuleNameAndParts;
     if (SatisfiesProtocol) {
+      // TODO: If the function satisfies multiple protocols, we're using
+      // the module name from the first of the protocols. This may lead
+      // to errors and should be changed in the future.
       ModuleNameAndParts =
         moduleNameAndIdentifierParts(ProtocolRequirements.front());
     } else {

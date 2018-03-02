@@ -52,7 +52,7 @@ protocol T1_Container {
 extension T1_Container {
   subscript<Indices: Sequence>(indices: Indices) -> [Item]
     where Indices.Iterator.Element == T1_SampleProtocol2 {
-      let V1_result = [Item]()
-      return V1_result
+      let result = [Item]()
+      return result
   }
 }
