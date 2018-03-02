@@ -55,3 +55,16 @@ class T1_A {
 class T1_C {
   struct T2_B {}
 }
+
+extension T1_SampleProtocol where Self: T1_SampleClass {}
+
+extension T1_SampleProtocol where Self == T1_SampleClass {}
+
+//protocol stuff
+protocol T1_Proto {
+  func NF1_hello()
+}
+extension NSString: T1_Proto {}
+extension T1_Proto where Self: NSString {
+  func NF1_hello() {}
+}

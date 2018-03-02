@@ -52,19 +52,58 @@ class T1_ViewClass: NSView {
   override var window: NSWindow? { return nil }
 }
 
-// properties with generic parameters
+// properties usage
+class T1_SomeClass<GenericParam> {
+  var V1_param: String = ""
+}
+
 class T1_GenericUsingClass {
   let V1_array: Array<Int> = []
   let V1_map: [String : Int] = [:]
 }
 
-// properties usage
 class T1_PropertiesUsingClass {
   var V2_array: Array<Int> = []
   var V2_map: [String : Int] = [:]
+  var V1_generic = T1_SomeClass<T1_PropertiesUsingClass>()
 
-  func NF1_foo() {
+  func NF1_foo() -> T1_SomeClass<T1_PropertiesUsingClass> {
     V2_array = [42]
     V2_map["42"] = V2_array[0]
+    V1_generic.V1_param = "42"
+    return V1_generic
+  }
+}
+
+// implicit error name in catch block should not be renamed
+func NF1_canThrowErrors() throws {}
+func NF1_a() {
+  do {
+    try NF1_canThrowErrors()
+  } catch {
+    error
+  }
+}
+
+// implicit variable name inside setter in catch block should not be renamed
+struct T1_ImplicitSetter {
+  var V1_foo: String {
+    get {
+      return "foo"
+    }
+    set {
+      newValue
+    }
+  }
+}
+
+class T1_SampleClass {
+  var V1_prop: String = ""
+}
+
+struct T1_SampleStruct {
+  var V1_sample = T1_SampleClass()
+  func NF2_foo() {
+    V1_sample.V1_prop = "42"
   }
 }

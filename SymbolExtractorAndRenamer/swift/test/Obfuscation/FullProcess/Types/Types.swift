@@ -56,3 +56,16 @@ class A {
 class C {
   struct B {}
 }
+
+extension SampleProtocol where Self: SampleClass {}
+
+extension SampleProtocol where Self == SampleClass {}
+
+//protocol stuff
+protocol Proto {
+  func hello()
+}
+extension NSString: Proto {}
+extension Proto where Self: NSString {
+  func hello() {}
+}

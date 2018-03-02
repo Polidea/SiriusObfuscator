@@ -77,6 +77,16 @@ bool SymbolWithRange::operator< (const SymbolWithRange &Right) const {
                   "Location Values Pointers to be of const char type");
 }
 
+bool SymbolWithRange::operator== (const SymbolWithRange &Right) const {
+  if (const auto* RangeValuePointer = pointerToRangeValue(*this)) {
+    if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
+      return Symbol == Right.Symbol
+          && RangeValuePointer == RightRangeValuePointer;
+    }
+  }
+  return false;
+}
+
 IndexedSymbolWithRange::
   IndexedSymbolWithRange(const int Index,
                          const struct SymbolWithRange &SymbolWithRange)

@@ -39,3 +39,14 @@ class T1_ProtocolFunClass: T1_ProtocolFunc {
   func NF1_pFunc3(EP1_extpFunc IP2_intpFunc: Int) {}
   func NF1_pFunc4(EP1_singleFunc IP1_singleIntFunc: Int)
 }
+
+//protocol constructor
+protocol T1_ProtoInit {
+  init(SP1_protoInitParamA: String, SP1_protoInitParamB: Int)
+}
+
+class T1_ProtoInitClass: T1_ProtoInit {
+  required init(SP1_protoInitParamA: String, SP1_protoInitParamB: Int) {
+  }
+}
+let V1_pic = T1_ProtoInitClass(SP1_protoInitParamA: "", SP1_protoInitParamB: 42)

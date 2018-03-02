@@ -54,20 +54,58 @@ class ViewClass: NSView {
   override var window: NSWindow? { return nil }
 }
 
-// properties with generic parameters
+// properties usage
+class SomeClass<GenericParam> {
+  var param: String = ""
+}
+
 class GenericUsingClass {
   let array: Array<Int> = []
   let map: [String : Int] = [:]
 }
 
-// properties usage
 class PropertiesUsingClass {
   var array: Array<Int> = []
   var map: [String : Int] = [:]
+  var generic = SomeClass<PropertiesUsingClass>()
 
-  func foo() {
+  func foo() -> SomeClass<PropertiesUsingClass> {
     array = [42]
     map["42"] = array[0]
+    generic.param = "42"
+    return generic
   }
 }
 
+// implicit error name in catch block should not be renamed
+func canThrowErrors() throws {}
+func a() {
+  do {
+    try canThrowErrors()
+  } catch {
+    error
+  }
+}
+
+// implicit variable name inside setter in catch block should not be renamed
+struct ImplicitSetter {
+  var foo: String {
+    get {
+      return "foo"
+    }
+    set {
+      newValue
+    }
+  }
+}
+
+class SampleClass {
+  var prop: String = ""
+}
+
+struct SampleStruct {
+  var sample = SampleClass()
+  func foo() {
+    sample.prop = "42"
+  }
+}

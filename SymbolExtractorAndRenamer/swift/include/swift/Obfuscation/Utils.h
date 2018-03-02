@@ -53,6 +53,9 @@ void copyToStream(const std::vector<ElementType> &FromVector,
                   std::ostream_iterator<ElementType> Inserter);
 
 std::vector<std::string> split(const std::string &String, char Delimiter);
+
+template<typename T>
+void removeFromVector(std::vector<T> &FromVector, const T &Element);
   
 } //namespace obfuscation
 } //namespace swift

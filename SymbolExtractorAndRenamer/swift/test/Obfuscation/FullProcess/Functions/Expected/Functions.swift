@@ -91,7 +91,7 @@ let V1_cvi = T1_CustomView()
 V1_cvi.prepareForReuse()
 
 // SDK protocol methods
-class T1_CustomFMDelegate: FileManagerDelegate {
+class T1_CustomFMDelegate: NSObject, FileManagerDelegate {
   func fileManager(_ IP1_fileManager: FileManager, shouldRemoveItemAtPath IP1_path: String) -> Bool {
     return false
   }
@@ -112,3 +112,14 @@ func NF1_outerFunction() -> String {
 }
 
 _ = NF1_outerFunction()
+
+// Generic class methods
+class T1_GenericClass<T> {
+  func NF8_method() -> T { return T() }
+}
+
+let V1_gcii = T1_GenericClass<Int>()
+_ = V1_gcii.NF8_method()
+
+let V1_gcsi = T1_GenericClass<T1_SampleClass>()
+_ = V1_gcsi.NF8_method()

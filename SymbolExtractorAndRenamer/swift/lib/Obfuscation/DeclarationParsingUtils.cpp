@@ -23,6 +23,12 @@ std::string combineIdentifier(std::vector<std::string> &Parts) {
   }
 }
 
+bool isOverriddenMethodFromTheSameModule(const std::set<std::string> &Modules,
+                                         const std::string &OriginModuleName) {
+  return Modules.size() == 0
+     || (Modules.size() == 1 && Modules.count(OriginModuleName) == 1);
+}
+
 std::string declarationName(const ValueDecl* Declaration) {
   return Declaration->getName().str().str();
 }
@@ -141,6 +147,25 @@ bool isMemberwiseConstructorParameter(const ParamDecl* Declaration) {
     return isMemberwiseConstructor(ConstructorDeclaration);
   }
   return false;
+}
+  
+llvm::Expected<CharSourceRange>
+rangeOfFirstOccurenceOfStringInSourceLoc(std::string String,
+                                         SourceLoc StartSourceLoc) {
+  auto StartLoc =
+    static_cast<const char*>(StartSourceLoc.getOpaquePointerValue());
+  std::string StartLocString(StartLoc);
+  
+  auto FoundPosition = StartLocString.find(String);
+  if (FoundPosition == std::string::npos) {
+    return stringError("Failed to find the string occurence"
+                       "in source location");
+  }
+  
+  auto FirstOccurenceSourceLoc = StartSourceLoc.getAdvancedLoc(FoundPosition);
+  auto Range = CharSourceRange(FirstOccurenceSourceLoc, String.size());
+  
+  return Range;
 }
 
 } //namespace obfuscation

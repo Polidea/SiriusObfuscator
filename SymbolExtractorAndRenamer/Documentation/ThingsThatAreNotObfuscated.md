@@ -3,6 +3,8 @@
 There are a couple of language features that are not subject to obfuscation.
 These features are:
   - local variables
+  - closure parameters
+  - closure capture list elements
   - associated types
   - type aliases
   - enum constants

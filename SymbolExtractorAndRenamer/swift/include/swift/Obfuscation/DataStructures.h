@@ -119,6 +119,8 @@ struct SymbolWithRange {
   /// @brief Comparison operator required for containing SymbolWithRange in
   /// sets. It's taking into consideration both symbol identifier and range.
   bool operator< (const SymbolWithRange &Right) const;
+
+  bool operator== (const SymbolWithRange &Right) const;
 };
 
 struct IndexedSymbolWithRange {

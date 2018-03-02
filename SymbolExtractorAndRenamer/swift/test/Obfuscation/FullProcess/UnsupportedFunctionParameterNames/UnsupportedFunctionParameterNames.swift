@@ -42,3 +42,14 @@ class ProtocolFunClass: ProtocolFunc {
   func pFunc3(extpFunc intpFunc: Int) {}
   func pFunc4(singleFunc singleIntFunc: Int) {}
 }
+
+//protocol constructor
+protocol ProtoInit {
+  init(protoInitParamA: String, protoInitParamB: Int)
+}
+
+class ProtoInitClass: ProtoInit {
+  required init(protoInitParamA: String, protoInitParamB: Int) {
+  }
+}
+let pic = ProtoInitClass(protoInitParamA: "", protoInitParamB: 42)

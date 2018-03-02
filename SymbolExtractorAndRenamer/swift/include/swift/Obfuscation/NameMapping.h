@@ -25,7 +25,8 @@ class BaseIdentifierGenerator {
 protected:
   static const std::vector<std::string> UniquelyTailSymbols;
   static const std::vector<std::string> HeadSymbols;
-  static const std::vector<std::string> OperatorSymbols;
+  static const std::vector<std::string> HeadOperatorSymbols;
+  static const std::vector<std::string> UniquelyTailOperatorSymbols;
   
   std::map<SymbolType, std::string> SymbolShortNameMap = {
     { SymbolType::Type, "T" },
@@ -46,6 +47,10 @@ protected:
     { SymbolType::Variable, {} },
     { SymbolType::Operator, {} }
   };
+ 
+  static std::vector<std::string>
+  concatenateSymbols(const std::vector<std::string> &Head,
+                     const std::vector<std::string> &Tail);
 
 public:
   virtual  llvm::Expected<std::string> generateName(const Symbol &Symbol) = 0;

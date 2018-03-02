@@ -19,13 +19,28 @@ const std::vector<std::string> BaseIdentifierGenerator::HeadSymbols =
     "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
 // "/" symbol is omitted to avoid generating comments in operator names
-const std::vector<std::string> BaseIdentifierGenerator::OperatorSymbols =
-  {"=", "-", "+", "!", "*", "%", "<", ">", "&", "|", "^", "~", "?"};
+const std::vector<std::string> BaseIdentifierGenerator::HeadOperatorSymbols =
+  {"=", "-", "+", "*", "%", "<", ">", "&", "|", "^", "~"};
+  // "/" symbol is omitted to avoid generating comments in operator names
+const std::vector<std::string>
+BaseIdentifierGenerator::UniquelyTailOperatorSymbols =
+  {"!", "?"};
+
+
+std::vector<std::string>
+BaseIdentifierGenerator::
+  concatenateSymbols(const std::vector<std::string> &Head,
+                     const std::vector<std::string> &Tail) {
+  std::vector<std::string> TemporaryTailSymbols = Tail;
+  TemporaryTailSymbols.insert(TemporaryTailSymbols.cend(),
+                              Head.cbegin(),
+                              Head.cend());
+  return TemporaryTailSymbols;
+}
   
 /// Generates random unique identifiers for symbols.
 class RandomUniqueIdentifierGenerator: public BaseIdentifierGenerator {
   std::set<std::string> GeneratedSymbols;
-  std::vector<std::string> TailSymbols;
   RandomUniformCharacterChooser HeadGenerator;
   RandomUniformStringGenerator TailGenerator;
   const std::string::size_type IdentifierLength = 32;
@@ -45,19 +60,10 @@ class RandomUniqueIdentifierGenerator: public BaseIdentifierGenerator {
     }
   }
   
-  static std::vector<std::string> concatenateHeadAndTailSymbols() {
-    std::vector<std::string> TemporaryTailSymbols = UniquelyTailSymbols;
-    TemporaryTailSymbols.insert(TemporaryTailSymbols.cend(),
-                                HeadSymbols.cbegin(),
-                                HeadSymbols.cend());
-    return TemporaryTailSymbols;
-  }
-  
 public:
   RandomUniqueIdentifierGenerator()
-  : TailSymbols(concatenateHeadAndTailSymbols()),
-  HeadGenerator(HeadSymbols),
-  TailGenerator(TailSymbols) {}
+  : HeadGenerator(HeadSymbols),
+    TailGenerator(concatenateSymbols(HeadSymbols, UniquelyTailSymbols)) {}
   
   llvm::Expected<std::string> generateName(const Symbol &Symbol) {
     return generateName(100);
@@ -68,14 +74,17 @@ public:
 /// Generates random unique identifiers for operators.
 class RandomUniqueOperatorGenerator: public BaseIdentifierGenerator {
   std::set<std::string> GeneratedSymbols;
-  RandomUniformStringGenerator Generator;
+  RandomUniformCharacterChooser HeadGenerator;
+  RandomUniformStringGenerator TailGenerator;
   const std::string::size_type IdentifierLength = 32;
 
   llvm::Expected<std::string> generateName(int NumbersOfTriesLeft) {
     if (NumbersOfTriesLeft <= 0) {
       return stringError("couldn't generate unique type name");
     }
-    auto Name = Generator.rand(IdentifierLength);
+    auto Head = HeadGenerator.rand();
+    auto Tail = TailGenerator.rand(IdentifierLength - 1);
+    auto Name = Head + Tail;
 
     if (GeneratedSymbols.insert(Name).second) {
       return Name;
@@ -85,7 +94,12 @@ class RandomUniqueOperatorGenerator: public BaseIdentifierGenerator {
   }
 
 public:
-  RandomUniqueOperatorGenerator() : Generator(OperatorSymbols) {}
+
+  RandomUniqueOperatorGenerator()
+  : HeadGenerator(HeadOperatorSymbols),
+    TailGenerator(concatenateSymbols(HeadOperatorSymbols,
+                                     UniquelyTailOperatorSymbols)) {}
+
   llvm::Expected<std::string> generateName(const Symbol &Symbol) {
     return generateName(100);
   }

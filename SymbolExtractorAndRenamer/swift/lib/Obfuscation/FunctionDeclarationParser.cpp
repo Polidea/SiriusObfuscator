@@ -107,9 +107,22 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
   return std::make_pair(ModuleName, Parts);
 }
 
-SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
-                                         const std::string &ModuleName,
-                                         const CharSourceRange &Range) {
+SymbolWithRange getFunctionSymbol(const swift::FuncDecl *Declaration,
+                                  const swift::CharSourceRange &Range) {
+  auto ModuleAndParts = functionIdentifierParts(Declaration);
+  auto ModuleName = ModuleAndParts.first;
+  auto Parts = ModuleAndParts.second;
+  Symbol Symbol(combineIdentifier(Parts),
+                declarationName(Declaration),
+                ModuleName,
+                SymbolType::NamedFunction);
+  return SymbolWithRange(Symbol, Range);
+}
+
+llvm::Expected<SymbolWithRange>
+parseOverridenDeclaration(const FuncDecl *Declaration,
+                          const std::string &ModuleName,
+                          const CharSourceRange &Range) {
 
   auto BaseWithModules = getBaseOverridenDeclarationWithModules(Declaration);
   auto Base = BaseWithModules.first;
@@ -120,8 +133,8 @@ SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
   // the same module and it's the module we've passed as ModuleName parameter.
   // Emitted symbol represents the base function so that all the functions that
   // override it are renamed to the same obfuscated name
-  if (Modules.size() == 1 && Modules.count(ModuleName) == 1) {
-    return parse(Base, Range);
+  if (isOverriddenMethodFromTheSameModule(Modules, ModuleName)) {
+    return getFunctionSymbol(Base, Range);
   } else {
     return stringError("only method overriding methods from the same module "
                        "might be safely obfuscated");
@@ -131,33 +144,34 @@ SymbolsOrError parseOverridenDeclaration(const FuncDecl *Declaration,
 SymbolsOrError parse(const ConstructorDecl* Declaration, CharSourceRange Range) {
   // We're not interested in renaming the init function name,
   // but we're interested in renaming the init parameters
+  if (Declaration->isImplicit()) {
+    return stringError("We dont want to parse the implicit constructor "
+                       "declarations, only their usage via calls.");
+  }
   return parseSeparateFunctionDeclarationForParameters(Declaration);
 }
-  
+
 SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range) {
   
   if (auto Error = isDeclarationSupported(Declaration)) {
     return std::move(Error);
   }
-  
+
+  std::vector<SymbolWithRange> Symbols;
+
+  // Create the symbol for function
   if (Declaration->getOverriddenDecl() != nullptr) {
     // Overriden declaration must be treated separately because
     // we mustn't rename function that overrides function from different module
-    return parseOverridenDeclaration(Declaration,
-                                     moduleName(Declaration),
-                                     Range);
+    auto SymbolOrError =
+      parseOverridenDeclaration(Declaration, moduleName(Declaration), Range);
+    if (auto Error = SymbolOrError.takeError()) {
+      return std::move(Error);
+    }
+    Symbols.push_back(SymbolOrError.get());
+  } else {
+    Symbols.push_back(getFunctionSymbol(Declaration, Range));
   }
-
-  // Create the symbol for function
-  auto ModuleAndParts = functionIdentifierParts(Declaration);
-  auto ModuleName = ModuleAndParts.first;
-  auto Parts = ModuleAndParts.second;
-  Symbol Symbol(combineIdentifier(Parts),
-                declarationName(Declaration),
-                ModuleName,
-                SymbolType::NamedFunction);
-  std::vector<SymbolWithRange> Symbols;
-  Symbols.push_back(SymbolWithRange(Symbol, Range));
 
   // Create the symbols for function parameters
   auto ParametersSymbolsOrError =
@@ -165,6 +179,7 @@ SymbolsOrError parse(const FuncDecl* Declaration, CharSourceRange Range) {
   if (auto Error = ParametersSymbolsOrError.takeError()) {
     return std::move(Error);
   }
+
   copyToVector(ParametersSymbolsOrError.get(), Symbols);
 
   // Return both the function symbol and the parameters symbols together

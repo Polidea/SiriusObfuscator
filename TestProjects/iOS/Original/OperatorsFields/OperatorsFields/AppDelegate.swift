@@ -8,11 +8,29 @@
 
 import UIKit
 
+protocol SampleProtocol {}
 
-func foo(bar: Int) {
-  print(bar)
+class SampleClass {}
+
+extension SampleProtocol where Self : SampleClass {
+
 }
-foo(bar:42)
+
+extension Optional where Wrapped : SampleProtocol {
+
+}
+
+func foo<T>(t: T) where T : SampleProtocol {
+
+}
+
+protocol Proto {
+  func hello()
+}
+extension NSString: Proto {}
+extension Proto where Self: NSString {
+  func hello() {}
+}
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

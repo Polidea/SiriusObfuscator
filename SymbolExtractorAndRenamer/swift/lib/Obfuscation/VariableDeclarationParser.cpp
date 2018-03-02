@@ -11,6 +11,8 @@ llvm::Error isDeclarationSupported(const VarDecl *Declaration) {
   if (Declaration->isCaptureList()) {
     return stringError("The variable is the element of closure's "
                        "capture list. It must not be renamed.");
+  } else if (Declaration->isImplicit()) {
+    return stringError("The variable is implicit. It must not be renamed.");
   }
   return llvm::Error::success();
 }

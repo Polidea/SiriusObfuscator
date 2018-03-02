@@ -44,6 +44,12 @@ void copyToStream(const std::vector<ElementType> &FromVector,
             Inserter);
 };
 
+template<typename T>
+void removeFromVector(std::vector<T> &FromVector, const T &Element) {
+  FromVector.erase(std::remove(FromVector.begin(), FromVector.end(), Element),
+                   FromVector.end());
+};
+
 } //namespace obfuscation
 } //namespace swift
 

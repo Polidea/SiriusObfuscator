@@ -30,15 +30,15 @@ BaseLayoutRenamingStrategy::findNodeWithAttributeValue(
            CurrentAttribute = CurrentAttribute->next) {
         
         if(CurrentAttribute->type == XML_ATTRIBUTE_NODE) {
-          // if AttributeValue == nullptr then it means that we're interested
-          // in finding only a Node with attribute that name is AttributeName
-          if(AttributeValue == nullptr) {
-            return CurrentNode;
-          } else {
             
-            // otherwise we need to check against AttributeValue as well
-            if(xmlStrcmp(CurrentAttribute->name, AttributeName) == 0){
-              
+          if(xmlStrcmp(CurrentAttribute->name, AttributeName) == 0){
+            // if AttributeValue == nullptr then it means that we're interested
+            // in finding only a Node with attribute that name is AttributeName
+            if(AttributeValue == nullptr) {
+              return CurrentNode;
+            } else {
+              // otherwise we need to pull attribute's value and compare it
+              // with AttributeValue that was passed as a parameter
               xmlChar* value = xmlGetProp(CurrentNode, AttributeName);
               if(xmlStrcmp(value, AttributeValue) == 0){
                 return CurrentNode;

@@ -92,7 +92,7 @@ let cvi = CustomView()
 cvi.prepareForReuse()
 
 // SDK protocol methods
-class CustomFMDelegate: FileManagerDelegate {
+class CustomFMDelegate: NSObject, FileManagerDelegate {
   func fileManager(_ fileManager: FileManager, shouldRemoveItemAtPath path: String) -> Bool {
     return false
   }
@@ -113,3 +113,14 @@ func outerFunction() -> String {
 }
 
 _ = outerFunction()
+
+// Generic class methods
+class GenericClass<T> {
+  func method() -> T { return T() }
+}
+
+let gcii = GenericClass<Int>()
+_ = gcii.method()
+
+let gcsi = GenericClass<SampleClass>()
+_ = gcsi.method()
