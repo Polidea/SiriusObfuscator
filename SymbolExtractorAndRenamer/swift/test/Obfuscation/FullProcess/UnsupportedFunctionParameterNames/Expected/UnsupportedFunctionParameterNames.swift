@@ -5,29 +5,18 @@ func NF1_`backticksName`(EP1_`backticksExtName` IP1_`backTicksIntName`: T1_Sampl
 
 // overriding functions
 class T1_Base {
-  func NF1_baseFunc2(_ IP3_intParam: Int) {}
-  func NF1_baseFunc3(EP3_extParam IP4_intParam: T1_SampleClass) {}
-  
   subscript(SP1_index: Int) -> String { return "" }
   subscript(_ IP1_indexInt: Int) -> String { return "" }
   subscript(EP1_indexExt IP2_indexInt: Int) -> String { return "" }
-  
-  var V1_testVar: String {
-    get{ return "" }
-    set(SP1_newTestVar) {}
-  }
 }
 
-class T1_Derived: T1_Base {
-  override func NF1_baseFunc2(_ IP5_intParam: Int) {}
-  override func NF1_baseFunc3(extParam IP6_intParam: T1_SampleClass) {}
-  
+class T1_Derived: T1_Base { 
   override subscript(index: Int) -> String { return "" }
   override subscript(_ IP3_indexInt: Int) -> String { return "" }
   override subscript(indexExt IP4_indexInt: Int) -> String { return "" }
 }
 
-//protocol functions
+//protocol functions - internal parameter names in protocol function's definition and implementation should be different
 protocol T1_ProtocolFunc {
   func NF1_pFunc2(_ IP1_pFunc: Int)
   func NF1_pFunc3(EP1_extpFunc IP1_intpFunc: Int)
@@ -37,16 +26,5 @@ protocol T1_ProtocolFunc {
 class T1_ProtocolFunClass: T1_ProtocolFunc {
   func NF1_pFunc2(_ IP2_pFunc: Int) {}
   func NF1_pFunc3(EP1_extpFunc IP2_intpFunc: Int) {}
-  func NF1_pFunc4(EP1_singleFunc IP1_singleIntFunc: Int)
+  func NF1_pFunc4(EP1_singleFunc IP1_singleIntFunc: Int) {}
 }
-
-//protocol constructor
-protocol T1_ProtoInit {
-  init(SP1_protoInitParamA: String, SP1_protoInitParamB: Int)
-}
-
-class T1_ProtoInitClass: T1_ProtoInit {
-  required init(SP1_protoInitParamA: String, SP1_protoInitParamB: Int) {
-  }
-}
-let V1_pic = T1_ProtoInitClass(SP1_protoInitParamA: "", SP1_protoInitParamB: 42)

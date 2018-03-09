@@ -8,6 +8,7 @@ add_swift_library(swiftObfuscation STATIC
   DeclarationParser.cpp
   OperatorParser.cpp
   DeclarationParsingUtils.cpp
+  ExtensionExcluder.cpp
   ExpressionParser.cpp
   FileIO.cpp
   FunctionDeclarationParser.cpp

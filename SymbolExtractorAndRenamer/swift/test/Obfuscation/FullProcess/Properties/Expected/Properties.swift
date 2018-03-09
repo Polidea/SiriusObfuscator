@@ -97,13 +97,52 @@ struct T1_ImplicitSetter {
   }
 }
 
+// protocol vars in extensions and explicit setter
+class T1_TestWithBool {
+  var V1_isFoo = false
+}
+
+func NF2_foo(SP1_boolParam: Bool) {}
+
+protocol T1_Activable {
+  var V1_active: Bool { get set }
+}
+
+extension T1_Activable where Self: T1_TestWithBool {
+  var V1_active: Bool {
+    get {
+      return V1_isFoo
+    }
+    set(SP1_activeValue) {
+      NF2_foo(SP1_boolParam: SP1_activeValue)
+    }
+  }
+}
+
 class T1_SampleClass {
   var V1_prop: String = ""
 }
 
 struct T1_SampleStruct {
   var V1_sample = T1_SampleClass()
-  func NF2_foo() {
+  func NF3_foo() {
     V1_sample.V1_prop = "42"
+  }
+}
+
+// for each stuff
+
+final class T1_ForEachController: NSViewController {
+  
+  var V1_unitsSegmentedControl: NSSegmentedControl!
+  
+  var V1_titles: [String] = []
+  
+  fileprivate func NF1_buggyFunc() {
+    V1_titles.enumerated().map {
+      index, title in (title, index)
+      }.forEach(V1_unitsSegmentedControl.setLabel(_:forSegment:))
+    
+    V1_unitsSegmentedControl.selectedSegment = 0
   }
 }

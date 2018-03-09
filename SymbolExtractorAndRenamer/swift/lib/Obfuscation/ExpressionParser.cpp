@@ -18,7 +18,8 @@ declarationOfFunctionCalledInExpression(CallExpr *CallExpression) {
       // It's a super call like super.init()
       auto *Decl = OtherConstructor->getDecl();
 
-      if (auto *FunctionDeclaration = dyn_cast<AbstractFunctionDecl>(Decl)) {
+      if (auto *FunctionDeclaration =
+            dyn_cast_or_null<AbstractFunctionDecl>(Decl)) {
         return FunctionDeclaration;
       }
     } else {
@@ -26,7 +27,8 @@ declarationOfFunctionCalledInExpression(CallExpr *CallExpression) {
       if (auto *DeclRefExpression = dyn_cast<DeclRefExpr>(DotFn)) {
         auto *Decl = DeclRefExpression->getDecl();
 
-        if (auto *FunctionDeclaration = dyn_cast<AbstractFunctionDecl>(Decl)) {
+        if (auto *FunctionDeclaration =
+              dyn_cast_or_null<AbstractFunctionDecl>(Decl)) {
           return FunctionDeclaration;
         }
       }
@@ -38,14 +40,24 @@ declarationOfFunctionCalledInExpression(CallExpr *CallExpression) {
     if (auto *DeclarationRefExpression = dyn_cast<DeclRefExpr>(ConstructorFn)) {
       auto* Decl = DeclarationRefExpression->getDecl();
 
-      if (auto *FunctionDeclaration = dyn_cast<AbstractFunctionDecl>(Decl)) {
+      if (auto *FunctionDeclaration =
+            dyn_cast_or_null<AbstractFunctionDecl>(Decl)) {
         return FunctionDeclaration;
       }
+    }
+  } else if (auto *Expression = dyn_cast<Expr>(CallFn)) {
+    // This branch is executed for example when
+    // a function is being called inside set {} block
+    auto *Decl = Expression->getReferencedDecl().getDecl();
+    
+    if (auto *FunctionDeclaration =
+          dyn_cast_or_null<AbstractFunctionDecl>(Decl)) {
+      return FunctionDeclaration;
     }
   }
   return stringError("Cannot found supported Call Expression subtree pattern");
 }
-  
+
 std::vector<std::pair<Identifier, SourceLoc>>
 validArguments(CallExpr *CallExpression) {
 
@@ -114,6 +126,37 @@ SymbolsOrError parseCallExpressionWithArguments(CallExpr* CallExpression) {
 
   return Symbols;
 }
+  
+SymbolsOrError
+parseGenericParameters(BoundGenericType *BoundGenericType,
+                       SourceLoc OpeningAngleBracketLoc) {
+  std::vector<SymbolWithRange> Symbols;
+  auto Parameters = BoundGenericType->getGenericArgs();
+  for (auto Parameter : Parameters) {
+    NominalTypeDecl *ParameterDecl = nullptr;
+    if (OptionalType::classof(Parameter.getPointer())) {
+      ParameterDecl =
+      Parameter->getOptionalObjectType()->getAnyNominal();
+    } else {
+      ParameterDecl = Parameter->getAnyNominal();
+    }
+    auto ParameterSymbol = parse(ParameterDecl);
+    if (auto Error = ParameterSymbol.takeError()) {
+      return std::move(Error);
+    }
+    auto ParameterName =
+    ParameterDecl->getBaseName().getIdentifier().str();
+    auto GenericArgRange =
+      rangeOfFirstOccurenceOfStringInSourceLoc(ParameterName,
+                                               OpeningAngleBracketLoc);
+    if (auto Error = GenericArgRange.takeError()) {
+      return std::move(Error);
+    }
+    Symbols.push_back(SymbolWithRange(ParameterSymbol.get(),
+                                      GenericArgRange.get()));
+  }
+  return Symbols;
+}
 
 SymbolsOrError parse(CallExpr* CallExpression) {
   if (CallExpression->hasArgumentLabelLocs()) {
@@ -130,57 +173,85 @@ SymbolsOrError parse(CallExpr* CallExpression) {
 // representing the CastType (cast-to type) so we have to extract it
 // from the EnumIsCaseExpression.
 SymbolsOrError parse(EnumIsCaseExpr* EnumIsCaseExpression) {
-  NominalTypeDecl *CastTypeDeclaration = nullptr;
-  SourceLoc IsKeywordSourceLoc;
+  ExplicitCastExpr *ExplicitCastExpression = nullptr;
   
   // This callback invoked using forEachChildExpr() is used to extract the
   // declaration of the CastType and the location of the `is` keyword.
   const std::function<Expr*(Expr*)> &callback =
-    [&CastTypeDeclaration, &IsKeywordSourceLoc](Expr* Child) -> Expr* {
+    [&ExplicitCastExpression](Expr* Child) -> Expr* {
       
     // We're looking for CoerceExpr (non-optional to optional type cast)
     // or ConditionalCheckedCastExpr (optional to non-optional type cast)
     // which both are subclasses of ExplicitCastExpr.
-    if (auto *ExplicitCastExpression = dyn_cast<ExplicitCastExpr>(Child)) {
-      
-      Type CastType = ExplicitCastExpression->getCastTypeLoc().getType();
-      
-      // The data representing the location of the CastType in the expression
-      // seems to be impossible to retrieve from the EnumIsCastExpression
-      // and its subexpressions. We have to calculate the CastType location
-      // later using `is` keyword and CastType name.
-      IsKeywordSourceLoc = ExplicitCastExpression->getAsLoc();
-      
-      if (ConditionalCheckedCastExpr::classof(ExplicitCastExpression)) {
-        CastTypeDeclaration = CastType->getAnyNominal();
-      } else if (CoerceExpr::classof(ExplicitCastExpression)) {
-        CastTypeDeclaration = CastType->getOptionalObjectType()->getAnyNominal();
-      }
-      
+    if (ExplicitCastExpr::classof(Child)) {
+      ExplicitCastExpression = dyn_cast<ExplicitCastExpr>(Child);
     }
+      
     return Child;
   };
   EnumIsCaseExpression->forEachChildExpr(callback);
   
-  if (CastTypeDeclaration != nullptr) {
-    auto SingleSymbolOrError = parse(CastTypeDeclaration);
-    if (auto Error = SingleSymbolOrError.takeError()) {
-      return std::move(Error);
-    }
-    auto CastTypeSymbol = SingleSymbolOrError.get();
+  if (ExplicitCastExpression != nullptr) {
+    auto CastType = ExplicitCastExpression->getCastTypeLoc().getType();
     
-    auto CastTypeName = typeName(CastTypeDeclaration);
-    auto RangeOrError =
-      rangeOfFirstOccurenceOfStringInSourceLoc(CastTypeName,
-                                               IsKeywordSourceLoc);
-    if (auto Error = RangeOrError.takeError()) {
-      return std::move(Error);
+    // The data representing the location of the CastType in the expression
+    // seems to be impossible to retrieve from the EnumIsCastExpression
+    // and its subexpressions. We have to calculate the CastType location
+    // later using `is` keyword and CastType name.
+    auto IsKeywordSourceLoc = ExplicitCastExpression->getAsLoc();
+  
+    Type UnwrappedCastType;
+    if (ConditionalCheckedCastExpr::classof(ExplicitCastExpression)) {
+      UnwrappedCastType = CastType;
+    } else if (CoerceExpr::classof(ExplicitCastExpression)) {
+      UnwrappedCastType = CastType->getOptionalObjectType();
+    } else {
+      return stringError("Unsupported type of explicit cast expression");
     }
-    auto CastTypeRange = RangeOrError.get();
     
-    std::vector<SymbolWithRange> Symbols;
-    Symbols.push_back(SymbolWithRange(CastTypeSymbol, CastTypeRange));
-    return Symbols;
+    NominalTypeDecl *CastTypeDeclaration = UnwrappedCastType->getAnyNominal();
+    
+    if (CastTypeDeclaration != nullptr) {
+      auto CastTypeSymbol = parse(CastTypeDeclaration);
+      if (auto Error = CastTypeSymbol.takeError()) {
+        return std::move(Error);
+      }
+      
+      auto CastTypeName =
+        CastTypeDeclaration->getBaseName().getIdentifier().str();
+      auto CastTypeRange =
+        rangeOfFirstOccurenceOfStringInSourceLoc(CastTypeName,
+                                                 IsKeywordSourceLoc);
+      if (auto Error = CastTypeRange.takeError()) {
+        return std::move(Error);
+      }
+      
+      std::vector<SymbolWithRange> Symbols;
+      Symbols.push_back(SymbolWithRange(CastTypeSymbol.get(),
+                                        CastTypeRange.get()));
+      
+      if (auto *GenericBoundType =
+            dyn_cast<BoundGenericType>(UnwrappedCastType.getPointer())) {
+        
+        auto GenericNameEndLoc = CastTypeRange.get().getEnd();
+        auto OpeningAngleBracketRange =
+          rangeOfFirstOccurenceOfStringInSourceLoc("<", GenericNameEndLoc);
+        if (auto Error = OpeningAngleBracketRange.takeError()) {
+          return std::move(Error);
+        }
+        auto OpeningAngleBracketLoc = OpeningAngleBracketRange.get().getStart();
+        
+        auto GenericParamsSymbols =
+          parseGenericParameters(GenericBoundType, OpeningAngleBracketLoc);
+        if (auto Error = GenericParamsSymbols.takeError()) {
+          return std::move(Error);
+        }
+        
+        copyToVector(GenericParamsSymbols.get(), Symbols);
+      }
+      
+      return Symbols;
+    }
   }
   
   return stringError("Failed to extract the cast-to type symbol"

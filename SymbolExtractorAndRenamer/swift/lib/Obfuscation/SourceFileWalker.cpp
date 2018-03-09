@@ -2,6 +2,7 @@
 #include "swift/Obfuscation/DeclarationParser.h"
 #include "swift/Obfuscation/DeclarationParsingUtils.h"
 #include "swift/Obfuscation/ExpressionParser.h"
+#include "swift/Obfuscation/ExtensionExcluder.h"
 #include "swift/Obfuscation/ParameterDeclarationParser.h"
 #include "swift/Obfuscation/Utils-Template.h"
 #include "swift/Obfuscation/Utils.h"
@@ -19,6 +20,10 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
   // This is a vector that stores all of the collected IndexedSymbolWithRange
   // thet are compared by symbol and range
   GlobalCollectedSymbols Symbols;
+
+  ExtensionExcluder &Excluder;
+
+  SymbolsWalkerAndCollector(ExtensionExcluder &Excluder): Excluder(Excluder) {}
 
 // Overriden methods called back as the AST is walked
 
@@ -51,11 +56,18 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
                           ExtensionDecl *ExtTyRef,
                           Type T,
                           ReferenceMetaData Data) override {
+
     handleWhereClausesIfNeeded({ Declaration, CtorTyRef, ExtTyRef });
+
     auto ExtractedSymbols = extractSymbol(Symbols,
                                           CtorTyRef ? CtorTyRef : Declaration,
                                           Range);
     handleExtractionResult(ExtractedSymbols);
+
+
+    if (ExtTyRef != nullptr) {
+      Excluder.identifyExclusionsFromExtension(ExtTyRef);
+    }
     return true;
   }
 
@@ -94,9 +106,10 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
 int SymbolsWalkerAndCollector::SymbolIndex;
 
 std::set<IndexedSymbolWithRange, IndexedSymbolWithRange::SymbolWithRangeCompare>
-walkAndCollectSymbols(SourceFile &SourceFile) {
-  SymbolsWalkerAndCollector Walker;
+walkAndCollectSymbols(SourceFile &SourceFile, ExtensionExcluder &Excluder) {
+  SymbolsWalkerAndCollector Walker(Excluder);
   Walker.walk(SourceFile);
+  Excluder.excludeSymbolsFrom(Walker.Symbols);
   return Walker.Symbols;
 }
 

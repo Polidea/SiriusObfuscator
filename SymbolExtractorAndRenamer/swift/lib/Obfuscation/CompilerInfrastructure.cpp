@@ -17,6 +17,8 @@ struct CompilerInvocationConfiguration {
   std::string SdkPath;
   std::vector<std::string> InputFilenames;
   std::vector<SearchPathOptions::FrameworkSearchPath> Paths;
+  std::vector<std::string> HeaderPaths;
+  std::string BridgingHeader;
   
   CompilerInvocationConfiguration(const FilesJson &FilesJson,
                                   std::string MainExecutablePath)
@@ -24,7 +26,9 @@ struct CompilerInvocationConfiguration {
   Triple(FilesJson.Module.TargetTriple),
   MainExecutablePath(MainExecutablePath),
   SdkPath(FilesJson.Sdk.Path),
-  InputFilenames(FilesJson.SourceFiles) {
+  InputFilenames(FilesJson.SourceFiles),
+  HeaderPaths(FilesJson.HeaderSearchPaths),
+  BridgingHeader(FilesJson.BridgingHeader) {
     for (const auto &Framework : FilesJson.ExplicitlyLinkedFrameworks) {
       SearchPathOptions::FrameworkSearchPath Path(Framework.Path, false);
       Paths.push_back(Path);
@@ -44,6 +48,13 @@ createInvocation(const CompilerInvocationConfiguration &Configuration) {
   for (const auto &InputFilename : Configuration.InputFilenames) {
     Invocation.addInputFilename(InputFilename);
   }
+  auto ExtraArgs = Invocation.getExtraClangArgs().vec();
+  for (auto HeaderPath : Configuration.HeaderPaths) {
+    ExtraArgs.push_back("-I" + HeaderPath);
+  }
+  Invocation.setExtraClangArgs(ExtraArgs);
+  Invocation.getFrontendOptions().ImplicitObjCHeaderPath =
+    Configuration.BridgingHeader;
   Invocation.getLangOptions().AttachCommentsToDecls = true;
   Invocation.setFrameworkSearchPaths(Configuration.Paths);
   Invocation.setSDKPath(Configuration.SdkPath);

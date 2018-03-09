@@ -7,7 +7,9 @@ These features are:
   - closure capture list elements
   - associated types
   - type aliases
-  - enum constants
+  - enum constants (raw values)
+  - enum case names
+  - switch case value bindings
   - generic parameters
 
 None of them is visible in the compiled binary. For example local variables are not included in the [symbol table](https://en.wikipedia.org/wiki/Symbol_table). They are kept on [stack](https://en.wikipedia.org/wiki/Call_stack) or in [registers](https://en.wikipedia.org/wiki/Processor_register) depending on how compiler optimized the code. You may be now wondering - how the debugger know the names of local variables? It uses special debug informations that are included in the compiled binary when it's compiled in "debug mode". In release builds these special debug informations are stripped off.

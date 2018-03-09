@@ -53,7 +53,6 @@ SymbolsOrError parse(const ParamDecl* Declaration) {
     auto BaseFunctionDeclaration = BaseWithModules.first;
     auto Modules = BaseWithModules.second;
 
-    
     auto ModuleName = moduleName(Declaration);
     auto ExternalName = externalParameterName(Declaration);
     auto InternalName = internalParameterName(Declaration);
@@ -76,25 +75,29 @@ SymbolsOrError parse(const ParamDecl* Declaration) {
     // We check if parameter has a place that it's declared that we can reach
     if (Declaration->getNameLoc().isValid()) {
 
-      auto IsSingle = Declaration->getArgumentNameLoc().isInvalid()
-                   && isOverriddenMethodFromTheSameModule(Modules, ModuleName);
+      auto IsSingle = Declaration->getArgumentNameLoc().isInvalid();
+
+      auto isFromTheSameModule = isOverriddenMethodFromTheSameModule(Modules,
+                                                                     ModuleName);
+
       if (IsSingle) {
-        
-        BaseParts.push_back("single." + InternalName);
-        CharSourceRange Range(Declaration->getNameLoc(),
-                              InternalName.length());
-        Symbol Symbol(combineIdentifier(BaseParts),
-                      InternalName,
-                      BaseFunctionModuleName,
-                      SymbolType::SingleParameter);
-        Symbols.push_back(SymbolWithRange(Symbol, Range));
+
+        if (isFromTheSameModule) {
+          BaseParts.push_back("single." + InternalName);
+          CharSourceRange Range(Declaration->getNameLoc(),
+                                InternalName.length());
+          Symbol Symbol(combineIdentifier(BaseParts),
+                        InternalName,
+                        BaseFunctionModuleName,
+                        SymbolType::SingleParameter);
+          Symbols.push_back(SymbolWithRange(Symbol, Range));
+        }
         
       } else {
 
-        auto IsExternal = !ExternalName.empty()
-                       && isOverriddenMethodFromTheSameModule(Modules,
-                                                              ModuleName);
-        if (IsExternal) {
+        auto IsExternal = !ExternalName.empty();
+
+        if (IsExternal && isFromTheSameModule) {
           auto ExternalParts = BaseParts;
           
           BaseParts.push_back("external." + ExternalName);

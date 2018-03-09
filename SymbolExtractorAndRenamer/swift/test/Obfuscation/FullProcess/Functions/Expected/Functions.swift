@@ -171,3 +171,116 @@ V1_p2.NF1_foo(EP1_a: T1_Test())
 
 let V1_c2 = T1_Child2()
 V1_c2.NF1_foo(EP1_a: T1_Test())
+
+// parameter names when calling nested functions
+class T1_NestedFuncs {
+  
+  fileprivate func NF1_broken() -> [Int] {
+    
+    func NF1_makeInt(EP1_withIdentifier IP1_identifier: String, SP1_model: Int) -> Int {
+      return 42
+    }
+    
+    var ints = [Int]()
+    ints.append(NF1_makeInt(EP1_withIdentifier: "", SP1_model: 42))
+    ints.append(NF1_makeInt(EP1_withIdentifier: "", SP1_model: 42))
+    return ints
+  }
+}
+
+// protocols with associated types
+struct T1_TestStruct {}
+enum T1_TestEnum {}
+
+protocol T1_ParentProtocol {
+  associatedtype Fuzz
+  associatedtype Bazz
+  associatedtype Gazz
+
+  func NF2_foo(_ IP1_indexPath: Int) -> String
+  func NF1_bar(_ IP1_fuzz: Fuzz, EP1_extBazz IP1_bazz: Bazz, EP1_extGazz IP1_gazz: Gazz, EP1_atIndexPath IP2_indexPath: Int)
+}
+
+protocol T1_ChildProtocol: T1_ParentProtocol {
+  var V1_items: [[Gazz]] { get }
+}
+
+
+protocol T1_ChildProtocol2: T1_ChildProtocol { }
+
+
+final class T1_TestClass {
+
+  var V1_items: [[Gazz]] = [[
+
+    ]]
+}
+
+extension T1_TestClass: T1_ChildProtocol2 {
+
+  func NF2_foo(_ IP1_indexPath: Int) -> String { return "" }
+
+  func NF1_bar(_ IP1_fuzz: String, EP1_extBazz IP1_bazz: T1_TestStruct, EP1_extGazz IP1_gazz: T1_TestEnum, EP1_atIndexPath IP2_indexPath: Int) {}
+}
+
+protocol T1_ParentProtocol2 {
+  associatedtype Fuzz
+  associatedtype Bazz
+  associatedtype Gazz
+
+  func NF2_bar(_ IP2_fuzz: Fuzz, EP2_extBazz IP2_bazz: Bazz, SP1_gazz: Gazz) -> Void
+}
+
+protocol T1_ParentProtocol3 {
+  associatedtype Fuzz2
+  associatedtype Bazz2
+  associatedtype Gazz2
+
+  func NF2_bar(_ IP2_fuzz: Fuzz2, EP2_extBazz IP2_bazz: Bazz2, SP1_gazz: Gazz2) -> ()
+}
+
+extension T1_TestClass: T1_ParentProtocol2, T1_ParentProtocol3 {
+  typealias Fuzz = String
+  typealias Bazz = T1_TestStruct
+  typealias Gazz = T1_TestEnum
+
+  typealias Fuzz2 = T1_TestEnum
+  typealias Bazz2 = T1_TestStruct
+  typealias Gazz2 = T1_TestEnum
+
+  func NF2_bar(_ IP2_fuzz: String, EP2_extBazz IP2_bazz: T1_TestStruct, SP1_gazz: T1_TestEnum) {}
+
+  func NF2_bar(_ IP2_fuzz: T1_TestEnum, EP2_extBazz IP2_bazz: T1_TestStruct, SP1_gazz: T1_TestEnum) {}
+}
+
+// protocol functions strikes back
+
+class T1_NotWorkingParent {
+  func NF1_addSearchItem() {
+  }
+}
+
+final class T1_NextNotWorking: T1_NotWorkingParent {
+  
+  override func NF1_addSearchItem() {
+    let inserter = T1_ItemInserter()
+    do {
+      let coffee = try inserter.NF1_insertEntityWithName("")
+      
+    } catch {
+      
+    }
+  }
+}
+
+protocol T1_ItemInserterType {
+  associatedtype Entity
+  func NF1_insertEntityWithName(_ IP1_name: String) throws -> Entity
+}
+
+struct T1_ItemInserter: T1_ItemInserterType {
+  
+  func NF1_insertEntityWithName(_ IP1_name: String) throws -> String {
+    return ""
+  }
+}

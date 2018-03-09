@@ -14,6 +14,8 @@ namespace swift {
 namespace obfuscation {
     
 std::string functionName(const AbstractFunctionDecl* Declaration);
+
+std::string functionSignature(const AbstractFunctionDecl *Declaration);
   
 ModuleNameAndParts functionIdentifierParts(const AbstractFunctionDecl* Declaration);
 

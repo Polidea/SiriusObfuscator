@@ -122,6 +122,10 @@ void MappingTraits<FilesJson>::mapping(IO &Io, FilesJson &Object) {
                  Object.ExplicitlyLinkedFrameworks);
   Io.mapRequired("frameworkSearchPaths",
                  Object.FrameworkSearchPaths);
+  Io.mapRequired("headerSearchPaths",
+                 Object.HeaderSearchPaths);
+  Io.mapRequired("bridgingHeader",
+                 Object.BridgingHeader);
 }
   
 void MappingTraits<Project>::mapping(IO &Io, Project &Object) {

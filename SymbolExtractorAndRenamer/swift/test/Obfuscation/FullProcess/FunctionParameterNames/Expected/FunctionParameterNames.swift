@@ -1,5 +1,8 @@
+import AppKit
 
 class T1_SampleClass {}
+
+protocol T1_OtherSampleClass {}
 
 func NF1_noParams() {}
 
@@ -25,9 +28,9 @@ func NF1_intExtParams(EP1_foo IP1_foo:Int, EP2_foo IP1_bar: T1_SampleClass) -> A
 
 func NF1_genericFun<T, R>(_ IP1_a: inout T, _ IP1_b: inout R) {}
 
-func NF1_genericFunc2<T: String & T1_SampleClass>(EP1_e IP1_i: T) {}
+func NF1_genericFunc2<T: T1_OtherSampleClass & T1_SampleClass>(EP1_e IP1_i: T) {}
 
-func NF1_someFunc3<T>(SP1_arg: T) where T:T1_SampleClass, T:Int {}
+func NF1_someFunc3<T>(SP1_arg: T) where T: T1_SampleClass, T: T1_OtherSampleClass {}
 
 // overriding functions
 class T1_Base {
@@ -83,7 +86,7 @@ class T1_Parent{
   init(SP1_p1: String, SP1_p2: Int) {}
   init(EP3_foo IP2_foo:Int, EP4_foo IP2_bar: T1_SampleClass) { }
   init(EP1_extp1 IP1_p1: String, EP1_extp2 IP1_p2: Int) {}
-  init(_ IP1_p1: String, EP1_extp IP1_p2: Int) {}
+  init(_ IP2_p1: String, EP1_extp IP2_p2: Int) {}
 }
 class T1_Child: T1_Parent {
   override init(SP1_p1: String, SP1_p2: Int) {
@@ -92,11 +95,11 @@ class T1_Child: T1_Parent {
   override init(EP3_foo IP3_foo:Int, EP4_foo IP3_bar: T1_SampleClass) {
     super.init(EP3_foo: IP3_foo, EP4_foo: IP3_bar)
   }
-  override init(EP1_extp1 IP2_p1: String, EP1_extp2 IP2_p2: Int) {
-    super.init(EP1_extp1: IP2_p1, EP1_extp2: IP2_p2)
+  override init(EP1_extp1 IP3_p1: String, EP1_extp2 IP3_p2: Int) {
+    super.init(EP1_extp1: IP3_p1, EP1_extp2: IP3_p2)
   }
-  override init(_ IP2_p1: String, EP1_extp IP2_p2: Int) {
-    super.init(IP2_p1, EP1_extp: IP2_p2)
+  override init(_ IP4_p1: String, EP1_extp IP4_p2: Int) {
+    super.init(IP4_p1, EP1_extp: IP4_p2)
   }
 }
 let V1_c = T1_Child(SP1_p1: "p1", SP1_p2:42)
@@ -115,8 +118,30 @@ class T1_SuperTest {
 
 let V1_conv = T1_SuperTest(SP2_convP1:1, SP1_convP2:"asd")
 
-// default values
+//protocol constructor
+protocol T1_ProtoInit {
+  init(SP1_protoInitParamA: String, SP1_protoInitParamB: Int)
+}
 
+class T1_ProtoInitClass: T1_ProtoInit {
+  required init(SP1_protoInitParamA: String, SP1_protoInitParamB: Int) {
+  }
+}
+let V1_pic = T1_ProtoInitClass(SP1_protoInitParamA: "", SP1_protoInitParamB: 42)
+
+// overridden method parameters
+final class T1_TestController: NSViewController {
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+  }
+  
+  override func prepare(for IP1_segue: NSStoryboardSegue, sender: Any?) {
+    super.prepare(for: IP1_segue, sender: sender)
+  }
+}
+
+// default values
 let V1_defaultValue = 42.0
 
 func NF1_withDefaultValues(SP1_int: Int = 42, EP1_string IP1_string: String = "42", _ IP1_float: Double = V1_defaultValue) {}
@@ -143,3 +168,11 @@ class T1_Foo {
 
 let V1_FooObj1 = T1_Foo(SP1_FieldA: "test")
 let V1_FooObj2 = T1_Foo(SP1_FieldA: "test", SP1_FieldB: nil)
+
+//setter parameter
+class T1_ClassWithSetter {
+  var V1_testVar: String {
+    get { return "" }
+    set(SP1_newTestVar) {}
+  }
+}

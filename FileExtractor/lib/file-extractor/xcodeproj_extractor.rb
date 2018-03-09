@@ -25,7 +25,9 @@ module FileExtractor
         layout_files(@main_target),
         update_frameworks_paths(explicitly_linked_frameworks(@main_target), @main_build_settings),
         nil,
-        framework_search_paths(@main_build_settings)
+        framework_search_paths(@main_build_settings),
+        header_search_paths(@main_build_settings),
+        bridging_header(@main_build_settings)
       ), dir
     end
 
@@ -85,15 +87,38 @@ module FileExtractor
       end
     end
 
-    def framework_search_paths(build_settings)
-      search_paths = build_settings["FRAMEWORK_SEARCH_PATHS"]
+    def cleanup_search_paths(search_paths) 
       framework_search_paths = []
       if !search_paths.nil?
-        framework_search_paths = search_paths.split("\" ").map do |path_to_clean|
-          path_to_clean.sub(/^\"/, '')
+        framework_search_paths = search_paths.split("\"").map do |path_to_clean|
+          path_to_clean.sub(/^\"/, '').strip
+        end.select do |path|
+          !path.empty?
         end
       end
       framework_search_paths
+    end
+
+    def framework_search_paths(build_settings)
+      search_paths = build_settings["FRAMEWORK_SEARCH_PATHS"]
+      cleanup_search_paths(search_paths)
+    end
+
+    def header_search_paths(build_settings)
+      search_paths = build_settings["HEADER_SEARCH_PATHS"]
+      cleanup_search_paths(search_paths)
+    end
+
+    def bridging_header(build_settings)
+      source_root = build_settings["SOURCE_ROOT"]
+      if source_root.nil?
+        return ""
+      end
+      header = build_settings["SWIFT_OBJC_BRIDGING_HEADER"]
+      if header.nil?
+        return ""
+      end
+      source_root + "/" + header
     end
 
     def triple(build_settings)

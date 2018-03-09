@@ -3,6 +3,7 @@
 
 #include "swift/Frontend/Frontend.h"
 #include "swift/Obfuscation/DataStructures.h"
+#include "swift/Obfuscation/ExtensionExcluder.h"
 
 #include <set>
 
@@ -34,7 +35,7 @@ namespace obfuscation {
 /// \returns the occurrences of symbols with their metadata, place
 ///          and occurrence index.
 std::set<IndexedSymbolWithRange, IndexedSymbolWithRange::SymbolWithRangeCompare>
-  walkAndCollectSymbols(SourceFile &SourceFile);
+  walkAndCollectSymbols(SourceFile &SourceFile, ExtensionExcluder &Excluder);
 
 } //namespace obfuscation
 } //namespace swift

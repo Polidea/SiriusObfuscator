@@ -3,6 +3,7 @@
 #include "swift/Obfuscation/SourceFileWalker.h"
 #include "swift/Obfuscation/Utils.h"
 #include "swift/Obfuscation/LayoutRenamer.h"
+#include "swift/Obfuscation/ExtensionExcluder.h"
 
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/Support/FileSystem.h"
@@ -11,6 +12,8 @@
 
 #include <memory>
 #include <unordered_map>
+
+#include <sys/stat.h>
 
 namespace swift {
 namespace obfuscation {
@@ -54,11 +57,47 @@ llvm::Error copyProject(const StringRef OriginalPath,
       auto Message = "Cannot create directory in " + Path.str().str();
       return stringError(Message, Error);
     }
-    
+
+    llvm::sys::fs::remove(Path);
     if (auto Error = llvm::sys::fs::copy_file(Iterator->path(), Path)) {
       auto Message = "Cannot copy file from " + Iterator->path() + " to " +
         Path.str().str();
       return stringError(Message, Error);
+    }
+
+    llvm::sys::fs::file_status Status;
+    auto Error = status(Iterator->path(), Status);
+    if (!Error) {
+      mode_t Modes = 0;
+      auto Permissions = Status.permissions();
+      if (Permissions & llvm::sys::fs::perms::owner_read) {
+        Modes |= S_IRUSR;
+      }
+      if (Permissions & llvm::sys::fs::perms::owner_write) {
+        Modes |= S_IWUSR;
+      }
+      if (Permissions & llvm::sys::fs::perms::owner_exe) {
+        Modes |= S_IXUSR;
+      }
+      if (Permissions & llvm::sys::fs::perms::group_read) {
+        Modes |= S_IRGRP;
+      }
+      if (Permissions & llvm::sys::fs::perms::group_write) {
+        Modes |= S_IWGRP;
+      }
+      if (Permissions & llvm::sys::fs::perms::group_exe) {
+        Modes |= S_IXGRP;
+      }
+      if (Permissions & llvm::sys::fs::perms::others_read) {
+        Modes |= S_IROTH;
+      }
+      if (Permissions & llvm::sys::fs::perms::others_write) {
+        Modes |= S_IWOTH;
+      }
+      if (Permissions & llvm::sys::fs::perms::others_exe) {
+        Modes |= S_IXOTH;
+      }
+      chmod(Path.c_str(), Modes);
     }
   }
   
@@ -85,9 +124,11 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
                                            SourceManager &SourceManager,
                                            unsigned int BufferId,
                                            StringRef Path,
-                                           std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols) {
+                                           std::unordered_map<std::string,
+                                           SymbolRenaming> &RenamedSymbols,
+                                           ExtensionExcluder &Excluder) {
   bool performedRenaming = false;
-  auto IndexedSymbolsWithRanges = walkAndCollectSymbols(Current);
+  auto IndexedSymbolsWithRanges = walkAndCollectSymbols(Current, Excluder);
   
   using EditConsumer = swift::ide::SourceEditOutputConsumer;
   
@@ -148,6 +189,8 @@ performRenaming(std::string MainExecutablePath,
   
   FilesList Files;
   std::unordered_map<std::string, SymbolRenaming> RenamedSymbols;
+
+  ExtensionExcluder Excluder;
   
   for (auto* Unit : CI.getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {
@@ -169,7 +212,8 @@ performRenaming(std::string MainExecutablePath,
                                 SourceManager,
                                 BufferId,
                                 Path,
-                                RenamedSymbols)) {
+                                RenamedSymbols,
+                                Excluder)) {
         auto Filename = llvm::sys::path::filename(Path).str();
         Files.push_back(std::pair<std::string, std::string>(Filename, Path));
       }

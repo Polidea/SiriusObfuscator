@@ -20,13 +20,13 @@
     },
     {
       "name": "applicationDidFinishLaunching",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ()",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> Void",
       "module": "AppKit",
       "type": "namedFunction"
     },
     {
       "name": "aNotification",
-      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> ().parameter.position.list1_parameter0.internal.aNotification",
+      "identifier": "module.AppKit.protocol.method.applicationDidFinishLaunching.signature.(Notification) -> Void.parameter.position.list1_parameter0.internal.aNotification",
       "module": "TestModuleName",
       "type": "internalParameter"
     },
@@ -80,7 +80,7 @@
     },
     {
       "name": "number",
-      "identifier": "module.TestModuleName.type.CustomInitViewController.method.init.signature.(Int) -> CustomInitViewController.parameter.position.list1_parameter0.single.number",
+      "identifier": "module.TestModuleName.type.CustomInitViewController.method.init.signature.(number: Int) -> CustomInitViewController.parameter.position.list1_parameter0.single.number",
       "module": "TestModuleName",
       "type": "singleParameter"
     },
@@ -92,13 +92,13 @@
     },
     {
       "name": "applicationWillTerminate",
-      "identifier": "module.AppKit.protocol.method.applicationWillTerminate.signature.(Notification) -> ()",
+      "identifier": "module.AppKit.protocol.method.applicationWillTerminate.signature.(Notification) -> Void",
       "module": "AppKit",
       "type": "namedFunction"
     },
     {
       "name": "aNotification",
-      "identifier": "module.AppKit.protocol.method.applicationWillTerminate.signature.(Notification) -> ().parameter.position.list1_parameter0.internal.aNotification",
+      "identifier": "module.AppKit.protocol.method.applicationWillTerminate.signature.(Notification) -> Void.parameter.position.list1_parameter0.internal.aNotification",
       "module": "TestModuleName",
       "type": "internalParameter"
     },
@@ -122,7 +122,7 @@
     },
     {
       "name": "fatalError",
-      "identifier": "module.Swift.function.fatalError.signature.(@autoclosure () -> String, StaticString, UInt) -> Never",
+      "identifier": "module.Swift.function.fatalError.signature.(() -> String, file: StaticString, line: UInt) -> Never",
       "module": "Swift",
       "type": "namedFunction"
     },

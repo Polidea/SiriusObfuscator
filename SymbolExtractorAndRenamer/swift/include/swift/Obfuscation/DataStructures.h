@@ -41,6 +41,8 @@ struct FilesJson {
   std::vector<std::string> ImplicitlyLinkedFrameworks;
   std::vector<ExplicitlyLinkedFrameworks> ExplicitlyLinkedFrameworks;
   std::vector<std::string> FrameworkSearchPaths;
+  std::vector<std::string> HeaderSearchPaths;
+  std::string BridgingHeader;
 };
 
 enum class SymbolType: int {

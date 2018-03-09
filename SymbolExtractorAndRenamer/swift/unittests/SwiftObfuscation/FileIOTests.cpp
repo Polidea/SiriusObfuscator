@@ -102,6 +102,8 @@ TEST(ParseJson, SuccessParsingText) {
     std::string ExplicitFrameworkPath = "testExplicitFrameworkPath";
     std::string ImplicitFramework = "testImplicitFramework";
     std::string FrameworkSearchPath = "testFrameworkSearchPath";
+    std::string HeaderSearchPath = "testHeaderSearchPath";
+    std::string BridgingHeader = "testBridgingHeader";
     FakeMemoryBuffer::Payload = "{\r\n  \"project\":{\r\n"
         "\"rootPath\":\"" + RootPath + "\",\r\n"
         "\"projectFilePath\":\"" + ProjectFilePath + "\"\r\n   },"
@@ -121,7 +123,10 @@ TEST(ParseJson, SuccessParsingText) {
         "\"name\":\"" + ExplicitFrameworkName + "\",\r\n"
         "\"path\":\"" + ExplicitFrameworkPath + "\"\r\n }\r\n ],\r\n"
         "\"implicitlyLinkedFrameworks\":[\r\n \"" + ImplicitFramework + "\"\r\n   ],\r\n"
-        "\"frameworkSearchPaths\":[\r\n \"" + FrameworkSearchPath + "\"\r\n]\r\n}";
+        "\"frameworkSearchPaths\":[\r\n \"" + FrameworkSearchPath + "\"\r\n],\r\n"
+        "\"headerSearchPaths\":[\r\n \"" + HeaderSearchPath + "\"\r\n],\r\n"
+        "\"bridgingHeader\":\"" + BridgingHeader + "\"\r\n"
+        "\r\n}";
     std::string Path = "";
     std::string Expected = "Error during JSON parse";
 
@@ -154,6 +159,9 @@ TEST(ParseJson, SuccessParsingText) {
     EXPECT_EQ(FilesJson.ImplicitlyLinkedFrameworks[0], ImplicitFramework);
     EXPECT_EQ(FilesJson.FrameworkSearchPaths.size(), 1U);
     EXPECT_EQ(FilesJson.FrameworkSearchPaths[0], FrameworkSearchPath);
+    EXPECT_EQ(FilesJson.HeaderSearchPaths.size(), 1U);
+    EXPECT_EQ(FilesJson.HeaderSearchPaths[0], HeaderSearchPath);
+    EXPECT_EQ(FilesJson.BridgingHeader, BridgingHeader);
 }
 
 struct FakeFile {

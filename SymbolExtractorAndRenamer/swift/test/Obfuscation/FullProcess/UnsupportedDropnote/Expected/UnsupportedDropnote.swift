@@ -1,4 +1,7 @@
-import Foundation
+
+
+import AppKit
+
 
 class T1_Test {
   func NF1_testFunc() {}
@@ -11,13 +14,4 @@ final class T1_DebugBlock {
       let V1_testInDebug = T1_Test()
     #endif
   }
-}
-
-//protocol stuff
-protocol T1_Proto {
-  func NF1_hello()
-}
-extension NSString: T1_Proto {}
-extension T1_Proto where Self: NSString {
-  func NF1_hello() {}
 }

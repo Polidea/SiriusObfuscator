@@ -33,7 +33,7 @@ getSortedSourceFiles(swift::CompilerInstance &CompilerInstance) {
   return Files;
 }
 
-  llvm::Expected<SymbolsJson>
+llvm::Expected<SymbolsJson>
 extractSymbols(const FilesJson &FilesJson,
                std::string MainExecutablePath,
                llvm::raw_ostream &DiagnosticStream) {
@@ -54,9 +54,11 @@ extractSymbols(const FilesJson &FilesJson,
   std::set<IndexedSymbolWithRange,
            IndexedSymbolWithRange::SymbolCompare> Symbols;
 
+  ExtensionExcluder Excluder;
+
   for (auto &Unit : Files) {
     // CurrentSymbols are sorted by the identifier and range
-    auto CurrentSymbols = walkAndCollectSymbols(*Unit.second);
+    auto CurrentSymbols = walkAndCollectSymbols(*Unit.second, Excluder);
 
     std::vector<IndexedSymbolWithRange> SortedSymbols;
     copyToVector(CurrentSymbols, SortedSymbols);

@@ -172,3 +172,117 @@ p2.foo(a: Test())
 
 let c2 = Child2()
 c2.foo(a: Test())
+
+// parameter names when calling nested functions
+class NestedFuncs {
+  
+  fileprivate func broken() -> [Int] {
+    
+    func makeInt(withIdentifier identifier: String, model: Int) -> Int {
+      return 42
+    }
+    
+    var ints = [Int]()
+    ints.append(makeInt(withIdentifier: "", model: 42))
+    ints.append(makeInt(withIdentifier: "", model: 42))
+    return ints
+
+  }
+}
+
+// protocols with associated types
+struct TestStruct {}
+enum TestEnum {}
+
+protocol ParentProtocol {
+  associatedtype Fuzz
+  associatedtype Bazz
+  associatedtype Gazz
+
+  func foo(_ indexPath: Int) -> String
+  func bar(_ fuzz: Fuzz, extBazz bazz: Bazz, extGazz gazz: Gazz, atIndexPath indexPath: Int)
+}
+
+protocol ChildProtocol: ParentProtocol {
+  var items: [[Gazz]] { get }
+}
+
+
+protocol ChildProtocol2: ChildProtocol { }
+
+
+final class TestClass {
+
+  var items: [[Gazz]] = [[
+
+    ]]
+}
+
+extension TestClass: ChildProtocol2 {
+
+  func foo(_ indexPath: Int) -> String { return "" }
+
+  func bar(_ fuzz: String, extBazz bazz: TestStruct, extGazz gazz: TestEnum, atIndexPath indexPath: Int) {}
+}
+
+protocol ParentProtocol2 {
+  associatedtype Fuzz
+  associatedtype Bazz
+  associatedtype Gazz
+
+  func bar(_ fuzz: Fuzz, extBazz bazz: Bazz, gazz: Gazz) -> Void
+}
+
+protocol ParentProtocol3 {
+  associatedtype Fuzz2
+  associatedtype Bazz2
+  associatedtype Gazz2
+
+  func bar(_ fuzz: Fuzz2, extBazz bazz: Bazz2, gazz: Gazz2) -> ()
+}
+
+extension TestClass: ParentProtocol2, ParentProtocol3 {
+  typealias Fuzz = String
+  typealias Bazz = TestStruct
+  typealias Gazz = TestEnum
+
+  typealias Fuzz2 = TestEnum
+  typealias Bazz2 = TestStruct
+  typealias Gazz2 = TestEnum
+
+  func bar(_ fuzz: String, extBazz bazz: TestStruct, gazz: TestEnum) {}
+
+  func bar(_ fuzz: TestEnum, extBazz bazz: TestStruct, gazz: TestEnum) {}
+}
+
+// protocol functions strikes back
+
+class NotWorkingParent {
+  func addSearchItem() {
+  }
+}
+
+final class NextNotWorking: NotWorkingParent {
+  
+  override func addSearchItem() {
+    let inserter = ItemInserter()
+    do {
+      let coffee = try inserter.insertEntityWithName("")
+      
+    } catch {
+      
+    }
+  }
+}
+
+protocol ItemInserterType {
+  associatedtype Entity
+  func insertEntityWithName(_ name: String) throws -> Entity
+}
+
+struct ItemInserter: ItemInserterType {
+  
+  func insertEntityWithName(_ name: String) throws -> String {
+    return ""
+  }
+}

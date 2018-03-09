@@ -31,7 +31,9 @@ module FileExtractor
                          :layoutFiles, 
                          :explicitlyLinkedFrameworks, 
                          :implicitlyLinkedFrameworks, 
-                         :frameworkSearchPaths) do
+                         :frameworkSearchPaths,
+                         :headerSearchPaths,
+                         :bridgingHeader) do
     include StructSerialization
 
     def to_h

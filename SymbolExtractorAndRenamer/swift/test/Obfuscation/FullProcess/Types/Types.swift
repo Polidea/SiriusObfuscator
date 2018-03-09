@@ -1,6 +1,7 @@
 //RUN: %target-prepare-obfuscation-for-file "Types" %target-run-full-obfuscation
 
 import Foundation
+import AppKit
 
 class SampleClass {}
 
@@ -68,4 +69,38 @@ protocol Proto {
 extension NSString: Proto {}
 extension Proto where Self: NSString {
   func hello() {}
+}
+
+// enum
+enum SampleEnum: Int {
+  case case1, case2
+}
+
+let _ = SampleEnum.case1
+let _ = SampleEnum(rawValue: 1)
+
+enum EnumWithUnnamedAssoc {
+  case case1(Int, String)
+}
+
+let test: EnumWithUnnamedAssoc = .case1(0, "")
+
+switch test {
+  // variables created with value binding doesn't have to be renamed
+  case .case1(let bound1, let bound2):
+    print(bound1)
+    print(bound2)
+}
+
+// mocking trick
+
+protocol KeyValueStoreType {
+  func object(forKey defaultName: String) -> Any?
+  func set(_ value: Any?, forKey defaultName: String)
+  func removeObject(forKey defaultName: String)
+  func synchronize() -> Bool
+}
+
+extension UserDefaults: KeyValueStoreType {
+  
 }

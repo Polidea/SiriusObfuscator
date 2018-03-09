@@ -99,6 +99,28 @@ struct ImplicitSetter {
   }
 }
 
+// protocol vars in extensions and explicit setter
+class TestWithBool {
+  var isFoo = false
+}
+
+func foo(boolParam: Bool) {}
+
+protocol Activable {
+  var active: Bool { get set }
+}
+
+extension Activable where Self: TestWithBool {
+  var active: Bool {
+    get {
+      return isFoo
+    }
+    set(activeValue) {
+      foo(boolParam: activeValue)
+    }
+  }
+}
+
 class SampleClass {
   var prop: String = ""
 }
@@ -107,5 +129,22 @@ struct SampleStruct {
   var sample = SampleClass()
   func foo() {
     sample.prop = "42"
+  }
+}
+
+// for each stuff
+
+final class ForEachController: NSViewController {
+  
+  var unitsSegmentedControl: NSSegmentedControl!
+  
+  var titles: [String] = []
+  
+  fileprivate func buggyFunc() {
+    titles.enumerated().map {
+      index, title in (title, index)
+      }.forEach(unitsSegmentedControl.setLabel(_:forSegment:))
+    
+    unitsSegmentedControl.selectedSegment = 0
   }
 }

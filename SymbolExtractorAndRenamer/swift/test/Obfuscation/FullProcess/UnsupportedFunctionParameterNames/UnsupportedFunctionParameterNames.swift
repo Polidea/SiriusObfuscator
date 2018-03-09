@@ -1,5 +1,4 @@
 //XFAIL: *
-
 //RUN: %target-prepare-obfuscation-for-file "UnsupportedFunctionParameterNames" %target-run-full-obfuscation
 
 class SampleClass {}
@@ -7,30 +6,19 @@ class SampleClass {}
 func `backticksName`(`backticksExtName` `backTicksIntName`: SampleClass) {}
 
 // overriding functions
-class Base {
-  func baseFunc2(_ intParam: Int) {}
-  func baseFunc3(extParam intParam: SampleClass) {}
-  
+class Base {  
   subscript(index: Int) -> String { return "" }
   subscript(_ indexInt: Int) -> String { return "" }
   subscript(indexExt indexInt: Int) -> String { return "" }
-  
-  var testVar: String {
-    get{ return "" }
-    set(newTestVar) {}
-  }
 }
 
-class Derived: Base {
-  override func baseFunc2(_ intParam: Int) {}
-  override func baseFunc3(extParam intParam: SampleClass) {}
-  
+class Derived: Base {  
   override subscript(index: Int) -> String { return "" }
   override subscript(_ indexInt: Int) -> String { return "" }
   override subscript(indexExt indexInt: Int) -> String { return "" }
 }
 
-//protocol functions
+//protocol functions - internal parameter names in protocol function's definition and implementation should be different
 protocol ProtocolFunc {
   func pFunc2(_ pFunc: Int)
   func pFunc3(extpFunc intpFunc: Int)
@@ -42,14 +30,3 @@ class ProtocolFunClass: ProtocolFunc {
   func pFunc3(extpFunc intpFunc: Int) {}
   func pFunc4(singleFunc singleIntFunc: Int) {}
 }
-
-//protocol constructor
-protocol ProtoInit {
-  init(protoInitParamA: String, protoInitParamB: Int)
-}
-
-class ProtoInitClass: ProtoInit {
-  required init(protoInitParamA: String, protoInitParamB: Int) {
-  }
-}
-let pic = ProtoInitClass(protoInitParamA: "", protoInitParamB: 42)

@@ -1,6 +1,8 @@
 //XFAIL: *
 //RUN: %target-prepare-obfuscation-for-file "UnsupportedDropnote" %target-run-full-obfuscation
-import Foundation
+
+
+import AppKit
 
 class Test {
   func testFunc() {}
@@ -14,12 +16,3 @@ final class DebugBlock {
     #endif
   }
 }
-
-//override init
-class Parent{
-  init(p1: String, p2: Int) {}
-}
-class Child: Parent {
-  override init(p1: String, p2: Int){}
-}
-let c = Child(p1: "p1", p2:42)

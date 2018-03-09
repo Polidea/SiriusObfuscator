@@ -51,7 +51,9 @@ The output data format is called `Files.json` and presented below:
       "path": <string>
     }
   ],
-  "frameworkSearchPaths": [ <string> ]
+  "frameworkSearchPaths": [ <string> ],
+  "headerSearchPaths": [ <string> ],
+  "bridgingHeader": <string>
 }
 ```
 `project` is an object that contains the path to the project root directory and path to the actual xcodeproj or xcworkspace file. This directory will be copied by the Renamer to provide place for writing the obfuscated Swift source files to.
@@ -69,6 +71,10 @@ The output data format is called `Files.json` and presented below:
 `explicitlyLinkedFrameworks` contains the list of framework objects with name and path. These are taken from the Xcode project, which must contain the names and paths to frameworks that are not automatically linked. They are required for the Swift compiler to perform the analysis and also used to identify which module is the symbol part of.
 
 `frameworkSearchPaths` contains the list of paths to search for non-system frameworks. It's especially useful when working with Cocoapods projects, since they dont specify the framework dependencies explicitely, but set the paths.
+
+`headerSearchPaths` contain the list of paths to search for Objective-C headers. It's used by compiler to find the headers imported via the bridging header into Swift.
+
+`bridgingHeader` is a path to the bridging header, which contains the parts imported from Objective-C that should be visible and accesible from Swift.
 
 Sample `Files.json` file might look like that:
 
@@ -104,8 +110,13 @@ Sample `Files.json` file might look like that:
       "UIKit"
    ],
    "frameworkSearchPaths": [
-      "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/Dropnote/Pods/Crashlytics/iOS"
-   ]
+      "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/Pods/Crashlytics/iOS"
+   ],
+   "headerSearchPaths": [
+      "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/Pods/Headers/Public"
+   ],
+   "bridgingHeader": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/Bridging-header.h"
+   ],
 }
 ```
 

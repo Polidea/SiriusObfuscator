@@ -4,32 +4,105 @@
 #include "swift/Obfuscation/DeclarationParsingUtils.h"
 
 #include <string>
+#include <sstream>
 #include <vector>
 
 namespace swift {
 namespace obfuscation {
 
 llvm::Error isDeclarationSupported(const FuncDecl* Declaration) {
-  if (Declaration->isGetterOrSetter()) {
-    return stringError("don't support getters and setters right now, since "
+  if (Declaration->isGetter()) {
+    return stringError("don't support getters since "
                        "it's the computed property name that should be "
                        "obfuscated");
   }
-  if (Declaration->isAccessor() || Declaration->isObservingAccessor()) {
+  if (!Declaration->isSetter()
+        && (Declaration->isAccessor() || Declaration->isObservingAccessor())) {
     return stringError("don't support property accessors right now");
   }
   return llvm::Error::success();
 }
 
+void extractSignaturePart(const Type &Result,
+                          llvm::raw_string_ostream &StringStream,
+                          std::string Fallback) {
+
+  if (auto *ResultTuple = Result->getAs<TupleType>()) {
+    auto Results = ResultTuple->getElements();
+    if (Results.empty()) {
+      StringStream << Fallback;
+    } else {
+      StringStream << "(";
+      for (auto Argument = Results.begin();
+           Argument != Results.end();
+           ++Argument) {
+        auto Name = Argument->getName().str();
+        if (!Name.empty()) {
+          StringStream << Name << ": ";
+        }
+        if (Argument->getType()->getAs<DependentMemberType>() != nullptr) {
+          // It the signature uses the associated type, we're dropping
+          // the information about it. We don't use it's name nor information
+          // where it comes from. We do it to handle the edga case of
+          // single implementation method fulfilling two functions
+          // with associated types from two different protocols.
+          StringStream << "AssociatedType";
+        } else {
+          StringStream << Argument->getType().getString();
+        }
+        if (Argument != Results.drop_back().end()) {
+          StringStream << ", ";
+        }
+      }
+      StringStream << ")";
+    }
+  } else {
+    StringStream << Result.getString();
+  }
+}
+
+std::string extractSignature(const AbstractFunctionDecl *Declaration,
+                             std::string Fallback) {
+  if (!Declaration->hasInterfaceType()) { return Fallback; }
+
+  if (auto *InstanceFunction =
+        Declaration->getInterfaceType()->getAs<AnyFunctionType>()) {
+
+    AnyFunctionType *FunctionToParse = InstanceFunction;
+
+    if (auto *Function =
+          InstanceFunction->getResult()->getAs<AnyFunctionType>()) {
+      FunctionToParse = Function;
+    }
+
+    std::string Signature;
+    llvm::raw_string_ostream StringStream(Signature);
+    extractSignaturePart(FunctionToParse->getInput(), StringStream, "()");
+    StringStream << " -> ";
+    extractSignaturePart(FunctionToParse->getResult(), StringStream, "Void");
+    return StringStream.str();
+
+  } else {
+
+    return Fallback;
+
+  }
+}
+
 std::string functionSignature(const AbstractFunctionDecl *Declaration) {
   // The signature is available via different getters depending on whether
   // it is a method or a free function
-  std::string Interface;
+  std::string Fallback;
+
+  if (!Declaration->hasInterfaceType()) { return "no_signature"; }
+
   if (Declaration->getDeclContext()->isTypeContext()) {
-    Interface = Declaration->getMethodInterfaceType().getString();
+    Fallback = Declaration->getMethodInterfaceType().getString();
   } else {
-    Interface = Declaration->getInterfaceType().getString();
+    Fallback = Declaration->getInterfaceType().getString();
   }
+
+  auto Interface = extractSignature(Declaration, Fallback);
   return "signature." + Interface;
 }
 
@@ -71,6 +144,8 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
       }
       Parts.push_back("method." + SymbolName);
     }
+
+    Parts.push_back(functionSignature(Declaration));
     
   } else {
     // This logic applies to function that
@@ -85,16 +160,16 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
     //       there is no override relationship between the A.a() and B.a() in
     //       protocols. it's just a name that's the same.
     //       this simplified handling should be improved in the future.
-    ModuleNameAndParts ModuleNameAndParts;
+    ValueDecl *BaseDeclaration;
     if (SatisfiesProtocol) {
       // TODO: If the function satisfies multiple protocols, we're using
       // the module name from the first of the protocols. This may lead
       // to errors and should be changed in the future.
-      ModuleNameAndParts =
-        moduleNameAndIdentifierParts(ProtocolRequirements.front());
+      BaseDeclaration = ProtocolRequirements.front();
     } else {
-      ModuleNameAndParts = moduleNameAndIdentifierParts(ProtocolDeclaration);
+      BaseDeclaration = ProtocolDeclaration;
     }
+    auto ModuleNameAndParts = moduleNameAndIdentifierParts(BaseDeclaration);
     ModuleName = ModuleNameAndParts.first;
     Parts = ModuleNameAndParts.second;
     
@@ -103,9 +178,14 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
       Parts.push_back("static");
     }
     Parts.push_back("method." + SymbolName);
+
+    if (auto *ProtocolFunctionDeclaration =
+        dyn_cast<AbstractFunctionDecl>(BaseDeclaration)) {
+      Parts.push_back(functionSignature(ProtocolFunctionDeclaration));
+    } else {
+      Parts.push_back(functionSignature(Declaration));
+    }
   }
-  
-  Parts.push_back(functionSignature(Declaration));
   
   return std::make_pair(ModuleName, Parts);
 }
@@ -195,7 +275,7 @@ handleSatisfiedProtocolRequirements(GlobalCollectedSymbols &CollectedSymbols,
         
         // find protocol function identifier in a set of all collected symbols
         // and replace it with function identifier of overridden symbol
-        for(auto CollectedSymbol: CollectedSymbols) {
+        for (auto CollectedSymbol: CollectedSymbols) {
           if(CollectedSymbol.SymbolWithRange.Symbol.Identifier
                                                           == ProtocolFunId) {
             
@@ -249,47 +329,54 @@ SymbolsOrError parse(const ConstructorDecl* Declaration,
 SymbolsOrError parse(GlobalCollectedSymbols &CollectedSymbols,
                      const FuncDecl* Declaration,
                      CharSourceRange Range) {
-  
-  if (auto Error = isDeclarationSupported(Declaration)) {
-    return std::move(Error);
-  }
 
   std::vector<SymbolWithRange> Symbols;
 
-  // Create the symbol for function
-  if (Declaration->getOverriddenDecl() != nullptr) {
-    // Overriden declaration must be treated separately because
-    // we mustn't rename function that overrides function from different module
-    auto SymbolOrError =
-      parseOverridenDeclaration(CollectedSymbols,
-                                Declaration,
-                                moduleName(Declaration),
-                                Range);
-    if (auto Error = SymbolOrError.takeError()) {
-      return std::move(Error);
+  // function name should be renamed only if it's not a setter
+  if(!Declaration->isSetter()) {
+    
+    // Create the symbol for function
+    if (Declaration->getOverriddenDecl() != nullptr) {
+      // Overriden declaration must be treated separately because we mustn't
+      // rename function that overrides function from different module
+      auto SymbolOrError =
+        parseOverridenDeclaration(CollectedSymbols,
+                                  Declaration,
+                                  moduleName(Declaration),
+                                  Range);
+      if (auto Error = SymbolOrError.takeError()) {
+
+        llvm::consumeError(std::move(Error));
+
+      } else {
+      
+        auto FunctionNameSymbol = SymbolOrError.get();
+
+        // If overridden method also satisfies protocol requirements
+        // we must update symbol identifier for protocol's method to be the same
+        // as symbol identifier of the overridden function. Otherwise function
+        // inside protocol would be renamed differently and our class
+        // will no longer conform to that protocol.
+        auto HandledOrError = handleSatisfiedProtocolRequirements(
+                                                              CollectedSymbols,
+                                                              FunctionNameSymbol,
+                                                              Declaration);
+
+        if (auto Error = HandledOrError.takeError()) {
+          return std::move(Error);
+        }
+
+        Symbols.push_back(FunctionNameSymbol);
+      }
+    } else {
+      Symbols.push_back(getFunctionSymbol(CollectedSymbols,
+                                          Declaration,
+                                          Range));
     }
-    
-    auto FunctionNameSymbol = SymbolOrError.get();
-    
-    // If overridden method also satisfies protocol requirements
-    // we must update symbol identifier for protocol's method to be the same
-    // as symbol identifier of the overridden function. Otherwise function
-    // inside protocol would be renamed differently and our class
-    // will no longer conform to that protocol.
-    auto HandledOrError = handleSatisfiedProtocolRequirements(
-                                                            CollectedSymbols,
-                                                            FunctionNameSymbol,
-                                                            Declaration);
-    
-    if (auto Error = HandledOrError.takeError()) {
-      return std::move(Error);
-    }
-    
-    Symbols.push_back(FunctionNameSymbol);
-  } else {
-    Symbols.push_back(getFunctionSymbol(CollectedSymbols,
-                                        Declaration,
-                                        Range));
+  }
+  
+  if (auto Error = isDeclarationSupported(Declaration)) {
+    return std::move(Error);
   }
 
   // Create the symbols for function parameters

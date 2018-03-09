@@ -5,6 +5,7 @@ import Foundation
 class SelectorTest: NSObject {
   
   @objc func foo() {}
+  @objc func bar(_ baz: String) {}
   
   let s = #selector(SelectorTest.foo)
 }

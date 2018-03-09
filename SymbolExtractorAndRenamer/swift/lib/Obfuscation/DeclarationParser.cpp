@@ -88,7 +88,7 @@ std::unique_ptr<SymbolsOrError> parseAsParam(Decl* Declaration,
 std::unique_ptr<SymbolsOrError> parseAsVariable(Decl* Declaration,
                                                 CharSourceRange Range) {
   const auto *VariableDeclaration = dyn_cast<VarDecl>(Declaration);
-  if(VariableDeclaration->isImplicit()) {
+  if (VariableDeclaration->isImplicit()) {
     return llvm::make_unique<SymbolsOrError>(
              stringError("Only explicit variables might be safely obfuscated"));
   }

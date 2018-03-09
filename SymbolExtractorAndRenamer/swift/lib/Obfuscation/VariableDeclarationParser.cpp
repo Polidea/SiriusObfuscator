@@ -39,8 +39,17 @@ variableIdentifierPartsFromContext(const VarDecl *Declaration) {
   std::vector<std::string> Parts;
   
   auto ProtocolRequirements = Declaration->getSatisfiedProtocolRequirements();
-  auto *ProtocolDeclaration =
-    dyn_cast<ProtocolDecl>(Declaration->getDeclContext());
+  
+  ProtocolDecl *ProtocolDeclaration = nullptr;
+  if (auto *ExtensionDeclaration =
+                       dyn_cast<ExtensionDecl>(Declaration->getDeclContext())) {
+    
+    ProtocolDeclaration = dyn_cast_or_null<ProtocolDecl>(
+               ExtensionDeclaration->getAsProtocolOrProtocolExtensionContext());
+  } else {
+    ProtocolDeclaration =
+      dyn_cast_or_null<ProtocolDecl>(Declaration->getDeclContext());
+  }
 
   // TODO: for now, we're renaming properties from different protocols
   // but with the same name to the same obfuscated name.
