@@ -8,6 +8,7 @@ add_swift_library(swiftObfuscation STATIC
   DeclarationParser.cpp
   OperatorParser.cpp
   DeclarationParsingUtils.cpp
+  Excluder.cpp
   ExtensionExcluder.cpp
   ExpressionParser.cpp
   FileIO.cpp
@@ -15,6 +16,7 @@ add_swift_library(swiftObfuscation STATIC
   LayoutRenamer.cpp
   NameMapping.cpp
   NominalTypeDeclarationParser.cpp
+  NSManagedExcluder.cpp
   ParameterDeclarationParser.cpp
   Renaming.cpp
   SourceFileWalker.cpp

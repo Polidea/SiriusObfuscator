@@ -1,26 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Fh-5W-CLk">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9Fh-5W-CLk">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Units View Controller-->
         <scene sceneID="Ns0-Ag-eK8">
             <objects>
-                <viewController storyboardIdentifier="Units" id="9Fh-5W-CLk" customClass="UnitsViewController" customModule="Brewer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Units" id="9Fh-5W-CLk" customClass="UnitsViewController" customModule="Dropnote" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="33R-Bh-OT1"/>
                         <viewControllerLayoutGuide type="bottom" id="Hod-dU-aca"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5qV-YQ-CiD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-3F-U0X">
-                                <rect key="frame" x="0.0" y="30" width="600" height="570"/>
+                                <rect key="frame" x="0.0" y="30" width="375" height="637"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" verticalCompressionResistancePriority="753" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SSV-OV-kcw">
-                                        <rect key="frame" x="209" y="0.0" width="182" height="29"/>
+                                        <rect key="frame" x="96.5" y="0.0" width="182" height="29"/>
                                         <segments>
                                             <segment title="Water"/>
                                             <segment title="Second"/>
@@ -28,14 +33,14 @@
                                         </segments>
                                     </segmentedControl>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XI4-6W-cFz">
-                                        <rect key="frame" x="0.0" y="38" width="600" height="532"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <rect key="frame" x="0.0" y="38" width="375" height="599"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UnitsViewCell" id="vAJ-Y5-Wtk">
-                                                <rect key="frame" x="0.0" y="28" width="600" height="50"/>
+                                                <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vAJ-Y5-Wtk" id="7nK-81-rQN">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="49.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                                 <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -49,7 +54,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Gpa-3F-U0X" firstAttribute="bottom" secondItem="Hod-dU-aca" secondAttribute="top" id="9UI-x3-jEc"/>
                             <constraint firstItem="Gpa-3F-U0X" firstAttribute="top" secondItem="33R-Bh-OT1" secondAttribute="bottom" constant="10" id="d9A-AB-ieD"/>

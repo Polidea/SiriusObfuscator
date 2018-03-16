@@ -30,8 +30,10 @@ struct CompilerInvocationConfiguration {
   HeaderPaths(FilesJson.HeaderSearchPaths),
   BridgingHeader(FilesJson.BridgingHeader) {
     for (const auto &Framework : FilesJson.ExplicitlyLinkedFrameworks) {
-      SearchPathOptions::FrameworkSearchPath Path(Framework.Path, false);
-      Paths.push_back(Path);
+      if (Framework.Path.find(SdkPath) == std::string::npos) {
+        SearchPathOptions::FrameworkSearchPath Path(Framework.Path, false);
+        Paths.push_back(Path);
+      }
     }
     for (const auto &FrameworkPath : FilesJson.FrameworkSearchPaths) {
       SearchPathOptions::FrameworkSearchPath Path(FrameworkPath, false);
@@ -55,6 +57,9 @@ createInvocation(const CompilerInvocationConfiguration &Configuration) {
   Invocation.setExtraClangArgs(ExtraArgs);
   Invocation.getFrontendOptions().ImplicitObjCHeaderPath =
     Configuration.BridgingHeader;
+  Invocation.getClangImporterOptions().BridgingHeader =
+    Configuration.BridgingHeader;
+  Invocation.getLangOptions().EnableObjCInterop = true;
   Invocation.getLangOptions().AttachCommentsToDecls = true;
   Invocation.setFrameworkSearchPaths(Configuration.Paths);
   Invocation.setSDKPath(Configuration.SdkPath);

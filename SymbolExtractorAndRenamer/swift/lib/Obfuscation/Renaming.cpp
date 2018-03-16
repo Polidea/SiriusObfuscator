@@ -124,11 +124,11 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
                                            SourceManager &SourceManager,
                                            unsigned int BufferId,
                                            StringRef Path,
-                                           std::unordered_map<std::string,
-                                           SymbolRenaming> &RenamedSymbols,
-                                           ExtensionExcluder &Excluder) {
+                                           std::vector<SymbolRenaming>
+                                                          &RenamedSymbols,
+                                           std::set<Excluder*> &Excluders) {
   bool performedRenaming = false;
-  auto IndexedSymbolsWithRanges = walkAndCollectSymbols(Current, Excluder);
+  auto IndexedSymbolsWithRanges = walkAndCollectSymbols(Current, Excluders);
   
   using EditConsumer = swift::ide::SourceEditOutputConsumer;
   
@@ -158,7 +158,7 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
         Editor->ide::SourceEditConsumer::accept(SourceManager,
                                                 SymbolWithRange.Range,
                                                 ObfuscatedName);
-        RenamedSymbols.insert({Symbol.OriginalName, Symbol});
+        RenamedSymbols.push_back(Symbol);
         performedRenaming = true;
         break;
       }
@@ -188,9 +188,12 @@ performRenaming(std::string MainExecutablePath,
   }
   
   FilesList Files;
-  std::unordered_map<std::string, SymbolRenaming> RenamedSymbols;
+  std::vector<SymbolRenaming> RenamedSymbols;
 
-  ExtensionExcluder Excluder;
+  ExtensionExcluder ExtensionExcluder;
+  NSManagedExcluder NSManagedExcluder;
+  
+  std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder };
   
   for (auto* Unit : CI.getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {
@@ -213,13 +216,14 @@ performRenaming(std::string MainExecutablePath,
                                 BufferId,
                                 Path,
                                 RenamedSymbols,
-                                Excluder)) {
+                                Excluders)) {
         auto Filename = llvm::sys::path::filename(Path).str();
         Files.push_back(std::pair<std::string, std::string>(Filename, Path));
       }
     }
   }
   
+  // Rename layout files
   for (const auto &LayoutFile: FilesJson.LayoutFiles) {
     
     auto PathOrError = computeObfuscatedPath(LayoutFile,
@@ -234,19 +238,24 @@ performRenaming(std::string MainExecutablePath,
     
     LayoutRenamer LayoutRenamer(LayoutFile);
 
-    auto PerformedRenamingOrError = LayoutRenamer.performRenaming(RenamedSymbols, Path);
+    // Extract nodes
+    auto NodesToRenameOrError
+                     = LayoutRenamer.extractLayoutRenamingNodes(RenamedSymbols);
     
-    if (auto Error = PerformedRenamingOrError.takeError()) {
+    if (auto Error = NodesToRenameOrError.takeError()) {
       return std::move(Error);
     }
     
-    auto PerformedRenaming = PerformedRenamingOrError.get();
+    auto NodesToRename = NodesToRenameOrError.get();
     
-    if (PerformedRenaming) {
+    // Perform renaming on extracted nodes
+    if (!NodesToRename.empty()) {
+      LayoutRenamer.performRenaming(NodesToRename, Path);
+
       Files.push_back(std::pair<std::string, std::string>(LayoutFile, Path));
     }
   }
-    
+  
   return Files;
 }
 

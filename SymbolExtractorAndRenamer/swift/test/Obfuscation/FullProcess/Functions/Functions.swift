@@ -286,3 +286,22 @@ struct ItemInserter: ItemInserterType {
     return ""
   }
 }
+
+// protocol optional func implemented in class extension
+// TODO: check the case where Protocol and Conforming are in different module than extension
+
+@objc protocol Protocol {
+  @objc optional func instFunc()
+  @objc optional static func classFunc()
+  @objc optional func instFunc(param: Int)
+  @objc optional static func classFunc(param: Int)
+}
+
+class Conforming: Protocol { }
+
+extension Conforming {
+  func instFunc() { }
+  static func classFunc() { }
+  optional func instFunc(param: Int) { }
+  optional static func classFunc(param: Int) { }
+}

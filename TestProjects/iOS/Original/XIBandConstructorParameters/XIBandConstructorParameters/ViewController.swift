@@ -10,6 +10,8 @@ import UIKit
 
 class View: UIView {
 
+  @IBOutlet weak var brokenOutlet: UIButton!
+  
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
 

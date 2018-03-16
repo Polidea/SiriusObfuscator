@@ -48,6 +48,9 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eBZ-ME-fOr" secondAttribute="trailing" constant="32" id="fdo-Rg-cRE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <connections>
+                            <outlet property="brokenOutlet" destination="HCY-ob-Onz" id="oUu-AQ-EHS"/>
+                        </connections>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

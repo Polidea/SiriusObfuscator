@@ -284,3 +284,22 @@ struct T1_ItemInserter: T1_ItemInserterType {
     return ""
   }
 }
+
+// protocol optional func implemented in class extension
+// TODO: check the case where Protocol and Conforming are in different module than extension
+
+@objc protocol T1_Protocol {
+  @objc optional func NF1_instFunc()
+  @objc optional static func NF1_classFunc()
+  @objc optional func NF2_instFunc(SP1_param: Int)
+  @objc optional static func NF2_classFunc(SP2_param: Int)
+}
+
+class T1_Conforming: T1_Protocol { }
+
+extension T1_Conforming {
+  func NF1_instFunc() { }
+  static func NF1_classFunc() { }
+  optional func NF2_instFunc(SP1_param: Int) { }
+  optional static func NF2_classFunc(SP2_param: Int) { }
+}

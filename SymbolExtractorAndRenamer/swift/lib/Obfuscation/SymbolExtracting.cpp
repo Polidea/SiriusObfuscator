@@ -54,11 +54,15 @@ extractSymbols(const FilesJson &FilesJson,
   std::set<IndexedSymbolWithRange,
            IndexedSymbolWithRange::SymbolCompare> Symbols;
 
-  ExtensionExcluder Excluder;
+  
+  ExtensionExcluder ExtensionExcluder;
+  NSManagedExcluder NSManagedExcluder;
+  
+  std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder };
 
   for (auto &Unit : Files) {
     // CurrentSymbols are sorted by the identifier and range
-    auto CurrentSymbols = walkAndCollectSymbols(*Unit.second, Excluder);
+    auto CurrentSymbols = walkAndCollectSymbols(*Unit.second, Excluders);
 
     std::vector<IndexedSymbolWithRange> SortedSymbols;
     copyToVector(CurrentSymbols, SortedSymbols);

@@ -17,6 +17,10 @@ None of them is visible in the compiled binary. For example local variables are 
 Similarly associated types, type aliases, enum constants and generic parameters are also not visible in the compiled code.
 
 
+There are also constructs that can't be obfuscated because that would cause runtime errors. A good example is database related code. That means that obfuscator doesn't rename:
+  - variables with `@NSManaged` attribute
+  - subclasses of `NSManagedObject`
+
 References:
   - ["Advanced Apple Debugging & Reverse Engineering" by Derek Selander (pages 124, 159)](https://store.raywenderlich.com/products/advanced-apple-debugging-and-reverse-engineering)
   - [Compiler, Assembler, Linker and Loader:

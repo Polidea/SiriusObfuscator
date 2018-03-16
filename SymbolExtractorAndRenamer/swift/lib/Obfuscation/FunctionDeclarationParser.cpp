@@ -2,6 +2,7 @@
 #include "swift/Obfuscation/ParameterDeclarationParser.h"
 #include "swift/Obfuscation/Utils.h"
 #include "swift/Obfuscation/DeclarationParsingUtils.h"
+#include "swift/AST/ProtocolConformance.h"
 
 #include <string>
 #include <sstream>
@@ -105,6 +106,52 @@ std::string functionSignature(const AbstractFunctionDecl *Declaration) {
   auto Interface = extractSignature(Declaration, Fallback);
   return "signature." + Interface;
 }
+  
+// This function handles the specific case where protocol optional function
+// is declared in extension of the class conforming to the protocol
+// (the function is not implemented in class, only in extension).
+// Both class and protocol are in different module than extension. In this case
+// `ValueDecl::getSatisfiedProtocolRequirements()` does not return the correct
+// protocol requirements so we need to extract them from the extended class.
+std::vector<ValueDecl*>
+satisfiedProtocolOptionalRequirements(const AbstractFunctionDecl* Declaration) {
+  auto Result = std::vector<ValueDecl*>();
+  
+  auto TypeContext = Declaration->getInnermostTypeContext();
+  if (TypeContext != nullptr && TypeContext->getContextKind() == DeclContextKind::ExtensionDecl) {
+    auto *BaseClass = TypeContext->getAsNominalTypeOrNominalTypeExtensionContext();
+    
+    for (auto Conf : BaseClass->getAllConformances()) {
+      
+      if (Conf->getKind() == ProtocolConformanceKind::Normal) {
+        auto NormalConf = cast<NormalProtocolConformance>(Conf);
+        NormalConf->forEachValueWitness(nullptr, [&Declaration, &Result](ValueDecl *Req,
+                                                                         Witness Witness) {
+          if (auto * FuncReq = dyn_cast<AbstractFunctionDecl>(Req)) {
+            if (Declaration->getEffectiveFullName() == FuncReq->getEffectiveFullName()) {
+              Result.push_back(FuncReq);
+            }
+          }
+          
+        });
+      }
+    }
+  }
+  return Result;
+}
+  
+std::vector<ValueDecl*>
+satisfiedProtocolRequirements(const AbstractFunctionDecl* Declaration) {
+  
+  std::vector<ValueDecl*> Requirements;
+  
+  Requirements = Declaration->getSatisfiedProtocolRequirements();
+  
+  auto OptionalRequirements = satisfiedProtocolOptionalRequirements(Declaration);
+  copyToVector(OptionalRequirements, Requirements);
+
+  return Requirements;
+}
 
 ModuleNameAndParts
 functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
@@ -121,7 +168,7 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
 
   // Check if function satisfies the protocol implemented by its
   // containing class
-  auto ProtocolRequirements = Declaration->getSatisfiedProtocolRequirements();
+  auto ProtocolRequirements = satisfiedProtocolRequirements(Declaration);
   auto SatisfiesProtocol = !ProtocolRequirements.empty();
 
   if (!(SatisfiesProtocol || IsPartOfProtocol)) {
@@ -186,7 +233,7 @@ functionIdentifierParts(const AbstractFunctionDecl *Declaration) {
       Parts.push_back(functionSignature(Declaration));
     }
   }
-  
+
   return std::make_pair(ModuleName, Parts);
 }
 
@@ -225,96 +272,109 @@ parseOverridenDeclaration(GlobalCollectedSymbols &CollectedSymbols,
                        "might be safely obfuscated");
   }
 }
+
+llvm::Error handleRequirement(const ValueDecl* Requirement,
+                              GlobalCollectedSymbols &CollectedSymbols,
+                              SymbolWithRange FunctionNameSymbol,
+                              const FuncDecl* Declaration) {
   
+  if(auto *ProtocolFun = dyn_cast<FuncDecl>(Requirement)) {
+    auto ModuleAndParts = functionIdentifierParts(ProtocolFun);
+    auto Parts = ModuleAndParts.second;
+    auto ProtocolFunId = combineIdentifier(Parts);
+    
+    // Create the symbols for protocol function parameters
+    auto ProtocolParametersSymbolsOrError
+      = parseSeparateFunctionDeclarationForParameters(ProtocolFun);
+    if (auto Error = ProtocolParametersSymbolsOrError.takeError()) {
+      return Error;
+    }
+    auto ProtocolFunParametersSymbols
+    = ProtocolParametersSymbolsOrError.get();
+    
+    // Create the symbols for overridden function parameters
+    auto OverriddenParametersSymbolsOrError =
+    parseSeparateFunctionDeclarationForParameters(Declaration);
+    if (auto Error = OverriddenParametersSymbolsOrError.takeError()) {
+      return Error;
+    }
+    auto OverriddenFunParametersSymbols
+    = OverriddenParametersSymbolsOrError.get();
+    
+    // Parameter count for both protocol method and overridden method
+    // must be the same, otherwise we don't know what to do with them.
+    if(OverriddenFunParametersSymbols.size()
+       != ProtocolFunParametersSymbols.size()) {
+      return stringError("Couldn't parse overriden function protocol "
+                         "parameters.");
+    }
+    
+    // rename protocol method symbol id
+    
+    // find protocol function identifier in a set of all collected symbols
+    // and replace it with function identifier of overridden symbol
+    for (auto CollectedSymbol: CollectedSymbols) {
+      if(CollectedSymbol.SymbolWithRange.Symbol.Identifier
+         == ProtocolFunId) {
+        
+        CollectedSymbols.erase(CollectedSymbol);
+        CollectedSymbol.SymbolWithRange.Symbol.Identifier
+        = FunctionNameSymbol.Symbol.Identifier;
+        CollectedSymbols.insert(CollectedSymbol);
+        
+        return llvm::Error::success();
+      }
+    }
+    
+    // rename protocol method parameters symbol ids
+    for(size_t i = 0; i<ProtocolFunParametersSymbols.size(); i++) {
+      auto ProtocolFunParameter = ProtocolFunParametersSymbols[i];
+      auto OverridenFunParameter = OverriddenFunParametersSymbols[i];
+      
+      // find protocol parameter identifier in a set of all collected symbols
+      // and replace it with parameter identifier of overridden symbol
+      for(auto CollectedSymbol: CollectedSymbols) {
+        if(CollectedSymbol.SymbolWithRange.Symbol.Identifier
+           == ProtocolFunParameter.Symbol.Identifier) {
+          
+          CollectedSymbols.erase(CollectedSymbol);
+          CollectedSymbol.SymbolWithRange.Symbol.Identifier
+          = OverridenFunParameter.Symbol.Identifier;
+          CollectedSymbols.insert(CollectedSymbol);
+          
+          return llvm::Error::success();
+        }
+      }
+    }
+  }
+  return llvm::Error::success();
+}
+
 llvm::Expected<bool>
 handleSatisfiedProtocolRequirements(GlobalCollectedSymbols &CollectedSymbols,
                                     SymbolWithRange FunctionNameSymbol,
                                     const FuncDecl* Declaration) {
   
   //check if this overridden method is also satisfying some protocol
-  auto SatisfiesProtocol
-                  = Declaration->getSatisfiedProtocolRequirements().size() > 0;
+  auto ProtocolRequirements = satisfiedProtocolRequirements(Declaration);
+  auto SatisfiesProtocol = !ProtocolRequirements.empty();
   
   // we assume that there is always only one overriden symbol
   if(SatisfiesProtocol) {
     
-    for(auto Requirement: Declaration->getSatisfiedProtocolRequirements() ) {
-      
-      if(auto *ProtocolFun = dyn_cast<FuncDecl>(Requirement)) {
-        auto ModuleAndParts = functionIdentifierParts(ProtocolFun);
-        auto Parts = ModuleAndParts.second;
-        auto ProtocolFunId = combineIdentifier(Parts);
-        
-        // Create the symbols for protocol function parameters
-        auto ProtocolParametersSymbolsOrError
-                  = parseSeparateFunctionDeclarationForParameters(ProtocolFun);
-        if (auto Error = ProtocolParametersSymbolsOrError.takeError()) {
-          return std::move(Error);
-        }
-        auto ProtocolFunParametersSymbols
-                                      = ProtocolParametersSymbolsOrError.get();
-        
-        // Create the symbols for overridden function parameters
-        auto OverriddenParametersSymbolsOrError =
-                           parseSeparateFunctionDeclarationForParameters(Declaration);
-        if (auto Error = OverriddenParametersSymbolsOrError.takeError()) {
-          return std::move(Error);
-        }
-        auto OverriddenFunParametersSymbols
-                                    = OverriddenParametersSymbolsOrError.get();
-        
-        // Parameter count for both protocol method and overridden method
-        // must be the same, otherwise we don't know what to do with them.
-        if(OverriddenFunParametersSymbols.size()
-                                      != ProtocolFunParametersSymbols.size()) {
-          return stringError("Couldn't parse overriden function protocol "
-                             "parameters.");
-        }
-        
-        // rename protocol method symbol id
-        
-        // find protocol function identifier in a set of all collected symbols
-        // and replace it with function identifier of overridden symbol
-        for (auto CollectedSymbol: CollectedSymbols) {
-          if(CollectedSymbol.SymbolWithRange.Symbol.Identifier
-                                                          == ProtocolFunId) {
-            
-            CollectedSymbols.erase(CollectedSymbol);
-            CollectedSymbol.SymbolWithRange.Symbol.Identifier
-                                        = FunctionNameSymbol.Symbol.Identifier;
-            CollectedSymbols.insert(CollectedSymbol);
-            
-            break;
-          }
-        }
-        
-        // rename protocol method parameters symbol ids
-        for(size_t i = 0; i<ProtocolFunParametersSymbols.size(); i++) {
-          auto ProtocolFunParameter = ProtocolFunParametersSymbols[i];
-          auto OverridenFunParameter = OverriddenFunParametersSymbols[i];
-          
-          // find protocol parameter identifier in a set of all collected symbols
-          // and replace it with parameter identifier of overridden symbol
-          for(auto CollectedSymbol: CollectedSymbols) {
-            if(CollectedSymbol.SymbolWithRange.Symbol.Identifier
-                                  == ProtocolFunParameter.Symbol.Identifier) {
-
-              CollectedSymbols.erase(CollectedSymbol);
-              CollectedSymbol.SymbolWithRange.Symbol.Identifier
-                                    = OverridenFunParameter.Symbol.Identifier;
-              CollectedSymbols.insert(CollectedSymbol);
-              
-              break;
-            }
-          }
-        }
-        
+    for(auto Requirement : ProtocolRequirements) {
+      if (auto Error = handleRequirement(Requirement,
+                                         CollectedSymbols,
+                                         FunctionNameSymbol,
+                                         Declaration)) {
+        return std::move(Error);
       }
     }
   }
+  
   return true;
 }
-
+  
 SymbolsOrError parse(const ConstructorDecl* Declaration,
                      CharSourceRange Range) {
   // We're not interested in renaming the init function name,

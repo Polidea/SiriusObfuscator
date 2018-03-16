@@ -17,7 +17,19 @@ enum TargetRuntime {
 enum TraversalDirection {
   Up, Down
 };
+
+struct LayoutNodeRenaming {
+  xmlNode *Node;
+  const xmlChar* PropertyName;
+  const std::string ObfuscatedName;
   
+  LayoutNodeRenaming() = default;
+  
+  LayoutNodeRenaming(xmlNode* Node,
+                     const xmlChar* PropertyName,
+                     const std::string ObfuscatedName);
+};
+
 /// Base class for renaming strategies. If a new layout file appears then
 /// a new strategy should be created and applied to that new type of file.
 /// Old files should use old strategies to ensure compatibility.
@@ -44,25 +56,23 @@ class BaseLayoutRenamingStrategy {
 
 
 public:
-  virtual  void performActualRenaming(
-          xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) = 0;
+  virtual void
+          extractLayoutRenamingNodes(
+                      xmlNode *Node,
+                      const std::vector<SymbolRenaming> &RenamedSymbols,
+                      std::vector<LayoutNodeRenaming> &NodesToRename) = 0;
   
-  virtual  void renameCustomClass(
+  virtual llvm::Optional<LayoutNodeRenaming> extractCustomClassRenamingNode(
           xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) = 0;
+          const std::vector<SymbolRenaming> &RenamedSymbols) = 0;
   
-  virtual  void renameAction(
+  virtual llvm::Optional<LayoutNodeRenaming> extractActionRenamingNode(
           xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) = 0;
+          const std::vector<SymbolRenaming> &RenamedSymbols) = 0;
   
-  virtual  void renameOutlet(
+  virtual llvm::Optional<LayoutNodeRenaming> extractOutletRenamingNode(
           xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) = 0;
+          const std::vector<SymbolRenaming> &RenamedSymbols) = 0;
   
   BaseLayoutRenamingStrategy(xmlNode *RootNode);
   virtual ~BaseLayoutRenamingStrategy() = default;
@@ -83,41 +93,54 @@ public:
 
   LayoutRenamer(std::string FileName);
 
-  /// Performs renaming of layout (.xib and .storyboard) files
-  /// from FilesJson in the following steps:
+  /// Extracts node info required for renaming of layout
+  /// (.xib and .storyboard) files from FilesJson in the following steps:
   ///
   /// 1. Gathers all renamed symbols (see Renaming.h)
-  ///    and stores them in RenamedSymbols map.
+  ///    and stores them in RenamedSymbols vector.
   /// 2. Iterates through FilesJson.LayoutFiles list
   ///    and picks renaming strategy based on file type and version.
-  /// 3. Performs actual renaming if all conditions are met.
+  /// 3. Extracts all node info that should be renamed.
+  /// 3. Performs actual renaming.
   /// 4. Saves renamed layout files in OutputPath.
   ///
   /// Typical usage:
   /// \code
   /// LayoutRenamer LayoutRenamer(LayoutFile); // param is a path to layout file
   ///
-  /// auto RenamedOrError = LayoutRenamer.performRenaming(RenamedSymbols, Path);
+  /// // Extract nodes
+  /// auto NodesToRenameOrError
+  ///                = LayoutRenamer.extractLayoutRenamingNodes(RenamedSymbols);
   ///
-  /// if (auto Error = RenamedOrError()) {
+  /// if (auto Error = NodesToRenameOrError.takeError()) {
   ///   return std::move(Error);
   /// }
   ///
-  /// auto PerformedRenaming = RenamedOrError();
+  /// auto NodesToRename = NodesToRenameOrError.get();
   ///
-  /// if (PerformedRenaming) {
-  ///   ...
+  /// // Perform renaming on extracted nodes
+  /// if (!NodesToRename.empty()) {
+  ///   LayoutRenamer.performRenaming(NodesToRename, Path);
   /// }
+  ///
   /// \endcode
   ///
-  /// \param RenamedSymbols a map containing all renamed symbols
+  /// \param RenamedSymbols a vector containing all renamed symbols
   ///                       in the source code.
-  /// \param OutputPath Path where layout files will be saved after renaming.
   ///
-  /// \returns true if file was renamed and false if it wasn't.
-  llvm::Expected<bool> performRenaming(
-                 std::unordered_map<std::string, SymbolRenaming> RenamedSymbols,
+  /// \returns a vector containing all node info required to preform renaming.
+  llvm::Expected<std::vector<LayoutNodeRenaming>>
+  extractLayoutRenamingNodes(std::vector<SymbolRenaming> RenamedSymbols);
+  
+  /// Performs actual renaming of layout files
+  /// \param LayoutNodesToRename a vector containing all node info
+  ///                            required to preform renaming.
+  /// \param OutputPath Path where layout files will be saved after renaming.
+  void performRenaming(
+                 const std::vector<LayoutNodeRenaming> LayoutNodesToRename,
                  std::string OutputPath);
+  
+  
 
   ~LayoutRenamer();
 };

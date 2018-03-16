@@ -7,15 +7,32 @@
 //
 
 import Cocoa
+import CoreData
 
-struct Data {
-  let string = ""
+class Coffee: NSManagedObject {}
+
+extension Coffee {
+  @NSManaged var name: String?
+}
+
+@objc protocol SelectableSearchModelItem {
+  var name: String? { get set }
+}
+
+extension Coffee: SelectableSearchModelItem {}
+
+func foo(ex inter: Coffee) -> Coffee? {
+  return nil
 }
 
 class ViewController: NSViewController {
 
+  @IBOutlet weak var btn: NSButtonCell!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+  
+    fatalError("Sample error")
 
     // Do any additional setup after loading the view.
   }

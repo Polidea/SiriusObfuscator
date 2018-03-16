@@ -4,6 +4,7 @@
 #include "swift/Frontend/Frontend.h"
 #include "swift/Obfuscation/DataStructures.h"
 #include "swift/Obfuscation/ExtensionExcluder.h"
+#include "swift/Obfuscation/NSManagedExcluder.h"
 
 #include <set>
 
@@ -31,11 +32,13 @@ namespace obfuscation {
 /// \endcode
 ///
 /// \param SourceFile AST tree representing the Swift source file.
+/// \param Excluders A set of Excluder implementations that will be used to
+///                  exclude declarations that shouldn't be renamed.
 ///
 /// \returns the occurrences of symbols with their metadata, place
 ///          and occurrence index.
 std::set<IndexedSymbolWithRange, IndexedSymbolWithRange::SymbolWithRangeCompare>
-  walkAndCollectSymbols(SourceFile &SourceFile, ExtensionExcluder &Excluder);
+  walkAndCollectSymbols(SourceFile &SourceFile, std::set<Excluder*> &Excluders);
 
 } //namespace obfuscation
 } //namespace swift

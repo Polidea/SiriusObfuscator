@@ -3,6 +3,7 @@
 
 #include "swift/Frontend/Frontend.h"
 #include "swift/Obfuscation/DataStructures.h"
+#include "swift/Obfuscation/DeclarationParsingUtils.h"
 
 namespace swift {
 namespace obfuscation {
@@ -18,7 +19,9 @@ namespace obfuscation {
 ///          from information in \p Declaration object or llvm::Error object
 ///          with the information on why no symbol could be extracted.
 SingleSymbolOrError parse(const VarDecl* Declaration);
-    
+  
+llvm::Expected<ModuleNameAndParts>
+  variableIdentifierPartsFromContext(const VarDecl *Declaration);
 } //namespace obfuscation
 } //namespace swift
 

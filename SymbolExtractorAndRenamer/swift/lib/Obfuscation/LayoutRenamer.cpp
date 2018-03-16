@@ -3,6 +3,13 @@
 namespace swift {
 namespace obfuscation {
   
+LayoutNodeRenaming::LayoutNodeRenaming(xmlNode* Node,
+                                       const xmlChar* PropertyName,
+                                       const std::string ObfuscatedName)
+                                            : Node(Node),
+                                              PropertyName(PropertyName),
+                                              ObfuscatedName(ObfuscatedName) {};
+  
 BaseLayoutRenamingStrategy::BaseLayoutRenamingStrategy(xmlNode *RootNode)
   : RootNode(RootNode) {}
   
@@ -139,6 +146,21 @@ private:
     }
   }
   
+  // Determines if a SymbolIdentifier contains given ClassName and
+  // ModuleName. It used to find proper SymbolRenaming for outlets and actions.
+  bool identifierContainsModuleAndClass(const std::string SymbolIdentifier,
+                                        const std::string ClassName,
+                                        const std::string ModuleName) {
+    
+    auto HasClassName =
+                  SymbolIdentifier.find("."+ClassName+".") != std::string::npos;
+    
+    auto HasModuleName = ModuleName.empty() ||
+               (SymbolIdentifier.find("."+ModuleName+".") != std::string::npos);
+    
+    return HasClassName && HasModuleName;
+  }
+  
 public:
   
   XCode9RenamingStrategy(xmlNode *RootNode, enum TargetRuntime TargetRuntime)
@@ -146,21 +168,22 @@ public:
     this->TargetRuntime = TargetRuntime;
   }
   
-  // Performs renames if needed based on RenamedSymbols map.
+  // Extracts Node information that is required to perform renaming.
   // Layout files are xmls, it looks for a specific attributes
   // such as "customClass" and retrieves their values.
   // These values are then used to look up RenamedSymbols map.
   // If a "customClass" value is present inside RenamedSymbols, then
   // it means that this symbol was renamed in the source code in previous step
-  // and it should be renamed in layout file as well.
+  // and it should be renamed in layout file as well so it collects it in
+  // NodesToRename vector.
   // "customModule" attribute is also taken into account - if it's present then
   // it's value is compared with
   // symbol's module value (the one found in RenamedSymbols) and
   // if it's not present then we assume that it's inherited from target project.
-  void performActualRenaming(
+  void extractLayoutRenamingNodes(
           xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) {
+          const std::vector<SymbolRenaming> &RenamedSymbols,
+          std::vector<LayoutNodeRenaming> &NodesToRename) {
     
     if(Node == nullptr){
       return;
@@ -171,22 +194,38 @@ public:
          CurrentNode = CurrentNode->next) {
       
       if (CurrentNode->type == XML_ELEMENT_NODE) {
-        renameCustomClass(CurrentNode, RenamedSymbols, PerformedRenaming);
-        renameAction(CurrentNode, RenamedSymbols, PerformedRenaming);
-        renameOutlet(CurrentNode, RenamedSymbols, PerformedRenaming);
+        auto CustomClassNode = extractCustomClassRenamingNode(
+                                                             CurrentNode,
+                                                             RenamedSymbols);
+        if (CustomClassNode.hasValue()) {
+          NodesToRename.push_back(CustomClassNode.getValue());
+        }
+        
+        
+        auto ActionNode = extractActionRenamingNode(CurrentNode,
+                                                           RenamedSymbols);
+        if (ActionNode.hasValue()) {
+          NodesToRename.push_back(ActionNode.getValue());
+        }
+        
+        auto OutletNode = extractOutletRenamingNode(CurrentNode,
+                                                           RenamedSymbols);
+        if (OutletNode.hasValue()) {
+          NodesToRename.push_back(OutletNode.getValue());
+        }
+        
       }
       
       xmlNode *ChildrenNode = CurrentNode->children;
       if(ChildrenNode != nullptr) {
-        performActualRenaming(ChildrenNode, RenamedSymbols, PerformedRenaming);
+        extractLayoutRenamingNodes(ChildrenNode, RenamedSymbols, NodesToRename);
       }
     }
   }
   
-  void renameCustomClass(
+  llvm::Optional<LayoutNodeRenaming> extractCustomClassRenamingNode(
           xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) {
+          const std::vector<SymbolRenaming> &RenamedSymbols) {
     
     std::string CustomClass;
     std::string CustomModule;
@@ -195,21 +234,19 @@ public:
     
     if(!CustomClass.empty()) {
       
-      auto SymbolIterator = RenamedSymbols.find(CustomClass);
-      
-      if ( SymbolIterator != RenamedSymbols.end() ) {
-        
-        auto Symbol = SymbolIterator->second;
-        
-        if(shouldRename(Symbol, CustomClass, CustomModule)) {
-          xmlSetProp(Node,
-                     CustomClassAttributeName,
-                     reinterpret_cast<const xmlChar *>(
-                                                Symbol.ObfuscatedName.c_str()));
-          PerformedRenaming = true;
+      // Find SymbolRenaming for given CustomClass and perform renaming
+      for(auto SymbolRenaming: RenamedSymbols) {
+        if(SymbolRenaming.OriginalName == CustomClass) {
+          
+          if(shouldRename(SymbolRenaming, CustomClass, CustomModule)) {
+            return LayoutNodeRenaming(Node,
+                                      CustomClassAttributeName,
+                                      SymbolRenaming.ObfuscatedName);
+          }
         }
       }
     }
+    return llvm::None;
   }
   
   // actions look like this in xml for macos:
@@ -224,174 +261,140 @@ public:
   // is not present) attribute value
   // then it extracts CustomClass/CustomModule needed for check
   // if customAction should be obfuscated
-  // it does the check and performs renaming if needed
-  void renameAction(
-          xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) {
-    
+  // it does the check and returns the node info that will be later renamed
+  llvm::Optional<LayoutNodeRenaming> extractActionRenamingNode(
+                            xmlNode *Node,
+                            const std::vector<SymbolRenaming> &RenamedSymbols) {
+
     if (xmlStrcmp(Node->name, ActionNodeName) == 0) {
-      
+
       std::string DestinationOrTarget;
-      
+
       if(TargetRuntime == CocoaTouch) {
         DestinationOrTarget = std::string(
-                              reinterpret_cast<const char *>(
-                                                    xmlGetProp(Node,
-                                                    DestinationAttributeName)));
-        
+        reinterpret_cast<const char *>(xmlGetProp(Node,
+                                                  DestinationAttributeName)));
       } else if(TargetRuntime == Cocoa) {
-        DestinationOrTarget = std::string(
-                              reinterpret_cast<const char *>(
-                                                     xmlGetProp(Node,
-                                                    TargetAttributeName)));
+        DestinationOrTarget = std::string(reinterpret_cast<const char *>(
+                                              xmlGetProp(Node,
+                                                         TargetAttributeName)));
       }
-      
+
       // find node with which id attribute value == DestinationOrTarget
       xmlNode *NodeWithDestinationAsId = findNodeWithAttributeValue(
-                           RootNode,
-                           IdAttributeName,
-                           reinterpret_cast<const xmlChar *>
+                                          RootNode,
+                                          IdAttributeName,
+                                          reinterpret_cast<const xmlChar *>
                                                   (DestinationOrTarget.c_str()),
-                           TraversalDirection::Down);
-      
+                                          TraversalDirection::Down);
+
       if(NodeWithDestinationAsId != nullptr) {
-        
+
         std::string CustomClass;
         std::string CustomModule;
-        
+
         // Try to extract CustomClass and CustomModule
         extractCustomClassAndModule(
-                                    NodeWithDestinationAsId,
-                                    CustomClass,
-                                    CustomModule);
-        
+        NodeWithDestinationAsId,
+        CustomClass,
+        CustomModule);
+
         // Check if should rename and if yes then perform actual renaming
         if(!CustomClass.empty()) {
-          
+
           std::string SelectorName = std::string(
-                                     reinterpret_cast<const char *>(xmlGetProp(
+                                        reinterpret_cast<const char *>(
+                                              xmlGetProp(
                                                  Node,
                                                  ActionSelectorAttributeName)));
-          
+
           std::vector<std::string> SplittedSelName = split(SelectorName, ':');
-          if(!SplittedSelName.empty()) {
           
+          if(!SplittedSelName.empty()) {
+
             std::string SelectorFunctionName = SplittedSelName[0];
-            
-            auto SymbolIterator = RenamedSymbols.find(SelectorFunctionName);
-            
-            if ( SymbolIterator != RenamedSymbols.end() ) {
-              
-              auto Symbol = SymbolIterator->second;
-              
-              SelectorName.replace(0,
-                                   Symbol.OriginalName.length(),
-                                   Symbol.ObfuscatedName);
-              
-              if(shouldRename(Symbol, CustomClass, CustomModule)) {
-                xmlSetProp(Node,
-                           ActionSelectorAttributeName,
-                           reinterpret_cast<const xmlChar *>(
-                                                         SelectorName.c_str()));
-                
-                PerformedRenaming = true;
+
+            for(auto SymbolRenaming: RenamedSymbols) {
+              if(SymbolRenaming.OriginalName == SelectorFunctionName &&
+                   identifierContainsModuleAndClass(SymbolRenaming.Identifier,
+                                                    CustomClass,
+                                                    CustomModule)) {
+
+                SelectorName.replace(0,
+                                     SymbolRenaming.OriginalName.length(),
+                                     SymbolRenaming.ObfuscatedName);
+
+                if(shouldRename(SymbolRenaming, CustomClass, CustomModule)) {
+                  return LayoutNodeRenaming(
+                                    Node,
+                                    ActionSelectorAttributeName,
+                                    SelectorName);
+                }
               }
             }
           }
         }
       }
     }
+    return llvm::None;
   }
   
   // outlets look like this in xml:
   // <outlet property="prop_name" destination="x0y-zc-UQE" id="IiG-Jc-DUb"/>
   //
   // in order to obfuscate prop_name the module name needs to be known
-  // first it looks for a node which id attribute's value is equal
-  // to outlet's node destination attribute value
-  // if it finds such node then it checks if it has
-  // CustomClass and CustomModule attributes
-  // if not then it means that it's probably somewhere higher in the hierarchy
   // so it looks for the closest parent which has CustomClass attribute
-  // then when it finally have CustomClass/CustomModule needed for check
+  // then when it have CustomClass/CustomModule needed for check
   // if prop_name should be obfuscated
-  // it does the check and performs renaming if needed
-  void renameOutlet(
-          xmlNode *Node,
-          const std::unordered_map<std::string, SymbolRenaming> &RenamedSymbols,
-          bool &PerformedRenaming) {
-    
+  // it does the check and returns the node info that will be later renamed
+  llvm::Optional<LayoutNodeRenaming> extractOutletRenamingNode(
+                            xmlNode *Node,
+                            const std::vector<SymbolRenaming> &RenamedSymbols) {
+
     if (xmlStrcmp(Node->name, OutletNodeName) == 0) {
-      
-      std::string Destination = std::string(
-                                reinterpret_cast<const char *>(xmlGetProp(
-                                                    Node,
-                                                    DestinationAttributeName)));
-      
-      // find node with which id attribute value == Destination
-      xmlNode *NodeWithDestinationAsId = findNodeWithAttributeValue(
-                                  RootNode,
-                                  IdAttributeName,
-                                  reinterpret_cast<const xmlChar *>
-                                                          (Destination.c_str()),
-                                  TraversalDirection::Down);
-      
-      if(NodeWithDestinationAsId != nullptr) {
-        
-        std::string CustomClass;
-        std::string CustomModule;
-        
+
+      std::string CustomClass;
+      std::string CustomModule;
+
+      // Search for closest parent Node with custom class
+      xmlNode *Parent = findNodeWithAttributeValue(
+                                                   Node,
+                                                   CustomClassAttributeName,
+                                                   nullptr,
+                                                   TraversalDirection::Up);
+
+      if(Parent != nullptr) {
+
         // Try to extract CustomClass and CustomModule
-        extractCustomClassAndModule(NodeWithDestinationAsId,
-                                    CustomClass,
-                                    CustomModule);
-        
-        // find CustomClass attribute value to check
-        // if outlet name should be renamed
-        if(CustomClass.empty()) {
-          
-          //CustomClass was not present in a Node where id == Destination
-          // so search for closest parent Node with custom class
-          xmlNode *Parent = findNodeWithAttributeValue(
-                                                      NodeWithDestinationAsId,
-                                                      CustomClassAttributeName,
-                                                      nullptr,
-                                                      TraversalDirection::Up);
-          
-          if(Parent != nullptr) {
-            
-            // Again, try to extract CustomClass and CustomModule
-            extractCustomClassAndModule(Parent, CustomClass, CustomModule);
-          }
-        }
-        
+        extractCustomClassAndModule(Parent, CustomClass, CustomModule);
+
         // Check if should rename and if yes then perform actual renaming
         if(!CustomClass.empty()) {
-          
+
           std::string PropertyName = std::string(
-                                     reinterpret_cast<const char *>(xmlGetProp(
+                                         reinterpret_cast<const char *>(
+                                            xmlGetProp(
                                                  Node,
                                                  OutletPropertyAttributeName)));
-          
-          auto SymbolIterator = RenamedSymbols.find(PropertyName);
-          
-          if ( SymbolIterator != RenamedSymbols.end() ) {
-            
-            auto Symbol = SymbolIterator->second;
-            
-            if(shouldRename(Symbol, CustomClass, CustomModule)) {
-              xmlSetProp(Node,
-                         OutletPropertyAttributeName,
-                         reinterpret_cast<const xmlChar *>
-                                               (Symbol.ObfuscatedName.c_str()));
-              
-              PerformedRenaming = true;
+
+          for(auto SymbolRenaming: RenamedSymbols) {
+            if(SymbolRenaming.OriginalName == PropertyName &&
+                 identifierContainsModuleAndClass(SymbolRenaming.Identifier,
+                                                  CustomClass,
+                                                  CustomModule)) {
+
+              if(shouldRename(SymbolRenaming, CustomClass, CustomModule)) {
+                return LayoutNodeRenaming(
+                                  Node,
+                                  OutletPropertyAttributeName,
+                                  SymbolRenaming.ObfuscatedName);
+              }
             }
           }
         }
       }
     }
+    return llvm::None;
   }
 };
   
@@ -485,12 +488,12 @@ llvm::Expected<std::unique_ptr<BaseLayoutRenamingStrategy>>
      return stringError("Unknown root node type in layout file: " + FileName);
   }
 }
-
-llvm::Expected<bool>
-  LayoutRenamer::performRenaming(
-                 std::unordered_map<std::string, SymbolRenaming> RenamedSymbols,
-                 std::string OutputPath) {
-
+  
+llvm::Expected<std::vector<LayoutNodeRenaming>>
+  LayoutRenamer::extractLayoutRenamingNodes(
+                                   std::vector<SymbolRenaming> RenamedSymbols) {
+  std::vector<LayoutNodeRenaming> NodesToRename;
+  
   if (XmlDocument == nullptr) {
     return stringError("Could not parse file: " + FileName);
   }
@@ -505,16 +508,29 @@ llvm::Expected<bool>
   
   auto RenamingStrategy = std::move(RenamingStrategyOrError.get());
   
-  bool PerformedRenaming = false;
-  RenamingStrategy->performActualRenaming(RootNode,
-                                          RenamedSymbols,
-                                          PerformedRenaming);
+  RenamingStrategy->extractLayoutRenamingNodes(RootNode,
+                                               RenamedSymbols,
+                                               NodesToRename);
+    
+  return NodesToRename;
+}
+
+void
+  LayoutRenamer::performRenaming(
+                 const std::vector<LayoutNodeRenaming> LayoutNodesToRename,
+                 std::string OutputPath) {
+    
+  for (const auto &LayoutNodeToRename: LayoutNodesToRename) {
+    
+    xmlSetProp(LayoutNodeToRename.Node,
+               LayoutNodeToRename.PropertyName,
+               reinterpret_cast<const xmlChar *>(
+                                    LayoutNodeToRename.ObfuscatedName.c_str()));
+  }
   
   xmlSaveFileEnc(static_cast<const char *>(OutputPath.c_str()),
                  XmlDocument,
                  reinterpret_cast<const char *>(XmlDocument->encoding));
-  
-  return PerformedRenaming;
 }
         
 } //namespace obfuscation

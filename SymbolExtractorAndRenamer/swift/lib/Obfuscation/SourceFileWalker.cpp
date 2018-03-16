@@ -21,9 +21,10 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
   // thet are compared by symbol and range
   GlobalCollectedSymbols Symbols;
 
-  ExtensionExcluder &Excluder;
-
-  SymbolsWalkerAndCollector(ExtensionExcluder &Excluder): Excluder(Excluder) {}
+  std::set<Excluder*> &Excluders;
+  
+  SymbolsWalkerAndCollector(std::set<Excluder*> &Excluders)
+                                                      : Excluders(Excluders) {}
 
 // Overriden methods called back as the AST is walked
 
@@ -36,6 +37,7 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
   bool walkToDeclPre(Decl *Declaration, CharSourceRange Range) override {
     auto ExtractedSymbols = extractSymbol(Symbols, Declaration, Range);
     handleExtractionResult(ExtractedSymbols);
+    identifyExclusions(Declaration);
     return true;
   }
 
@@ -64,15 +66,23 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
                                           Range);
     handleExtractionResult(ExtractedSymbols);
 
-
-    if (ExtTyRef != nullptr) {
-      Excluder.identifyExclusionsFromExtension(ExtTyRef);
-    }
+    identifyExclusions(ExtTyRef);
+    identifyExclusions(Declaration);
+    identifyExclusions(CtorTyRef);
+    
     return true;
   }
 
 // Methods for handling the extracted symbols
 
+  void identifyExclusions(Decl* Declaration) {
+    if(Declaration != nullptr) {
+      for(auto Excluder: Excluders) {
+        Excluder->identifyExclusions(Declaration);
+      }
+    }
+  }
+  
   void handleSymbol(const SymbolWithRange &Symbol) {
     auto InsertionResult =
       Symbols.insert(IndexedSymbolWithRange(SymbolIndex, Symbol));
@@ -106,10 +116,12 @@ struct SymbolsWalkerAndCollector: public SourceEntityWalker {
 int SymbolsWalkerAndCollector::SymbolIndex;
 
 std::set<IndexedSymbolWithRange, IndexedSymbolWithRange::SymbolWithRangeCompare>
-walkAndCollectSymbols(SourceFile &SourceFile, ExtensionExcluder &Excluder) {
-  SymbolsWalkerAndCollector Walker(Excluder);
+walkAndCollectSymbols(SourceFile &SourceFile, std::set<Excluder*> &Excluders) {
+  SymbolsWalkerAndCollector Walker(Excluders);
   Walker.walk(SourceFile);
-  Excluder.excludeSymbolsFrom(Walker.Symbols);
+  for(auto Excluder: Excluders) {
+    Excluder->excludeSymbolsFrom(Walker.Symbols);
+  }
   return Walker.Symbols;
 }
 

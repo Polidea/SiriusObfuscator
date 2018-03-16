@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		250EA25F1FED2A3000FC4DC6 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 250EA25C1FED142600FC4DC6 /* CoreImage.framework */; };
+		629BC39D2052700C0099EB15 /* SecondMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 629BC39C2052700C0099EB15 /* SecondMain.storyboard */; };
+		629BC39F2052702A0099EB15 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629BC39E2052702A0099EB15 /* SecondViewController.swift */; };
 		835A9FFE1FDFE54900A8172D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A9FFD1FDFE54900A8172D /* AppDelegate.swift */; };
 		835AA0001FDFE54900A8172D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835A9FFF1FDFE54900A8172D /* ViewController.swift */; };
 		835AA0021FDFE54900A8172D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 835AA0011FDFE54900A8172D /* Assets.xcassets */; };
@@ -16,6 +18,8 @@
 
 /* Begin PBXFileReference section */
 		250EA25C1FED142600FC4DC6 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		629BC39C2052700C0099EB15 /* SecondMain.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SecondMain.storyboard; sourceTree = "<group>"; };
+		629BC39E2052702A0099EB15 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		835A9FFA1FDFE54900A8172D /* macOSTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macOSTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		835A9FFD1FDFE54900A8172D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		835A9FFF1FDFE54900A8172D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 				835AA0031FDFE54900A8172D /* Main.storyboard */,
 				835AA0061FDFE54900A8172D /* Info.plist */,
 				835AA0071FDFE54900A8172D /* macOSTestApp.entitlements */,
+				629BC39C2052700C0099EB15 /* SecondMain.storyboard */,
+				629BC39E2052702A0099EB15 /* SecondViewController.swift */,
 			);
 			path = macOSTestApp;
 			sourceTree = "<group>";
@@ -135,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				835AA0021FDFE54900A8172D /* Assets.xcassets in Resources */,
+				629BC39D2052700C0099EB15 /* SecondMain.storyboard in Resources */,
 				835AA0051FDFE54900A8172D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				629BC39F2052702A0099EB15 /* SecondViewController.swift in Sources */,
 				835AA0001FDFE54900A8172D /* ViewController.swift in Sources */,
 				835A9FFE1FDFE54900A8172D /* AppDelegate.swift in Sources */,
 			);
@@ -279,7 +287,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = WR35VQMY5K;
+				DEVELOPMENT_TEAM = XVADZZ9C67;
 				INFOPLIST_FILE = macOSTestApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.polidea.macOSTestApp;
@@ -297,7 +305,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = WR35VQMY5K;
+				DEVELOPMENT_TEAM = XVADZZ9C67;
 				INFOPLIST_FILE = macOSTestApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.polidea.macOSTestApp;
