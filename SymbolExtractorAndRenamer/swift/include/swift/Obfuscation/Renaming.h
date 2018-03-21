@@ -52,11 +52,13 @@ using FilesList = std::vector<std::pair<std::string, std::string>>;
 /// \param DiagnosticStream Stream for writing the diagnostic information into.
 ///
 /// \returns List of project files that were affected by the renaming.
-llvm::Expected<FilesList> performRenaming(std::string MainExecutablePath,
-                                          const FilesJson &FilesJson,
-                                          const RenamesJson &RenamesJson,
-                                          std::string ObfuscatedProjectPath,
-                                          llvm::raw_ostream &DiagnosticStream);
+llvm::Expected<FilesList>
+performRenaming(std::string MainExecutablePath,
+                const FilesJson &FilesJson,
+                ObfuscationConfiguration &&ObfuscationConfiguration,
+                const RenamesJson &RenamesJson,
+                std::string ObfuscatedProjectPath,
+                llvm::raw_ostream &DiagnosticStream);
 
 } //namespace obfuscation
 } //namespace swift

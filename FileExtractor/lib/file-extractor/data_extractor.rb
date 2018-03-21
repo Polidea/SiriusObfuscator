@@ -7,8 +7,8 @@ module FileExtractor
 
   class DataExtractor
 
-    def self.extract_data(root_path, project_path, files_path)      
-      data, build_dir = extract_data_from_all_sources(root_path, project_path)
+    def self.extract_data(root_path, project_path, files_path, configuration_path)
+      data, build_dir = extract_data_from_all_sources(root_path, project_path, configuration_path)
       data_is_ok, error_message = FileExtractor::DataIntegrityChecker.verify_data_integrity(data)
       json = JSON.pretty_generate(data)
       if data_is_ok 
@@ -20,10 +20,11 @@ module FileExtractor
 
     private
 
-    def self.extract_data_from_all_sources(root_path, project_path)
+    def self.extract_data_from_all_sources(root_path, project_path, configuration_path)
       data_extractor = FileExtractor::XcodeprojExtractor.new(root_path, project_path)
       data, build_dir = data_extractor.extract_data_and_build_directory
       data.implicitlyLinkedFrameworks = FileExtractor::ModulesExtractor.system_linked_frameworks(data)
+      data.configurationFile = configuration_path
       return data, build_dir
     end
 

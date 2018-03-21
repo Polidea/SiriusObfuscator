@@ -86,6 +86,22 @@ int main(int argc, char *argv[]) {
   if (auto Error = FilesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
   }
+
+  auto ConfigurationFilePath = FilesJsonOrError.get().ConfigurationFile;
+  ObfuscationConfiguration ObfuscationConfiguration;
+  if (!ConfigurationFilePath.empty()) {
+    auto ObfuscationConfigurationOrError =
+      parseJson<struct ObfuscationConfiguration>(ConfigurationFilePath);
+    if (auto Error = ObfuscationConfigurationOrError.takeError()) {
+      llvm::consumeError(std::move(Error));
+      llvm::outs() << "Error while reading configuration file from "
+                   << ConfigurationFilePath << '\n';
+    } else {
+      ObfuscationConfiguration =
+        std::move(ObfuscationConfigurationOrError.get());
+    }
+  }
+
   auto RenamesJsonOrError = parseJson<RenamesJson>(options::RenamesJsonPath);
   if (auto Error = RenamesJsonOrError.takeError()) {
     ExitOnError(std::move(Error));
@@ -111,6 +127,7 @@ int main(int argc, char *argv[]) {
   // The logic for renaming is in the swiftObfuscation library.
   auto FilesOrError = performRenaming(MainExecutablePath,
                                       FilesJsonOrError.get(),
+                                      std::move(ObfuscationConfiguration),
                                       RenamesJsonOrError.get(),
                                       options::ObfuscatedProjectPath,
                                       *DiagnosticStream);

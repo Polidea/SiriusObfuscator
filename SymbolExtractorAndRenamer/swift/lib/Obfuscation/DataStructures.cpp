@@ -14,11 +14,29 @@ namespace SymbolTypeKeys {
   static const char* Operator = "operator";
 }
 
+namespace ExclusionKindKeys {
+  static std::string Type = "type";
+  static std::string Inheritance = "inheritance";
+  static std::string Conformance = "conformance";
+}
+
+const TypeExclusion* Exclusion::getAsTypeExclusion() const {
+  return reinterpret_cast<const TypeExclusion*>(this);
+}
+
+const InheritanceExclusion* Exclusion::getAsInheritanceExclusion() const {
+  return reinterpret_cast<const InheritanceExclusion*>(this);
+}
+
+const ConformanceExclusion* Exclusion::getAsConformanceExclusion() const {
+  return reinterpret_cast<const ConformanceExclusion*>(this);
+}
+
 Symbol::Symbol(const std::string &Identifier,
        const std::string &Name,
        const std::string &Module,
        SymbolType Type)
-: Identifier(Identifier), Name(Name), Module(Module), Type(Type) {};
+  : Identifier(Identifier), Name(Name), Module(Module), Type(Type) {}
 
 bool Symbol::operator< (const Symbol &Right) const {
   return Identifier < Right.Identifier;
@@ -124,6 +142,7 @@ void MappingTraits<FilesJson>::mapping(IO &Io, FilesJson &Object) {
                  Object.FrameworkSearchPaths);
   Io.mapRequired("headerSearchPaths",
                  Object.HeaderSearchPaths);
+  Io.mapRequired("configurationFile", Object.ConfigurationFile);
   Io.mapRequired("bridgingHeader",
                  Object.BridgingHeader);
 }
@@ -191,6 +210,68 @@ void MappingTraits<SymbolRenaming>::mapping(IO &Io, SymbolRenaming &Object) {
   Io.mapRequired("type", Object.Type);
 }
 
+void MappingTraits<ObfuscationConfiguration>::
+  mapping(IO &Io, ObfuscationConfiguration &Object) {
+  Io.mapRequired("exclude", Object.Exclude);
+}
+
+void ScalarEnumerationTraits<ExclusionKind>::enumeration(IO &Io,
+                                                         ExclusionKind &Enum) {
+  Io.enumCase(Enum, ExclusionKindKeys::Type.c_str(), ExclusionKind::Type);
+  Io.enumCase(Enum,
+              ExclusionKindKeys::Inheritance.c_str(),
+              ExclusionKind::Inheritance);
+  Io.enumCase(Enum,
+              ExclusionKindKeys::Conformance.c_str(),
+              ExclusionKind::Conformance);
+}
+
+void MappingTraits<std::unique_ptr<Exclusion>>::
+  mapping(IO &Io, std::unique_ptr<Exclusion> &Object) {
+  auto CurrentlyProcessedKey = Io.keys().back().str();
+
+  if (CurrentlyProcessedKey == ExclusionKindKeys::Type) {
+    auto Type = llvm::make_unique<TypeExclusion>();
+    Io.mapRequired(CurrentlyProcessedKey.c_str(), *Type);
+    Object = std::move(Type);
+    return;
+  }
+
+  if (CurrentlyProcessedKey == ExclusionKindKeys::Inheritance) {
+    auto Inheritance = llvm::make_unique<InheritanceExclusion>();
+    Io.mapRequired(CurrentlyProcessedKey.c_str(), *Inheritance);
+    Object = std::move(Inheritance);
+    return;
+  }
+
+  if (CurrentlyProcessedKey == ExclusionKindKeys::Conformance) {
+    auto Conformance = llvm::make_unique<ConformanceExclusion>();
+    Io.mapRequired(CurrentlyProcessedKey.c_str(), *Conformance);
+    Object = std::move(Conformance);
+    return;
+  }
+}
+
+void MappingTraits<TypeExclusion>::mapping(IO &Io, TypeExclusion &Object) {
+  Object.Kind = ExclusionKind::Type;
+  Io.mapRequired("module", Object.Module);
+  Io.mapRequired("name", Object.Name);
+}
+
+void MappingTraits<InheritanceExclusion>::
+  mapping(IO &Io, InheritanceExclusion &Object) {
+    Object.Kind = ExclusionKind::Inheritance;
+    Io.mapRequired("module", Object.Module);
+    Io.mapRequired("base", Object.Base);
+}
+
+void MappingTraits<ConformanceExclusion>::
+  mapping(IO &Io, ConformanceExclusion &Object) {
+    Object.Kind = ExclusionKind::Conformance;
+    Io.mapRequired("module", Object.Module);
+    Io.mapRequired("protocol", Object.Protocol);
+}
+
 template <typename U>
 size_t SequenceTraits<std::vector<U>>::size(IO &Io, std::vector<U> &Vec) {
   return Vec.size();
@@ -212,12 +293,13 @@ Expected<T> deserialize(StringRef Json) {
   T Deserialized;
   Input >> Deserialized;
   if (auto ErrorCode = Input.error()) {
-    return stringError("Error during JSON parse", ErrorCode);
+    return std::move(stringError("Error during JSON parse", ErrorCode));
   }
-  return Deserialized;
+  return std::move(Deserialized);
 }
   
 template Expected<FilesJson> deserialize(StringRef Json);
+template Expected<ObfuscationConfiguration> deserialize(StringRef Json);
 template Expected<Project> deserialize(StringRef Json);
 template Expected<ObfuscationModule> deserialize(StringRef Json);
 template Expected<Sdk> deserialize(StringRef Json);

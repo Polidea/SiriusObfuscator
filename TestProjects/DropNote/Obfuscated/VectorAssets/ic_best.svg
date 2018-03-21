@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="28px" height="21px" viewBox="0 0 28 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>ic_best</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ic_best" transform="translate(-2.000000, 0.000000)">
+            <g id="ic_back" transform="translate(7.500000, 12.500000) scale(1, -1) rotate(90.000000) translate(-7.500000, -12.500000) translate(0.000000, 5.000000)" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round">
+                <polyline id="Rectangle-1" transform="translate(5.449747, 7.692388) rotate(-315.000000) translate(-5.449747, -7.692388) " points="8.44974747 10.6923882 2.44974747 10.6923882 2.44974747 4.69238816 2.44974747 4.69238816"></polyline>
+                <path d="M12.4978777,2.93715143 L3.65685425,11.7781746" id="Rectangle-1" transform="translate(7.656854, 7.778175) rotate(-315.000000) translate(-7.656854, -7.778175) "></path>
+            </g>
+            <path d="M20.5462496,14.1943608 L17.0227976,16.0467492 C15.555439,16.8181853 14.5934911,16.1166564 14.8733302,14.4850696 L15.5462496,10.5616482 L12.6957171,7.78306569 C11.508599,6.62591153 11.8785344,5.49426044 13.5167406,5.25621514 L17.4560797,4.68379566 L19.2178057,1.11414891 C19.951485,-0.372447794 21.1420655,-0.370317767 21.8746936,1.11414891 L23.6364196,4.68379566 L27.5757586,5.25621514 C29.2163155,5.494602 29.5821993,6.62756953 28.3967821,7.78306569 L25.5462496,10.5616482 L26.2191691,14.4850696 C26.4994096,16.1189975 25.5349578,16.8170799 24.0697016,16.0467492 L20.5462496,14.1943608 Z" id="Star-1" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>

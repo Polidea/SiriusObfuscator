@@ -53,6 +53,7 @@ The output data format is called `Files.json` and presented below:
   ],
   "frameworkSearchPaths": [ <string> ],
   "headerSearchPaths": [ <string> ],
+  "configurationFile": <string>,
   "bridgingHeader": <string>
 }
 ```
@@ -73,6 +74,8 @@ The output data format is called `Files.json` and presented below:
 `frameworkSearchPaths` contains the list of paths to search for non-system frameworks. It's especially useful when working with Cocoapods projects, since they dont specify the framework dependencies explicitely, but set the paths.
 
 `headerSearchPaths` contain the list of paths to search for Objective-C headers. It's used by compiler to find the headers imported via the bridging header into Swift.
+
+`configurationFile` is a path to the configuration file for the obfuscation process. It should be named `.obfuscation.yml` and placed under the project's root path.
 
 `bridgingHeader` is a path to the bridging header, which contains the parts imported from Objective-C that should be visible and accesible from Swift.
 
@@ -115,8 +118,10 @@ Sample `Files.json` file might look like that:
    "headerSearchPaths": [
       "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/Pods/Headers/Public"
    ],
-   "bridgingHeader": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/Bridging-header.h"
+   "configurationFile": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/.obfuscation.yml"
    ],
+   "bridgingHeader": "/Users/siejkowski/Polidea/SwiftObfuscator/TestProjects/iOS/Original/XcodeSampleProject/Bridging-header.h"
+   ]
 }
 ```
 

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9Fh-5W-CLk">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Units View Controller-->
+        <scene sceneID="Ns0-Ag-eK8">
+            <objects>
+                <viewController storyboardIdentifier="Units" id="9Fh-5W-CLk" customClass="gipIoRjEOn0qFxCBpfEPabhCtOKZOwSe" customModule="Dropnote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="33R-Bh-OT1"/>
+                        <viewControllerLayoutGuide type="bottom" id="Hod-dU-aca"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5qV-YQ-CiD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gpa-3F-U0X">
+                                <rect key="frame" x="0.0" y="30" width="375" height="637"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" horizontalCompressionResistancePriority="753" verticalCompressionResistancePriority="753" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="SSV-OV-kcw">
+                                        <rect key="frame" x="96.5" y="0.0" width="182" height="29"/>
+                                        <segments>
+                                            <segment title="Water"/>
+                                            <segment title="Second"/>
+                                            <segment title=""/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XI4-6W-cFz">
+                                        <rect key="frame" x="0.0" y="38" width="375" height="599"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UnitsViewCell" id="vAJ-Y5-Wtk">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="50"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vAJ-Y5-Wtk" id="7nK-81-rQN">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                                <inset key="separatorInset" minX="30" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="XI4-6W-cFz" secondAttribute="trailing" id="AsY-3c-jw0"/>
+                                    <constraint firstItem="XI4-6W-cFz" firstAttribute="leading" secondItem="Gpa-3F-U0X" secondAttribute="leading" id="ijL-mU-JIl"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Gpa-3F-U0X" firstAttribute="bottom" secondItem="Hod-dU-aca" secondAttribute="top" id="9UI-x3-jEc"/>
+                            <constraint firstItem="Gpa-3F-U0X" firstAttribute="top" secondItem="33R-Bh-OT1" secondAttribute="bottom" constant="10" id="d9A-AB-ieD"/>
+                            <constraint firstItem="Gpa-3F-U0X" firstAttribute="leading" secondItem="5qV-YQ-CiD" secondAttribute="leading" id="frJ-gT-umz"/>
+                            <constraint firstItem="Gpa-3F-U0X" firstAttribute="trailing" secondItem="5qV-YQ-CiD" secondAttribute="trailing" id="x2d-lT-OPV"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="HiWHnuKXoUmDaaVEW_v2XJ6iKI0wMOS0" destination="XI4-6W-cFz" id="t6U-YC-fWM"/>
+                        <outlet property="bkjUkLhTSEYb8IYARIcZqenqUf4M8cx6" destination="SSV-OV-kcw" id="CQv-Il-ouc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uUj-oJ-qDK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="238" y="248"/>
+        </scene>
+    </scenes>
+</document>

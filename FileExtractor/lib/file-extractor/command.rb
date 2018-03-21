@@ -3,6 +3,7 @@ module FileExtractor
   require 'claide'
 
   require 'file-extractor/arguments_decorator'
+  require 'file-extractor/configuration_determiner'
   require 'file-extractor/data_extractor'
   require 'file-extractor/dependency_builder'
   require 'file-extractor/xcodefiles_determiner'
@@ -68,6 +69,7 @@ module FileExtractor
       puts @project_root_path
       xcodeprojs, xcworkspaces = FileExtractor::XcodefilesDeterminer.find_xcode_files(@project_root_path)
       projects, schemes = FileExtractor::XcworkspaceExtractor.extract_projects_and_dependency_schemes(xcworkspaces, xcodeprojs)
+      configuration_path = FileExtractor::ConfigurationDeterminer.find_configuration_file(@project_root_path)
       if projects.empty?
         puts "\n\nNo Xcode project document found in the project root directory"
       elsif projects.count == 1
@@ -76,7 +78,7 @@ module FileExtractor
         puts "Path to files:"
         puts @files_path
 
-        json, output_string, build_dir = FileExtractor::DataExtractor.extract_data(@project_root_path, xcodeprojs.first, @files_path)
+        json, output_string, build_dir = FileExtractor::DataExtractor.extract_data(@project_root_path, xcodeprojs.first, @files_path, configuration_path)
         puts "\nFound data:\n#{json}"
         puts "\n#{output_string}"
         
@@ -87,7 +89,7 @@ module FileExtractor
         puts "Path to files:"
         puts @files_path
 
-        json, output_string, build_dir = FileExtractor::DataExtractor.extract_data(@project_root_path, xcodeprojs.first, @files_path)
+        json, output_string, build_dir = FileExtractor::DataExtractor.extract_data(@project_root_path, xcodeprojs.first, @files_path, configuration_path)
         puts "\nFound data:\n#{json}"
         puts "\n#{output_string}"
 

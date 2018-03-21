@@ -14,10 +14,11 @@ namespace swift {
 namespace obfuscation {
 
 /// Name mapping strategies:
-/// - random generates unique random identifiers
-/// - deterministic generates predictible identifiers, we use it in tests
+/// - Random generates unique random identifiers
+/// - Deterministic generates predictible identifiers, we use it in tests
+/// - Minifying generates shortes possible names
 enum NameMappingStrategy {
-  random, deterministic
+  Random, Deterministic, Minifying
 };
   
 /// Base class for names generators.
@@ -46,6 +47,21 @@ protected:
     { SymbolType::InternalParameter, {} },
     { SymbolType::Variable, {} },
     { SymbolType::Operator, {} }
+  };
+  
+  // taken from https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html
+  std::set<std::string> SwiftKeywords = {
+    "associatedtype", "class", "deinit", "enum", "extension", "fileprivate",
+    "func", "import", "init", "inout", "internal", "let", "open", "operator",
+    "private", "protocol", "public", "static", "struct", "subscript",
+    "typealias", "var", "break", "case", "continue", "default", "defer", "do",
+    "else", "fallthrough", "for", "guard", "if", "in", "repeat", "return",
+    "switch", "where", "while", "as", "Any", "catch", "false", "is", "nil",
+    "rethrows", "super", "self", "Self", "throw", "throws", "true", "try",
+    "associativity", "convenience", "dynamic", "didSet", "final", "get", "infix",
+    "indirect", "lazy", "left", "mutating", "none", "nonmutating", "optional",
+    "override", "postfix", "precedence", "prefix", "Protocol", "required",
+    "right", "set", "Type", "unowned", "weak", "willSet"
   };
  
   static std::vector<std::string>

@@ -2,35 +2,53 @@ import Foundation
 import Utility
 import ShellOut
 
-func getRequiredArgument<T>(parsingResult: ArgumentParser.Result, parser: ArgumentParser, argument: OptionArgument<T>, name: String) throws -> T {
-  guard let parsed = parsingResult.get(argument) else {
-    throw ArgumentParserError.expectedArguments(parser, [name])
-  }
-  return parsed
+enum Project {
+  case built(executable: String)
+  case notBuilt(xcodeproj: String, scheme: String, outputPath: String)
 }
 
-func executableFromProjectBuild(xcodeproj: String, scheme: String, outputPath: String) throws -> String {
-  
-  let buildSettingsDict: [String:String] =
-    try xcodebuild(project: xcodeproj, scheme: scheme, outputBuildPath: outputPath)
-      .components(separatedBy: "\n")
-      .map { $0.trimmingCharacters(in: .whitespaces) }
-      .reduce(into: [:]) { dict, settingLine in
-        let pair = settingLine.components(separatedBy: " = ")
-        guard pair.count == 2 else {
-          return
-        }
-        dict[pair[0]] = pair[1]
+func projectFromArgs(parsingResult: ArgumentParser.Result, parser: ArgumentParser, xcodeprojArg: OptionArgument<String>, schemeArg: OptionArgument<String>, outputBuildPath: String, executableArg: OptionArgument<String>) throws -> Project {
+
+  let xcodeproj = parsingResult.get(xcodeprojArg)
+  let scheme = parsingResult.get(schemeArg)
+  let executable = parsingResult.get(executableArg)
+
+  if let executable = executable {
+    return .built(executable: executable)
+  } else if let xcodeproj = xcodeproj, let scheme = scheme {
+    return .notBuilt(xcodeproj: xcodeproj, scheme: scheme, outputPath: outputBuildPath)
+  } else {
+    throw ArgumentParserError.expectedArguments(parser, ["xcodeproj", "scheme"])
   }
-  
-  guard let productsPathComponent = buildSettingsDict["BUILT_PRODUCTS_DIR"],
-    let executablePathComponent = buildSettingsDict["EXECUTABLE_PATH"] else {
-      print("Failed to extract executable path from built project")
-      exit(0)
+}
+
+func executableFromProject(_ project: Project) throws -> String {
+  switch project {
+  case .built(let executable):
+    return executable
+    
+  case .notBuilt(let xcodeproj, let scheme, let outputPath):
+    let buildSettingsDict: [String:String] =
+      try xcodebuild(project: xcodeproj, scheme: scheme, outputBuildPath: outputPath)
+        .components(separatedBy: "\n")
+        .map { $0.trimmingCharacters(in: .whitespaces) }
+        .reduce(into: [:]) { dict, settingLine in
+          let pair = settingLine.components(separatedBy: " = ")
+          guard pair.count == 2 else {
+            return
+          }
+          dict[pair[0]] = pair[1]
+    }
+    
+    guard let productsPathComponent = buildSettingsDict["BUILT_PRODUCTS_DIR"],
+      let executablePathComponent = buildSettingsDict["EXECUTABLE_PATH"] else {
+        print("Failed to extract executable path from built project")
+        exit(0)
+    }
+    let executablePath = productsPathComponent + "/" + executablePathComponent
+    
+    return executablePath
   }
-  let executablePath = productsPathComponent + "/" + executablePathComponent
-  
-  return executablePath
 }
 
 func xcodebuild(project: String, scheme: String, outputBuildPath: String) throws -> String {

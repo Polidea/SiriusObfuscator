@@ -24,9 +24,10 @@ module FileExtractor
         source_files(@main_target),
         layout_files(@main_target),
         update_frameworks_paths(explicitly_linked_frameworks(@main_target), @main_build_settings),
-        nil,
+        nil, # for implicitely linked frameworks
         framework_search_paths(@main_build_settings),
         header_search_paths(@main_build_settings),
+        nil, # for configuration file
         bridging_header(@main_build_settings)
       ), dir
     end

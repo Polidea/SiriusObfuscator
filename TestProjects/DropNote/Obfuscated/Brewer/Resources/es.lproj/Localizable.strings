@@ -1,0 +1,129 @@
+/*
+ Localizable.strings
+ Brewer
+ 
+ Created by Maciej Oczko on 06.06.2016.
+ Copyright © 2016 Maciej Oczko. All rights reserved.
+ */
+
+// Navigation
+
+"NavigationEdit" = "Editar";
+"NavigationDone" = "Listo";
+
+// Main Screen
+
+"StartBrewingItemTitle" = "Empezar";
+"HistoryItemTitle" = "Historia";
+"SettingsItemTitle" = "Ajustes";
+
+"HistoryFilterPlaceholder" = "Buscar";
+"HistoryEmptySetDescription" = "Aquí verás la historia de tus preparaciones de café";
+
+// Brews sorting
+
+"BrewingsSortingSortTitle" = "Ordenar";
+"BrewingsSortingDateAscending" = "De más antiguo a más reciente";
+"BrewingsSortingDateDescending" = "De más reciente a más antiguo";
+"BrewingsSortingScoreAscending" = "De peor a mejor";
+"BrewingsSortingScoreDescending" = "De mejor a peor";
+
+// Settings
+
+"SettingsBrewingSequenceMenuItemTitle" = "Sequencia de preparación";
+"SettingsBrewingSequenceMenuDefaultSubtitle" = "Predeterminado";
+"SettingsUnitsMenuItemTitle" = "Unidades";
+"SettingsAboutMenuItemTitle" = "Acerca de la app";
+"SettingsFeedbackMenuItemTitle" = "Feedback";
+"SettingsRateMenuItemTitle" = "Por favor, califica Dropnote";
+
+"SettingsAboutThanksForTransaltion" = "Gracias por la traducción";
+
+// Method picker
+
+"MethodPickItemTitle" = "Elige un método";
+
+"MethodEsspressoMachine" = "Máquina";
+"MethodPourOver" = "Pour-Over";
+"MethodAeropress" = "Aeropress";
+"MethodKone" = "Kone";
+"MethodKalita" = "Kalita";
+
+"MethodDetailV60" = "V60";
+"MethodDetailChemex" = "Chemex";
+"MethodDetailTraditional" = "Tradiciónal";
+"MethodDetailInverted" = "Invertido";
+
+// Sequence
+
+"SequenceItemTitle" = "Sequencia";
+
+// Units
+
+"UnitsItemTitle" = "Unidades";
+
+// Brewing attributes
+
+"AttributeCoffeeWeight" = "Peso del café";
+"AttributeGrindSize" = "Grado de molienda";
+"AttributeTampStrength" = "Fuerza de prensado";
+"AttributeTemperature" = "Temperatura";
+"AttributeWaterWeight" = "Peso o volumen del agua";
+"AttributeTime" = "Tiempo";
+"AttributeNotes" = "Notas";
+"AttributePreInfusionTime" = "Tiempo de preinfusión";
+
+// Units category items
+
+"UnitCategoryWater" = "Agua";
+"UnitCategoryCoffee" = "Café";
+"UnitCategoryTemperature" = "Temperatura";
+
+
+// New brew
+
+"NewBrewItemTitle" = "Nueva preparación";
+
+"NewBrewCoffeeInputPlaceholder" = "Entra tu café...";
+"NewBrewCoffeeMachinePlaceholder" = "Entra el nombre de tu máquina...";
+
+"SelectableSearchCoffeeItemTitle" = "Café";
+"SelectableSearchCoffeeMachineItemTitle" = "Máquina";
+
+"GrindSizeSliderButtonTitle" = "Pulsa para usar el deslizador";
+"GrindSizeNumericButtonTitle" = "Pulsa para entrar un valor";
+
+"GrindSizeLevelExtraFine" = "Muy fino";
+"GrindSizeLevelFine" = "Fino";
+"GrindSizeLevelMedium" = "Medio";
+"GrindSizeLevelCoarse" = "Grueso";
+
+// Informative
+
+"TimeInformativeText" = "Entra el tiempo de infusión";
+"GrindSizeInformativeText" = "Entra o elige grado de molienda";
+"WaterInformativeText" = "Entra el peso o el volumen del agua\nPodrás cambiar la unidad en los ajustes";
+"TemperatureInformativeText" = "Entra la temperatura del agua\nPodrás cambiar la unidad en los ajustes";
+"WeightInformativeText" = "Entra el peso del café\nPodrás cambiar la unidad de peso en los ajustes";
+"TampingInformativeText" = "Elige la fuerza de prensado";
+
+// Brew details
+
+"BrewDetailsItemTitle" = "Detalles de preparación";
+"BrewDetailScore" = "Evaluación";
+"BrewScoreDetailsItemTitle" = "Detalles de evaluación";
+"BrewDetailsRemoveTitle" = "Borrar preparación";
+
+"BrewDetailsConfirmationTitle" = "Estás seguro de que quieres borrar esta preparación?";
+"BrewDetailsConfirmationYes" = "Borrar";
+"BrewDetailsConfirmationNo" = "Cancelar";
+
+// Cupping attributes
+
+"CuppingAttributeAroma" = "Aroma";
+"CuppingAttributeAcidity" = "Acidez";
+"CuppingAttributeAftertaste" = "Regusto";
+"CuppingAttributeBalance" = "Balance";
+"CuppingAttributeBody" = "Body";
+"CuppingAttributeSweetness" = "Dulzura";
+"CuppingAttributeOverall" = "En general";

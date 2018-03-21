@@ -1,5 +1,6 @@
 #include "swift/Obfuscation/Renaming.h"
 #include "swift/Obfuscation/CompilerInfrastructure.h"
+#include "swift/Obfuscation/ConfigurationExcluder.h"
 #include "swift/Obfuscation/SourceFileWalker.h"
 #include "swift/Obfuscation/Utils.h"
 #include "swift/Obfuscation/LayoutRenamer.h"
@@ -170,6 +171,7 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
 llvm::Expected<FilesList>
 performRenaming(std::string MainExecutablePath,
                 const FilesJson &FilesJson,
+                ObfuscationConfiguration &&ObfuscationConfiguration,
                 const RenamesJson &RenamesJson,
                 std::string ObfuscatedProjectPath,
                 llvm::raw_ostream &DiagnosticStream) {
@@ -192,6 +194,7 @@ performRenaming(std::string MainExecutablePath,
 
   ExtensionExcluder ExtensionExcluder;
   NSManagedExcluder NSManagedExcluder;
+  ConfigurationExcluder ConfigurationExcluder(std::move(ObfuscationConfiguration));
   
   std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder };
   

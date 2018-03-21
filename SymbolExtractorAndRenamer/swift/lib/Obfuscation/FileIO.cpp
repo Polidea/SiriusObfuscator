@@ -32,6 +32,11 @@ parseJson(std::string,
           const MemoryBufferProvider &BufferProvider = MemoryBufferProvider());
 
 template
+llvm::Expected<ObfuscationConfiguration>
+parseJson(std::string,
+          const MemoryBufferProvider &BufferProvider = MemoryBufferProvider());
+
+template
 llvm::Expected<SymbolsJson>
 parseJson(std::string,
           const MemoryBufferProvider &BufferProvider = MemoryBufferProvider());

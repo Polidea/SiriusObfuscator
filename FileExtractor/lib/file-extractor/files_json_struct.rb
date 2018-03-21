@@ -33,6 +33,7 @@ module FileExtractor
                          :implicitlyLinkedFrameworks, 
                          :frameworkSearchPaths,
                          :headerSearchPaths,
+                         :configurationFile,
                          :bridgingHeader) do
     include StructSerialization
 

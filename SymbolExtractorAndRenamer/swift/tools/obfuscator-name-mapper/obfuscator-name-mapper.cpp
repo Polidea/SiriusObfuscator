@@ -24,17 +24,20 @@ RenamesJsonPath("renamesjson",
   
 static llvm::cl::opt<NameMappingStrategy>
 NameMappingStrategy("namemappingstrategy",
-                    llvm::cl::init(NameMappingStrategy::random),
+                    llvm::cl::init(NameMappingStrategy::Random),
                     llvm::cl::desc("Choose name mapping strategy:"),
                     llvm::cl::values(
-                      clEnumValN(NameMappingStrategy::random,
+                      clEnumValN(NameMappingStrategy::Random,
                                  "random",
                                  "Generate random unique identifiers "
                                  "(default)"),
-                      clEnumValN(NameMappingStrategy::deterministic,
+                      clEnumValN(NameMappingStrategy::Deterministic,
                                  "deterministic",
                                  "Generate deterministic identifiers "
-                                 "(useful for testing)")
+                                 "(useful for testing)"),
+                      clEnumValN(NameMappingStrategy::Minifying,
+                                 "minifying",
+                                 "Generate minified identifiers")
                     ),
                 llvm::cl::cat(ObfuscatorNameMapper));
 }

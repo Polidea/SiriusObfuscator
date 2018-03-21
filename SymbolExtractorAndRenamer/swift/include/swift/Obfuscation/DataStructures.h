@@ -43,6 +43,7 @@ struct FilesJson {
   std::vector<std::string> FrameworkSearchPaths;
   std::vector<std::string> HeaderSearchPaths;
   std::string BridgingHeader;
+  std::string ConfigurationFile;
 };
 
 enum class SymbolType: int {
@@ -106,6 +107,65 @@ struct SymbolRenaming {
 
 struct RenamesJson {
   std::vector<SymbolRenaming> Symbols;
+};
+
+enum class ExclusionKind: int {
+  UnknownKind,
+
+  Type,
+
+  Inheritance,
+
+  Conformance
+};
+
+struct TypeExclusion;
+struct InheritanceExclusion;
+struct ConformanceExclusion;
+
+struct Exclusion {
+
+  std::string Module;
+
+  ExclusionKind Kind;
+
+  const TypeExclusion* getAsTypeExclusion() const;
+  const InheritanceExclusion* getAsInheritanceExclusion() const;
+  const ConformanceExclusion* getAsConformanceExclusion() const;
+};
+
+struct TypeExclusion: public Exclusion {
+  std::string Name;
+
+  TypeExclusion() = default;
+  TypeExclusion(const TypeExclusion&) = default;
+  TypeExclusion(TypeExclusion&&) = default;
+};
+
+struct InheritanceExclusion: public Exclusion {
+  std::string Base;
+
+  InheritanceExclusion() = default;
+  InheritanceExclusion(const InheritanceExclusion&) = default;
+  InheritanceExclusion(InheritanceExclusion&&) = default;
+};
+
+struct ConformanceExclusion: public Exclusion {
+  std::string Protocol;
+
+  ConformanceExclusion() = default;
+  ConformanceExclusion(const ConformanceExclusion&) = default;
+  ConformanceExclusion(ConformanceExclusion&&) = default;
+};
+
+struct ObfuscationConfiguration {
+  std::vector<std::unique_ptr<Exclusion>> Exclude;
+
+  ObfuscationConfiguration() = default;
+  ObfuscationConfiguration(const ObfuscationConfiguration&) = delete;
+  ObfuscationConfiguration(ObfuscationConfiguration&&) = default;
+  ObfuscationConfiguration& operator=(const ObfuscationConfiguration &) = delete;
+  ObfuscationConfiguration& operator=(ObfuscationConfiguration &&) = default;
 };
   
 /// SymbolWithRange - struct for linking the symbol identified in the Swift
@@ -212,6 +272,36 @@ struct MappingTraits<RenamesJson> {
 template <>
 struct MappingTraits<SymbolRenaming> {
   static void mapping(IO &Io, SymbolRenaming &Object);
+};
+
+template <>
+struct MappingTraits<ObfuscationConfiguration> {
+  static void mapping(IO &Io, ObfuscationConfiguration &Object);
+};
+
+template <>
+struct ScalarEnumerationTraits<ExclusionKind> {
+  static void enumeration(IO &Io, ExclusionKind &Enum);
+};
+
+template <>
+struct MappingTraits<std::unique_ptr<Exclusion>> {
+  static void mapping(IO &Io, std::unique_ptr<Exclusion> &Object);
+};
+
+template <>
+struct MappingTraits<TypeExclusion> {
+  static void mapping(IO &Io, TypeExclusion &Object);
+};
+
+template <>
+struct MappingTraits<InheritanceExclusion> {
+  static void mapping(IO &Io, InheritanceExclusion &Object);
+};
+
+template <>
+struct MappingTraits<ConformanceExclusion> {
+  static void mapping(IO &Io, ConformanceExclusion &Object);
 };
 
 template <typename U>

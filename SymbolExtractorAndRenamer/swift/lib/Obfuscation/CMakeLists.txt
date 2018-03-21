@@ -4,6 +4,7 @@ include_directories(SYSTEM ${LIBXML2_INCLUDE_DIR})
 
 add_swift_library(swiftObfuscation STATIC
   CompilerInfrastructure.cpp
+  ConfigurationExcluder.cpp
   DataStructures.cpp
   DeclarationParser.cpp
   OperatorParser.cpp
