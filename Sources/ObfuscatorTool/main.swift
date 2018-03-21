@@ -11,7 +11,7 @@ guard let myselfInArguments = CommandLine.arguments.first
 func execute() throws {
   
   let parser = ArgumentParser(
-    usage: "-projectrootpath [PROJECTROOTPATH] -obfuscatedproject [OBFUSCATEDPROJECTPATH]",
+    usage: "-projectrootpath [PROJECTROOTPATH] -obfuscatedproject [OBFUSCATEDPROJECTPATH] -namemappingstrategy [MAPPINGSTRATEGY]",
     overview: "Obfuscator tool"
   )
   
@@ -31,6 +31,33 @@ func execute() throws {
     """
   )
   
+  enum NameMappingStrategy: String, StringEnumArgument {
+    case random = "random"
+    case deterministic = "deterministic"
+    case minified = "minifying"
+    
+    static var `default`: NameMappingStrategy = .random
+    var argDescription: String {
+      switch self {
+      case .random: return "Generate random unique identifiers (default)"
+      case .deterministic: return "Generate deterministic identifiers (useful for testing)"
+      case .minified: return "Generate minified identifiers"
+      }
+    }
+    static var allValues: [NameMappingStrategy] { return [.random, .deterministic, .minified] }
+    static var completion: ShellCompletion = .none
+  }
+  
+  let nameMappingStrategyArgument: OptionArgument<NameMappingStrategy> = parser.add(
+    option: "-namemappingstrategy",
+    kind: NameMappingStrategy.self,
+    usage: "Strategy of creating the mapping: original to obfuscated name. Options: " +
+      NameMappingStrategy.allValues.reduce(into: "", { string, value in
+        string += "\n\t\(value.rawValue)\t\(value.argDescription)"
+      })
+  )
+  
+  
   var arguments = Array(CommandLine.arguments.dropFirst())
   if arguments.isEmpty {
     arguments.append("-help")
@@ -47,6 +74,8 @@ func execute() throws {
     print("Parameter -obfuscatedproject is required")
     return;
   }
+  
+  let nameMappingStrategy: NameMappingStrategy = result.get(nameMappingStrategyArgument) ?? NameMappingStrategy.default
   
   let dirName = try shellOut(to: "dirname", arguments: [myselfInArguments])
   let selfDir = try shellOut(to: ["cd \(dirName)", "pwd"])
@@ -93,7 +122,11 @@ Welcome to Swift Obfuscator
   print(nameMapperMessage)
   let nameMapperOutput = try shellOut(
     to: "\(selfDir)/name-mapper",
-    arguments: ["-symbolsjson", "symbols.json", "-renamesjson", "renames.json"]
+    arguments: ["-symbolsjson",
+                "symbols.json",
+                "-renamesjson",
+                "renames.json",
+                "-namemappingstrategy", nameMappingStrategy.rawValue]
   )
   print(nameMapperOutput)
   let renamerMessage = """

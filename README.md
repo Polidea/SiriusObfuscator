@@ -6,7 +6,20 @@ This is the umbrella tool that exposes the unified command line interface to per
 
 ## Usage
 
-TBA
+```bash
+$ obfuscator-tool -projectrootpath <path-to-xcode-project> -obfuscatedproject `<path-for-obfuscated-project>` -namemappingstrategy <name-mapping-strategy>
+```
+
+where
+
+`<path-to-xcode-project>` is a path to Xcode project root folder. It\'s the folder that contains both the Xcode project file (.xcodeproj or .xcworkspace) and the source files. It is passed to _FileExtractor_ tool.
+
+`<path-for-obfuscated-project>` is the path to the directory that the newly generated obfuscated Swift source code files will be written to, as well as the new project. Is is passed to _Renamer_ tool.
+
+`<name-mapping-strategy>` strategy of creating the mapping: original to obfuscated name. Is is passed to _NameMapper_ tool. Options:
+- `random` to generate random unique identifiers (default).
+- `deterministic` to generate deterministic identifiers (useful for testing).
+- `minifying` to generate minified identifiers.
 
 ## Data format
 
@@ -38,7 +51,7 @@ TBA
 
 In the alphabetical order:
 
-* [Jerzy Kleszcz](mailto:jerzy.kleszcz@polidea.com)
+* [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 
 
