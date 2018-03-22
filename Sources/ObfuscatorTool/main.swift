@@ -8,6 +8,10 @@ guard let myselfInArguments = CommandLine.arguments.first
     exit(1)
 }
 
+let filesJson = "files.json"
+let symbolsJson = "symbols.json"
+let renamesJson = "renames.json"
+
 func execute() throws {
   
   let parser = ArgumentParser(
@@ -57,6 +61,21 @@ func execute() throws {
       })
   )
   
+  let verboseArgument = parser.add(
+    option: "-verbose",
+    kind: Bool.self,
+    usage: """
+    Print debugging info.
+    """
+  )
+  
+  let keepIntermediatesArgument = parser.add(
+    option: "-keepintermediates",
+    kind: Bool.self,
+    usage: """
+    Keep intermediate files (files.json symbols.json, renames.json).
+    """
+  )
   
   var arguments = Array(CommandLine.arguments.dropFirst())
   if arguments.isEmpty {
@@ -77,6 +96,10 @@ func execute() throws {
   
   let nameMappingStrategy: NameMappingStrategy = result.get(nameMappingStrategyArgument) ?? NameMappingStrategy.default
   
+  let verbose = result.get(verboseArgument) ?? false
+  
+  let keepIntermediates = result.get(keepIntermediatesArgument) ?? false
+  
   let dirName = try shellOut(to: "dirname", arguments: [myselfInArguments])
   let selfDir = try shellOut(to: ["cd \(dirName)", "pwd"])
   let introMessage = """
@@ -94,9 +117,16 @@ Welcome to Swift Obfuscator
 
 """
   print(fileExtractorMessage)
+  
+  var fileExtractorArguments = [
+    "-projectrootpath", originalPath,
+    "-filesjson", filesJson
+  ]
+  if verbose { fileExtractorArguments.append("-verbose") }
+  
   let fileExtractorOutput = try shellOut(
     to: "\(selfDir)/file-extractor",
-    arguments: ["-projectrootpath", originalPath, "-filesjson", "files.json"]
+    arguments: fileExtractorArguments
   )
   print(fileExtractorOutput)
   let symbolExtractorMessage = """
@@ -107,9 +137,16 @@ Welcome to Swift Obfuscator
 
 """
   print(symbolExtractorMessage)
+  
+  var symbolExtractorArguments = [
+    "-filesjson", filesJson,
+    "-symbolsjson", symbolsJson
+  ]
+  if verbose { symbolExtractorArguments.append("-verbose") }
+  
   let symbolExtractorOutput = try shellOut(
     to: "\(selfDir)/symbol-extractor",
-    arguments: ["-filesjson", "files.json", "-symbolsjson", "symbols.json"]
+    arguments: symbolExtractorArguments
   )
   print(symbolExtractorOutput)
   let nameMapperMessage = """
@@ -120,13 +157,17 @@ Welcome to Swift Obfuscator
 
 """
   print(nameMapperMessage)
+  
+  var nameMapperArguments = [
+    "-symbolsjson", symbolsJson,
+    "-renamesjson", renamesJson,
+    "-namemappingstrategy", nameMappingStrategy.rawValue
+  ]
+  if verbose { nameMapperArguments.append("-verbose") }
+  
   let nameMapperOutput = try shellOut(
     to: "\(selfDir)/name-mapper",
-    arguments: ["-symbolsjson",
-                "symbols.json",
-                "-renamesjson",
-                "renames.json",
-                "-namemappingstrategy", nameMappingStrategy.rawValue]
+    arguments: nameMapperArguments
   )
   print(nameMapperOutput)
   let renamerMessage = """
@@ -137,16 +178,17 @@ Welcome to Swift Obfuscator
 
 """
   print(renamerMessage)
+  
+  var renamerArguments = [
+    "-filesjson", filesJson,
+    "-renamesjson", renamesJson,
+    "-obfuscatedproject", obfuscatedPath
+  ]
+  if verbose { renamerArguments.append("-verbose") }
+  
   let renamerOutput = try shellOut(
     to: "\(selfDir)/renamer",
-    arguments: [
-      "-filesjson",
-      "files.json",
-      "-renamesjson",
-      "renames.json",
-      "-obfuscatedproject",
-      obfuscatedPath
-    ]
+    arguments: renamerArguments
   )
   print(renamerOutput)
   let farewellMessage = """
@@ -166,6 +208,14 @@ for more information.
 \u{001B}[0;35m===========================\u{001B}[0;37m
 """
   print(farewellMessage)
+  
+  if !keepIntermediates { try cleanup() }
+}
+
+func cleanup() throws {
+  try shellOut(to: "rm", arguments: [filesJson])
+  try shellOut(to: "rm", arguments: [symbolsJson])
+  try shellOut(to: "rm", arguments: [renamesJson])
 }
 
 do {
@@ -174,4 +224,6 @@ do {
   let error = error as! ShellOutError
   print("STDERR: \(error.message)")
   print("STDOUT: \(error.output)")
+  
+  try? cleanup()
 }
