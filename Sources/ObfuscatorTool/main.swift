@@ -5,70 +5,87 @@ import Utility
 // Progress animation
 class Progress {
   
-  private var lastPrintedTime = 0.0
+  enum AnimationKind {
+    case Extracting
+    case NameMapping
+    case Renaming
+  }
+  
   private var extractingAnimationRunning = false
   private var nameMappingAnimationRunning = false
   private var renamingAnimationRunning = false
   
-  // animation frames
-  var extractingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Extracting⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
-                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mE\u{001B}[0;37mxtracting⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
-                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠E\u{001B}[38;5;202mx\u{001B}[0;37mtracting⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
-                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Ex\u{001B}[38;5;202mt\u{001B}[0;37mracting⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
-                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Ext\u{001B}[38;5;202mr\u{001B}[0;37macting⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
-                          "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Extr\u{001B}[38;5;202ma\u{001B}[0;37mcting⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
-                          "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Extra\u{001B}[38;5;202mc\u{001B}[0;37mting⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
-                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Extrac\u{001B}[38;5;202mt\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
-                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Extract\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
-                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Extracti\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
-                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Extractin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
-                          "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Extractin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
-  
-  
-  var nameMappingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Renaming⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
-                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mR\u{001B}[0;37menaming⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
-                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠R\u{001B}[38;5;202me\u{001B}[0;37mnaming⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
-                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Re\u{001B}[38;5;202mn\u{001B}[0;37maming⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
-                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Ren\u{001B}[38;5;202ma\u{001B}[0;37mming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
-                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Rena\u{001B}[38;5;202mm\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
-                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Renam\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
-                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Renami\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
-                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Renamin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
-                          "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Renamin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
-  
-  var renamingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Name Mapping⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
-                        "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mN\u{001B}[0;37mame Mapping⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
-                        "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠N\u{001B}[38;5;202ma\u{001B}[0;37mme Mapping⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
-                        "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Na\u{001B}[38;5;202mm\u{001B}[0;37me Mapping⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
-                        "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Nam\u{001B}[38;5;202me\u{001B}[0;37m Mapping⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
-                        "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Name\u{001B}[38;5;202m \u{001B}[0;37mMapping⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
-                        "⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂Name \u{001B}[38;5;202mM\u{001B}[0;37mapping⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂",
-                        "⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂Name M\u{001B}[38;5;202ma\u{001B}[0;37mpping⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂",
-                        "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Name Ma\u{001B}[38;5;202mp\u{001B}[0;37mping⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
-                        "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Name Map\u{001B}[38;5;202mp\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
-                        "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Name Mapp\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
-                        "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Name Mappi\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
-                        "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Name Mappin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
-                        "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Name Mappin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
-  
-  private func getTimeOfDay() -> Double {
-    var tv = timeval()
-    gettimeofday(&tv, nil)
-    return Double(tv.tv_sec) + Double(tv.tv_usec) / 1000000
-  }
-  
-  private func startAnimation(_ frames: Array<String>) {
-    lastPrintedTime = 0.0
+  private func startAnimation(_ animationKind: AnimationKind) {
     
     DispatchQueue.global(qos: .background).async {
+  
+      // animation frames
+      var extractingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Extracting⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
+                              "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mE\u{001B}[0;37mxtracting⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                              "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠E\u{001B}[38;5;202mx\u{001B}[0;37mtracting⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                              "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Ex\u{001B}[38;5;202mt\u{001B}[0;37mracting⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                              "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Ext\u{001B}[38;5;202mr\u{001B}[0;37macting⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                              "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Extr\u{001B}[38;5;202ma\u{001B}[0;37mcting⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                              "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Extra\u{001B}[38;5;202mc\u{001B}[0;37mting⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                              "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Extrac\u{001B}[38;5;202mt\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                              "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Extract\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                              "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Extracti\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                              "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Extractin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                              "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Extractin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
+      
+      
+      var renamingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Renaming⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
+                            "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mR\u{001B}[0;37menaming⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                            "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠R\u{001B}[38;5;202me\u{001B}[0;37mnaming⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                            "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Re\u{001B}[38;5;202mn\u{001B}[0;37maming⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                            "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Ren\u{001B}[38;5;202ma\u{001B}[0;37mming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                            "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Rena\u{001B}[38;5;202mm\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                            "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Renam\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                            "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Renami\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                            "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Renamin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                            "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Renamin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
+      
+      var nameMappingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Name Mapping⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
+                               "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mN\u{001B}[0;37mame Mapping⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                               "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠N\u{001B}[38;5;202ma\u{001B}[0;37mme Mapping⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                               "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Na\u{001B}[38;5;202mm\u{001B}[0;37me Mapping⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                               "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Nam\u{001B}[38;5;202me\u{001B}[0;37m Mapping⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                               "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Name\u{001B}[38;5;202m \u{001B}[0;37mMapping⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                               "⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂Name \u{001B}[38;5;202mM\u{001B}[0;37mapping⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂",
+                               "⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂Name M\u{001B}[38;5;202ma\u{001B}[0;37mpping⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂",
+                               "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Name Ma\u{001B}[38;5;202mp\u{001B}[0;37mping⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                               "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Name Map\u{001B}[38;5;202mp\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                               "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Name Mapp\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                               "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Name Mappi\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                               "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Name Mappin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                               "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Name Mappin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
+      
+      var lastPrintedTime = 0.0
+
+      func getTimeOfDay() -> Double {
+        var tv = timeval()
+        gettimeofday(&tv, nil)
+        return Double(tv.tv_sec) + Double(tv.tv_usec) / 1000000
+      }
+      
+      var frames = extractingFrames
+      
+      switch animationKind {
+        case .Extracting:
+          frames = extractingFrames
+        case .NameMapping:
+          frames = nameMappingFrames
+        case .Renaming:
+          frames = renamingFrames
+      }
       
       var frameIndex = 0
       while(self.extractingAnimationRunning ||
             self.nameMappingAnimationRunning ||
             self.renamingAnimationRunning) {
         
-        let currentTime = self.getTimeOfDay()
-        if (currentTime - self.lastPrintedTime > 0.1) {
+        let currentTime = getTimeOfDay()
+        if (currentTime - lastPrintedTime > 0.1) {
           
           let index = frames.index(frames.startIndex,
                                       offsetBy: frameIndex % frames.count)
@@ -85,7 +102,7 @@ class Progress {
           if(frameIndex == frames.count-1) {
             frameIndex = 0
           }
-          self.lastPrintedTime = currentTime
+          lastPrintedTime = currentTime
         }
       }
     }
@@ -93,7 +110,9 @@ class Progress {
   
   func startExtractingProgressAnimation() {
     extractingAnimationRunning = true
-    startAnimation(extractingFrames)
+    nameMappingAnimationRunning = false
+    renamingAnimationRunning = false
+    startAnimation(AnimationKind.Extracting)
   }
   
   func stopExtractingProgressAnimation() {
@@ -102,7 +121,9 @@ class Progress {
   
   func startNameMappingProgressAnimation() {
     nameMappingAnimationRunning = true
-    startAnimation(nameMappingFrames)
+    extractingAnimationRunning = false
+    renamingAnimationRunning = false
+    startAnimation(AnimationKind.NameMapping)
   }
   
   func stopNameMappingProgressAnimation() {
@@ -111,7 +132,9 @@ class Progress {
   
   func startRenamingProgressAnimation() {
     renamingAnimationRunning = true
-    startAnimation(renamingFrames)
+    extractingAnimationRunning = false
+    nameMappingAnimationRunning = false
+    startAnimation(AnimationKind.Renaming)
   }
   
   func stopRenamingProgressAnimation() {
@@ -344,6 +367,10 @@ func cleanup() throws {
 do {
   try execute()
 } catch {
+  progress.stopExtractingProgressAnimation()
+  progress.stopNameMappingProgressAnimation()
+  progress.stopRenamingProgressAnimation()
+  
   let error = error as! ShellOutError
   print("STDERR: \(error.message)")
   print("STDOUT: \(error.output)")
