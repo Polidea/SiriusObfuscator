@@ -5,6 +5,7 @@
 #include "swift/Obfuscation/DataStructures.h"
 #include "swift/Obfuscation/DeclarationParsingUtils.h"
 
+#include <set>
 #include <string>
 #include <vector>
 
@@ -55,6 +56,18 @@ llvm::Expected<std::string> enclosingTypeName(const Decl* Declaration);
 template<class T>
 std::pair<const T*, std::set<std::string>>
 getBaseOverridenDeclarationWithModules(const T *Declaration);
+
+using ClassDeclarationsWithModules =
+  std::vector<std::pair<const ClassDecl*, std::string>>;
+
+ClassDeclarationsWithModules
+getSuperClassDeclarationsWithModules(const ClassDecl *Declaration);
+
+using ProtocolDeclarationsWithModules =
+  std::set<std::pair<const ProtocolDecl*, std::string>>;
+
+ProtocolDeclarationsWithModules
+getConformingProtocolDeclarationsWithModules(const NominalTypeDecl *Declaration);
 
 bool isMemberwise(const ConstructorDecl* Declaration);
 

@@ -23,21 +23,18 @@ SymbolJsonPath("symbolsjson",
                llvm::cl::cat(ObfuscatorSymbolExtractor));
   
 static llvm::cl::opt<bool>
-PrintDiagnostics("printdiagnostics",
+HideDiagnostics("hidediagnostics",
                  llvm::cl::init(false),
-                 llvm::cl::desc("Print diagnostic informations from "
+                 llvm::cl::desc("Don't print diagnostic informations from "
                                 "Swift compiler"),
                  llvm::cl::cat(ObfuscatorSymbolExtractor));
+  
+static llvm::cl::opt<bool>
+Verbose("verbose",
+        llvm::cl::init(false),
+        llvm::cl::desc("Print debug info."),
+        llvm::cl::cat(ObfuscatorSymbolExtractor));
 
-}
-
-void printSymbols(const std::vector<Symbol> &Symbols) {
-  for (const auto &Symbol : Symbols) {
-    llvm::outs()
-      << "identifier: " << Symbol.Identifier << '\n'
-      << "name: " << Symbol.Name << '\n'
-      << "module: " << Symbol.Module << '\n';
-  }
 }
 
 // This function isn't referenced outside its translation unit, but it
@@ -86,10 +83,10 @@ int main(int argc, char *argv[]) {
   llvm::raw_ostream *DiagnosticStream;
   // Decides if and where the logs from the compiler will be printed.
   // If llvm::raw_null_ostream is used, they're just discarded.
-  if (options::PrintDiagnostics) {
-    DiagnosticStream = &llvm::outs();
-  } else {
+  if (options::HideDiagnostics) {
     DiagnosticStream = new llvm::raw_null_ostream();
+  } else {
+    DiagnosticStream = &llvm::outs();
   }
 
   // This is the place that the actual symbol extraction is performed.
@@ -101,21 +98,26 @@ int main(int argc, char *argv[]) {
     ExitOnError(std::move(Error));
   }
 
-  // Prints only to the output, not to file
-  printSymbols(SymbolsOrError.get().Symbols);
-
   if (options::SymbolJsonPath.empty()) {
     llvm::errs() << "there is no path to write extracted symbols to" << '\n';
     return 1;
   }
+  
   std::string PathToOutput = options::SymbolJsonPath;
 
+  llvm::raw_ostream *DebugStream;
+  if (options::Verbose) {
+    DebugStream = &llvm::outs();
+  } else {
+    DebugStream = new llvm::raw_null_ostream();
+  }
+  
   // Writes the extracted symbols to Symbols.json file. Saves at given path.
   FileFactory<llvm::raw_fd_ostream> Factory;
   auto WriteErrorCode = writeToPath(SymbolsOrError.get(),
                                     PathToOutput,
                                     Factory,
-                                    llvm::outs());
+                                    *DebugStream);
   ExitOnError(std::move(WriteErrorCode));
 
   return 0;

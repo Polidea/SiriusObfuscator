@@ -29,11 +29,17 @@ ObfuscatedProjectPath("obfuscatedproject",
                       llvm::cl::cat(ObfuscatorRenamer));
 
 static llvm::cl::opt<bool>
-PrintDiagnostics("printdiagnostics",
-                 llvm::cl::init(false),
-                 llvm::cl::desc("Print diagnostic informations from "
-                                "Swift compiler"),
-                 llvm::cl::cat(ObfuscatorRenamer));
+HideDiagnostics("hidediagnostics",
+                llvm::cl::init(false),
+                llvm::cl::desc("Don't print diagnostic informations from "
+                               "Swift compiler"),
+                llvm::cl::cat(ObfuscatorRenamer));
+  
+static llvm::cl::opt<bool>
+Verbose("verbose",
+        llvm::cl::init(false),
+        llvm::cl::desc("Print debug info."),
+        llvm::cl::cat(ObfuscatorRenamer));
   
 }
 
@@ -117,10 +123,10 @@ int main(int argc, char *argv[]) {
   llvm::raw_ostream *DiagnosticStream;
   // Decides if and where the logs from the compiler will be printed.
   // If llvm::raw_null_ostream is used, they're just discarded.
-  if (options::PrintDiagnostics) {
-    DiagnosticStream = &llvm::outs();
-  } else {
+  if (options::HideDiagnostics) {
     DiagnosticStream = new llvm::raw_null_ostream();
+  } else {
+    DiagnosticStream = &llvm::outs();
   }
 
   // This is the place that the actual renaming is performed.
@@ -135,8 +141,10 @@ int main(int argc, char *argv[]) {
     ExitOnError(std::move(Error));
   }
 
-  // Prints only to the output, not to file
-  printObfuscatedFiles(FilesOrError.get());
+  if (options::Verbose) {
+    // Prints only to the output, not to file
+    printObfuscatedFiles(FilesOrError.get());
+  }
   
   return 0;
 }

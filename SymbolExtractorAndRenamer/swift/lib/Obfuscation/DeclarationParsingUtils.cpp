@@ -121,6 +121,52 @@ getBaseOverridenDeclarationWithModules(const T *Declaration) {
   return std::make_pair(Base, Modules);
 }
 
+ClassDeclarationsWithModules
+findRecursivelySuperClassDeclarationsWithModules(const ClassDecl *Declaration,
+                                                ClassDeclarationsWithModules &DeclarationsWithModules) {
+  if (auto* OverridenDeclaration = Declaration->getSuperclassDecl()) {
+    auto DeclarationAndModule =
+      std::make_pair(OverridenDeclaration, moduleName(OverridenDeclaration));
+    DeclarationsWithModules.push_back(DeclarationAndModule);
+    return findRecursivelySuperClassDeclarationsWithModules(OverridenDeclaration,
+                                                            DeclarationsWithModules);
+  }
+  return DeclarationsWithModules;
+}
+
+ClassDeclarationsWithModules
+getSuperClassDeclarationsWithModules(const ClassDecl *Declaration) {
+  ClassDeclarationsWithModules DeclarationsWithModules;
+  return findRecursivelySuperClassDeclarationsWithModules(Declaration,
+                                                         DeclarationsWithModules);
+}
+
+void
+findRecursivelyConformingProtocolDeclarationsWithModules(const NominalTypeDecl *Declaration,
+                                                         ProtocolDeclarationsWithModules &DeclarationsWithModules) {
+
+  for (auto Inherited : Declaration->getInherited()) {
+    if (auto *ProtocolDeclaration =
+          dyn_cast_or_null<ProtocolDecl>(Inherited.getType()->getAnyNominal())) {
+      auto DeclarationAndModule =
+        std::make_pair(ProtocolDeclaration, moduleName(ProtocolDeclaration));
+      auto InsertionResult = DeclarationsWithModules.insert(DeclarationAndModule);
+      if (InsertionResult.second) {
+        findRecursivelyConformingProtocolDeclarationsWithModules(ProtocolDeclaration,
+                                                                 DeclarationsWithModules);
+      }
+    }
+  }
+}
+
+ProtocolDeclarationsWithModules
+getConformingProtocolDeclarationsWithModules(const NominalTypeDecl *Declaration) {
+  ProtocolDeclarationsWithModules DeclarationsWithModules;
+  findRecursivelyConformingProtocolDeclarationsWithModules(Declaration,
+                                                           DeclarationsWithModules);
+  return DeclarationsWithModules;
+}
+
 template
 std::pair<const VarDecl*, std::set<std::string>>
 getBaseOverridenDeclarationWithModules(const VarDecl *Declaration);

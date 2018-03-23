@@ -40,16 +40,12 @@ NameMappingStrategy("namemappingstrategy",
                                  "Generate minified identifiers")
                     ),
                 llvm::cl::cat(ObfuscatorNameMapper));
-}
-
-void printRenamings(const std::vector<SymbolRenaming> &Renamings) {
-  for (const auto &Renaming : Renamings) {
-    llvm::outs()
-      << "identifier: " << Renaming.Identifier << '\n'
-      << "originalName: " << Renaming.OriginalName << '\n'
-      << "obfuscatedName: " << Renaming.ObfuscatedName << '\n'
-      << "module: " << Renaming.Module << '\n';
-  }
+  
+static llvm::cl::opt<bool>
+Verbose("verbose",
+        llvm::cl::init(false),
+        llvm::cl::desc("Print debug info."),
+        llvm::cl::cat(ObfuscatorNameMapper));
 }
 
 int main(int argc, char *argv[]) {
@@ -90,16 +86,23 @@ int main(int argc, char *argv[]) {
     ExitOnError(std::move(Error));
   }
   auto Renamings = RenamingsOrError.get();
-
-  // Prints only to the output, not to file
-  printRenamings(Renamings.Symbols);
-
-  // Writes the renaming proposals to Renames.json file. Saves at given path.
+  
   std::string PathToOutput = options::RenamesJsonPath;
-  FileFactory<llvm::raw_fd_ostream> Factory;
-  if (auto Error = writeToPath(Renamings, PathToOutput, Factory, llvm::outs())) {
-    ExitOnError(std::move(Error));
+  
+  llvm::raw_ostream *DebugStream;
+  if (options::Verbose) {
+    DebugStream = &llvm::outs();
+  } else {
+    DebugStream = new llvm::raw_null_ostream();
   }
+  
+  // Writes the renaming proposals to Renames.json file. Saves at given path.
+  FileFactory<llvm::raw_fd_ostream> Factory;
+  auto WriteErrorCode = writeToPath(Renamings,
+                                    PathToOutput,
+                                    Factory,
+                                    *DebugStream);
+  ExitOnError(std::move(WriteErrorCode));
   
   return 0;
 }

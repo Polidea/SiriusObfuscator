@@ -103,28 +103,30 @@ TEST(ParseJson, SuccessParsingText) {
     std::string ImplicitFramework = "testImplicitFramework";
     std::string FrameworkSearchPath = "testFrameworkSearchPath";
     std::string HeaderSearchPath = "testHeaderSearchPath";
+    std::string ConfigurationFile = "testConfigurationFile";
     std::string BridgingHeader = "testBridgingHeader";
     FakeMemoryBuffer::Payload = "{\r\n  \"project\":{\r\n"
         "\"rootPath\":\"" + RootPath + "\",\r\n"
-        "\"projectFilePath\":\"" + ProjectFilePath + "\"\r\n   },"
+        "\"projectFilePath\":\"" + ProjectFilePath + "\"\r\n},"
         "\"module\":{\r\n"
         "\"name\":\"" + ModuleName + "\",\r\n"
-        "\"triple\": \"" + ModuleTriple + "\"\r\n   },\r\n"
+        "\"triple\": \"" + ModuleTriple + "\"\r\n},\r\n"
         "\"sdk\":{\r\n"
         "\"name\":\"" + SdkName + "\",\r\n"
-        "\"path\":\"" + SdkPath + "\"\r\n   },\r\n"
+        "\"path\":\"" + SdkPath + "\"\r\n},\r\n"
         "\"sourceFiles\":[\r\n"
         "\"" + SourceFileName1 + "\",\r\n"
-        "\"" + SourceFileName2 + "\"\r\n   ],\r\n"
+        "\"" + SourceFileName2 + "\"\r\n],\r\n"
         "\"layoutFiles\":[\r\n"
         "\"" + LayoutFileName1 + "\",\r\n"
-        "\"" + LayoutFileName2 + "\"\r\n   ],\r\n"
+        "\"" + LayoutFileName2 + "\"\r\n],\r\n"
         "\"explicitlyLinkedFrameworks\":[\r\n {\r\n"
         "\"name\":\"" + ExplicitFrameworkName + "\",\r\n"
         "\"path\":\"" + ExplicitFrameworkPath + "\"\r\n }\r\n ],\r\n"
-        "\"implicitlyLinkedFrameworks\":[\r\n \"" + ImplicitFramework + "\"\r\n   ],\r\n"
+        "\"implicitlyLinkedFrameworks\":[\r\n \"" + ImplicitFramework + "\"\r\n],\r\n"
         "\"frameworkSearchPaths\":[\r\n \"" + FrameworkSearchPath + "\"\r\n],\r\n"
         "\"headerSearchPaths\":[\r\n \"" + HeaderSearchPath + "\"\r\n],\r\n"
+        "\"configurationFile\":\"" + ConfigurationFile + "\"\r\n,\r\n"
         "\"bridgingHeader\":\"" + BridgingHeader + "\"\r\n"
         "\r\n}";
     std::string Path = "";

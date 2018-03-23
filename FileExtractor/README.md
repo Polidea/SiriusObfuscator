@@ -201,6 +201,6 @@ TBA
 
 In the alphabetical order:
 
-* [Jerzy Kleszcz](mailto:jerzy.kleszcz@polidea.com)
+* [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 

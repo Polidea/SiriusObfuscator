@@ -13,10 +13,22 @@ private:
 
   ObfuscationConfiguration Configuration;
 
+  void excludeIfNeeded(Decl *Declaration,
+                       const std::pair<const ClassDecl *, std::string> &DeclarationAndModule,
+                       const InheritanceExclusion *ExcludedType);
+
+  void handleTypeExclusion(const TypeExclusion *Exclusion, Decl *Declaration);
+
+  void handleInheritanceExclusion(const InheritanceExclusion *Exclusion,
+                                  Decl *Declaration);
+
+  void handleConformanceExclusion(const ConformanceExclusion *Exclusion,
+                                  Decl *Declaration);
+
 public:
 
   ConfigurationExcluder(ObfuscationConfiguration&&);
-
+  
   void identifyExclusions(Decl *Declaration);
 };
 

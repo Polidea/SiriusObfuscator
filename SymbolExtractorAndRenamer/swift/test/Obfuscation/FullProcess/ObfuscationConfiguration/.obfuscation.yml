@@ -1,0 +1,37 @@
+exclude:
+
+  - type:
+      name: "SampleClass"
+      module: "TestModuleName"
+
+  - type:
+      name: "SampleStruct"
+      module: "TestModuleName"
+  
+  - type:
+      name: "SampleEnum"
+      module: "TestModuleName"
+
+  - type:
+      name: "SampleProtocol"
+      module: "TestModuleName"
+
+  - inheritance:
+      base: "SampleTransitiveBaseClass"
+      module: "TestModuleName"
+      transitive: true
+
+  - inheritance:
+      base: "SampleBaseClass"
+      module: "TestModuleName"
+      transitive: false
+
+  - conformance:
+      protocol: "SampleTransitiveUsedProtocol"
+      module: "TestModuleName"
+      transitive: true
+
+  - conformance:
+      protocol: "SampleUsedProtocol"
+      module: "TestModuleName"
+      transitive: false

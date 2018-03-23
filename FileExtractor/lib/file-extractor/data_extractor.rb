@@ -7,12 +7,12 @@ module FileExtractor
 
   class DataExtractor
 
-    def self.extract_data(root_path, project_path, files_path, configuration_path)
+    def self.extract_data(root_path, project_path, files_path, configuration_path, verbose)      
       data, build_dir = extract_data_from_all_sources(root_path, project_path, configuration_path)
       data_is_ok, error_message = FileExtractor::DataIntegrityChecker.verify_data_integrity(data)
       json = JSON.pretty_generate(data)
       if data_is_ok 
-        return json, write_json_to_file(json, files_path), build_dir
+        return json, write_json_to_file(json, files_path, verbose), build_dir
       else
         return json, error_message, build_dir
       end
@@ -28,14 +28,16 @@ module FileExtractor
       return data, build_dir
     end
 
-    def self.write_json_to_file(json, files_path)
+    def self.write_json_to_file(json, files_path, verbose)
       if files_path.nil?
         "No output file given, so no data was written"
       else
         File.open("#{files_path}","w") do |file|
           file.write(json)
         end
-        "Data written to:\n#{files_path}"
+        if verbose
+          "Data written to:\n#{files_path}"
+        end
       end
     end
 

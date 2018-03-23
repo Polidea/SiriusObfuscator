@@ -196,7 +196,7 @@ performRenaming(std::string MainExecutablePath,
   NSManagedExcluder NSManagedExcluder;
   ConfigurationExcluder ConfigurationExcluder(std::move(ObfuscationConfiguration));
   
-  std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder };
+  std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder, &ConfigurationExcluder };
   
   for (auto* Unit : CI.getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {

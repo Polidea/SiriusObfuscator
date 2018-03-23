@@ -262,6 +262,7 @@ void MappingTraits<InheritanceExclusion>::
   mapping(IO &Io, InheritanceExclusion &Object) {
     Object.Kind = ExclusionKind::Inheritance;
     Io.mapRequired("module", Object.Module);
+    Io.mapRequired("transitive", Object.Transitive);
     Io.mapRequired("base", Object.Base);
 }
 
@@ -269,6 +270,7 @@ void MappingTraits<ConformanceExclusion>::
   mapping(IO &Io, ConformanceExclusion &Object) {
     Object.Kind = ExclusionKind::Conformance;
     Io.mapRequired("module", Object.Module);
+    Io.mapRequired("transitive", Object.Transitive);
     Io.mapRequired("protocol", Object.Protocol);
 }
 

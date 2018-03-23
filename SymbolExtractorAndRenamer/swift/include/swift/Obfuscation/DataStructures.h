@@ -144,6 +144,7 @@ struct TypeExclusion: public Exclusion {
 
 struct InheritanceExclusion: public Exclusion {
   std::string Base;
+  bool Transitive;
 
   InheritanceExclusion() = default;
   InheritanceExclusion(const InheritanceExclusion&) = default;
@@ -152,6 +153,7 @@ struct InheritanceExclusion: public Exclusion {
 
 struct ConformanceExclusion: public Exclusion {
   std::string Protocol;
+  bool Transitive;
 
   ConformanceExclusion() = default;
   ConformanceExclusion(const ConformanceExclusion&) = default;
