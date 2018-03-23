@@ -2,6 +2,125 @@ import Foundation
 import ShellOut
 import Utility
 
+// Progress animation
+class Progress {
+  
+  private var lastPrintedTime = 0.0
+  private var extractingAnimationRunning = false
+  private var nameMappingAnimationRunning = false
+  private var renamingAnimationRunning = false
+  
+  // animation frames
+  var extractingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Extracting⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
+                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mE\u{001B}[0;37mxtracting⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠E\u{001B}[38;5;202mx\u{001B}[0;37mtracting⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Ex\u{001B}[38;5;202mt\u{001B}[0;37mracting⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Ext\u{001B}[38;5;202mr\u{001B}[0;37macting⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                          "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Extr\u{001B}[38;5;202ma\u{001B}[0;37mcting⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                          "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Extra\u{001B}[38;5;202mc\u{001B}[0;37mting⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Extrac\u{001B}[38;5;202mt\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Extract\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Extracti\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Extractin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                          "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Extractin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
+  
+  
+  var nameMappingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Renaming⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
+                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mR\u{001B}[0;37menaming⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠R\u{001B}[38;5;202me\u{001B}[0;37mnaming⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Re\u{001B}[38;5;202mn\u{001B}[0;37maming⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Ren\u{001B}[38;5;202ma\u{001B}[0;37mming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                          "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Rena\u{001B}[38;5;202mm\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                          "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Renam\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                          "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Renami\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                          "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Renamin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                          "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Renamin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
+  
+  var renamingFrames = ["⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Name Mapping⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈",
+                        "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐\u{001B}[38;5;202mN\u{001B}[0;37mame Mapping⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                        "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠N\u{001B}[38;5;202ma\u{001B}[0;37mme Mapping⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                        "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Na\u{001B}[38;5;202mm\u{001B}[0;37me Mapping⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                        "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Nam\u{001B}[38;5;202me\u{001B}[0;37m Mapping⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                        "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Name\u{001B}[38;5;202m \u{001B}[0;37mMapping⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                        "⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂Name \u{001B}[38;5;202mM\u{001B}[0;37mapping⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂",
+                        "⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂Name M\u{001B}[38;5;202ma\u{001B}[0;37mpping⠄⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂",
+                        "⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄Name Ma\u{001B}[38;5;202mp\u{001B}[0;37mping⡀⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄",
+                        "⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀Name Map\u{001B}[38;5;202mp\u{001B}[0;37ming⡀⡀⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀",
+                        "⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀Name Mapp\u{001B}[38;5;202mi\u{001B}[0;37mng⠄⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀",
+                        "⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠Name Mappi\u{001B}[38;5;202mn\u{001B}[0;37mg⠄⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠",
+                        "⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐Name Mappin\u{001B}[38;5;202mg\u{001B}[0;37m⠂⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐",
+                        "⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈Name Mappin\u{001B}[38;5;202mg\u{001B}[0;37m⠁⠂⠄⡀⢀⠠⠐⠈⠁⠂⠄⡀⢀⠠⠐⠈"]
+  
+  private func getTimeOfDay() -> Double {
+    var tv = timeval()
+    gettimeofday(&tv, nil)
+    return Double(tv.tv_sec) + Double(tv.tv_usec) / 1000000
+  }
+  
+  private func startAnimation(_ frames: Array<String>) {
+    lastPrintedTime = 0.0
+    
+    DispatchQueue.global(qos: .background).async {
+      
+      var frameIndex = 0
+      while(self.extractingAnimationRunning ||
+            self.nameMappingAnimationRunning ||
+            self.renamingAnimationRunning) {
+        
+        let currentTime = self.getTimeOfDay()
+        if (currentTime - self.lastPrintedTime > 0.1) {
+          
+          let index = frames.index(frames.startIndex,
+                                      offsetBy: frameIndex % frames.count)
+          let frame = "\(frames[index])"
+          
+          // ANSI/VT100 Terminal Control Escape Sequences
+          // http://www.termsys.demon.co.uk/vtansi.htm
+          // \u{1B} - escape code
+          // [1A - move cursor 1 row up
+          // [K - clear everything to right from cursor
+          print("\u{1B}[1A\u{1B}[K\(frame)")
+          
+          frameIndex = frameIndex+1;
+          if(frameIndex == frames.count-1) {
+            frameIndex = 0
+          }
+          self.lastPrintedTime = currentTime
+        }
+      }
+    }
+  }
+  
+  func startExtractingProgressAnimation() {
+    extractingAnimationRunning = true
+    startAnimation(extractingFrames)
+  }
+  
+  func stopExtractingProgressAnimation() {
+    extractingAnimationRunning = false
+  }
+  
+  func startNameMappingProgressAnimation() {
+    nameMappingAnimationRunning = true
+    startAnimation(nameMappingFrames)
+  }
+  
+  func stopNameMappingProgressAnimation() {
+    nameMappingAnimationRunning = false
+  }
+  
+  func startRenamingProgressAnimation() {
+    renamingAnimationRunning = true
+    startAnimation(renamingFrames)
+  }
+  
+  func stopRenamingProgressAnimation() {
+    renamingAnimationRunning = false
+  }
+}
+
+let progress = Progress()
+
 guard let myselfInArguments = CommandLine.arguments.first
   else {
     print("Couldn't parse command line arguments")
@@ -117,7 +236,7 @@ Welcome to Swift Obfuscator
 
 """
   print(fileExtractorMessage)
-  
+  progress.startExtractingProgressAnimation()
   var fileExtractorArguments = [
     "-projectrootpath", originalPath,
     "-filesjson", filesJson
@@ -128,6 +247,7 @@ Welcome to Swift Obfuscator
     to: "\(selfDir)/file-extractor",
     arguments: fileExtractorArguments
   )
+  progress.stopExtractingProgressAnimation()
   print(fileExtractorOutput)
   let symbolExtractorMessage = """
 
@@ -137,7 +257,7 @@ Welcome to Swift Obfuscator
 
 """
   print(symbolExtractorMessage)
-  
+  progress.startExtractingProgressAnimation()
   var symbolExtractorArguments = [
     "-filesjson", filesJson,
     "-symbolsjson", symbolsJson
@@ -148,6 +268,7 @@ Welcome to Swift Obfuscator
     to: "\(selfDir)/symbol-extractor",
     arguments: symbolExtractorArguments
   )
+  progress.stopExtractingProgressAnimation()
   print(symbolExtractorOutput)
   let nameMapperMessage = """
 
@@ -157,7 +278,7 @@ Welcome to Swift Obfuscator
 
 """
   print(nameMapperMessage)
-  
+  progress.startNameMappingProgressAnimation()
   var nameMapperArguments = [
     "-symbolsjson", symbolsJson,
     "-renamesjson", renamesJson,
@@ -169,6 +290,7 @@ Welcome to Swift Obfuscator
     to: "\(selfDir)/name-mapper",
     arguments: nameMapperArguments
   )
+  progress.stopNameMappingProgressAnimation()
   print(nameMapperOutput)
   let renamerMessage = """
 
@@ -178,7 +300,7 @@ Welcome to Swift Obfuscator
 
 """
   print(renamerMessage)
-  
+  progress.startRenamingProgressAnimation()
   var renamerArguments = [
     "-filesjson", filesJson,
     "-renamesjson", renamesJson,
@@ -190,6 +312,7 @@ Welcome to Swift Obfuscator
     to: "\(selfDir)/renamer",
     arguments: renamerArguments
   )
+  progress.stopRenamingProgressAnimation()
   print(renamerOutput)
   let farewellMessage = """
 
