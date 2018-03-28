@@ -7,7 +7,7 @@ This is the umbrella tool that exposes the unified command line interface to per
 ## Usage
 
 ```bash
-$ obfuscator-tool -projectrootpath <path-to-xcode-project> -obfuscatedproject `<path-for-obfuscated-project>` -namemappingstrategy <name-mapping-strategy>
+$ obfuscator -projectrootpath <path-to-xcode-project> -obfuscatedproject `<path-for-obfuscated-project>` [-namemappingstrategy <name-mapping-strategy>] [-keepintermediates] [-verbose]
 ```
 
 where
@@ -18,14 +18,18 @@ where
 
 In case when project should be obfuscated in place (without making a copy), `-inplace` argument can be used instead of `-obfuscatedproject`.
 
-`<name-mapping-strategy>` strategy of creating the mapping: original to obfuscated name. Is is passed to _NameMapper_ tool. Options:
-- `random` to generate random unique identifiers (default).
-- `deterministic` to generate deterministic identifiers (useful for testing).
-- `minifying` to generate minified identifiers.
+`<name-mapping-strategy>` is the optional parameter of type enum string. Is is passed to _NameMapper_ tool. Is determines, which of the following strategies is used when generating the obfuscated symbol names:
 
-## Data format
+- `random` strategy generates random alphanumeric strings of length 32, e.g. `gnxWyHU0uN3bXejy8bVAoNbyfg4gRuN8`.
+- `deterministic` strategy generates deterministic renames based on symbol's original name, e.g. `T1_RootViewController`.
+- `minifying` strategy generates strings as short as possible, e.g. `a`.
 
-TBA
+When the `-namemappingstrategy` parameter is not provided, the default `random` strategy is used.
+
+`-keepintermediates` is the optional flag. When present, the interemediate files used to pass the necessary info between the tools invoked by _ObfuscatorTool_ (`files.json`, `symbols.json`, `renames.json`) will not be removed after successful obfuscation process.
+
+`-verbose` is the optional flag. When present, the flag is passed to each tool invoked by _ObfuscatorTool_ and all debug info messages from each tool are printed to standard output.
+
 
 ## Build notes for developers
 
