@@ -219,6 +219,14 @@ func execute() throws {
     """
   )
   
+  let inPlaceArgument = parser.add(
+    option: "-inplace",
+    kind: Bool.self,
+    usage: """
+    Obfuscate project in place (without making a copy).
+    """
+  )
+  
   var arguments = Array(CommandLine.arguments.dropFirst())
   if arguments.isEmpty {
     arguments.append("-help")
@@ -231,8 +239,12 @@ func execute() throws {
     return;
   }
   
+  let inPlace = result.get(inPlaceArgument) ?? false
+
   guard let obfuscatedPath = result.get(obfuscatedPathArgument) else {
-    print("Parameter -obfuscatedproject is required")
+    if(!inPlace) {
+      print("Either -obfuscatedproject or -inplace parameter is required")
+    }
     return;
   }
   
@@ -330,6 +342,7 @@ Welcome to Swift Obfuscator
     "-obfuscatedproject", obfuscatedPath
   ]
   if verbose { renamerArguments.append("-verbose") }
+  if inPlace { renamerArguments.append("-inplace") }
   
   let renamerOutput = try shellOut(
     to: "\(selfDir)/renamer",

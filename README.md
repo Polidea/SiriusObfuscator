@@ -16,6 +16,8 @@ where
 
 `<path-for-obfuscated-project>` is the path to the directory that the newly generated obfuscated Swift source code files will be written to, as well as the new project. Is is passed to _Renamer_ tool.
 
+In case when project should be obfuscated in place (without making a copy), `-inplace` argument can be used instead of `-obfuscatedproject`.
+
 `<name-mapping-strategy>` strategy of creating the mapping: original to obfuscated name. Is is passed to _NameMapper_ tool. Options:
 - `random` to generate random unique identifiers (default).
 - `deterministic` to generate deterministic identifiers (useful for testing).
@@ -53,5 +55,3 @@ In the alphabetical order:
 
 * [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
-
-
