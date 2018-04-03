@@ -1,3 +1,3 @@
-struct ObfuscatorTool {
+struct Sirius {
     var text = "Hello, World!"
 }

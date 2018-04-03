@@ -1,12 +1,12 @@
 import XCTest
-@testable import ObfuscatorTool
+@testable import Sirius
 
-class ObfuscatorToolTests: XCTestCase {
+class SiriusTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(ObfuscatorTool().text, "Hello, World!")
+        XCTAssertEqual(Sirius().text, "Hello, World!")
     }
 
 

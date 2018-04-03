@@ -38,7 +38,7 @@ cp -r -p SymbolExtractorAndRenamer/build/Ninja-ReleaseAssert/swift-macosx-x86_64
 echo "Installing VerificationSuite"
 cp -r -p VerificationSuite/VerificationSuite bin/verification-suite
 
-echo "Installing ObfuscatorTool"
+echo "Installing Sirius"
 swift build -c release -Xswiftc -static-stdlib
-cp -r -p $(swift build -c release --show-bin-path)/ObfuscatorTool bin/obfuscator
+cp -r -p $(swift build -c release --show-bin-path)/Sirius bin/sirius
 

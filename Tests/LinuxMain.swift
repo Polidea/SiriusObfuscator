@@ -1,6 +1,6 @@
 import XCTest
-@testable import ObfuscatorToolTests
+@testable import SiriusTests
 
 XCTMain([
-    testCase(ObfuscatorToolTests.allTests),
+    testCase(SiriusTests.allTests),
 ])

@@ -4,18 +4,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "ObfuscatorTool",
+    name: "Sirius",
     dependencies: [
         .package(url: "https://github.com/apple/swift-package-manager.git", from: "0.1.0"),
         .package(url: "https://github.com/JohnSundell/ShellOut.git", from: "2.0.0")
     ],
     targets: [
         .target(
-            name: "ObfuscatorTool",
+            name: "Sirius",
             dependencies: ["Utility", "ShellOut"]),
         .testTarget(
-            name: "ObfuscatorToolTests",
-            dependencies: ["ObfuscatorTool"]),
+            name: "SiriusTests",
+            dependencies: ["Sirius"]),
     ]
 )
 

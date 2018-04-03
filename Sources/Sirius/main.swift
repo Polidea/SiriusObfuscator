@@ -158,7 +158,7 @@ func execute() throws {
   
   let parser = ArgumentParser(
     usage: "-projectrootpath [PROJECTROOTPATH] -obfuscatedproject [OBFUSCATEDPROJECTPATH] -namemappingstrategy [MAPPINGSTRATEGY]",
-    overview: "Obfuscator tool"
+    overview: "Sirius"
   )
   
   let originalPathArgument: OptionArgument<String> = parser.add(
@@ -259,7 +259,7 @@ func execute() throws {
   let introMessage = """
 \u{001B}[0;35m===========================\u{001B}[0;37m
 
-Welcome to Swift Obfuscator
+Welcome to Sirius - Swift Obfuscator
 
 """
   print(introMessage)
