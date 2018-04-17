@@ -1,0 +1,39 @@
+{
+  "project": {
+    "rootPath": "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample",
+    "projectFilePath": "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/CarthageExample.xcodeproj"
+  },
+  "module": {
+    "name": "CarthageExample",
+    "triple": "arm64-apple-ios11.2"
+  },
+  "sdk": {
+    "name": "iphoneos11.2",
+    "path": "/Applications/Xcode9_2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.2.sdk"
+  },
+  "sourceFiles": [
+    "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/CarthageExample/ViewController.swift",
+    "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/CarthageExample/AppDelegate.swift"
+  ],
+  "layoutFiles": [
+    "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/CarthageExample/Base.lproj/LaunchScreen.storyboard",
+    "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/CarthageExample/Base.lproj/Main.storyboard"
+  ],
+  "explicitlyLinkedFrameworks": [
+    {
+      "name": "SnapKit",
+      "path": "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/Carthage/Build/iOS/"
+    }
+  ],
+  "implicitlyLinkedFrameworks": [
+    "UIKit"
+  ],
+  "frameworkSearchPaths": [
+    "/Users/jerzykleszcz/ios/TestProjects/iOS/Original/CarthageExample/Carthage/Build/iOS"
+  ],
+  "headerSearchPaths": [
+
+  ],
+  "configurationFile": "",
+  "bridgingHeader": ""
+}

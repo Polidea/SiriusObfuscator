@@ -1,7 +1,12 @@
 #include "swift/Obfuscation/SymbolExtracting.h"
+#include "swift/Obfuscation/Collector.h"
+#include "swift/Obfuscation/Includer.h"
+#include "swift/Obfuscation/SymbolGenerator.h"
+#include "swift/Obfuscation/Extractor.h"
 #include "swift/Obfuscation/DataStructures.h"
 #include "swift/Obfuscation/CompilerInfrastructure.h"
-#include "swift/Obfuscation/SourceFileWalker.h"
+#include "swift/Obfuscation/SymbolsWalkerAndCollector.h"
+#include "swift/Obfuscation/GlobalCollectedSymbolsUpdater.h"
 #include "swift/Obfuscation/Utils.h"
 
 #include <vector>
@@ -15,10 +20,10 @@ using FileWithName = std::pair<std::string, SourceFile *>;
 // Creates a vector of parsed source files that is sorted alphabetically
 // by the file name
 std::vector<FileWithName>
-getSortedSourceFiles(swift::CompilerInstance &CompilerInstance) {
+getSortedSourceFiles(std::unique_ptr<CompilerInstance> &CompilerInstance) {
 
   std::vector<FileWithName> Files;
-  for (auto* Unit : CompilerInstance.getMainModule()->getFiles()) {
+  for (auto* Unit : CompilerInstance->getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {
       Files.push_back(std::make_pair(Current->getFilename().str(), Current));
     }
@@ -38,40 +43,37 @@ extractSymbols(const FilesJson &FilesJson,
                std::string MainExecutablePath,
                llvm::raw_ostream &DiagnosticStream) {
   
-  CompilerInstance CompilerInstance;
-  auto Error = setupCompilerInstance(CompilerInstance,
-                                     FilesJson,
-                                     MainExecutablePath,
-                                     DiagnosticStream);
-  if (Error) {
+  auto CompilerInstanceOrError = createCompilerInstance(FilesJson,
+                                                        MainExecutablePath,
+                                                        DiagnosticStream);
+  if (auto Error = CompilerInstanceOrError.takeError()) {
     return std::move(Error);
   }
 
+  auto CompilerInstance = std::move(CompilerInstanceOrError.get());
   auto Files = getSortedSourceFiles(CompilerInstance);
 
   // This set is designed to treat all the occurences of symbol
   // (different ranges) as one symbol
-  std::set<IndexedSymbolWithRange,
-           IndexedSymbolWithRange::SymbolCompare> Symbols;
+  std::set<IndexedDeclWithSymbolWithRange,
+           IndexedDeclWithSymbolWithRange::SymbolCompare> Symbols;
 
-  
-  ExtensionExcluder ExtensionExcluder;
-  NSManagedExcluder NSManagedExcluder;
-  
-  std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder };
+  SymbolsWalkerAndCollectorFactory Factory;
 
   for (auto &Unit : Files) {
     // CurrentSymbols are sorted by the identifier and range
-    auto CurrentSymbols = walkAndCollectSymbols(*Unit.second, Excluders);
 
-    std::vector<IndexedSymbolWithRange> SortedSymbols;
+    auto Collector = Factory.symbolsWalkerAndCollector();
+    auto CurrentSymbols = Collector.walkAndCollectSymbols(*Unit.second);
+
+    std::vector<IndexedDeclWithSymbolWithRange> SortedSymbols;
     copyToVector(CurrentSymbols, SortedSymbols);
 
     // Sorting symbols by index
     std::sort(SortedSymbols.begin(),
               SortedSymbols.end(),
-              [](const IndexedSymbolWithRange &Left,
-                 const IndexedSymbolWithRange &Right) {
+              [](const IndexedDeclWithSymbolWithRange &Left,
+                 const IndexedDeclWithSymbolWithRange &Right) {
                 return Left.Index < Right.Index;
               });
 
@@ -81,15 +83,15 @@ extractSymbols(const FilesJson &FilesJson,
     copyToSet(SortedSymbols, Symbols);
   }
 
-  std::vector<IndexedSymbolWithRange> Result;
+  std::vector<IndexedDeclWithSymbolWithRange> Result;
   copyToVector(Symbols, Result);
 
   // This ensures that the alphabetical order of walking the source files
   // is preserved
   std::sort(Result.begin(),
             Result.end(),
-            [](const IndexedSymbolWithRange &Left,
-               const IndexedSymbolWithRange &Right) {
+            [](const IndexedDeclWithSymbolWithRange &Left,
+               const IndexedDeclWithSymbolWithRange &Right) {
               return Left.Index < Right.Index;
             });
 
@@ -100,8 +102,8 @@ extractSymbols(const FilesJson &FilesJson,
   std::transform(Result.cbegin(),
                  Result.cend(),
                  std::back_inserter(ResultingJson.Symbols),
-                 [](const IndexedSymbolWithRange &Symbol) -> struct Symbol {
-                   return Symbol.SymbolWithRange.Symbol;
+                 [](const IndexedDeclWithSymbolWithRange &Symbol) -> struct Symbol {
+                   return Symbol.Symbol;
                  });
 
   return ResultingJson;

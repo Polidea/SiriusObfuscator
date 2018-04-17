@@ -11,7 +11,7 @@ The information include the list of files containing the Swift source code that 
 ## Usage
 
 ```bash
-$ file-extractor -projectrootpath <path-to-xcode-project> [-filesjson <path-to-output-file>] [-projectfile <path-to-xcodeproj>]
+$ file-extractor -projectrootpath <path-to-xcode-project> [-filesjson <path-to-output-file>] [-projectfile <path-to-xcodeproj>] [-verbose]
 ```
 
 where
@@ -21,6 +21,8 @@ where
 `<path-to-output-file>` is a path to the file that the extraced data will be written to. If it's an optional parameter. If ommited, tool will print out to the standard output.
 
 `<path-to-xcodeproj>` is a path to the Xcode project file. It's an optional parameter and should be provided only when the tool fails to automatically identify which project to parse.
+
+`-verbose` is the optional flag. When present, the contents of output `files.json` are also printed to standard output together with debug info such as project root path, `.xcodeproj` path and `file.json` path.
 
 ## Data formats
 
@@ -124,10 +126,6 @@ Sample `Files.json` file might look like that:
    ]
 }
 ```
-
-## Feature list
-
-- [] TBA
 
 ## Build notes for developers
 

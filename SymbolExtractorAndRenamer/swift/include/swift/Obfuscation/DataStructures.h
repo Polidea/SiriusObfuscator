@@ -101,7 +101,8 @@ struct SymbolRenaming {
          const std::string &ObfuscatedName,
          const std::string &Module,
          SymbolType Type);
-  
+
+  bool operator< (const SymbolRenaming &Right) const;
   bool operator== (const SymbolRenaming &Right) const;
 };
 
@@ -169,7 +170,7 @@ struct ObfuscationConfiguration {
   ObfuscationConfiguration& operator=(const ObfuscationConfiguration &) = delete;
   ObfuscationConfiguration& operator=(ObfuscationConfiguration &&) = default;
 };
-  
+
 /// SymbolWithRange - struct for linking the symbol identified in the Swift
 /// source code with the range in which it was encountered.
 struct SymbolWithRange {
@@ -187,26 +188,83 @@ struct SymbolWithRange {
   bool operator== (const SymbolWithRange &Right) const;
 };
 
-struct IndexedSymbolWithRange {
-  int Index;
-  SymbolWithRange SymbolWithRange;
+enum DeclarationProcessingContext {
+  NoContext,
+
+  FunctionCallAttribute
+};
+
+struct DeclWithRange {
+  Decl *Declaration;
+  CharSourceRange Range;
+  DeclarationProcessingContext Context;
 
   /// @brief Trivial memberwise-like constructor
-  IndexedSymbolWithRange(const int Index,
-                         const struct SymbolWithRange &SymbolWithRange);
+  DeclWithRange(Decl* Declaration, const CharSourceRange &Range);
+
+  bool operator< (const DeclWithRange &Right) const;
+
+  bool operator== (const DeclWithRange &Right) const;
+};
+
+struct DeclWithSymbolWithRange {
+  Decl *Declaration;
+  Symbol Symbol;
+  CharSourceRange Range;
+
+  /// @brief Trivial memberwise-like constructor
+  DeclWithSymbolWithRange(Decl* Declaration,
+                          const SymbolWithRange &SymbolAndRange);
+
+  DeclWithSymbolWithRange(const DeclWithRange &DeclAndRange,
+                          const struct Symbol &Symbol);
+
+  DeclWithSymbolWithRange(Decl *Declaration,
+                          const struct Symbol &Symbol,
+                          CharSourceRange Range);
+
+  bool operator< (const DeclWithSymbolWithRange &Right) const;
+
+  bool operator== (const DeclWithSymbolWithRange &Right) const;
+};
+
+template<typename T>
+using VectorOfExpected = std::vector<llvm::Expected<T>>;
+
+using DeclsWithRangesOrErrors = VectorOfExpected<DeclWithRange>;
+
+using DeclsWithSymbolsWithRangesOrErrors =
+  VectorOfExpected<DeclWithSymbolWithRange>;
+
+template<typename T>
+VectorOfExpected<T> wrapInVector(T &);
+template<typename T>
+VectorOfExpected<T> wrapInVector(T &&);
+template<typename T>
+VectorOfExpected<T> wrapInVector(llvm::Error &&);
+
+struct IndexedDeclWithSymbolWithRange {
+  int Index;
+  Decl *Declaration;
+  Symbol Symbol;
+  CharSourceRange Range;
+
+  /// @brief Trivial memberwise-like constructor
+  IndexedDeclWithSymbolWithRange(const int Index,
+                                 const DeclWithSymbolWithRange &DeclAndSymbolAndRange);
 
   /// @brief Comparison required for containing IndexedSymbolWithRange in sets.
   /// It's taking only symbol into consideration, not range nor index.
   struct SymbolCompare {
-    bool operator() (const IndexedSymbolWithRange& Left,
-                     const IndexedSymbolWithRange& Right) const;
+    bool operator() (const IndexedDeclWithSymbolWithRange& Left,
+                     const IndexedDeclWithSymbolWithRange& Right) const;
   };
 
   /// @brief Comparison required for containing IndexedSymbolWithRange in sets.
   /// It's taking only symbol with range into consideration, not index.
   struct SymbolWithRangeCompare {
-    bool operator() (const IndexedSymbolWithRange& Left,
-                     const IndexedSymbolWithRange& Right) const;
+    bool operator() (const IndexedDeclWithSymbolWithRange& Left,
+                     const IndexedDeclWithSymbolWithRange& Right) const;
   };
 };
 
@@ -214,8 +272,7 @@ using SingleSymbolOrError = llvm::Expected<Symbol>;
   
 using SymbolsOrError = llvm::Expected<std::vector<SymbolWithRange>>;
 
-using GlobalCollectedSymbols = std::set<IndexedSymbolWithRange,
-                                IndexedSymbolWithRange::SymbolWithRangeCompare>;
+using GlobalCollectedSymbols = std::set<IndexedDeclWithSymbolWithRange, IndexedDeclWithSymbolWithRange::SymbolWithRangeCompare>;
 } //namespace obfuscation
 } //namespace swift
 

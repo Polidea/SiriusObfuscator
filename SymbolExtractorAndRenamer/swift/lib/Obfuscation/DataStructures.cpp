@@ -60,6 +60,10 @@ SymbolRenaming::SymbolRenaming(const std::string &Identifier,
   Module(Module),
   Type(Type) {};
 
+bool SymbolRenaming::operator< (const SymbolRenaming &Right) const {
+  return Identifier < Right.Identifier;
+}
+
 bool SymbolRenaming::operator== (const SymbolRenaming &Right) const {
   return Identifier == Right.Identifier
   && ObfuscatedName == Right.ObfuscatedName
@@ -68,9 +72,125 @@ bool SymbolRenaming::operator== (const SymbolRenaming &Right) const {
   && Type == Right.Type;
 }
 
-const char* pointerToRangeValue(const SymbolWithRange &Symbol) {
-  auto Pointer = Symbol.Range.getStart().getOpaquePointerValue();
+const char* pointerToRangeValue(const CharSourceRange &Range) {
+  auto Pointer = Range.getStart().getOpaquePointerValue();
   return static_cast<const char *>(Pointer);
+}
+
+bool operator< (const CharSourceRange &Left, const CharSourceRange &Right) {
+  if (const auto* LeftRangeValuePointer = pointerToRangeValue(Left)) {
+    if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
+      return std::less<const char *>()(LeftRangeValuePointer, RightRangeValuePointer);
+    }
+  }
+  assert(false && "Comparing Ranges requires Ranges Start "
+                  "Location Values Pointers to be of const char type");
+}
+
+DeclWithRange::DeclWithRange(Decl* Declaration, const CharSourceRange &Range)
+: Declaration(Declaration), Range(Range), Context(NoContext) {}
+
+bool DeclWithRange::
+operator< (const DeclWithRange &Right) const {
+  if (Range != Right.Range) {
+    return Range < Right.Range;
+  } else {
+    return std::less<Decl *>()(Declaration, Right.Declaration);
+  }
+}
+
+bool DeclWithRange::
+operator== (const DeclWithRange &Right) const {
+  return Declaration == Right.Declaration && Range == Right.Range;
+}
+
+template<typename T>
+VectorOfExpected<T> wrapInVector(T &Object) {
+  VectorOfExpected<T> Vector;
+  Vector.push_back(Object);
+  return Vector;
+}
+
+template<typename T>
+VectorOfExpected<T> wrapInVector(T &&Object) {
+  VectorOfExpected<T> Vector;
+  Vector.push_back(Object);
+  return Vector;
+}
+
+template<typename T>
+VectorOfExpected<T> wrapInVector(llvm::Error &&Error) {
+  VectorOfExpected<T> Vector;
+  Vector.push_back(std::move(Error));
+  return Vector;
+}
+
+template VectorOfExpected<DeclWithRange> wrapInVector(DeclWithRange &Object);
+template VectorOfExpected<DeclWithRange> wrapInVector(DeclWithRange &&Object);
+template VectorOfExpected<DeclWithRange> wrapInVector(llvm::Error &&Error);
+template VectorOfExpected<DeclWithSymbolWithRange>
+wrapInVector(DeclWithSymbolWithRange &Object);
+template VectorOfExpected<DeclWithSymbolWithRange>
+wrapInVector(DeclWithSymbolWithRange &&Object);
+template VectorOfExpected<DeclWithSymbolWithRange>
+wrapInVector(llvm::Error &&Error);
+
+DeclWithSymbolWithRange::
+  DeclWithSymbolWithRange(Decl* Declaration,
+                          const SymbolWithRange &SymbolAndRange)
+: Declaration(Declaration),
+  Symbol(SymbolAndRange.Symbol),
+  Range(SymbolAndRange.Range) {}
+
+DeclWithSymbolWithRange::
+DeclWithSymbolWithRange(const DeclWithRange &DeclAndRange,
+                        const struct Symbol &Symbol)
+: Declaration(DeclAndRange.Declaration),
+  Symbol(Symbol),
+  Range(DeclAndRange.Range) {}
+
+DeclWithSymbolWithRange::DeclWithSymbolWithRange(Decl *Declaration,
+                                                 const struct Symbol &Symbol,
+                                                 CharSourceRange Range)
+: Declaration(Declaration), Symbol(Symbol), Range(Range) {}
+
+bool isEqual(const Symbol &LeftSymbol,
+             const CharSourceRange &LeftRange,
+             const Symbol &RightSymbol,
+             const CharSourceRange &RightRange) {
+  return LeftSymbol == RightSymbol && LeftRange == RightRange;
+}
+
+bool isLess(const Symbol &LeftSymbol,
+            const CharSourceRange &LeftRange,
+            const Symbol &RightSymbol,
+            const CharSourceRange &RightRange) {
+  if (LeftSymbol < RightSymbol) {
+    return true;
+  } else if (RightSymbol < LeftSymbol) {
+    return false;
+  } else {
+    return LeftRange < RightRange;
+  }
+}
+
+bool DeclWithSymbolWithRange::
+  operator< (const DeclWithSymbolWithRange &Right) const {
+  if (isEqual(Symbol, Range, Right.Symbol, Right.Range)) {
+    return std::less<Decl *>()(Declaration, Right.Declaration);
+  } else {
+    return isLess(Symbol, Range, Right.Symbol, Right.Range);
+  }
+  assert(false && "Comparing Decl with Ranges requires Ranges Start "
+                  "Location Values Pointers to be of const char type");
+}
+
+bool DeclWithSymbolWithRange::
+  operator== (const DeclWithSymbolWithRange &Right) const {
+  return isEqual(Symbol, Range, Right.Symbol, Right.Range)
+         && Declaration == Right.Declaration;
+  assert(false && "Comparing Decl with Ranges requires Ranges Start "
+                  "Location Values Pointers to be of const char type");
 }
 
 SymbolWithRange::SymbolWithRange(const struct Symbol &Symbol,
@@ -78,48 +198,31 @@ SymbolWithRange::SymbolWithRange(const struct Symbol &Symbol,
 : Symbol(Symbol), Range(Range) {}
   
 bool SymbolWithRange::operator< (const SymbolWithRange &Right) const {
-  if (Symbol < Right.Symbol) {
-    return true;
-  } else if (Right.Symbol < Symbol) {
-    return false;
-  } else {
-    auto less = std::less<const char *>();
-    if (const auto* RangeValuePointer = pointerToRangeValue(*this)) {
-      if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
-        auto isRangeLess = less(RangeValuePointer, RightRangeValuePointer);
-        return isRangeLess;
-      }
-    }
-  }
-  assert(false && "Comparing Symbols with Ranges requires Ranges Start "
-                  "Location Values Pointers to be of const char type");
+  return isLess(Symbol, Range, Right.Symbol, Right.Range);
 }
 
 bool SymbolWithRange::operator== (const SymbolWithRange &Right) const {
-  if (const auto* RangeValuePointer = pointerToRangeValue(*this)) {
-    if (const auto* RightRangeValuePointer = pointerToRangeValue(Right)) {
-      return Symbol == Right.Symbol
-          && RangeValuePointer == RightRangeValuePointer;
-    }
-  }
-  return false;
+  return isEqual(Symbol, Range, Right.Symbol, Right.Range);
 }
 
-IndexedSymbolWithRange::
-  IndexedSymbolWithRange(const int Index,
-                         const struct SymbolWithRange &SymbolWithRange)
-: Index(Index), SymbolWithRange(SymbolWithRange) {}
+IndexedDeclWithSymbolWithRange::
+  IndexedDeclWithSymbolWithRange(const int Index,
+                                 const DeclWithSymbolWithRange &DeclAndSymbolAndRange)
+: Index(Index),
+  Declaration(DeclAndSymbolAndRange.Declaration),
+  Symbol(DeclAndSymbolAndRange.Symbol),
+  Range(DeclAndSymbolAndRange.Range) {}
 
-bool IndexedSymbolWithRange::SymbolCompare::
-  operator() (const IndexedSymbolWithRange& Left,
-              const IndexedSymbolWithRange& Right) const {
-  return Left.SymbolWithRange.Symbol < Right.SymbolWithRange.Symbol;
+bool IndexedDeclWithSymbolWithRange::SymbolCompare::
+  operator() (const IndexedDeclWithSymbolWithRange& Left,
+              const IndexedDeclWithSymbolWithRange& Right) const {
+  return Left.Symbol < Right.Symbol;
 }
 
-bool IndexedSymbolWithRange::SymbolWithRangeCompare::
-  operator() (const IndexedSymbolWithRange& Left,
-              const IndexedSymbolWithRange& Right) const {
-  return Left.SymbolWithRange < Right.SymbolWithRange;
+bool IndexedDeclWithSymbolWithRange::SymbolWithRangeCompare::
+  operator() (const IndexedDeclWithSymbolWithRange& Left,
+              const IndexedDeclWithSymbolWithRange& Right) const {
+  return isLess(Left.Symbol, Left.Range, Right.Symbol, Right.Range);
 }
 
 } //namespace obfuscation

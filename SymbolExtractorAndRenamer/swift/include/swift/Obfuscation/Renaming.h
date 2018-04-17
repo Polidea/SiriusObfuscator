@@ -49,6 +49,8 @@ using FilesList = std::vector<std::pair<std::string, std::string>>;
 /// contains the new name.
 /// \param ObfuscatedProjectPath Path where the project copy will be created
 /// and renaming will be performed.
+/// \param ObfuscateInPlace if true then obfuscation will be performed on
+/// an original project (without making a copy).
 /// \param DiagnosticStream Stream for writing the diagnostic information into.
 ///
 /// \returns List of project files that were affected by the renaming.
@@ -58,6 +60,7 @@ performRenaming(std::string MainExecutablePath,
                 ObfuscationConfiguration &&ObfuscationConfiguration,
                 const RenamesJson &RenamesJson,
                 std::string ObfuscatedProjectPath,
+                bool ObfuscateInPlace,
                 llvm::raw_ostream &DiagnosticStream);
 
 } //namespace obfuscation

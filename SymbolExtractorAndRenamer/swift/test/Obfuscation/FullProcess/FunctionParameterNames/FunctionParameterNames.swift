@@ -178,3 +178,18 @@ class ClassWithSetter {
     set(newTestVar) {}
   }
 }
+
+// ?
+import CoreData
+
+protocol Entity {
+    static func entityName() -> String
+}
+
+struct CoreDataOperations<T> where T: NSManagedObject, T: Entity {
+    let context: NSManagedObjectContext
+
+    init(managedObjectContext context: NSManagedObjectContext) {
+        self.context = context
+    }
+}

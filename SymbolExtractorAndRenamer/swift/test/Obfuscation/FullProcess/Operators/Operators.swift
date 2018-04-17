@@ -1,4 +1,3 @@
-// XFAIL: *
 // RUN: %target-prepare-obfuscation-for-file "Operators" %target-run-full-obfuscation
 
 prefix operator ---

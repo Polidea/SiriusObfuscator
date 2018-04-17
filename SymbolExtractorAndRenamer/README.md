@@ -1,6 +1,6 @@
 # Symbol Extractor, Name Mapper and Renamer
 
-Repository contains the Swift compiler fork with three additional tools and one additional library added. 
+Repository contains the Swift compiler fork with three additional tools and one additional library added.
 
 The tools are:
 
@@ -14,6 +14,7 @@ All these tools use a shared library called `swiftObfuscation`. Its headers are 
 
 The descriptions of the tools are presented below.
 
+
 # SymbolExtractor
 
 ## Overview
@@ -25,20 +26,24 @@ It performs the analysis of Swift source code files and identifies the symbols t
 ## Usage
 
 ```bash
-$ obfuscator-symbol-extractor -filesjson <path-to-input-files-json> -symbolsjson <path-to-output-symbols-json>
+$ obfuscator-symbol-extractor -filesjson <path-to-input-files-json> -symbolsjson <path-to-output-symbols-json> [-hidediagnostics] [-verbose]
 ```
 
-where 
+where
 
-`<path-to-input-files-json>` is a path to `Files.json` that contains the data required for performing the analysis of Swift source code. This parameter is required.
+`<path-to-input-files-json>` is a path to `files.json` that contains the data required for performing the analysis of Swift source code. This parameter is required.
 
-`<path-to-output-symbols-json>` is a path to `Symbols.json` file that the extracted symbols data will be written to. If it's an optional parameter. If ommited, tool will print out to the standard output.
+`<path-to-output-symbols-json>` is a path to `symbols.json` file that the extracted symbols data will be written to. This parameter is required.
 
-## Data formats
+`-hidediagnostics` is the optional flag. It prevents the compiler diagnostics from being printed to standard output. The logs contain compilation warnings and errors that occured during compilation of the input project. This flag should be used with caution, considering that compilation warnings could prevent the `symbol-extractor` from correctly identifying the symbol.
 
-The input data format is called `Files.json`. It's defined and explained in the [FilesExtractor project documentation](https://gitlab2.polidea.com/SwiftObfuscator/FileExtractor/tree/master#data-formats).
+`-verbose` is the optional flag. When present, the `symbols.json` contents are also printed to standard output.
 
-The output data format is called `Symbols.json` and presented below:
+## <a name="symbol-extractor-data-formats"></a> Data Formats
+
+The input data format is called `files.json`. It's defined and explained in the [FilesExtractor project documentation](https://gitlab2.polidea.com/SwiftObfuscator/FileExtractor/tree/master#data-formats).
+
+The output data format is called `symbols.json` and it is presented below:
 
 ```javascript
 {
@@ -47,25 +52,36 @@ The output data format is called `Symbols.json` and presented below:
       "identifier": <string>,
       "name": <string>,
       "module": <string>,
-      "type": <enum string>("type", "namedFunction", "operator")
+      "type": <enum string>("type",
+                            "namedFunction",
+                            "externalParameter",
+                            "internalParameter",
+                            "singleParameter",
+                            "variable",
+                            "operator")
     }
   ]
 }
 ```
 
-`symbols` is a list of objects that contains symbol identifier and name. 
+`symbols` is a list of extracted symbols.
 
-`name` is directly corresponding to the actual string defined in the Swift source code. This string will be replaced by the `Renamer`. 
+`name` is directly corresponding to the actual string defined in the Swift source code. This string will be replaced in the source code by the `Renamer`.
 
-`identifier` contains all the information required to uniquely identify the given symbol in the source code. It will be used by `Renamer` to decide whether the symbol it comes across should be renamed or not.
+`identifier` contains all the information required to uniquely identify the given symbol in the source code. It allows `Renamer` to identify if the symbol should be renamed.
 
-`module` contains the name of the module that allows us to identify whether the symbol should be included in renaming or not.
+`module` is the name of the module in which the extracted symbol was originally declared. For some symbols it is different from the module in which the symbol occures. E.g. for function declaration that satisfies the protocol requirement (or overrides the function from base class), the `module` represents the module in which the protocol (or base class) is declared. It allows `Renamer` to identify if the symbol should be renamed.
 
-`type` contains the type of the symbol. It's a string of value from a strictly limited enumeration. `type` means that the symbol represents type (like class or struct name), `namedFunction` means that the symbol represents function or method with name, and `operator` means that the symbol represents the operator.
+`type` contains the type of the symbol. It's a string of value from a strictly limited enumeration:
 
-## Feature list
+  - `type` for symbol that represents type (class, struct, enum, protocol).
+  - `namedFunction` for symbol that represents function or method with name.
+  - `externalParameter` for symbol that represents the function's external parameter name.
+  - `internalParameter` for symbol that represents the function's internal parameter name.
+  - `singleParameter` for symbol that represents the function's single parameter name (parameter has only one name).
+  - `variable` for symbol that represents `let` or `var` field.
+  - `operator` for symbol that represents the operator.
 
-- [] TBA
 
 # NameMapper
 
@@ -73,25 +89,35 @@ The output data format is called `Symbols.json` and presented below:
 
 This tool is part of Swift Obfuscator project.
 
-It proposes the new names for the symbols provided in the `Symbols.json` file. It does not perform the actual renaming, but it generates the symbols after obfuscation.
+It generates the new names for the symbols provided in the `symbols.json` file. It does not perform the actual renaming, just generates the the new names for the symbols that potentially needs to be renamed.
 
 ## Usage
 
 ```bash
-$ obfuscator-name-mapper -symbolsjson <path-to-input-symbols-file> -renamesjson <path-to-output-renames-file>
+$ obfuscator-name-mapper -symbolsjson <path-to-input-symbols-file> -renamesjson <path-to-output-renames-file> [-namemappingstrategy <name-mapping-strategy>] [-verbose]
 ```
 
 where
 
-`<path-to-input-symbols-file>` is a path to `Symbols.json` file that contains the information about the extracted symbols. It's a required parameter.
+`<path-to-input-symbols-file>` is a path to `symbols.json` file that contains the information about the extracted symbols. It's a required parameter.
 
-`<path-to-output-renames-file>` is a path to the file that the symbols with proposed obfuscated names will be written to. It's an optional parameter. If ommited, tool will print out to the standard output.
+`<path-to-output-renames-file>` is a path to the file that the symbols with proposed obfuscated names will be written to. It's a required parameter.
 
-## Data formats
+`<name-mapping-strategy>` is the optional parameter of type enum string determining which of the following strategies it used when generating the new names:
 
-The input format is called `Symbols.json` and is described and explained in the [SymbolExtractor data formats](#data-formats) section.
+- `random` strategy generates random alphanumeric strings of length 32, e.g. `gnxWyHU0uN3bXejy8bVAoNbyfg4gRuN8`.
+- `deterministic` strategy generates deterministic renames based on symbol's original name, e.g. `T1_RootViewController`.
+- `minifying` strategy generates strings as short as possible, e.g. `a`.
 
-The output format is called `Renames.json` and presented below:
+When the `-namemappingstrategy` parameter is not provided, the default `random` strategy is used.
+
+`-verbose` is the optional flag. When present, the `Renames.json` contents are also printed to standard output.
+
+##<a name="name-mapper-data-formats"></a> Data Formats
+
+The input format is called `symbols.json` and is described and explained in the [SymbolExtractor data formats](#symbol-extractor-data-formats) section.
+
+The output format is called `Renames.json` and it is presented below:
 
 ```javascript
 {
@@ -101,21 +127,23 @@ The output format is called `Renames.json` and presented below:
       "originalName": <string>,
       "obfuscatedName": <string>,
       "module": <string>,
-      "type": <enum string>("type", "namedFunction", "operator")
+      "type": <enum string>("type",
+                            "namedFunction",
+                            "externalParameter",
+                            "internalParameter",
+                            "singleParameter",
+                            "variable",
+                            "operator")
     }
   ]
 }
 ```
+Most of the fields in each element of the `symbols` array are copied from the input `symbols.json` file and described in [SymbolExtractor data formats](#symbol-extractor-data-formats) section. The differences are described below:
 
-`symbols` is an array of objects containing the original name of symbol, its identifier and the proposes obfuscated name.
+`originalName` is the same as `name` in `symbols.json`.
 
-`originalName` and `identifier` and `module` and `type` are the same as `name` and `identifier` and `module` and `type` fields in the `Symbols.json` format, respectively.
+`obfuscatedName` is the proposed new name that the symbols should be renamed to.
 
-`obfuscatedName` is the proposed name that the original name of symbol should be changed to.
-
-## Feature list
-
-- [] TBA
 
 # Renamer
 
@@ -128,24 +156,27 @@ It performs the actual renaming. It parses the Swift source code to identify the
 ## Usage
 
 ```bash
-$ obfuscator-renamer -filesjson <path-to-input-files-json-file> -renamesjson <path-to-input-renames-json-file> -obfuscatedproject <path-to-directory-for-obfuscated-project>
+$ obfuscator-renamer -filesjson <path-to-input-files-json-file> -renamesjson <path-to-input-renames-json-file> -obfuscatedproject <path-to-directory-for-obfuscated-project> [-hidediagnostics] [-verbose]
 ```
 
 where
 
-`<path-to-input-files-json-file>` is the path to the `Files.json` file. It's a required parameter.
+`<path-to-input-files-json-file>` is the path to the `symbols.json` file. It's a required parameter.
 
 `<path-to-input-renames-json-file>` is the path to the `Renames.json` file. It's a required parameter.
 
 `<path-to-directory-for-obfuscated-project>` is the path to the directory that the newly generated obfuscated Swift source code files will be written to, as well as the new project.
 
+In case when project should be obfuscated in place (without making a copy), `-inplace` argument can be used instead of `-obfuscatedproject`.
+
+`-hidediagnostics` is the optional flag. It prevents the compiler diagnostics from being printed to standard output. The logs contain compilation warnings and errors that occured during compilation of the input project. This flag should be used with caution, considering that compilation warnings could prevent the `renamer` from correctly identifying the symbol.
+
+`-verbose` is the optional flag. When present, the list of the obfuscated files is printed to the standard output.
+
 ## Data formats
 
-The input data formats are `Files.json` and `Renames.json` and are described in the [SymbolExtractor data formats section](#data-formats) and [NameMapper data formats section](#data-formats-1).
+The input data formats are `files.json` and `Renames.json` and are described in the [SymbolExtractor data formats](#symbol-extractor-data-formats) and [NameMapper data formats](#name-mapper-data-formats) sections.
 
-## Feature list
-
-- [] TBA
 
 # Common for all three projects
 
@@ -201,4 +232,3 @@ In the alphabetical order:
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 * [Jakub Sowa](jakub.sowa@polidea.com)
 * [Michał Zieliński](michal.zielinski@polidea.com)
-

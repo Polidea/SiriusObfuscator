@@ -41,6 +41,12 @@ Verbose("verbose",
         llvm::cl::desc("Print debug info."),
         llvm::cl::cat(ObfuscatorRenamer));
   
+static llvm::cl::opt<bool>
+InPlace("inplace",
+        llvm::cl::init(false),
+        llvm::cl::desc("Obfuscate project in place "
+                       "(without making a copy)."),
+        llvm::cl::cat(ObfuscatorRenamer));
 }
 
 void printObfuscatedFiles(const FilesList &Files) {
@@ -83,7 +89,7 @@ int main(int argc, char *argv[]) {
     llvm::errs() << "cannot find Renames json file" << '\n';
     return 1;
   }
-  if (options::ObfuscatedProjectPath.empty()) {
+  if (!options::InPlace && options::ObfuscatedProjectPath.empty()) {
     llvm::errs() << "cannot find path to the obfuscated project" << '\n';
     return 1;
   }
@@ -129,13 +135,19 @@ int main(int argc, char *argv[]) {
     DiagnosticStream = &llvm::outs();
   }
 
+  std::string ProjectPath = options::ObfuscatedProjectPath;
+  if(options::InPlace) {
+    ProjectPath = FilesJsonOrError.get().Project.RootPath;
+  }
+  
   // This is the place that the actual renaming is performed.
   // The logic for renaming is in the swiftObfuscation library.
   auto FilesOrError = performRenaming(MainExecutablePath,
                                       FilesJsonOrError.get(),
                                       std::move(ObfuscationConfiguration),
                                       RenamesJsonOrError.get(),
-                                      options::ObfuscatedProjectPath,
+                                      ProjectPath,
+                                      options::InPlace,
                                       *DiagnosticStream);
   if (auto Error = FilesOrError.takeError()) {
     ExitOnError(std::move(Error));

@@ -4,6 +4,7 @@ module FileExtractor
 
   require 'file-extractor/arguments_decorator'
   require 'file-extractor/configuration_determiner'
+  require 'file-extractor/carthage_determiner'
   require 'file-extractor/data_extractor'
   require 'file-extractor/dependency_builder'
   require 'file-extractor/xcodefiles_determiner'
@@ -76,11 +77,22 @@ module FileExtractor
     end
 
     def run
+      if !@project_root_path
+        puts "Error: -#{PROJECTROOTPATH_KEY} argument is missing"
+        return
+      end
+
       if @custom_verbose
         puts "Path to root:"
         puts @project_root_path
       end
-      xcodeprojs, xcworkspaces = FileExtractor::XcodefilesDeterminer.find_xcode_files(@project_root_path)
+
+      directory_containing_cartfile = FileExtractor::CarthageDeterminer.find_cartfile_directory(@project_root_path)
+      if directory_containing_cartfile
+        @carthage_dir = directory_containing_cartfile + "/Carthage"
+      end
+
+      xcodeprojs, xcworkspaces = FileExtractor::XcodefilesDeterminer.find_xcode_files(@project_root_path, @carthage_dir)
       projects, schemes = FileExtractor::XcworkspaceExtractor.extract_projects_and_dependency_schemes(xcworkspaces, xcodeprojs)
       configuration_path = FileExtractor::ConfigurationDeterminer.find_configuration_file(@project_root_path)
       if projects.empty?
@@ -99,7 +111,7 @@ module FileExtractor
           puts "\n#{output_string}"
         end
         
-        FileExtractor::DependencyBuilder.build_dependencies(schemes, build_dir)
+        FileExtractor::DependencyBuilder.build_dependencies(schemes, build_dir, directory_containing_cartfile, @custom_verbose)
       elsif !@project_file_path.nil? 
         puts "Path to Xcode project:"
         puts @project_file_path
@@ -113,7 +125,7 @@ module FileExtractor
         end
 
         if projects.include? @project_file_path
-          FileExtractor::DependencyBuilder.build_dependencies(schemes, build_dir)
+          FileExtractor::DependencyBuilder.build_dependencies(schemes, build_dir, directory_containing_cartfile, @custom_verbose)
         end
       else
         puts "\n\nFound multiple possible Xcode project files:\n"

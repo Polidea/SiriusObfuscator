@@ -18,25 +18,27 @@ namespace obfuscation {
 ///
 /// Typical usage:
 /// \code
-/// auto FilesJsonOrError = parseJson<FilesJson>(PathToJson);
-/// if (auto Error = setupCompilerInstance(CI, FilesJson, MainExecutablePath)) {
+/// auto CompilerInstanceOrError =
+///   createCompilerInstance(FilesJson, MainExecutablePath);
+/// if (auto Error = CompilerInstanceOrError) {
 ///   return std::move(Error);
 /// }
+/// auto CompilerInstance = CompilerInstanceOrError.get();
 /// \endcode
 ///
-/// \param CompilerInstance - compiler instance to setup.
+/// \param FilesJson - FilesJson structure containing data required
+///                    for compilation.
 ///
 /// \param MainExecutablePath - string containing path to main executable used
 /// during compiler isntance 
 ///
 /// \returns llvm::Error::success when setup finished correctly or
 /// error object describing cause of fail.
-llvm::Error
-setupCompilerInstance(CompilerInstance &CompilerInstance,
-                      const FilesJson &FilesJson,
-                      std::string MainExecutablePath,
-                      llvm::raw_ostream &LogStream);
-  
+llvm::Expected<std::unique_ptr<CompilerInstance>>
+createCompilerInstance(const FilesJson &FilesJson,
+                       std::string MainExecutablePath,
+                       llvm::raw_ostream &LogStream);
+
 } //namespace obfuscation
 } //namespace swift
 

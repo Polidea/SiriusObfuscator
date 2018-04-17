@@ -3,29 +3,23 @@
 include_directories(SYSTEM ${LIBXML2_INCLUDE_DIR})
 
 add_swift_library(swiftObfuscation STATIC
+  Collector.cpp
   CompilerInfrastructure.cpp
-  ConfigurationExcluder.cpp
   DataStructures.cpp
-  DeclarationParser.cpp
-  OperatorParser.cpp
-  DeclarationParsingUtils.cpp
   Excluder.cpp
-  ExtensionExcluder.cpp
-  ExpressionParser.cpp
+  Extractor.cpp
   FileIO.cpp
-  FunctionDeclarationParser.cpp
+  GlobalCollectedSymbolsUpdater.cpp
+  Includer.cpp
   LayoutRenamer.cpp
   NameMapping.cpp
-  NominalTypeDeclarationParser.cpp
-  NSManagedExcluder.cpp
-  ParameterDeclarationParser.cpp
+  Processor.cpp
   Renaming.cpp
-  SourceFileWalker.cpp
   SymbolExtracting.cpp
-  TypeRepresentationParser.cpp
+  SymbolGenerator.cpp
+  SymbolsWalkerAndCollector.cpp
   Utils.cpp
-  VariableDeclarationParser.cpp
-  WhereClauseParser.cpp
+
   LINK_LIBRARIES
   swiftParse
   swiftAST

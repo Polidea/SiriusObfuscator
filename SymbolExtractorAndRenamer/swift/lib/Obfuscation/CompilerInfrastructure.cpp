@@ -67,24 +67,26 @@ createInvocation(const CompilerInvocationConfiguration &Configuration) {
   return Invocation;
 }
 
-llvm::Error
-setupCompilerInstance(CompilerInstance &CompilerInstance,
-                      const FilesJson &FilesJson,
-                      std::string MainExecutablePath,
-                      llvm::raw_ostream &LogStream) {
+llvm::Expected<std::unique_ptr<CompilerInstance>>
+createCompilerInstance(const FilesJson &FilesJson,
+                       std::string MainExecutablePath,
+                       llvm::raw_ostream &LogStream) {
+
+  auto CompilerInstance = llvm::make_unique<class CompilerInstance>();
+
   CompilerInvocationConfiguration Configuration(FilesJson, MainExecutablePath);
   auto Invocation = createInvocation(Configuration);
   PrintingDiagnosticConsumer Printer(LogStream);
-  CompilerInstance.addDiagnosticConsumer(&Printer);
-  if (CompilerInstance.setup(Invocation) || Printer.didErrorOccur()) {
+  CompilerInstance->addDiagnosticConsumer(&Printer);
+  if (CompilerInstance->setup(Invocation) || Printer.didErrorOccur()) {
     return stringError("Error during compiler setup");
   }
-  CompilerInstance.performSema();
+  CompilerInstance->performSema();
   if (Printer.didErrorOccur()) {
     LogStream << "Error during compiler semantic analysis. Be extra careful "
                  "while interpreting the results." << '\n';
   }
-  return llvm::Error::success();
+  return std::move(CompilerInstance);
 }
 
 } //namespace obfuscation

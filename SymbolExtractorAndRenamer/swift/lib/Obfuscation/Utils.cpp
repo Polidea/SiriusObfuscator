@@ -19,6 +19,21 @@ std::vector<std::string> split(const std::string &String, char Delimiter) {
   
   return SplittedElements;
 }
+
+std::string combineIdentifier(std::vector<std::string> &Parts) {
+  if (Parts.empty()) {
+    return "";
+  } else if (Parts.size() == 1) {
+    return Parts[0];
+  } else {
+    //TODO: can we rewrite it to use llvm:raw_string_ostream?
+    std::stringstream ResultStream;
+    copyToStream(Parts, std::ostream_iterator<std::string>(ResultStream, "."));
+    std::string Result = ResultStream.str();
+    Result.pop_back();
+    return Result;
+  }
+}
   
 } //namespace obfuscation
 } //namespace swift

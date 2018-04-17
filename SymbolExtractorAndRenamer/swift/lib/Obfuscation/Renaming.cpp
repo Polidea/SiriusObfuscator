@@ -1,10 +1,8 @@
 #include "swift/Obfuscation/Renaming.h"
 #include "swift/Obfuscation/CompilerInfrastructure.h"
-#include "swift/Obfuscation/ConfigurationExcluder.h"
-#include "swift/Obfuscation/SourceFileWalker.h"
+#include "swift/Obfuscation/SymbolsWalkerAndCollector.h"
 #include "swift/Obfuscation/Utils.h"
 #include "swift/Obfuscation/LayoutRenamer.h"
-#include "swift/Obfuscation/ExtensionExcluder.h"
 
 #include "llvm/ADT/STLExtras.h"
 #include "llvm/Support/FileSystem.h"
@@ -119,17 +117,18 @@ static bool shouldRename(const struct SymbolRenaming &SymbolRenaming,
       && Symbol.Module == ModuleName;
 }
   
-llvm::Expected<bool> performActualRenaming(SourceFile &Current,
-                                           const std::string &ModuleName,
-                                           const RenamesJson &RenamesJson,
-                                           SourceManager &SourceManager,
-                                           unsigned int BufferId,
-                                           StringRef Path,
-                                           std::vector<SymbolRenaming>
-                                                          &RenamedSymbols,
-                                           std::set<Excluder*> &Excluders) {
-  bool performedRenaming = false;
-  auto IndexedSymbolsWithRanges = walkAndCollectSymbols(Current, Excluders);
+llvm::Expected<bool>
+performActualRenaming(SourceFile &Current,
+                      const std::string &ModuleName,
+                      const RenamesJson &RenamesJson,
+                      SourceManager &SourceManager,
+                      unsigned int BufferId,
+                      StringRef Path,
+                      std::vector<SymbolRenaming> &RenamedSymbols,
+                      SymbolsWalkerAndCollector &Collector) {
+
+  bool PerformedRenaming = false;
+  auto IndexedSymbolsWithRanges = Collector.walkAndCollectSymbols(Current);
   
   using EditConsumer = swift::ide::SourceEditOutputConsumer;
   
@@ -139,9 +138,8 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
   //TODO: would be way better to have a map instead of iterating through symbols
   for (const auto &IndexedSymbolWithRange : IndexedSymbolsWithRanges) {
     for (const auto &Symbol : RenamesJson.Symbols) {
-      auto SymbolWithRange = IndexedSymbolWithRange.SymbolWithRange;
 
-      if (shouldRename(Symbol, SymbolWithRange.Symbol, ModuleName)) {
+      if (shouldRename(Symbol, IndexedSymbolWithRange.Symbol, ModuleName)) {
         if (Editor == nullptr) {
           std::error_code Error;
           DescriptorStream =
@@ -157,15 +155,15 @@ llvm::Expected<bool> performActualRenaming(SourceFile &Current,
         }
         auto ObfuscatedName = StringRef(Symbol.ObfuscatedName);
         Editor->ide::SourceEditConsumer::accept(SourceManager,
-                                                SymbolWithRange.Range,
+                                                IndexedSymbolWithRange.Range,
                                                 ObfuscatedName);
         RenamedSymbols.push_back(Symbol);
-        performedRenaming = true;
+        PerformedRenaming = true;
         break;
       }
     }
   }
-  return performedRenaming;
+  return PerformedRenaming;
 }
   
 llvm::Expected<FilesList>
@@ -174,31 +172,30 @@ performRenaming(std::string MainExecutablePath,
                 ObfuscationConfiguration &&ObfuscationConfiguration,
                 const RenamesJson &RenamesJson,
                 std::string ObfuscatedProjectPath,
+                bool ObfuscateInPlace,
                 llvm::raw_ostream &DiagnosticStream) {
   
-  CompilerInstance CI;
-  if (auto Error = setupCompilerInstance(CI,
-                                         FilesJson,
-                                         MainExecutablePath,
-                                         DiagnosticStream)) {
+  auto CompilerInstanceOrError = createCompilerInstance(FilesJson,
+                                                        MainExecutablePath,
+                                                        DiagnosticStream);
+  if (auto Error = CompilerInstanceOrError.takeError()) {
     return std::move(Error);
   }
+
+  auto CompilerInstance = std::move(CompilerInstanceOrError.get());
   
-  if (auto Error = copyProject(FilesJson.Project.RootPath,
-                               ObfuscatedProjectPath)) {
-    return std::move(Error);
+  if(!ObfuscateInPlace) {
+    if (auto Error = copyProject(FilesJson.Project.RootPath,
+                                 ObfuscatedProjectPath)) {
+      return std::move(Error);
+    }
   }
   
   FilesList Files;
   std::vector<SymbolRenaming> RenamedSymbols;
-
-  ExtensionExcluder ExtensionExcluder;
-  NSManagedExcluder NSManagedExcluder;
-  ConfigurationExcluder ConfigurationExcluder(std::move(ObfuscationConfiguration));
+  SymbolsWalkerAndCollectorFactory Factory(std::move(ObfuscationConfiguration));
   
-  std::set<Excluder*> Excluders = { &ExtensionExcluder, &NSManagedExcluder, &ConfigurationExcluder };
-  
-  for (auto* Unit : CI.getMainModule()->getFiles()) {
+  for (auto* Unit : CompilerInstance->getMainModule()->getFiles()) {
     if (auto* Current = dyn_cast<SourceFile>(Unit)) {
 
       auto PathOrError = computeObfuscatedPath(Current->getFilename(),
@@ -211,6 +208,7 @@ performRenaming(std::string MainExecutablePath,
       auto Path = PathOrError.get().str();
       auto &SourceManager = Current->getASTContext().SourceMgr;
       auto BufferId = Current->getBufferID().getValue();
+      auto Collector = Factory.symbolsWalkerAndCollector();
       
       if (performActualRenaming(*Current,
                                 FilesJson.Module.Name,
@@ -219,7 +217,7 @@ performRenaming(std::string MainExecutablePath,
                                 BufferId,
                                 Path,
                                 RenamedSymbols,
-                                Excluders)) {
+                                Collector)) {
         auto Filename = llvm::sys::path::filename(Path).str();
         Files.push_back(std::pair<std::string, std::string>(Filename, Path));
       }

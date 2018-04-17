@@ -56,6 +56,8 @@ std::vector<std::string> split(const std::string &String, char Delimiter);
 
 template<typename T>
 void removeFromVector(std::vector<T> &FromVector, const T &Element);
+
+std::string combineIdentifier(std::vector<std::string> &);
   
 } //namespace obfuscation
 } //namespace swift
