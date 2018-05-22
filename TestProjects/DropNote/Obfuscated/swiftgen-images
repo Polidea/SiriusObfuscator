@@ -1,2 +1,0 @@
-#!/bin/bash
-swiftgen images -t swift3 Brewer/Resources/Assets.xcassets --output Brewer/Classes/Shared/Utilities/Assets.swift
