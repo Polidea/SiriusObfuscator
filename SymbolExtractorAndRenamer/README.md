@@ -1,5 +1,7 @@
 # Symbol Extractor, Name Mapper and Renamer
 
+This repository is part of [Sirius - Swift Obfuscator](https://github.com/PolideaPlayground/SiriusObfuscator) project.
+
 Repository contains the Swift compiler fork with three additional tools and one additional library added.
 
 The tools are:
@@ -41,7 +43,7 @@ where
 
 ## <a name="symbol-extractor-data-formats"></a> Data Formats
 
-The input data format is called `files.json`. It's defined and explained in the [FilesExtractor project documentation](https://gitlab2.polidea.com/SwiftObfuscator/FileExtractor/tree/master#data-formats).
+The input data format is called `files.json`. It's defined and explained in the [FilesExtractor project documentation](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor#data-formats).
 
 The output data format is called `symbols.json` and it is presented below:
 
@@ -183,7 +185,7 @@ The input data formats are `files.json` and `Renames.json` and are described in 
 ## Build notes for developers
 
 1. Clone the source code  
-   `git clone ssh://git@gitlab2.polidea.com:23/SwiftObfuscator/SymbolExtractorAndRenamer.git`
+   `git clone git@github.com:PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer.git`
 
 2. Install build tools  
    `brew install cmake ninja`
@@ -220,11 +222,9 @@ The input data formats are `files.json` and `Renames.json` and are described in 
 
 Please consult the [Documentation](Documentation/) folder for the further explanations.
 
-## Licence
+## Contributing
 
-TBA
-
-## Contributors
+### Contributors
 
 In the alphabetical order:
 
@@ -232,3 +232,26 @@ In the alphabetical order:
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 * [Jakub Sowa](jakub.sowa@polidea.com)
 * [Michał Zieliński](michal.zielinski@polidea.com)
+
+### CLA
+
+We require contributors to have signed [Contributor Licence Agreement](https://en.wikipedia.org/wiki/Contributor_License_Agreement).
+
+## Licence
+
+```
+Copyright 2018 Polidea Sp. z o.o
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+

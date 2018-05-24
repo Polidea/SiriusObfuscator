@@ -2,7 +2,7 @@
 
 ## Overview
 
-This tool is part of Swift Obfuscator project.
+This tool is part of [Sirius - Swift Obfuscator](https://github.com/PolideaPlayground/SiriusObfuscator) project.
 
 It's developed to parse the Xcode project files (`.xcodeproj` and `.xcworkspace`) and extract the information needed for further steps of obfuscation process. 
 
@@ -130,7 +130,7 @@ Sample `Files.json` file might look like that:
 ## Build notes for developers
 
 1. Clone the File Extractor source  
-   `git clone ssh://git@gitlab2.polidea.com:23/SwiftObfuscator/FileExtractor.git`
+   `git clone git@github.com:PolideaPlayground/SiriusObfuscator-FileExtractor.git`
 
 2. Install the tool for managing the Ruby versions (rbenv)  
    `brew install rbenv`
@@ -191,14 +191,33 @@ Future works might allow for reducing the number of dependencies, for example by
 
 Please consult the [Documentation](Documentation/) folder for the further explanations.
 
-## Licence
+## Contributing
 
-TBA
-
-## Contributors
+### Contributors
 
 In the alphabetical order:
 
 * [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
 * [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
 
+### CLA
+
+We require contributors to have signed [Contributor Licence Agreement](https://en.wikipedia.org/wiki/Contributor_License_Agreement).
+
+## Licence
+
+```
+Copyright 2018 Polidea Sp. z o.o
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```

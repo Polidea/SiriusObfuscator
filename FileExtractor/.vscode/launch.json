@@ -5,13 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run with Dropnote",
+            "type": "Ruby",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "program": "${workspaceRoot}/bin/file-extractor",
+            "args": [
+                "-projectrootpath",
+                "${workspaceRoot}/../TestProjects/Dropnote/Original",
+                "-filesjson",
+                "${workspaceRoot}/../files.json"
+            ],
+            "pathToBundler": "${workspaceRoot}/bin/bundle",
+            "pathToRDebugIDE": "${workspaceRoot}/bin/rdebug-ide",
+            "useBundler": true,
+            "showDebuggerOutput": true
+        },
+        {
             "name": "Run with macOS project",
             "type": "Ruby",
             "request": "launch",
             "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/bin/file-extractor",
             "args": [
-                // "-help"
                 "-projectrootpath",
                 "${workspaceRoot}/../TestProjects/macOS/Original/XcodeSampleProject",
                 "-filesjson",
