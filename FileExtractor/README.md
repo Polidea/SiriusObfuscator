@@ -137,7 +137,7 @@ Sample `Files.json` file might look like that:
 
 3. Initialize the tool for managing the Ruby versions in your shell of choice  
    for Bash: `eval $(rbenv init -)`  
-   for Fish: `eval (rbenv init -)`
+   for Fish: `source (rbenv init -|psub)`
 
 4. (optional) Verify, that the tool for managing the Ruby versions is properly setup  
    `curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash`
@@ -152,7 +152,7 @@ Sample `Files.json` file might look like that:
    `bundle install --binstubs`
 
 8. Run application to verify that everything went well  
-   run application: `ruby /bin/file-extractor`  
+   run application: `ruby bin/file-extractor`  
    run tests: `/bin/bash Scripts/run_all_tests.sh`
 
 9. If you're using VisualStudio Code as IDE, please ensure that the `rbenv init` is properly added to your profile   
