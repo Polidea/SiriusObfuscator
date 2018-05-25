@@ -177,10 +177,10 @@ func execute() throws {
     """
   )
   
-  enum NameMappingStrategy: String, StringEnumArgument {
-    case random = "random"
-    case deterministic = "deterministic"
-    case minified = "minifying"
+  enum NameMappingStrategy: StringEnumArgument {
+    case random
+    case deterministic
+    case minified
     
     static var `default`: NameMappingStrategy = .random
     var argDescription: String {
@@ -192,6 +192,24 @@ func execute() throws {
     }
     static var allValues: [NameMappingStrategy] { return [.random, .deterministic, .minified] }
     static var completion: ShellCompletion = .none
+   
+    //TODO: We're providing rawValues explicitely because of https://bugs.swift.org/browse/SR-7153 
+    public init?(rawValue: String) {
+      switch rawValue {
+      case "random": self = .random
+      case "deterministic": self = .deterministic
+      case "minified": self = .minified
+      default: return nil
+      }
+
+    }
+    var rawValue: String { 
+      switch self {
+      case .random: return "random"
+      case .deterministic: return "deterministic"
+      case .minified: return "minified"
+      }
+    }
   }
   
   let nameMappingStrategyArgument: OptionArgument<NameMappingStrategy> = parser.add(
