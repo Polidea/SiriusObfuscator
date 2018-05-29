@@ -3,7 +3,7 @@
 Use this guide to build the Sirius umbrella command line project.
 
 1. Clone the source  
-   `git clone git@github.com:PolideaPlayground/SiriusObfuscator.git`
+   `git clone git@github.com:Polidea/SiriusObfuscator.git`
 
 2. Add git-subtrees remotes
    `bash Scripts/git_remotes.sh`

@@ -1,6 +1,6 @@
 # Symbol Extractor, Name Mapper and Renamer
 
-This repository is part of [Sirius - Swift Obfuscator](https://github.com/PolideaPlayground/SiriusObfuscator) project.
+This repository is part of [Sirius - Swift Obfuscator](https://github.com/Polidea/SiriusObfuscator) project.
 
 Repository contains the Swift compiler fork with three additional tools and one additional library added.
 
@@ -43,7 +43,7 @@ where
 
 ## <a name="symbol-extractor-data-formats"></a> Data Formats
 
-The input data format is called `files.json`. It's defined and explained in the [FilesExtractor project documentation](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor#data-formats).
+The input data format is called `files.json`. It's defined and explained in the [FilesExtractor project documentation](https://github.com/Polidea/SiriusObfuscator-FileExtractor#data-formats).
 
 The output data format is called `symbols.json` and it is presented below:
 
@@ -187,7 +187,7 @@ The input data formats are `files.json` and `Renames.json` and are described in 
 0. Ensure you have the **Xcode 9.2** installed and available under **/Applications/Xcode.app**. The version and path are important as the Xcode project for the compiler that is generated during build has the path baked in.  
 
 1. Clone the source code  
-   `git clone git@github.com:PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer.git`
+   `git clone git@github.com:Polidea/SiriusObfuscator-SymbolExtractorAndRenamer.git`
 
 2. Install build tools  
    `brew install cmake ninja`

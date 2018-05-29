@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository is part of [Sirius - Swift Obfuscator](https://github.com/PolideaPlayground/SiriusObfuscator) project.
+This repository is part of [Sirius - Swift Obfuscator](https://github.com/Polidea/SiriusObfuscator) project.
 
 Tools for automatically presenting and veryfying the effectiveness of the obfuscation. The effectiveness is presented in form of the difference between the symbols extracted from the mach-O executable built from projects before and after obfuscation.
 
@@ -47,7 +47,7 @@ The output is a diff of symbols before and after obfuscation.
 ## Build notes for developers
 
 1. Clone the source  
-   `git clone git@github.com:PolideaPlayground/SiriusObfuscator-VerificationSuite.git`
+   `git clone git@github.com:Polidea/SiriusObfuscator-VerificationSuite.git`
    `cd VerificationSuite`
 
 2. Build project  

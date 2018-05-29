@@ -2,7 +2,7 @@
 
 ## Overview
 
-This tool is part of [Sirius - Swift Obfuscator](https://github.com/PolideaPlayground/SiriusObfuscator) project.
+This tool is part of [Sirius - Swift Obfuscator](https://github.com/Polidea/SiriusObfuscator) project.
 
 It's developed to parse the Xcode project files (`.xcodeproj` and `.xcworkspace`) and extract the information needed for further steps of obfuscation process. 
 
@@ -130,7 +130,7 @@ Sample `Files.json` file might look like that:
 ## Build notes for developers
 
 1. Clone the File Extractor source  
-   `git clone git@github.com:PolideaPlayground/SiriusObfuscator-FileExtractor.git`
+   `git clone git@github.com:Polidea/SiriusObfuscator-FileExtractor.git`
 
 2. Install the tool for managing the Ruby versions (rbenv)  
    `brew install rbenv`

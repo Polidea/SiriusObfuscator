@@ -60,7 +60,7 @@ The resulting obfuscated project is much more difficult to reverse engineer by t
 
 ## Usage
 
-1. Get latest `sirius` executable from [here](https://github.com/PolideaPlayground/SiriusObfuscator/releases).
+1. Get latest `sirius` executable from [here](https://github.com/Polidea/SiriusObfuscator/releases).
 
 2. Run:
 
@@ -132,9 +132,9 @@ enum EnumWithAssoc {
 }
 ```
 
-For more examples of unsupported constructs head [here](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer/tree/master/swift/test/Obfuscation/FullProcess).
+For more examples of unsupported constructs head [here](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer/tree/master/swift/test/Obfuscation/FullProcess).
 
-For constructs that are deliberately excluded from renaming head [here](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/ThingsThatAreNotObfuscated.md).
+For constructs that are deliberately excluded from renaming head [here](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/ThingsThatAreNotObfuscated.md).
 
 ## Components
 
@@ -142,26 +142,26 @@ The Sirius - Swift Obfuscator suite consists of command line tools organized in 
 
 Repository | Tool | Overview
 --- | --- | ---
-[ObfuscatorTool](https://github.com/PolideaPlayground/SiriusObfuscator) | `sirius` | Umbrella tool that exposes the unified command line interface to perform the obfuscation of Xcode project. It executes tools: `file-extractor`, `symbol-extractor`, `name-mapper`, `renamer` and passes the intermediate files between them.
-[FileExtractor](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor) | `file-extractor` | Extracts the data about Xcode project based on the root project's path (e.g. the list of `.swift` source files, the list of frameworks required to build the project) to `files.json`.
-[SymbolExtractorAndRenamer](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer) | `symbol-extractor` | Extracts symbols from `.swift` source files to `symbols.json`.
-[SymbolExtractorAndRenamer](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer) | `name-mapper` | Generates the new names for the symbols provided in `symbols.json`.
-[SymbolExtractorAndRenamer](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer) | `renamer` | Performs the renaming of symbols based on `renames.json`.
-[VerificationSuite](https://github.com/PolideaPlayground/SiriusObfuscator-VerificationSuite) | `verification-suite` | Tool for presenting the changes made in obfuscation process.
+[ObfuscatorTool](https://github.com/Polidea/SiriusObfuscator) | `sirius` | Umbrella tool that exposes the unified command line interface to perform the obfuscation of Xcode project. It executes tools: `file-extractor`, `symbol-extractor`, `name-mapper`, `renamer` and passes the intermediate files between them.
+[FileExtractor](https://github.com/Polidea/SiriusObfuscator-FileExtractor) | `file-extractor` | Extracts the data about Xcode project based on the root project's path (e.g. the list of `.swift` source files, the list of frameworks required to build the project) to `files.json`.
+[SymbolExtractorAndRenamer](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer) | `symbol-extractor` | Extracts symbols from `.swift` source files to `symbols.json`.
+[SymbolExtractorAndRenamer](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer) | `name-mapper` | Generates the new names for the symbols provided in `symbols.json`.
+[SymbolExtractorAndRenamer](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer) | `renamer` | Performs the renaming of symbols based on `renames.json`.
+[VerificationSuite](https://github.com/Polidea/SiriusObfuscator-VerificationSuite) | `verification-suite` | Tool for presenting the changes made in obfuscation process.
 
 ## Contributing
 
 ### Contributing to main command line tool (`sirius`)
 
-If you wish to contribute to `sirius` (umbrella command line tool), head to [BuildNotes](https://github.com/PolideaPlayground/SiriusObfuscator/blob/master/Documentation/BuildNotes.md) and [GettingStarted](https://github.com/PolideaPlayground/SiriusObfuscator/blob/master/Documentation/GettingStarted.md).
+If you wish to contribute to `sirius` (umbrella command line tool), head to [BuildNotes](https://github.com/Polidea/SiriusObfuscator/blob/master/Documentation/BuildNotes.md) and [GettingStarted](https://github.com/Polidea/SiriusObfuscator/blob/master/Documentation/GettingStarted.md).
 
 ### Contributing to other tools from Sirius suite
 
 If you wish to contribute to other tools from Sirius - Swift Obfuscator suite, head to the repositories:
 
-* [FileExtractor](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor) ( [BuildNotes](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor/blob/master/README.md#build-notes-for-developers) [GettingStarted](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor/blob/master/Documentation/GettingStarted.md) [ImportantTopics](https://github.com/PolideaPlayground/SiriusObfuscator-FileExtractor/blob/master/Documentation/ImportantTopics.md) )
-* [SymbolExtractorAndRenamer](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer) ( [BuildNotes](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer#build-notes-for-developers) [GettingStarted](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/GettingStarted.md) Important topics: [SymbolExtractor](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/SymbolExtractor-ImportantTopics.md) [NameMapper](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/NameMapper-ImportantTopics.md) [Renamer](https://github.com/PolideaPlayground/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/Renamer-ImportantTopics.md) )
-* [VerificationSuite](https://github.com/PolideaPlayground/SiriusObfuscator-VerificationSuite) ( [BuildNotes](https://github.com/PolideaPlayground/SiriusObfuscator-VerificationSuite#build-notes-for-developers) )
+* [FileExtractor](https://github.com/Polidea/SiriusObfuscator-FileExtractor) ( [BuildNotes](https://github.com/Polidea/SiriusObfuscator-FileExtractor/blob/master/README.md#build-notes-for-developers) [GettingStarted](https://github.com/Polidea/SiriusObfuscator-FileExtractor/blob/master/Documentation/GettingStarted.md) [ImportantTopics](https://github.com/Polidea/SiriusObfuscator-FileExtractor/blob/master/Documentation/ImportantTopics.md) )
+* [SymbolExtractorAndRenamer](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer) ( [BuildNotes](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer#build-notes-for-developers) [GettingStarted](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/GettingStarted.md) Important topics: [SymbolExtractor](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/SymbolExtractor-ImportantTopics.md) [NameMapper](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/NameMapper-ImportantTopics.md) [Renamer](https://github.com/Polidea/SiriusObfuscator-SymbolExtractorAndRenamer/blob/master/Documentation/Renamer-ImportantTopics.md) )
+* [VerificationSuite](https://github.com/Polidea/SiriusObfuscator-VerificationSuite) ( [BuildNotes](https://github.com/Polidea/SiriusObfuscator-VerificationSuite#build-notes-for-developers) )
    
 ### Contributors to Sirius suite
 
