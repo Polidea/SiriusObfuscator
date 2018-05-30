@@ -167,10 +167,10 @@ If you wish to contribute to other tools from Sirius - Swift Obfuscator suite, h
 
 In the alphabetical order:
 
-* [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
-* [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
-* [Jakub Sowa](jakub.sowa@polidea.com)
-* [Michał Zieliński](michal.zielinski@polidea.com)
+* [Jerzy Kleszcz](mailto:jerzy.kleszcz@polidea.com)
+* [Krzysztof Siejkowski](mailto:krzysztof.siejkowski@polidea.com)
+* [Jakub Sowa](mailto:jakub.sowa@polidea.com)
+* [Michał Zieliński](mailto:michal.zielinski@polidea.com)
 
 ### CLA
 

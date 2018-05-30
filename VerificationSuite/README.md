@@ -80,8 +80,8 @@ Please consult the [Documentation](Documentation/) folder for the further explan
 
 In the alphabetical order:
 
-* [Jerzy Kleszcz](jerzy.kleszcz@polidea.com)
-* [Krzysztof Siejkowski](krzysztof.siejkowski@polidea.com)
+* [Jerzy Kleszcz](mailto:jerzy.kleszcz@polidea.com)
+* [Krzysztof Siejkowski](mailto:krzysztof.siejkowski@polidea.com)
 
 ### CLA
 
