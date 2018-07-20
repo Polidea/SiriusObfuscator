@@ -6,7 +6,7 @@ Sirius is a tool for performing source-to-source obfuscation of Swift projects.
 
 Basically, it transforms your code from this:
 
-```
+```swift
 class Sample: UIViewController {
   var value = 42
   
@@ -32,7 +32,7 @@ extension Sample: Configurable {
 
 to this:
 
-```
+```swift
 class aqoxMfcPUXffEuurviH_ZPMDW2hCmXDR: UIViewController {
   var a0vLRcFFAQ1Lvw2sf4ZIigWKjXjpJpug = 42
   
