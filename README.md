@@ -114,19 +114,19 @@ Sirius is not production-ready. Some code constructs that are allowed in Swift, 
 Some code constructs that are not yet supported:
 
 * Backticks
-```
+```swift
 func `backticksName`() {}
 ```
 * `#if #else #endif` preprocessor macros
 * Old Swift selectors
-```
+```swift
 let foo = Selector(("bar:"))
 ```
 
 Symbols that won't be renamed by Sirius even though they are visible in mach-O binary:
 
 * Enum associated values
-```
+```swift
 enum EnumWithAssoc {
   case1(assoc: Int)
 }
